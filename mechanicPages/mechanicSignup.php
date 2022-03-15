@@ -153,10 +153,10 @@ if(isset($_POST['register']) && isset($_FILES['mechValidID']))
                     </div>
                     <div class="field input">
                         <select name="Specialization" id="" required>
-                            <option disabled selected hidden>Choose Vehicle Type...</option>
-                            <option value="Bicycle">Bicycle</option>
-                            <option value="Motorcycle">Motorcycle</option>
-                            <option value="Four wheels">Four wheels</option>
+                            <option disabled selected hidden>Choose Mechanic Type...</option>
+                            <option value="Bicycle Mechanic">Bicycle Mechanic</option>
+                            <option value="Motorcycle Mechanic">Motorcycle Mechanic</option>
+                            <option value="Car Mechanic">Car Mechanic</option>
                         </select>
                     </div>
                     <div class="">
