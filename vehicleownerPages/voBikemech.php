@@ -97,7 +97,7 @@ if(isset($_POST['send'])){
                     </thead>
                     <tbody>
                         <?php
-                           $sql="SELECT * from mechanic WHERE mechAddress='$custAddress1' and Specialization='Car Mechanic'";
+                           $sql="SELECT * from mechanic WHERE mechAddress='$custAddress1' and Specialization='Bike Mechanic'";
                            $query=$dbh->prepare($sql);
 
                            $query->execute();

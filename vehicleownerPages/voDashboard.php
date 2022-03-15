@@ -41,7 +41,7 @@
                                     <div class="card-body">
                                         <h5 class="card-title">Motorcycle</h5>
                                         <p class="card-text">Motorcycle Repair and Services.</p>
-                                        <div class="text-center"><a class="btn btn-primary px-5 rounded-pill my-2" href="#" role="button">Select</a></div>
+                                        <div class="text-center"><a class="btn btn-primary px-5 rounded-pill my-2" href="./voMotorcyclemech.php" role="button">Select</a></div>
                                     </div>
                                 </div>
                             </div>
@@ -51,7 +51,7 @@
                                 <div class="card-body">
                                     <h5 class="card-title">Bicycle</h5>
                                     <p class="card-text">Bicycle Repair and Services.</p>
-                                    <div class="text-center"><a class="btn btn-primary px-5 rounded-pill my-2" href="#" role="button">Select</a></div>
+                                    <div class="text-center"><a class="btn btn-primary px-5 rounded-pill my-2" href="./voBikemech.php" role="button">Select</a></div>
                                 </div>
                                 </div>
                             </div>
