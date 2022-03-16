@@ -41,7 +41,7 @@
                                     <div class="card-body">
                                         <h5 class="card-title">Motorcycle</h5>
                                         <p class="card-text">Motorcycle Repair and Services.</p>
-                                        <div class="text-center"><a class="btn btn-primary px-5 rounded-pill my-2" href="#" role="button">Select</a></div>
+                                        <div class="text-center"><a class="btn btn-primary px-5 rounded-pill my-2" href="./voMotorcyclemech.php" role="button">Select</a></div>
                                     </div>
                                 </div>
                             </div>
@@ -51,7 +51,7 @@
                                 <div class="card-body">
                                     <h5 class="card-title">Bicycle</h5>
                                     <p class="card-text">Bicycle Repair and Services.</p>
-                                    <div class="text-center"><a class="btn btn-primary px-5 rounded-pill my-2" href="#" role="button">Select</a></div>
+                                    <div class="text-center"><a class="btn btn-primary px-5 rounded-pill my-2" href="./voBikemech.php" role="button">Select</a></div>
                                 </div>
                                 </div>
                             </div>
@@ -62,7 +62,7 @@
             <div class="col-sm-3 bg-white text-dark rounded-3 cont-act">
                 <div class="act-content">
                     <h5 class="py-2 pb-2 text-center">Recent Activities</h5>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum totam magni aut sapiente dolorem aliquid molestias voluptatum? Ex, ab aspernatur. Similique debitis suscipit id quidem explicabo saepe vel aliquam quasi beatae iste est illo, atque impedit, facere, enim nobis ex incidunt. Ipsam reiciendis incidunt sapiente. Enim, doloribus aspernatur cumque nam facere consequatur in quidem totam dolorem assumenda voluptas non, ut iste! Porro nemo, nihil eaque optio at rem, nobis magni,</p>
+                    <p></p>
                 </div>
             </div>
             

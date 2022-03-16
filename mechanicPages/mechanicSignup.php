@@ -117,7 +117,7 @@ if(isset($_POST['register']) && isset($_FILES['mechValidID']))
     <script src="https://kit.fontawesome.com/810a80b0a3.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/fontawesome.min.css" integrity="sha384-jLKHWM3JRmfMU0A5x5AkjWkw/EYfGUAGagvnfryNV3F9VqM98XiIH7VBGVoxVSc7" crossorigin="anonymous">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <title>Mechanic Now</title>
+    <title>Mechanic Now | Signup</title>
     <link rel="shortcut icon" type="x-icon" href="../img/mechanicnowlogo.svg">
 </head>
 <body>
@@ -153,10 +153,10 @@ if(isset($_POST['register']) && isset($_FILES['mechValidID']))
                     </div>
                     <div class="field input">
                         <select name="Specialization" id="" required>
-                            <option disabled selected hidden>Choose Vehicle Type...</option>
-                            <option value="Bicycle">Bicycle</option>
-                            <option value="Motorcycle">Motorcycle</option>
-                            <option value="Four wheels">Four wheels</option>
+                            <option disabled selected hidden>Choose Mechanic Type...</option>
+                            <option value="Bicycle Mechanic">Bicycle Mechanic</option>
+                            <option value="Motorcycle Mechanic">Motorcycle Mechanic</option>
+                            <option value="Car Mechanic">Car Mechanic</option>
                         </select>
                     </div>
                     <div class="">
