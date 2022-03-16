@@ -1,3 +1,8 @@
+<?php
+session_start();
+include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
+$custID1=$_SESSION['custID'];
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -62,7 +67,35 @@
             <div class="col-sm-3 bg-white text-dark rounded-3 cont-act">
                 <div class="act-content">
                     <h5 class="py-2 pb-2 text-center">Recent Activities</h5>
-                    <p></p>
+                    <?php
+                        $sql="SELECT * from request WHERE custID=$custID1 and status='Unaccepted' order by resID DESC";
+                        $query=$dbh->prepare($sql);
+                        $query->execute();
+                        $results=$query->fetchALL(PDO::FETCH_OBJ);
+
+                        if($query->rowCount()>0)
+                        {
+                        foreach ($results as $result)
+                        {
+                            if($custID1==$custID1)
+                            {
+                    ?>
+                    <div class="request-table">
+                    <table class = "table-card">
+                        <tr class = "row-card">
+                            <td class= "data-card">
+                                <div class="td-card">
+                                    <h3><?php echo htmlentities($result->mechName);?></h3>
+                                    <p><strong>Description : </strong> <?php echo htmlentities($result->mechRepair);?></p>
+                                    <p id="status" ><strong>Status: </strong> <?php echo htmlentities($result->status);?></p>
+                                    <p><strong>Specific Message:</strong> <?php echo htmlentities($result->specMessage);?></p>
+                                    <p><strong>Address:</strong> <?php echo htmlentities($result->custAddress);?></p>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            <?php }}}?>
                 </div>
             </div>
             

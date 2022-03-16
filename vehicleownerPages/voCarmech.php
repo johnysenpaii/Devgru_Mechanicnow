@@ -2,56 +2,6 @@
 session_start();
 include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
 $custAddress1=$_SESSION['custAddress'];
-$custID1=$_SESSION['custID'];
-
-if(isset($_POST['send'])){  
-    $host="localhost";
-    $username="root"; 
-    $word="";
-    $db_name="mechanicnowdb"; 
-    $tbl_name="request"; 
-    $con=mysqli_connect("$host", "$username", "$word","$db_name")or die("cannot connect");//connection string  
-    $mechName=$_POST['mechName']; 
-    $Specialization=$_POST['Specialization'];
-    $mechAddress=$_POST['mechAddress'];
-    $custAddress=$_POST['custAddress'];
-    $specMessage=$_POST['specMessage'];
-    $checkbox1=$_POST['mechRepair'];  
-    $vOwnerName=$_POST['vOwnerName'];
-    $service=$_POST['service'];
-    $mechID=$_POST['mechID'];
-    $chk=""; 
-    $spec="";
-    $mechN="";
-    $vON="";
-    $mID="";
-    $Specl="";
-    $mechAdd="";
-    $custAdd="";
-    $serv="";
-    foreach($checkbox1 as $chk1){  
-        $chk .= $chk1.", ";
-    } 
-    $spec .= $specMessage;  
-    $mechN .= $mechName;
-    $vON .= $vOwnerName;
-    $mID .= $mechID;
-    $Specl .= $Specialization;
-    $mechAdd .= $mechAddress;
-    $custAdd .= $custAddress;
-    $serv .= $service;
-
-    $in_ch=mysqli_query($con,"INSERT INTO request(mechName, vOwnerName, specMessage, mechRepair, serviceType, serviceNeeded, mechID, custID, mechAddress, custAddress) values ('$mechN', '$vON' , '$spec', '$chk', '$Specl', '$serv', '$mID', '$custID1', '$mechAdd', '$custAdd')");  
-    if($in_ch==1)  
-    {  
-        echo'<script>alert("Request Sent Successfully, Wait for Mechanic to Confirm!")</script>';  
-        echo"<script>location.replace('voDashboard.php');</script>";  
-    }  
-    else  
-    {  
-        echo'<script>alert("Failed to Send Request")</script>';  
-    }  
-} 
 
 ?>
 <!DOCTYPE html>
@@ -112,7 +62,7 @@ if(isset($_POST['send'])){
                         <tr class="d-flex align-items-center justify-content-around mt-2">
                             <td><?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?></td>
                             <td><?php echo htmlentities($result->Specialization);?></td>
-                            <td><a class="btn btn-warning px-3" data-bs-toggle="modal" data-bs-target="#detail-modal">Details</a></td>
+                            <td><a class="btn btn-warning px-3" href="voCarmechRequest.php?regeditid=<?php echo htmlentities($result->mechID)?>">Details</a></td>
                         </tr>
                     </tbody>
                     <?php }}}?>
@@ -120,7 +70,7 @@ if(isset($_POST['send'])){
             </div>
         </div>
         <!-- Mechanic Info -->
-        <div class="modal fade" id="detail-modal" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
+        <!--<div class="modal fade" id="detail-modal" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content text-dark">
                 <div class="modal-header">
@@ -145,7 +95,7 @@ if(isset($_POST['send'])){
                         <div class="col-sm-3 with-image"><img src="../img/avatar.jpg" class="rounded-circle imagenajud float-end" alt=""></div>
                         <div class="col-sm-9 d-flex align-items-center">
                             <div class="per-details">
-                                <h4>Francis Patlingrao</h4>
+                                <h4><?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?></h4>
                                 <p hidden><i>No Ratings Yet</i></p>
                                 <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i>
                                 <p>Maribago, Lapu-Lapu, City</p>
@@ -170,12 +120,12 @@ if(isset($_POST['send'])){
                 <?php }}?>
                 </form>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary rounded-pill px-4" data-bs-dismiss="modal">Accept</button>
-                    <button type="button" class="btn btn-danger rounded-pill px-4">Decline</button>
+                    <button type="button" class="btn btn-primary rounded-pill px-4" data-bs-dismiss="modal">Send</button>
+                    <button type="button" class="btn btn-danger rounded-pill px-4">Cancel</button>
                 </div>
                 </div>
             </div>
-        </div>
+        </div>-->
         <!-- Filter Search -->
         <div class="modal fade" id="Filter-modal" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
