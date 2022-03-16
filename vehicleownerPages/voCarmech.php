@@ -3,7 +3,6 @@ session_start();
 include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
 $custAddress1=$_SESSION['custAddress'];
 $custID1=$_SESSION['custID'];
-$regeditid=$_SESSION["mechID"];
 
 if(isset($_POST['send'])){  
     $host="localhost";
@@ -111,7 +110,6 @@ if(isset($_POST['send'])){
                                {
                            ?>
                         <tr class="d-flex align-items-center justify-content-around mt-2">
-                            <td class="col-sm-3 with-image"><img src="../img/vo.jpg" class="rounded-circle imagenajud float-end"></td>
                             <td><?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?></td>
                             <td><?php echo htmlentities($result->Specialization);?></td>
                             <td><a class="btn btn-warning px-3" data-bs-toggle="modal" data-bs-target="#detail-modal">Details</a></td>
@@ -131,7 +129,6 @@ if(isset($_POST['send'])){
                 </div>
                 <form method="POST">
                 <?php
-                    $regeditid=$_SESSION["mechID"];
                     $sql="SELECT * from mechanic WHERE mechID=:regeditid";
                     $query=$dbh->prepare($sql);
                     $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
@@ -148,7 +145,7 @@ if(isset($_POST['send'])){
                         <div class="col-sm-3 with-image"><img src="../img/avatar.jpg" class="rounded-circle imagenajud float-end" alt=""></div>
                         <div class="col-sm-9 d-flex align-items-center">
                             <div class="per-details">
-                                <h4><?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?></h4>
+                                <h4>Francis Patlingrao</h4>
                                 <p hidden><i>No Ratings Yet</i></p>
                                 <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i>
                                 <p>Maribago, Lapu-Lapu, City</p>
