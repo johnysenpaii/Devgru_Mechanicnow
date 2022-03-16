@@ -34,9 +34,9 @@ $custID1=$_SESSION['custID'];
                                 <div class="card h-100">
                                 <img src="../img/car.svg" class="card-img-top" alt="...">
                                 <div class="card-body">
-                                    <h5 class="card-title">Car</h5>
-                                    <p class="card-text">Car Repair and Services.</p>
-                                    <div class="text-center"><a class="btn btn-primary px-5 rounded-pill my-2" href="./voCarmech.php" role="button">Select</a></div>
+                                    <center><h5 class="card-title">Car</h5></center>
+                                    <center><p class="card-text">Car Repair and Services.</p></center>
+                                    <div class="text-center"><a class="btn btn-primary px-5 rounded-pill my-2" href="./voCarmech.php" role="button">Find</a></div>
                                 </div>
                                 </div>
                             </div>
@@ -44,9 +44,9 @@ $custID1=$_SESSION['custID'];
                                 <div class="card h-100">
                                     <img src="../img/moto.svg" class="card-img-top" alt="...">
                                     <div class="card-body">
-                                        <h5 class="card-title">Motorcycle</h5>
-                                        <p class="card-text">Motorcycle Repair and Services.</p>
-                                        <div class="text-center"><a class="btn btn-primary px-5 rounded-pill my-2" href="./voMotorcyclemech.php" role="button">Select</a></div>
+                                        <center><h5 class="card-title">Motorcycle</h5></center>
+                                        <center><p class="card-text">Motorcycle Repair and Services.</p></center>
+                                        <div class="text-center"><a class="btn btn-primary px-5 rounded-pill my-2" href="./voMotorcyclemech.php" role="button">Find</a></div>
                                     </div>
                                 </div>
                             </div>
@@ -54,9 +54,9 @@ $custID1=$_SESSION['custID'];
                                 <div class="card h-100">
                                 <img src="../img/bicycle.svg" class="card-img-top" alt="...">
                                 <div class="card-body">
-                                    <h5 class="card-title">Bicycle</h5>
-                                    <p class="card-text">Bicycle Repair and Services.</p>
-                                    <div class="text-center"><a class="btn btn-primary px-5 rounded-pill my-2" href="./voBikemech.php" role="button">Select</a></div>
+                                    <center><h5 class="card-title">Bicycle</h5></center>
+                                    <center><p class="card-text">Bicycle Repair and Services.</p></center>
+                                    <div class="text-center"><a class="btn btn-primary px-5 rounded-pill my-2" href="./voBikemech.php" role="button">Find</a></div>
                                 </div>
                                 </div>
                             </div>
