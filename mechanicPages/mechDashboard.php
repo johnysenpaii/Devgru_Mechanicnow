@@ -1,6 +1,7 @@
 <?php
 session_start();
 include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
+$mechID1=$_SESSION['mechID'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -40,22 +41,38 @@ include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
         <div class="row container-fluid py-5 text-center table-responsive justify-content-center">
             <div class="col-lg-8">
                 <h4 class="text-dark">Request Available</h4>
+                <?php
+                    $sql="SELECT * from request WHERE mechID=$mechID1 and status='Unaccepted'";
+                    $query=$dbh->prepare($sql);
+                    $query->execute();
+                    $results=$query->fetchALL(PDO::FETCH_OBJ);
+
+                    if($query->rowCount()>0)
+                    {
+                    foreach ($results as $result)
+                    {
+                        if($mechID1==$mechID1)
+                        {
+                ?>
                 <table class="table table-borderless table-curved pt-2">
                     <thead>
                     </thead>
                     <tbody>
-                        <tr class="d-flex align-items-center justify-content-around mt-2">
-                            <td>Mark</td>
-                            <td>3km away</td>
-                            <td><a href="" class="btn btn-warning px-3" data-bs-toggle="modal" data-bs-target="#detail-modal">Details</a></td>
-                        </tr>
-                        <tr class="d-flex align-items-center justify-content-around mt-2">
-                            <td>Mark</td>
-                            <td>3km away</td>
-                            <td><a href="" class="btn btn-warning px-3" data-bs-toggle="modal" data-bs-target="#detail-modal">Details</a></td>
-                        </tr>
+                    <div class="td-card">
+                                    <h3><?php echo htmlentities($result->vOwnerName);?></h3>
+                                    <p><strong>Service Type: </strong> <?php echo htmlentities($result->serviceType);?></p>
+                                    <p><strong>Service Needed: </strong> <?php echo htmlentities($result->serviceNeeded);?></p>
+                                    <p><strong>Vehicle Problem:</strong> <?php echo htmlentities($result->mechRepair);?></p>
+                                    <p><strong>Note:</strong> <?php echo htmlentities($result->specMessage);?></p>
+                                    <p><strong>Address:</strong> <?php echo htmlentities($result->custAddress);?></p>
+                                    <div class="card-btn">
+                                        <button type="submit" name="submit" class="accept"><a href="">Accept</a></button>
+                                        <button class="decline">Decline</button>
+                                    </div>
+                                </div>
                     </tbody>
                 </table>
+                <?php }}}?>
             </div>
         </div>
         <!-- Vertically centered modal -->
