@@ -3,7 +3,6 @@ session_start();
 include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
 $custAddress1=$_SESSION['custAddress'];
 $custID1=$_SESSION['custID'];
-$regeditid=$_SESSION["mechID"];
 
 if(isset($_POST['send'])){  
     $host="localhost";
