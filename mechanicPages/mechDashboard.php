@@ -26,10 +26,8 @@ $mechID1=$_SESSION['mechID'];
         <div class="row">
             <!-- d-flex justify-content-evenly -->
             <div class="d-flex justify-content-center pt-3">
+                <a href="mechActivityLog.php" class="py-1 px-5 mx-1 bg-white text-dark rounded-pill btn">Activity Log</a>
                 <a href="" class="py-1 px-5 mx-1 bg-white text-dark rounded-pill btn">Transaction</a>
-                <a href="" class="py-1 px-5 mx-1 bg-white text-dark rounded-pill btn">Find Mechanic</a>
-                <a href="" class="py-1 px-5 mx-1 bg-white text-dark rounded-pill btn">Find Mechanic Shops</a>
-                <a href="" class="py-1 px-5 mx-1 bg-white text-dark rounded-pill btn">Activity Log</a>
             </div>
         </div>
     </section>
@@ -66,7 +64,7 @@ $mechID1=$_SESSION['mechID'];
                                     <p><strong>Note:</strong> <?php echo htmlentities($result->specMessage);?></p>
                                     <p><strong>Address:</strong> <?php echo htmlentities($result->custAddress);?></p>
                                     <div class="card-btn">
-                                        <button type="submit" name="submit" class="accept"><a href="">Accept</a></button>
+                                        <button type="submit" name="submit" class="accept"><a href="mechRequestDetails.php?regeditid=<?php echo htmlentities($result->resID)?>">Details</a></button>
                                         <button class="decline">Decline</button>
                                     </div>
                                 </div>
