@@ -101,10 +101,10 @@ if(isset($_POST['send'])){
                         <div class="col-sm-12 col-md-6 pb-5 justify-content-center">
                             <h6 class="text-start">Mechanic Information</h6>
                             <div class="with-image"><img src="../img/avatar.jpg.jpg" class="rounded-circle imagenajud float-end" alt=""></div>
-                            <div class="py-1">
-                                <p name="mechName"><?php echo htmlentities($result->mechFirstname);?> <?php echo htmlentities($result->mechLastname);?></p>
-                                <p name="Specialization"><?php echo htmlentities($result->Specialization);?></p>
-                                <p name="mechAddress"><?php echo htmlentities($result->mechAddress);?></p>
+                            <div class="row py-1" >
+                                <input type="text" class="border-0 text-center" name="mechName" value="<?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?>">
+                                <input type="text" class="border-0 text-center" name="Specialization" value="<?php echo htmlentities($result->Specialization);?>">
+                                <input type="text" class="border-0 text-center" name="mechAddress" value="<?php echo htmlentities($result->mechAddress);?>">
                                 <input hidden type="text" name="vOwnerName" value="<?php echo htmlentities($_SESSION["custFirstname"]); ?> <?php echo htmlentities($_SESSION["custLastname"]); ?>">
                                 <input hidden type="text" name="custAddress" value="<?php echo htmlentities($_SESSION["custAddress"]); ?>">
                                 <input hidden type="text" name="mechID" value="<?php echo htmlentities($result->mechID);?>">
@@ -152,7 +152,7 @@ if(isset($_POST['send'])){
                         </div>
                     </div>
                     <div class="row pt-3">
-                        <div class="col-md-6 d-grid pb-2"><button class="btn btn-primary rounded-pill" type="button" name="send" value="send">Request </button></div>
+                        <div class="col-md-6 d-grid pb-2"><button class="btn btn-primary rounded-pill" name="send" value="send">Request</button></div>
                         <div class="col-md-6 d-grid pb-2"> <button class="btn btn-secondary rounded-pill boton" type="button"><a href="./voCarmech.php">Back</a></button></div>
                     </div>
                 </div>
