@@ -2,6 +2,7 @@
 session_start();
 include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
 $mechID1=$_SESSION['mechID'];
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -58,11 +59,31 @@ $mechID1=$_SESSION['mechID'];
                     <tbody>
                     <div class="td-card">
                                     <h3><?php echo htmlentities($result->vOwnerName);?></h3>
+                                    <input type="text" hidden name="custID2" value="<?php echo htmlentities($result->custID);?>">
                                     <p><strong>Service Type: </strong> <?php echo htmlentities($result->serviceType);?></p>
                                     <p><strong>Service Needed: </strong> <?php echo htmlentities($result->serviceNeeded);?></p>
                                     <p><strong>Vehicle Problem:</strong> <?php echo htmlentities($result->mechRepair);?></p>
                                     <p><strong>Note:</strong> <?php echo htmlentities($result->specMessage);?></p>
                                     <p><strong>Address:</strong> <?php echo htmlentities($result->custAddress);?></p>
+                                    <?php 
+                   
+                    $sql="SELECT * from customer WHERE custID";
+                    $query=$dbh->prepare($sql);
+                    $query->execute();
+                    $results=$query->fetchALL(PDO::FETCH_OBJ);
+                                     if($query->rowCount()>0)
+                    {
+                    foreach ($results as $result)
+                    {
+                       ?>
+
+                    <iframe src="https://www.google.com/maps?q=<?php echo htmlentities($result->latitude);?>,<?php echo htmlentities($result->longitude);?> &hl=es,z=14&output=emded" frameborder="0"></iframe>
+                            <?php 
+                        
+                    }
+                }
+                        ?>
+
                                     <div class="card-btn">
                                         <button type="submit" name="submit" class="accept"><a href="mechRequestDetails.php?regeditid=<?php echo htmlentities($result->resID)?>">Details</a></button>
                                         <button class="decline">Decline</button>

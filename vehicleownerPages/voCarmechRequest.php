@@ -102,6 +102,9 @@ if(isset($_POST['send'])){
                             <h6 class="text-start">Mechanic Information</h6>
                             <div class="with-image"><img src="../img/avatar.jpg.jpg" class="rounded-circle imagenajud float-end" alt=""></div>
                             <div class="row py-1" >
+                            <input type="text" class=" text-center" id="latitude" name="latitude" value=" ">
+                            <input type="text" class=" text-center" id="longitude" name="longitude" value=" ">
+
                                 <input type="text" class="border-0 text-center" name="mechName" value="<?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?>">
                                 <input type="text" class="border-0 text-center" name="Specialization" value="<?php echo htmlentities($result->Specialization);?>">
                                 <input type="text" class="border-0 text-center" name="mechAddress" value="<?php echo htmlentities($result->mechAddress);?>">
