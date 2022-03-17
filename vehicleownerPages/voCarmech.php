@@ -3,6 +3,11 @@ session_start();
 include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
 $custAddress1=$_SESSION['custAddress'];
 $custID1=$_SESSION['custID'];
+<<<<<<< Updated upstream
+=======
+// $regeditid=$_SESSION["mechID"];
+// $mids=$_SESSION["mids"];
+>>>>>>> Stashed changes
 
 if(isset($_POST['send'])){  
     $host="localhost";
@@ -96,6 +101,7 @@ if(isset($_POST['send'])){
                     </thead>
                     <tbody>
                         <tr class="d-flex align-items-center justify-content-around mt-2">
+<<<<<<< Updated upstream
                             <td>Mark</td>
                             <td>3km away</td>
                             <td><a href="" class="btn btn-warning px-3" data-bs-toggle="modal" data-bs-target="#detail-modal">Details</a></td>
@@ -104,6 +110,16 @@ if(isset($_POST['send'])){
                             <td>Mark</td>
                             <td>3km away</td>
                             <td><a href="" class="btn btn-warning px-3" data-bs-toggle="modal" data-bs-target="#detail-modal">Details</a></td>
+=======
+                            <td><?php echo htmlentities($result->mechID);?></td>
+                            <td class="col-sm-3 with-image"><img src="../img/vo.jpg" class="rounded-circle imagenajud float-end"></td>
+                            <td><?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?></td>
+                            <td><?php echo htmlentities($result->Specialization);?></td>
+                            <!-- //?mids=<?php echo htmlentities($result->mechID)?> -->
+                            <!-- <td><a class="btn btn-warning px-3" data-bs-toggle="modal" id="mybutton" data-bs-target="#detail-modal" value="<?php echo htmlentities($result->mechID);?>" onclick="myfunction()">Details</a></td> -->
+                            <td><button class="btn btn-warning px-3 text-light mybutton" data-bs-toggle="modal" id="mybuttons" data-bs-target="#detail-modal" data-row-val="<?php echo htmlentities($result->mechID);?>" >Details</button></td> 
+                            
+>>>>>>> Stashed changes
                         </tr>
                     </tbody>
                 </table>
@@ -117,12 +133,36 @@ if(isset($_POST['send'])){
                     <h5 class="modal-title" id="modal-title">Request Details</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+<<<<<<< Updated upstream
+=======
+                <form method="POST">
+                <p id="idnum" class="text-dark" name="mids"></p>
+                <?php
+                if(isset($_POST["mids"])){
+                    $mids = $_POST["mids"];
+                    $sql="SELECT *  from mechanic WHERE mechID=:mids";
+                    $query=$dbh->prepare($sql);
+                    $query->bindParam(':mids',$mids,PDO::PARAM_STR);
+                    $query->execute();
+                    $results=$query->fetch(PDO::FETCH_ASSOC);
+
+                    if($query->rowCount()>0)
+                    {
+                    foreach ($results as $result) 
+                    {
+                ?>
+>>>>>>> Stashed changes
                 <div class="modal-body">
                     <div class="row line-segment seg">
                         <div class="col-sm-3 with-image"><img src="../img/avatar.jpg" class="rounded-circle imagenajud float-end" alt=""></div>
                         <div class="col-sm-9 d-flex align-items-center">
                             <div class="per-details">
+<<<<<<< Updated upstream
                                 <h4>Wailhi Buu</h4>
+=======
+                                <p hidden><?php echo htmlentities($result->mechID);?></p>
+                                <h4><?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?></h4>
+>>>>>>> Stashed changes
                                 <p hidden><i>No Ratings Yet</i></p>
                                 <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i>
                                 <p>Maribago, Lapu-Lapu, City</p>
@@ -144,6 +184,11 @@ if(isset($_POST['send'])){
                         </div>
                     </div>
                 </div>
+<<<<<<< Updated upstream
+=======
+                <?php }}}?>
+                </form>
+>>>>>>> Stashed changes
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary rounded-pill px-4" data-bs-dismiss="modal">Accept</button>
                     <button type="button" class="btn btn-danger rounded-pill px-4">Decline</button>
@@ -209,5 +254,6 @@ if(isset($_POST['send'])){
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="../js/bootstrap.bundle.min.js"></script>
+    <script src="../js/main.js"></script>
 </body>
 </html>
