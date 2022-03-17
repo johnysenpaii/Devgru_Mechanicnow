@@ -152,7 +152,7 @@ if(isset($_POST['send'])){
                         </div>
                     </div>
                     <div class="row pt-3">
-                        <div class="col-md-6 d-grid pb-2"><button class="btn btn-primary rounded-pill" type="button" name="send" value="send">Request </button></div>
+                        <div class="col-md-6 d-grid pb-2"><button class="btn btn-primary rounded-pill" name="send" value="send">Request </button></div>
                         <div class="col-md-6 d-grid pb-2"> <button class="btn btn-secondary rounded-pill boton" type="button"><a href="./voCarmech.php">Back</a></button></div>
                     </div>
                 </div>
