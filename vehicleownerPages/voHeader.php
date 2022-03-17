@@ -11,7 +11,7 @@
                     <a class="nav-link" href="#"></a>
                     </li>
                     <li class="nav-item">
-                    <a class="nav-link" href="./voProfile.php"><i class="fa-regular fa-user"></i> User</a>
+                    <a class="nav-link" href="./voProfile.php"><i class="fa-regular fa-user"></i> User </a>
                     </li>
                     <li class="nav-item">
                     <a class="nav-link" href="#"><i class="fa-regular fa-bell"></i> Notification</a>
