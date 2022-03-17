@@ -4,7 +4,7 @@
             <div class="d-flex justify-content-center pt-3">
                 <a href="" class="py-1 px-5 mx-1 bg-white text-dark rounded-pill btn">Find Mechanic Shops</a>
                 <a href="" class="py-1 px-5 mx-1 bg-white text-dark rounded-pill btn">Transaction</a>
-                <a href="" class="py-1 px-5 mx-1 bg-white text-dark rounded-pill btn">Activity Log</a>
+                <a href="voActivityLog.php" class="py-1 px-5 mx-1 bg-white text-dark rounded-pill btn">Activity Log</a>
             </div>
         </div>
     </section>

@@ -2,57 +2,6 @@
 session_start();
 include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
 $custAddress1=$_SESSION['custAddress'];
-$custID1=$_SESSION['custID'];
-$regeditid=$_SESSION["mechID"];
-
-if(isset($_POST['send'])){  
-    $host="localhost";
-    $username="root"; 
-    $word="";
-    $db_name="mechanicnowdb"; 
-    $tbl_name="request"; 
-    $con=mysqli_connect("$host", "$username", "$word","$db_name")or die("cannot connect");//connection string  
-    $mechName=$_POST['mechName']; 
-    $Specialization=$_POST['Specialization'];
-    $mechAddress=$_POST['mechAddress'];
-    $custAddress=$_POST['custAddress'];
-    $specMessage=$_POST['specMessage'];
-    $checkbox1=$_POST['mechRepair'];  
-    $vOwnerName=$_POST['vOwnerName'];
-    $service=$_POST['service'];
-    $mechID=$_POST['mechID'];
-    $chk=""; 
-    $spec="";
-    $mechN="";
-    $vON="";
-    $mID="";
-    $Specl="";
-    $mechAdd="";
-    $custAdd="";
-    $serv="";
-    foreach($checkbox1 as $chk1){  
-        $chk .= $chk1.", ";
-    } 
-    $spec .= $specMessage;  
-    $mechN .= $mechName;
-    $vON .= $vOwnerName;
-    $mID .= $mechID;
-    $Specl .= $Specialization;
-    $mechAdd .= $mechAddress;
-    $custAdd .= $custAddress;
-    $serv .= $service;
-
-    $in_ch=mysqli_query($con,"INSERT INTO request(mechName, vOwnerName, specMessage, mechRepair, serviceType, serviceNeeded, mechID, custID, mechAddress, custAddress) values ('$mechN', '$vON' , '$spec', '$chk', '$Specl', '$serv', '$mID', '$custID1', '$mechAdd', '$custAdd')");  
-    if($in_ch==1)  
-    {  
-        echo'<script>alert("Request Sent Successfully, Wait for Mechanic to Confirm!")</script>';  
-        echo"<script>location.replace('voDashboard.php');</script>";  
-    }  
-    else  
-    {  
-        echo'<script>alert("Failed to Send Request")</script>';  
-    }  
-} 
 
 ?>
 <!DOCTYPE html>
@@ -83,7 +32,7 @@ if(isset($_POST['send'])){
         </div>
         <div class="row py-3 px-sm-0 px-md-3 text-center table-responsive justify-content-center pb-5">
             <div class="col-lg-8 bg-white py-4 rounded-3 shadow-lg">
-                <h4 class="text-dark pb-4">Available Car Mechanics</h4>
+                <h4 class="text-dark pb-4">Available Motorcycle Mechanics</h4>
                 <div class="row d-flex justify-content-end align-items-center px-sm-0 px-md-4">                   
                     <div class="col-9 col-md-6 searchlogo">
                         <input class="form-control rounded-pill" type="text" placeholder="Filter Search">
@@ -111,10 +60,9 @@ if(isset($_POST['send'])){
                                {
                            ?>
                         <tr class="d-flex align-items-center justify-content-around mt-2">
-                            <td class="col-sm-3 with-image"><img src="../img/vo.jpg" class="rounded-circle imagenajud float-end"></td>
                             <td><?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?></td>
                             <td><?php echo htmlentities($result->Specialization);?></td>
-                            <td><a class="btn btn-warning px-3" data-bs-toggle="modal" data-bs-target="#detail-modal">Details</a></td>
+                            <td><a class="btn btn-warning px-3" href="voMotorcyclemechRequest.php?regeditid=<?php echo htmlentities($result->mechID)?>">Details</a></td>
                         </tr>
                     </tbody>
                     <?php }}}?>
@@ -122,7 +70,7 @@ if(isset($_POST['send'])){
             </div>
         </div>
         <!-- Mechanic Info -->
-        <div class="modal fade" id="detail-modal" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
+        <!--<div class="modal fade" id="detail-modal" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content text-dark">
                 <div class="modal-header">
@@ -131,7 +79,6 @@ if(isset($_POST['send'])){
                 </div>
                 <form method="POST">
                 <?php
-                    $regeditid=$_SESSION["mechID"];
                     $sql="SELECT * from mechanic WHERE mechID=:regeditid";
                     $query=$dbh->prepare($sql);
                     $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
@@ -173,12 +120,12 @@ if(isset($_POST['send'])){
                 <?php }}?>
                 </form>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary rounded-pill px-4" data-bs-dismiss="modal">Accept</button>
-                    <button type="button" class="btn btn-danger rounded-pill px-4">Decline</button>
+                    <button type="button" class="btn btn-primary rounded-pill px-4" data-bs-dismiss="modal">Send</button>
+                    <button type="button" class="btn btn-danger rounded-pill px-4">Cancel</button>
                 </div>
                 </div>
             </div>
-        </div>
+        </div>-->
         <!-- Filter Search -->
         <div class="modal fade" id="Filter-modal" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
