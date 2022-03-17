@@ -52,8 +52,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
-                    <h1 class="banner-text">Mechanic Now</h1>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas impedit vero asperiores numquam dolorem consequuntur dolorum aperiam, porro enim dolor excepturi quasi aliquid! Aperiam, veniam?</p>
+                    <h1 class="banner-text">Vehicle Repair Service @ Your Disposal</h1>
                 </div>
                 <div class="col-md-6 text-center">
                     <img src="img/mnrevisedlogo864-nooutline.png" class="img-fluid" alt="">

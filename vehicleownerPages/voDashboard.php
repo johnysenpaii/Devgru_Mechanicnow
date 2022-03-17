@@ -1,3 +1,8 @@
+<?php
+session_start();
+include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
+$custID1=$_SESSION['custID'];
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,15 +28,15 @@
             <div class="col-sm-9">
                 <div class="row">
                     <div class="col-sm-8 col-md-12 col-lg-10 bg-white text-dark p-3 rounded-3 offset-sm-4 offset-md-0 offset-lg-2">
-                        <h4 class="line-segment">Choose what type of service do you want</h4>
+                        <h4 class="line-segment">Choose Mechanic Service Category</h4>
                         <div class="row row-cols-1 row-cols-md-3 g-4 py-3">
                             <div class="col">
                                 <div class="card h-100">
                                 <img src="../img/car.svg" class="card-img-top" alt="...">
                                 <div class="card-body">
-                                    <h5 class="card-title">Car</h5>
-                                    <p class="card-text">Car Repair and Services.</p>
-                                    <div class="text-center"><a class="btn btn-primary px-5 rounded-pill my-2" href="./voCarmech.php" role="button">Select</a></div>
+                                    <center><h5 class="card-title">Car</h5></center>
+                                    <center><p class="card-text">Car Repair and Services.</p></center>
+                                    <div class="text-center"><a class="btn btn-primary px-5 rounded-pill my-2" href="./voCarmech.php" role="button">Find</a></div>
                                 </div>
                                 </div>
                             </div>
@@ -39,9 +44,9 @@
                                 <div class="card h-100">
                                     <img src="../img/moto.svg" class="card-img-top" alt="...">
                                     <div class="card-body">
-                                        <h5 class="card-title">Motorcycle</h5>
-                                        <p class="card-text">Motorcycle Repair and Services.</p>
-                                        <div class="text-center"><a class="btn btn-primary px-5 rounded-pill my-2" href="#" role="button">Select</a></div>
+                                        <center><h5 class="card-title">Motorcycle</h5></center>
+                                        <center><p class="card-text">Motorcycle Repair and Services.</p></center>
+                                        <div class="text-center"><a class="btn btn-primary px-5 rounded-pill my-2" href="./voMotorcyclemech.php" role="button">Find</a></div>
                                     </div>
                                 </div>
                             </div>
@@ -49,9 +54,9 @@
                                 <div class="card h-100">
                                 <img src="../img/bicycle.svg" class="card-img-top" alt="...">
                                 <div class="card-body">
-                                    <h5 class="card-title">Bicycle</h5>
-                                    <p class="card-text">Bicycle Repair and Services.</p>
-                                    <div class="text-center"><a class="btn btn-primary px-5 rounded-pill my-2" href="#" role="button">Select</a></div>
+                                    <center><h5 class="card-title">Bicycle</h5></center>
+                                    <center><p class="card-text">Bicycle Repair and Services.</p></center>
+                                    <div class="text-center"><a class="btn btn-primary px-5 rounded-pill my-2" href="./voBikemech.php" role="button">Find</a></div>
                                 </div>
                                 </div>
                             </div>
@@ -62,7 +67,35 @@
             <div class="col-sm-3 bg-white text-dark rounded-3 cont-act">
                 <div class="act-content">
                     <h5 class="py-2 pb-2 text-center">Recent Activities</h5>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum totam magni aut sapiente dolorem aliquid molestias voluptatum? Ex, ab aspernatur. Similique debitis suscipit id quidem explicabo saepe vel aliquam quasi beatae iste est illo, atque impedit, facere, enim nobis ex incidunt. Ipsam reiciendis incidunt sapiente. Enim, doloribus aspernatur cumque nam facere consequatur in quidem totam dolorem assumenda voluptas non, ut iste! Porro nemo, nihil eaque optio at rem, nobis magni,</p>
+                    <?php
+                        $sql="SELECT * from request WHERE custID=$custID1 and status='Unaccepted' order by resID DESC";
+                        $query=$dbh->prepare($sql);
+                        $query->execute();
+                        $results=$query->fetchALL(PDO::FETCH_OBJ);
+
+                        if($query->rowCount()>0)
+                        {
+                        foreach ($results as $result)
+                        {
+                            if($custID1==$custID1)
+                            {
+                    ?>
+                    <div class="request-table">
+                    <table class = "table-card">
+                        <tr class = "row-card">
+                            <td class= "data-card">
+                                <div class="td-card">
+                                    <h3><?php echo htmlentities($result->mechName);?></h3>
+                                    <p><strong>Description : </strong> <?php echo htmlentities($result->mechRepair);?></p>
+                                    <p id="status" ><strong>Status: </strong> <?php echo htmlentities($result->status);?></p>
+                                    <p><strong>Specific Message:</strong> <?php echo htmlentities($result->specMessage);?></p>
+                                    <p><strong>Address:</strong> <?php echo htmlentities($result->custAddress);?></p>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            <?php }}}?>
                 </div>
             </div>
             
