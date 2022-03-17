@@ -270,6 +270,7 @@ form .name-details .field:last-child{
 .btn-primary:focus {
     background-color: var(--clr-primary-500);
     border-color: var(--clr-primary-500);
+    box-shadow: none;
 }
 .line-segment{
     padding-bottom: 10px;
