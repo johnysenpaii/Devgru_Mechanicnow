@@ -1,6 +1,6 @@
 <?php
 session_start();
-include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
+include('./config.php');
 if(isset($_POST['Login']))
 {
     $Username=$_POST['Username'];

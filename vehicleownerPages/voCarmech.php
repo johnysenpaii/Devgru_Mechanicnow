@@ -1,9 +1,8 @@
 <?php
 session_start();
-include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
+include('../config.php');
 $custAddress1=$_SESSION['custAddress'];
 $custID1=$_SESSION['custID'];
-$regeditid=$_SESSION["mechID"];
 
 if(isset($_POST['send'])){  
     $host="localhost";
@@ -72,7 +71,7 @@ if(isset($_POST['send'])){
     <title>Mechanic Now</title>
     <link rel="shortcut icon" type="x-icon" href="../img/mechanicnowlogo.svg">
 </head>
-<body id="contbody" style="background-color: #f8f8f8">
+<body onload="getLocation();" id="contbody" style="background-color: #f8f8f8">
     <?php include('voHeader.php');?>
     <?php include('./voTopnav.php');?>
 
@@ -97,27 +96,28 @@ if(isset($_POST['send'])){
                     </thead>
                     <tbody>
                         <?php
-                           $sql="SELECT * from mechanic WHERE mechAddress='$custAddress1' and Specialization='Car Mechanic'";
-                           $query=$dbh->prepare($sql);
-
-                           $query->execute();
-                           $results=$query->fetchALL(PDO::FETCH_OBJ);
-
-                           if($query->rowCount()>0)
-                           {
-                            foreach($results as $result)   
-                           {   
-                               if($custAddress1==$custAddress1)
-                               {
-                           ?>
+                     
+                                $sql="SELECT * from mechanic WHERE mechAddress='$custAddress1' and Specialization='Car Mechanic'";
+                               $query=$dbh->prepare($sql);
+                               $query->execute();
+                               $results=$query->fetchALL(PDO::FETCH_OBJ);
+                               $cnt=1;       
+                               if( $query->rowCount()>0){
+                                   
+                                foreach($results as $result){
+                                    if($custAddress1==$custAddress1)
+                                {
+                                    ?>
                         <tr class="d-flex align-items-center justify-content-around mt-2">
                             <td class="col-sm-3 with-image"><img src="../img/vo.jpg" class="rounded-circle imagenajud float-end"></td>
+                            <td><?php echo htmlentities($result->mechID);?></td>
                             <td><?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?></td>
                             <td><?php echo htmlentities($result->Specialization);?></td>
-                            <td><a class="btn btn-warning px-3" data-bs-toggle="modal" data-bs-target="#detail-modal">Details</a></td>
+                            <td><button class="btn btn-warning px-3" data-bs-toggle="modal" href="voCarmech.php?regeditid=<?php  echo htmlentities($result->mechID);?>#detail-modal">Details</button></td>
+                            
                         </tr>
                     </tbody>
-                    <?php }}}?>
+                    <?php  } $cnt=$cnt+1;}}?>
                 </table>
             </div>
         </div>
@@ -131,7 +131,8 @@ if(isset($_POST['send'])){
                 </div>
                 <form method="POST">
                 <?php
-                    $regeditid=$_SESSION["mechID"];
+                  $regeditid=intval($_GET['regeditid']);
+                   // $regeditid=$_SESSION["mechID"];
                     $sql="SELECT * from mechanic WHERE mechID=:regeditid";
                     $query=$dbh->prepare($sql);
                     $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
@@ -171,6 +172,9 @@ if(isset($_POST['send'])){
                     </div>
                 </div>
                 <?php }}?>
+                <input type="text"  id="latitude" name="latitude" value=" ">
+                <input type="text"  id="longitude"  name="longitude" value=" ">
+
                 </form>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary rounded-pill px-4" data-bs-dismiss="modal">Accept</button>
