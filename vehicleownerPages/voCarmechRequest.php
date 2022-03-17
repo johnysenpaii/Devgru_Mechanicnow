@@ -72,8 +72,97 @@ if(isset($_POST['send'])){
     <link rel="shortcut icon" type="x-icon" href="../img/mechanicnowlogo.svg">
 </head>
 <body id="contbody" style="background-color: #f8f8f8">
+    <?php include('voHeader.php');?>
+    <?php include('./voTopnav.php');?>
 
-    <section id="mechContent" class="mech-content container-fluid">
+    <section class="mechRequest" class="container-fluid">
+         <div class="emptyrequest" hidden>
+            <div class="emptydiv"><img src="../img/empty.png" alt=""></div>
+            <h6>There is no mechanic nearby..</h6>
+        </div>
+        <form method="POST">
+            <?php
+                $regeditid=intval($_GET['regeditid']);
+                $sql="SELECT * from mechanic WHERE mechID=:regeditid";
+                $query=$dbh->prepare($sql);
+                $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
+                $query->execute();
+                $results=$query->fetchALL(PDO::FETCH_OBJ);
+
+                if($query->rowCount()>0)
+                {
+                foreach ($results as $result) 
+                {
+            ?>
+            <div class="row py-3 px-sm-0 px-md-3 text-center table-responsive justify-content-center pb-5">
+                <div class="col-md-8 bg-white p-4 rounded-3 shadow-lg">
+                    <div class="row text-dark">
+                        <h3 class="pb-4">Request Form</h3>
+                        <div class="col-sm-12 col-md-6 pb-5 justify-content-center">
+                            <h6 class="text-start">Mechanic Information</h6>
+                            <div class="with-image"><img src="../img/avatar.jpg.jpg" class="rounded-circle imagenajud float-end" alt=""></div>
+                            <div class="py-1">
+                                <p name="mechName"><?php echo htmlentities($result->mechFirstname);?> <?php echo htmlentities($result->mechLastname);?></p>
+                                <p name="Specialization"><?php echo htmlentities($result->Specialization);?></p>
+                                <p name="mechAddress"><?php echo htmlentities($result->mechAddress);?></p>
+                                <input hidden type="text" name="vOwnerName" value="<?php echo htmlentities($_SESSION["custFirstname"]); ?> <?php echo htmlentities($_SESSION["custLastname"]); ?>">
+                                <input hidden type="text" name="custAddress" value="<?php echo htmlentities($_SESSION["custAddress"]); ?>">
+                                <input hidden type="text" name="mechID" value="<?php echo htmlentities($result->mechID);?>">
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6 text-start">
+                            <p>If you want a long term service, select Home Service. Select Emergency service if you are on-road.</p>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" value="Home Service" name="service" id="exampleRadios1">
+                                <label class="form-check-label" for="exampleRadios1">
+                                    Home Service
+                                </label>
+                            </div>
+                            <div class="form-check pb-2">
+                                <input class="form-check-input" type="radio" value="Emergency Service" name="service" id="exampleRadios2">
+                                <label class="form-check-label" for="exampleRadios2">
+                                    Emergency Service
+                                </label>
+                            </div>
+                            <h6><i>Please select and/or specify mechanical problem below.</i></h6>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="flexCheckDefault" name="mechRepair[]" value="Tire Repair">
+                                <label class="form-check-label" for="flexCheckDefault">Tire Repair</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="flexCheckDefault"  name="mechRepair[]" value="Engine Overheat Repair">
+                                <label class="form-check-label" for="flexCheckDefault">Engine Overheat Repair</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="flexCheckDefault" name="mechRepair[]" value="Dead Battery Repair">
+                                <label class="form-check-label" for="flexCheckDefault">Dead Battery Repair</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="flexCheckDefault" name="mechRepair[]" value="Break Repair">
+                                <label class="form-check-label" for="flexCheckDefault">Break Repair</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="flexCheckDefault" name="mechRepair[]" value="Dead Light Repair">
+                                <label class="form-check-label" for="flexCheckDefault">Dead Light Repair</label>
+                            </div>
+                             <div class="">
+                                 <label for="">Others specify..</label>
+                                <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="Please specify" rows="3" name="specMessage" value="specMessage"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row pt-3">
+                        <div class="col-md-6 d-grid pb-2"><button class="btn btn-primary rounded-pill" type="button" name="send" value="send">Request </button></div>
+                        <div class="col-md-6 d-grid pb-2"> <button class="btn btn-secondary rounded-pill boton" type="button"><a href="./voCarmech.php">Back</a></button></div>
+                    </div>
+                </div>
+            </div>
+            <?php }}?>
+        </form>
+
+    </section>
+
+    <!-- <section id="mechContent" class="mech-content container-fluid">
         <div class="emptyrequest" hidden>
             <div class="emptydiv"><img src="../img/empty.png" alt=""></div>
             <h6>There is no mechanic nearby..</h6>
@@ -161,7 +250,7 @@ if(isset($_POST['send'])){
             </div>
             <?php }}?>
         </form>
-        </section>
+        </section> -->
 
         
       
