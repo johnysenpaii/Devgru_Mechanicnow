@@ -38,7 +38,7 @@ $mechID1=$_SESSION['mechID'];
         </div>
         <div class="row container-fluid py-5 text-center table-responsive justify-content-center">
             <div class="col-lg-8">
-                <h4 class="text-dark">Request Available</h4>
+                <h4 class="text-dark">Available Request</h4>
                 <?php
                     $sql="SELECT * from request WHERE mechID=$mechID1 and status='Unaccepted'";
                     $query=$dbh->prepare($sql);
