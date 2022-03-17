@@ -3,7 +3,8 @@ session_start();
 include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
 $custAddress1=$_SESSION['custAddress'];
 $custID1=$_SESSION['custID'];
-$regeditid=$_SESSION["mechID"];
+//$regeditid=$_SESSION["mechID"];
+
 
 if(isset($_POST['send'])){  
     $host="localhost";
@@ -114,6 +115,7 @@ if(isset($_POST['send'])){
                             <td class="col-sm-3 with-image"><img src="../img/vo.jpg" class="rounded-circle imagenajud float-end"></td>
                             <td><?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?></td>
                             <td><?php echo htmlentities($result->Specialization);?></td>
+                            <td><a href="voCarmech.php?regeditid=<?php echo htmlentities($result->mechID)?>">Regenerate</a></td>
                             <td><a class="btn btn-warning px-3" data-bs-toggle="modal" data-bs-target="#detail-modal">Details</a></td>
                         </tr>
                     </tbody>
@@ -131,7 +133,7 @@ if(isset($_POST['send'])){
                 </div>
                 <form method="POST">
                 <?php
-                    $regeditid=$_SESSION["mechID"];
+                    //$regeditid=$_SESSION["mechID"];
                     $sql="SELECT * from mechanic WHERE mechID=:regeditid";
                     $query=$dbh->prepare($sql);
                     $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
