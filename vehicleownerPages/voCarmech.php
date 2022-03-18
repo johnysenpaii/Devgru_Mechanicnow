@@ -1,6 +1,6 @@
 <?php
 session_start();
-include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
+include('../config.php');
 $custAddress1=$_SESSION['custAddress'];
 
 ?>
@@ -21,7 +21,7 @@ $custAddress1=$_SESSION['custAddress'];
     <title>Mechanic Now</title>
     <link rel="shortcut icon" type="x-icon" href="../img/mechanicnowlogo.svg">
 </head>
-<body id="contbody" style="background-color: #f8f8f8">
+<body onload="getLocation();" id="contbody" style="background-color: #f8f8f8">
     <?php include('voHeader.php');?>
     <?php include('./voTopnav.php');?>
 
@@ -46,26 +46,25 @@ $custAddress1=$_SESSION['custAddress'];
                     </thead>
                     <tbody>
                         <?php
-                           $sql="SELECT * from mechanic WHERE mechAddress='$custAddress1' and Specialization='Car Mechanic'";
-                           $query=$dbh->prepare($sql);
-
-                           $query->execute();
-                           $results=$query->fetchALL(PDO::FETCH_OBJ);
-
-                           if($query->rowCount()>0)
-                           {
-                            foreach($results as $result)   
-                           {   
-                               if($custAddress1==$custAddress1)
-                               {
-                           ?>
+                     
+                                $sql="SELECT * from mechanic WHERE mechAddress='$custAddress1' and Specialization='Car Mechanic'";
+                               $query=$dbh->prepare($sql);
+                               $query->execute();
+                               $results=$query->fetchALL(PDO::FETCH_OBJ);
+                               $cnt=1;       
+                               if( $query->rowCount()>0){
+                                   
+                                foreach($results as $result){
+                                    if($custAddress1==$custAddress1)
+                                {
+                                    ?>
                         <tr class="d-flex align-items-center justify-content-around mt-2">
                             <td><?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?></td>
                             <td><?php echo htmlentities($result->Specialization);?></td>
                             <td><a class="btn btn-warning px-3" href="voCarmechRequest.php?regeditid=<?php echo htmlentities($result->mechID)?>">Details</a></td>
                         </tr>
                     </tbody>
-                    <?php }}}?>
+                    <?php  } $cnt=$cnt+1;}}?>
                 </table>
             </div>
         </div>
