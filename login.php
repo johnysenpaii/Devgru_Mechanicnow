@@ -23,6 +23,8 @@ if(isset($_POST['Login']))
     if($query->rowCount() == 1){
         $query->fetch(PDO::FETCH_ASSOC);
         $custID=$results['custID'];
+        $latitude=$results['latitude'];
+        $longitude=$results['longitude'];
         $custFirstname=$results['custFirstname'];
         $custLastname=$results['custLastname'];
         $custAddress=$results['custAddress'];
@@ -35,6 +37,8 @@ if(isset($_POST['Login']))
             $_SESSION['custID']=$custID;
             $_SESSION['custFirstname']=$custFirstname;
             $_SESSION['custLastname']=$custLastname;
+            $_SESSION['latitude']=$latitude;
+            $_SESSION['longitude']=$longitude;
             $_SESSION['custAddress']=$custAddress;
             $_SESSION['Username']=$attemptedUsername;
             $_SESSION['Password']=$hashedPwd;
@@ -62,6 +66,8 @@ if(isset($_POST['Login']))
             if(password_verify($Password1, $hashedPwdM) == 1){
                 session_regenerate_id();
                 $_SESSION['mechID']=$mechID;
+
+
                 $_SESSION['mechFirstname']=$mechFirstname;
                 $_SESSION['mechLastname']=$mechLastname;
                 $_SESSION['mechAddress']=$mechAddress;
