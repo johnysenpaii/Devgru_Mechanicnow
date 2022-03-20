@@ -3,6 +3,9 @@ session_start();
 include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
 $custAddress1=$_SESSION['custAddress'];
 $custID1=$_SESSION['custID'];
+$latitude=$_SESSION['latitude'];
+$longitude=$_SESSION['longitude'];
+
 
 if(isset($_POST['send'])){  
     $host="localhost";
@@ -11,6 +14,7 @@ if(isset($_POST['send'])){
     $db_name="mechanicnowdb"; 
     $tbl_name="request"; 
     $con=mysqli_connect("$host", "$username", "$word","$db_name")or die("cannot connect");//connection string  
+
     $mechName=$_POST['mechName']; 
     $Specialization=$_POST['Specialization'];
     $mechAddress=$_POST['mechAddress'];
@@ -41,7 +45,7 @@ if(isset($_POST['send'])){
     $custAdd .= $custAddress;
     $serv .= $service;
 
-    $in_ch=mysqli_query($con,"INSERT INTO request(mechName, vOwnerName, specMessage, mechRepair, serviceType, serviceNeeded, mechID, custID, mechAddress, custAddress) values ('$mechN', '$vON' , '$spec', '$chk', '$Specl', '$serv', '$mID', '$custID1', '$mechAdd', '$custAdd')");  
+    $in_ch=mysqli_query($con,"INSERT INTO request(mechName, vOwnerName, specMessage, mechRepair, serviceType, serviceNeeded, mechID, custID, mechAddress, custAddress, latitude, longitude) values ('$mechN', '$vON' , '$spec', '$chk', '$Specl', '$serv', '$mID', '$custID1', '$mechAdd', '$custAdd','$latitude','$longitude')");  
     if($in_ch==1)  
     {  
         echo'<script>alert("Request Sent Successfully, Wait for Mechanic to Confirm!")</script>';  
@@ -102,12 +106,11 @@ if(isset($_POST['send'])){
                             <h6 class="text-start">Mechanic Information</h6>
                             <div class="with-image"><img src="../img/avatar.jpg.jpg" class="rounded-circle imagenajud float-end" alt=""></div>
                             <div class="row py-1" >
-                            <input type="text" class=" text-center" id="latitude" name="latitude" value=" ">
-                            <input type="text" class=" text-center" id="longitude" name="longitude" value=" ">
 
-                                <input type="text" class="border-0 text-center" name="mechName" value="<?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?>">
-                                <input type="text" class="border-0 text-center" name="Specialization" value="<?php echo htmlentities($result->Specialization);?>">
-                                <input type="text" class="border-0 text-center" name="mechAddress" value="<?php echo htmlentities($result->mechAddress);?>">
+                            
+                                <input readonly type="text" class="border-0 text-center" name="mechName" value="<?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?>">
+                                <input readonly type="text" class="border-0 text-center" name="Specialization" value="<?php echo htmlentities($result->Specialization);?>">
+                                <input readonly type="text" class="border-0 text-center" name="mechAddress" value="<?php echo htmlentities($result->mechAddress);?>">
                                 <input hidden type="text" name="vOwnerName" value="<?php echo htmlentities($_SESSION["custFirstname"]); ?> <?php echo htmlentities($_SESSION["custLastname"]); ?>">
                                 <input hidden type="text" name="custAddress" value="<?php echo htmlentities($_SESSION["custAddress"]); ?>">
                                 <input hidden type="text" name="mechID" value="<?php echo htmlentities($result->mechID);?>">
@@ -161,6 +164,8 @@ if(isset($_POST['send'])){
                 </div>
             </div>
             <?php }}?>
+            <input hidden type="text" id="latitude" name="latitude" value="<?php echo htmlentities($_SESSION["latitude"]); ?> ">
+                            <input hidden type="text" id="longitude" name="longitude" value=" <?php echo htmlentities($_SESSION["longitude"]); ?>">
         </form>
 
     </section>

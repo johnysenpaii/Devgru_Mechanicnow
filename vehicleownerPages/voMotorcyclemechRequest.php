@@ -3,6 +3,9 @@ session_start();
 include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
 $custAddress1=$_SESSION['custAddress'];
 $custID1=$_SESSION['custID'];
+$latitude=$_SESSION['latitude'];
+$longitude=$_SESSION['longitude'];
+
 
 if(isset($_POST['send'])){  
     $host="localhost";
@@ -11,6 +14,7 @@ if(isset($_POST['send'])){
     $db_name="mechanicnowdb"; 
     $tbl_name="request"; 
     $con=mysqli_connect("$host", "$username", "$word","$db_name")or die("cannot connect");//connection string  
+
     $mechName=$_POST['mechName']; 
     $Specialization=$_POST['Specialization'];
     $mechAddress=$_POST['mechAddress'];
@@ -41,7 +45,7 @@ if(isset($_POST['send'])){
     $custAdd .= $custAddress;
     $serv .= $service;
 
-    $in_ch=mysqli_query($con,"INSERT INTO request(mechName, vOwnerName, specMessage, mechRepair, serviceType, serviceNeeded, mechID, custID, mechAddress, custAddress) values ('$mechN', '$vON' , '$spec', '$chk', '$Specl', '$serv', '$mID', '$custID1', '$mechAdd', '$custAdd')");  
+    $in_ch=mysqli_query($con,"INSERT INTO request(mechName, vOwnerName, specMessage, mechRepair, serviceType, serviceNeeded, mechID, custID, mechAddress, custAddress, latitude, longitude) values ('$mechN', '$vON' , '$spec', '$chk', '$Specl', '$serv', '$mID', '$custID1', '$mechAdd', '$custAdd','$latitude','$longitude')");  
     if($in_ch==1)  
     {  
         echo'<script>alert("Request Sent Successfully, Wait for Mechanic to Confirm!")</script>';  
@@ -149,11 +153,13 @@ if(isset($_POST['send'])){
                     </div>
                     <div class="row pt-3">
                         <div class="col-md-6 d-grid pb-2"><button class="btn btn-primary rounded-pill" name="send" value="send">Request</button></div>
-                        <div class="col-md-6 d-grid pb-2"> <button class="btn btn-secondary rounded-pill boton" type="button"><a href="./voCarmech.php">Back</a></button></div>
+                        <div class="col-md-6 d-grid pb-2"> <button class="btn btn-secondary rounded-pill boton" type="button"><a href="./voMotorcyclemech.php">Back</a></button></div>
                     </div>
                 </div>
             </div>
             <?php }}?>
+            <input hidden type="text" id="latitude" name="latitude" value="<?php echo htmlentities($_SESSION["latitude"]); ?> ">
+                            <input hidden type="text" id="longitude" name="longitude" value=" <?php echo htmlentities($_SESSION["longitude"]); ?>">
         </form>
 
     </section>
@@ -258,3 +264,4 @@ if(isset($_POST['send'])){
     <script src="../js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
