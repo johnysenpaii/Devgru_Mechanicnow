@@ -6,12 +6,12 @@ if(isset($_POST['Login']))
     $regeditid = $_SESSION['custID'];
     $latitude = $_POST['latitude'];
     $longitude = $_POST['longitude'];
-  $sql="UPDATE customer set latitude=:latitude,longitude=:longitude WHERE custID=:regeditid"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
-  $query=$dbh->prepare($sql);
-  $query->bindParam(':latitude',$latitude,PDO::PARAM_STR);
-  $query->bindParam(':longitude',$longitude,PDO::PARAM_STR);
-  $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
-  $query->execute(); 
+    $sql="UPDATE customer set latitude=:latitude,longitude=:longitude WHERE custID=:regeditid"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
+    $query=$dbh->prepare($sql);
+    $query->bindParam(':latitude',$latitude,PDO::PARAM_STR);
+    $query->bindParam(':longitude',$longitude,PDO::PARAM_STR);
+    $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
+    $query->execute(); 
     $Username=$_POST['Username'];
     
     //$valid = password_verify($input, $Password); //1 or 0
@@ -43,7 +43,7 @@ if(isset($_POST['Login']))
          echo '<script>alert("Oops! Username and Password mismatch!")</script>';
         }
     }else{
-        echo '<script>alert("User not found!")</script>';
+        
         $sql="SELECT * FROM mechanic WHERE Username=:Username AND role='MECHANIC'";
         $query1=$dbh->prepare($sql);
         $query1->bindParam(':Username',$Username,PDO::PARAM_STR);
@@ -72,7 +72,7 @@ if(isset($_POST['Login']))
             echo '<script>alert("Oops! Username and Password mismatch!")</script>';
             }
         }else{
-            echo '<script>alert("User not found!")</script>';
+            
             $Password=$_POST['Password'];
             $sql="SELECT * FROM admin WHERE Username=:Username AND Password=:Password AND role='admin'";
             $query=$dbh->prepare($sql);

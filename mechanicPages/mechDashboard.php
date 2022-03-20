@@ -37,7 +37,46 @@ $mechID1=$_SESSION['mechID'];
             <div class="emptydiv"><img src="../img/empty.png" alt=""></div>
             <h6>There is no requests available at the moment..</h6>
         </div>
-        <div class="row container-fluid py-5 text-center table-responsive justify-content-center">
+        <div class="row py-3 px-sm-0 px-md-3 text-center table-responsive justify-content-center pb-5">
+            <div class="col-lg-8 bg-white py-4 rounded-3 shadow-lg">
+                <h4 class="text-dark pb-4">Available Car Mechanics</h4>
+                <div class="row d-flex justify-content-end align-items-center px-sm-0 px-md-4">                   
+                    <div class="col-9 col-md-6 searchlogo">
+                        <input class="form-control rounded-pill" type="text" placeholder="Filter Search">
+                    </div>
+                    <div class="col-3 col-md-1 searchlogo justify-content-center align-items-center">
+                        <i class="fa-solid fa-filter fa-2x" data-bs-toggle="modal" data-bs-target="#Filter-modal"></i>
+                    </div>
+                </div>
+                <table class="table table-borderless table-curved pt-1 px-sm-0 px-md-4">
+                    <thead>
+                    </thead>
+                    <tbody>
+                        <?php
+                            $sql="SELECT * from request WHERE mechID=$mechID1 and status='Unaccepted'";
+                            $query=$dbh->prepare($sql);
+                            $query->execute();
+                            $results=$query->fetchALL(PDO::FETCH_OBJ);
+
+                            if($query->rowCount()>0)
+                            {
+                            foreach ($results as $result)
+                            {
+                                if($mechID1==$mechID1)
+                                {
+                        ?>
+                        <tr class="d-flex align-items-center justify-content-around mt-2">
+                            <td><?php echo htmlentities($result->vOwnerName);?></td>
+                            <td hidden><?php echo htmlentities($result->custID);?></td>
+                            <td><?php echo htmlentities($result->serviceNeeded);?></td>
+                            <td><a class="btn btn-warning px-3" href="mechRequestDetails.php?regeditid=<?php echo htmlentities($result->resID)?>">Details</a></td>
+                        </tr>
+                    </tbody>
+                    <?php  }}}?>
+                </table>
+            </div>
+        </div>
+        <!-- <div class="row container-fluid py-5 text-center table-responsive justify-content-center">
             <div class="col-lg-8">
                 <h4 class="text-dark">Request Available</h4>
                 <?php
@@ -93,7 +132,7 @@ $mechID1=$_SESSION['mechID'];
                 </table>
                 <?php }}}?>
             </div>
-        </div>
+        </div> -->
         <!-- Vertically centered modal -->
         <div class="modal fade" id="detail-modal" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg">

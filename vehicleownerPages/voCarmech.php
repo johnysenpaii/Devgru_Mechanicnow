@@ -45,8 +45,7 @@ $custAddress1=$_SESSION['custAddress'];
                     <thead>
                     </thead>
                     <tbody>
-                        <?php
-                     
+                        <?php      
                                 $sql="SELECT * from mechanic WHERE mechAddress='$custAddress1' and Specialization='Car Mechanic'";
                                $query=$dbh->prepare($sql);
                                $query->execute();
