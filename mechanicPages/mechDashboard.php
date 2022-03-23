@@ -26,24 +26,24 @@ $mechID1=$_SESSION['mechID'];
     <link rel="shortcut icon" type="x-icon" href="../img/mechanicnowlogo.svg">
 </head>
 
-<body id="contbody" style="background-color: #f8f8f8">
+<body id="contbody" style="background-color: #f8f8f8" onload="GetAddress()">
     <?php include('mechHeader.php');?>
     <section id="nav-top" class="d-none d-md-block top-navigation container-fluid">
         <div class="row">
             <!-- d-flex justify-content-evenly -->
-            <div class="d-flex justify-content-center pt-3">
+            <div class="d-flex justify-content-start pt-3">
                 <a href="mechActivityLog.php" class="py-1 px-5 mx-1 bg-white text-dark rounded-pill btn">Activity
                     Log</a>
                 <a href="" class="py-1 px-5 mx-1 bg-white text-dark rounded-pill btn">Transaction</a>
             </div>
         </div>
     </section>
-    <section id="mechContent" class="mech-content container-fluid">
+    <section id="mechContent" class="mech-content container-fluid bg-dark">
         <div class="emptyrequest" hidden>
             <div class="emptydiv"><img src="../img/empty.png" alt=""></div>
             <h6>There is no requests available at the moment..</h6>
         </div>
-        <div class="row container-fluid py-5 text-center table-responsive justify-content-center">
+        <div class="row container-fluid py-5 text-start table-responsive justify-content-center">
             <div class="col-lg-8">
                 <h4 class="text-dark">Request Available</h4>
                 <?php
@@ -71,20 +71,20 @@ $mechID1=$_SESSION['mechID'];
                             <p><strong>Service Needed: </strong> <?php echo htmlentities($result->serviceNeeded);?></p>
                             <p><strong>Vehicle Problem:</strong> <?php echo htmlentities($result->mechRepair);?></p>
                             <p><strong>Note:</strong> <?php echo htmlentities($result->specMessage);?></p>
-                            <p><strong>Address:</strong> <?php echo htmlentities($result->custAddress);?></p>  
+                           
+      
                             <iframe
                                 src="https://maps.google.com/maps?q=<?php echo htmlentities($result->latitude);?>,<?php echo htmlentities($result->longitude);?>&output=embed"
-                                frameborder="0"></iframe>
-                           
-
+                                frameborder="0" width="700" height="400"></iframe>
                             <div class="card-btn">
-                                <button type="submit" name="submit" class="accept"><a
+                                <button type="submit" class="btn btn-primary btn-lg" name="submit" class="accept"><a
                                         href="mechRequestDetails.php?regeditid=<?php echo htmlentities($result->resID)?>">Details</a></button>
-                                <button class="decline">Decline</button>
+                                <button class="btn btn-primary btn-lg">Decline</button>
                             </div>
                         </div>
                     </tbody>
                 </table>
+                <hr class="text-light">
                 <?php }}}?>
             </div>
         </div>
@@ -141,6 +141,9 @@ $mechID1=$_SESSION['mechID'];
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+    </script>
+    <script>
+       
     </script>
     <script src="../js/bootstrap.bundle.min.js"></script>
 </body>
