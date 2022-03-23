@@ -1,6 +1,6 @@
 <?php
 session_start();
-include('config.php');
+include('../config.php');
 
 ?>
 <!DOCTYPE html>
@@ -13,7 +13,8 @@ include('config.php');
     <!-- bootstrap 5 css -->
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="css/main.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/css/bootstrap.min.css"
+        integrity="sha384-DhY6onE6f3zzKbjUPRc2hOzGAdEf4/Dz+WJwBvEYL/lkkIsI3ihufq9hk9K4lVoK" crossorigin="anonymous">
     <!-- custom css -->
    
 </head>
@@ -269,7 +270,7 @@ include('config.php');
     </script>
     <script src="@@path/vendor/chartist/dist/chartist.min.js"></script>
     <script src="@@path/vendor/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
-    <?php include('footer.php');?>
+    
 </body>
 
 </html>
