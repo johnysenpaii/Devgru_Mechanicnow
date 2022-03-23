@@ -3,6 +3,7 @@ session_start();
 include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
 $custAddress1=$_SESSION['custAddress'];
 
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -26,10 +27,7 @@ $custAddress1=$_SESSION['custAddress'];
     <?php include('./voTopnav.php');?>
 
     <section id="mechContent" class="mech-content container-fluid">
-        <div class="emptyrequest" hidden>
-            <div class="emptydiv"><img src="../img/empty.png" alt=""></div>
-            <h6>There is no mechanic nearby..</h6>
-        </div>
+        
         <div class="row py-3 px-sm-0 px-md-3 text-center table-responsive justify-content-center pb-5">
             <div class="col-lg-8 bg-white py-4 rounded-3 shadow-lg">
                 <h4 class="text-dark pb-4">Available Car Mechanics</h4>
@@ -41,6 +39,7 @@ $custAddress1=$_SESSION['custAddress'];
                         <i class="fa-solid fa-filter fa-2x" data-bs-toggle="modal" data-bs-target="#Filter-modal"></i>
                     </div>
                 </div>
+
                 <table class="table table-borderless table-curved pt-1 px-sm-0 px-md-4">
                     <thead>
                     </thead>
@@ -65,7 +64,20 @@ $custAddress1=$_SESSION['custAddress'];
                             <td><a class="btn btn-warning px-3" href="voCarmechRequest.php?regeditid=<?php echo htmlentities($result->mechID)?>">Details</a></td>
                         </tr>
                     </tbody>
-                    <?php }}}?>
+                    <?php }}}
+                    
+                    else {
+                    ?>
+            <div class="emptyrequest" >
+            <div class="emptydiv"><img src="../img/empty.png" alt=""></div>
+            <h6>There is no mechanic nearby..</h6>
+            </div>
+                                                <?php
+                                                }
+                                               ?>
+
+
+
                 </table>
             </div>
         </div>

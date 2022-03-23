@@ -130,6 +130,7 @@ body{
     background-image: linear-gradient(to right, #a517ba, #5f1782);
 }
 /* login */
+
 body{
     color: var(--clr-neutral-100);
 }
@@ -336,7 +337,6 @@ form .name-details .field:last-child{
     margin: auto;
     width: 60%;
     padding: 10px;
-    padding-top: 8em;
   }
   .emptydiv{
       margin: auto;
