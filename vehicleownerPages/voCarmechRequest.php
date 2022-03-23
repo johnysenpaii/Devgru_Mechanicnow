@@ -15,37 +15,37 @@ if(isset($_POST['send'])){
     $tbl_name="request"; 
     $con=mysqli_connect("$host", "$username", "$word","$db_name")or die("cannot connect");//connection string  
 
-    $mechName=$_POST['mechName']; 
-    $Specialization=$_POST['Specialization'];
+    $mechName=$_POST['mechName'];
+    $voName=$_POST['voName'];
+    $vehicleType=$_POST['vehicleType'];
     $mechAddress=$_POST['mechAddress'];
     $custAddress=$_POST['custAddress'];
     $specMessage=$_POST['specMessage'];
-    $checkbox1=$_POST['mechRepair'];  
-    $vOwnerName=$_POST['vOwnerName'];
+    $mechRepair=$_POST['mechRepair'];  //checkbox1
     $service=$_POST['service'];
     $mechID=$_POST['mechID'];
-    $chk=""; 
-    $spec="";
-    $mechN="";
-    $vON="";
-    $mID="";
-    $Specl="";
-    $mechAdd="";
-    $custAdd="";
-    $serv="";
-    foreach($checkbox1 as $chk1){  
-        $chk .= $chk1.", ";
+    $check=""; 
+    // $specificM="";
+    // $mechN="";
+    // $voN="";
+    // $mID="";
+    // $Specialization1="";
+    // $mechAdd="";
+    // $custAdd="";
+    // $service1="";
+    foreach($mechRepair as $check1){  
+        $check .= $check1.", ";
     } 
-    $spec .= $specMessage;  
-    $mechN .= $mechName;
-    $vON .= $vOwnerName;
-    $mID .= $mechID;
-    $Specl .= $Specialization;
-    $mechAdd .= $mechAddress;
-    $custAdd .= $custAddress;
-    $serv .= $service;
+    // $specificM .= $specMessage;  
+    // $mechN .= $mechName;
+    // $vON .= $vOwnerName;
+    // $mID .= $mechID;
+    // $Specl .= $Specialization;
+    // $mechAdd .= $mechAddress;
+    // $custAdd .= $custAddress;
+    // $serv .= $service;
 
-    $in_ch=mysqli_query($con,"INSERT INTO request(mechName, vOwnerName, specMessage, mechRepair, serviceType, serviceNeeded, mechID, custID, mechAddress, custAddress, latitude, longitude) values ('$mechN', '$vON' , '$spec', '$chk', '$Specl', '$serv', '$mID', '$custID1', '$mechAdd', '$custAdd','$latitude','$longitude')");  
+    $in_ch=mysqli_query($con,"INSERT INTO request(mechName, vOwnerName, specMessage, mechRepair, serviceType, serviceNeeded, mechID, custID, mechAddress, custAddress, latitude, longitude) values ('$mechName', '$voName' , '$specMessage', '$check', '$vehicleType', '$service', '$mechID', '$custID1', '$mechAddress', '$custAddress','$latitude','$longitude')");  
     if($in_ch==1)  
     {  
         echo'<script>alert("Request Sent Successfully, Wait for Mechanic to Confirm!")</script>';  
@@ -109,9 +109,9 @@ if(isset($_POST['send'])){
 
                             
                                 <input readonly type="text" class="border-0 text-center" name="mechName" value="<?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?>">
-                                <input readonly type="text" class="border-0 text-center" name="Specialization" value="<?php echo htmlentities($result->Specialization);?>">
+                                <input readonly type="text" class="border-0 text-center" name="vehicleType" value="<?php echo htmlentities($result->vehicleType);?>">
                                 <input readonly type="text" class="border-0 text-center" name="mechAddress" value="<?php echo htmlentities($result->mechAddress);?>">
-                                <input hidden type="text" name="vOwnerName" value="<?php echo htmlentities($_SESSION["custFirstname"]); ?> <?php echo htmlentities($_SESSION["custLastname"]); ?>">
+                                <input hidden type="text" name="voName" value="<?php echo htmlentities($_SESSION["custFirstname"]); ?> <?php echo htmlentities($_SESSION["custLastname"]); ?>">
                                 <input hidden type="text" name="custAddress" value="<?php echo htmlentities($_SESSION["custAddress"]); ?>">
                                 <input hidden type="text" name="mechID" value="<?php echo htmlentities($result->mechID);?>">
                             </div>

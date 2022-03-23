@@ -46,7 +46,7 @@ $custAddress1=$_SESSION['custAddress'];
                     </thead>
                     <tbody>
                         <?php
-                           $sql="SELECT * from mechanic WHERE mechAddress='$custAddress1' and Specialization='Bicycle Mechanic'";
+                           $sql="SELECT * from mechanic WHERE mechAddress='$custAddress1' and vehicleType like '%Bicycle%'";
                            $query=$dbh->prepare($sql);
 
                            $query->execute();

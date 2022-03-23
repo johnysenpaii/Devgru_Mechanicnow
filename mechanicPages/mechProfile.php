@@ -94,32 +94,6 @@ if(isset($_POST['edit']) && isset($_FILES['profile_url']))
             echo $e->getMessage();
         }
     }
- 
-//   $sql="UPDATE mechanic set mechID=:id,mechFirstname=:mechFirstname,mechLastname=:mechLastname,mechEmail=:mechEmail,mechCnumber=:mechCnumber,mechAddress=:mechAddress,vehicleType=:vehicleType_update,Username=:Username WHERE mechID=:regeditid"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
-//   $query=$dbh->prepare($sql);
-//   $query->bindParam(':id',$id,PDO::PARAM_STR);
-//   $query->bindParam(':mechFirstname',$mechFirstname,PDO::PARAM_STR);
-//   $query->bindParam(':mechLastname',$mechLastname,PDO::PARAM_STR);
-//   $query->bindParam(':mechEmail',$mechEmail,PDO::PARAM_STR);
-//   $query->bindParam(':mechCnumber',$mechCnumber,PDO::PARAM_STR);
-//   $query->bindParam(':mechAddress',$mechAddress,PDO::PARAM_STR);
-//   $query->bindParam(':vehicleType_update',$vehicleType_update,PDO::PARAM_STR);
-//   $query->bindParam(':Username',$Username,PDO::PARAM_STR);
-//   $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
-//   $query->execute(); 
-
-//   $checkbox1=$_POST["Specialization"];
-//   $check = "";
-
-//   foreach($checkbox1 as $partialcheck){
-//       $check .=$partialcheck.", ";
-//   }
-
-//   $sql2="UPDATE mechanic set Specialization='$check' WHERE mechID=:regeditid";
-//   $query1=$dbh->prepare($sql2);
-//   $query1->execute(); 
-
-//   echo "<script type='text/javascript'>document.location='./mechProfile.php';</script>";
 }
 ?>
 <!DOCTYPE html>
@@ -290,18 +264,6 @@ if(isset($_POST['edit']) && isset($_FILES['profile_url']))
                                                 }
                                                 ?>
                                             </div>
-                                            <!-- <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="Motorcycle" name="vehicleType[]" id="flexCheckDefault">
-                                                <label class="form-check-label" for="flexCheckDefault">
-                                                    Motorcycle
-                                                </label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="Bicycle" name="vehicleType[]" id="flexCheckDefault">
-                                                <label class="form-check-label" for="flexCheckDefault">
-                                                    Bicycle
-                                                </label>
-                                            </div> -->
                                         </div>
                                         <div class="col-md-6">
                                             <h6 class="pb-2">Specialization: </h6>
@@ -326,63 +288,8 @@ if(isset($_POST['edit']) && isset($_FILES['profile_url']))
                                                     }
                                                 }
                                                 ?>
-                                                <!-- <input class="form-check-input" type="checkbox" value="Diesel Mechanic" name="Specialization[]" id="flexCheckDefault">
-                                                <label class="form-check-label" for="flexCheckDefault">
-                                                    Diesel Mechanic
-                                                </label> -->
                                             </div>
-                                            <!-- <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="General Automotive Mechanic" name="Specialization[]" id="flexCheckDefault">
-                                                <label class="form-check-label" for="flexCheckDefault">
-                                                    General Automotive Mechanic
-                                                </label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="Break and Transmission Technician" name="Specialization[]" id="flexCheckDefault">
-                                                <label class="form-check-label" for="flexCheckDefault">
-                                                    Brake and Transmission Technician
-                                                </label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="Auto Body Mechanic" name="Specialization[]"value="" id="flexCheckDefault">
-                                                <label class="form-check-label" for="flexCheckDefault">
-                                                    Auto Body Mechanic
-                                                </label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="Service Technician" name="Specialization[]" id="flexCheckDefault">
-                                                <label class="form-check-label" for="flexCheckDefault">
-                                                    Service Technician
-                                                </label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="Auto Glass Mechanic" name="Specialization[]" id="flexCheckDefault">
-                                                <label class="form-check-label" for="flexCheckDefault">
-                                                    Auto Glass Mechanic
-                                                </label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="Heavy Equipment Mechanic" name="Specialization[]" id="flexCheckDefault">
-                                                <label class="form-check-label" for="flexCheckDefault">
-                                                    Heavy Equipment Mechanic
-                                                </label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="Small ENgine Mechanic" name="Specialization[]" id="flexCheckDefault">
-                                                <label class="form-check-label" for="flexCheckDefault">
-                                                    Small Engine Mechanic
-                                                </label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="Tire Mechanic" name="Specialization[]" id="flexCheckDefault">
-                                                <label class="form-check-label" for="flexCheckDefault">
-                                                    Tire Mechanic
-                                                </label>
-                                            </div> -->
                                         </div>
-                                        <!-- <div class="col-md-6">
-                                            <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="Say something about yourself" rows="3"></textarea>
-                                        </div> -->
                             </div>
                         </div>
                     <div class="modal-footer">
@@ -401,3 +308,4 @@ if(isset($_POST['edit']) && isset($_FILES['profile_url']))
     <script src="../js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+

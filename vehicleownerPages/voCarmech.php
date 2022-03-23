@@ -1,7 +1,15 @@
 <?php
 session_start();
 include('../config.php');
-$custAddress1=$_SESSION['custAddress'];
+    $custAddress1=$_SESSION['custAddress'];
+    // $regeditid=$_SESSION["custID"];
+
+    // $sql="SELECT * from mechanic where custID=:regeditid";
+    // $query=$dbh->prepare($sql);
+    // $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
+    // $query->execute();
+    // $results=$query->fetchALL(PDO::FETCH_OBJ);
+    // extract($results);
 
 ?>
 <!DOCTYPE html>
@@ -46,17 +54,17 @@ $custAddress1=$_SESSION['custAddress'];
                     </thead>
                     <tbody>
                         <?php      
-                                $sql="SELECT * from mechanic WHERE mechAddress='$custAddress1' and Specialization='Car Mechanic'";
-                               $query=$dbh->prepare($sql);
-                               $query->execute();
-                               $results=$query->fetchALL(PDO::FETCH_OBJ);
-                               $cnt=1;       
-                               if( $query->rowCount()>0){
-                                   
+                            
+                            
+                            $sql="SELECT * from mechanic WHERE mechAddress='$custAddress1' and vehicleType like '%Car%'";
+                            $query=$dbh->prepare($sql);
+                            $query->execute();
+                            $results=$query->fetchALL(PDO::FETCH_OBJ);
+                            $cnt=1;       
+                            if( $query->rowCount()>0){ 
                                 foreach($results as $result){
-                                    if($custAddress1==$custAddress1)
-                                {
-                                    ?>
+                                    if($custAddress1==$custAddress1){
+                        ?>
                         <tr class="d-flex align-items-center justify-content-around mt-2">
                             <td><?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?></td>
                             <td><?php echo htmlentities($result->Specialization);?></td>
