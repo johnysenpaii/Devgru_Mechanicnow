@@ -65,7 +65,16 @@ $custAddress1=$_SESSION['custAddress'];
                             <td><a class="btn btn-warning px-3" href="voBikemechRequest.php?regeditid=<?php echo htmlentities($result->mechID)?>">Details</a></td>
                         </tr>
                     </tbody>
-                    <?php }}}?>
+                    <?php }}}
+                    else {
+                        ?>
+                <div class="emptyrequest" >
+                <div class="emptydiv"><img src="../img/empty.png" alt=""></div>
+                <h6>There is no mechanic nearby..</h6>
+                </div>
+                                                    <?php
+                                                    }
+                                                   ?>
                 </table>
             </div>
         </div>
