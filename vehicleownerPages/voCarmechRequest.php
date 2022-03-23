@@ -24,28 +24,31 @@ if(isset($_POST['send'])){
     $mechRepair=$_POST['mechRepair'];  //checkbox1
     $service=$_POST['service'];
     $mechID=$_POST['mechID'];
-    $check=""; 
-    // $specificM="";
-    // $mechN="";
-    // $voN="";
-    // $mID="";
-    // $Specialization1="";
-    // $mechAdd="";
-    // $custAdd="";
-    // $service1="";
-    foreach($mechRepair as $check1){  
-        $check .= $check1.", ";
+    $currentlocation=$_POST['currentlocation'];
+    $chk=""; 
+    $spec="";
+    $mechN="";
+    $vON="";
+    $mID="";
+    $Specl="";
+    $mechAdd="";
+    $custAdd="";
+    $serv="";
+    $currentL="";
+    foreach($checkbox1 as $chk1){  
+        $chk .= $chk1.", ";
     } 
-    // $specificM .= $specMessage;  
-    // $mechN .= $mechName;
-    // $vON .= $vOwnerName;
-    // $mID .= $mechID;
-    // $Specl .= $Specialization;
-    // $mechAdd .= $mechAddress;
-    // $custAdd .= $custAddress;
-    // $serv .= $service;
+    $spec .= $specMessage;  
+    $mechN .= $mechName;
+    $vON .= $vOwnerName;
+    $mID .= $mechID;
+    $Specl .= $Specialization;
+    $mechAdd .= $mechAddress;
+    $custAdd .= $custAddress;
+    $serv .= $service;
+    $currentL.=$currentlocation;
 
-    $in_ch=mysqli_query($con,"INSERT INTO request(mechName, vOwnerName, specMessage, mechRepair, serviceType, serviceNeeded, mechID, custID, mechAddress, custAddress, latitude, longitude) values ('$mechName', '$voName' , '$specMessage', '$check', '$vehicleType', '$service', '$mechID', '$custID1', '$mechAddress', '$custAddress','$latitude','$longitude')");  
+    $in_ch=mysqli_query($con,"INSERT INTO request(mechName, vOwnerName, specMessage, mechRepair, serviceType, serviceNeeded, mechID, custID, mechAddress, custAddress, currentlocation, latitude, longitude) values ('$mechN', '$vON' , '$spec', '$chk', '$Specl', '$serv', '$mID', '$custID1', '$mechAdd', '$custAdd','$currentL','$latitude','$longitude')");  
     if($in_ch==1)  
     {  
         echo'<script>alert("Request Sent Successfully, Wait for Mechanic to Confirm!")</script>';  
@@ -75,7 +78,7 @@ if(isset($_POST['send'])){
     <title>Mechanic Now</title>
     <link rel="shortcut icon" type="x-icon" href="../img/mechanicnowlogo.svg">
 </head>
-<body id="contbody" style="background-color: #f8f8f8">
+<body id="contbody" style="background-color: #f8f8f8" onload="GetAddress();">
     <?php include('voHeader.php');?>
     <?php include('./voTopnav.php');?>
 
@@ -114,6 +117,8 @@ if(isset($_POST['send'])){
                                 <input hidden type="text" name="voName" value="<?php echo htmlentities($_SESSION["custFirstname"]); ?> <?php echo htmlentities($_SESSION["custLastname"]); ?>">
                                 <input hidden type="text" name="custAddress" value="<?php echo htmlentities($_SESSION["custAddress"]); ?>">
                                 <input hidden type="text" name="mechID" value="<?php echo htmlentities($result->mechID);?>">
+                                <input id="address" name='currentlocation' value=""> 
+
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-6 text-start">
@@ -165,7 +170,7 @@ if(isset($_POST['send'])){
             </div>
             <?php }}?>
             <input hidden type="text" id="latitude" name="latitude" value="<?php echo htmlentities($_SESSION["latitude"]); ?> ">
-                            <input hidden type="text" id="longitude" name="longitude" value=" <?php echo htmlentities($_SESSION["longitude"]); ?>">
+            <input hidden type="text" id="longitude" name="longitude" value=" <?php echo htmlentities($_SESSION["longitude"]); ?>">
         </form>
 
     </section>
@@ -264,6 +269,23 @@ if(isset($_POST['send'])){
       
     </section>
     <div class="row d-block d-lg-none"><?php include('voBottom-nav.php');?></div>
+    <script>
+         function GetAddress() {
+            var address = document.getElementById("address");
+            var lat = parseFloat(document.getElementById("latitude").value);
+            var lng = parseFloat(document.getElementById("longitude").value);
+            var latlng = new google.maps.LatLng(lat, lng);
+            var geocoder = geocoder = new google.maps.Geocoder();
+            geocoder.geocode({ 'latLng': latlng }, function (results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    if (results[1]) {
+                         address.value = results[0].formatted_address;
+                    }
+                }
+            });
+        }
+    </script>
+
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>

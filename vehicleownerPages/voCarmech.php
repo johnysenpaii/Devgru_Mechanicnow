@@ -34,6 +34,7 @@ include('../config.php');
     <?php include('./voTopnav.php');?>
 
     <section id="mechContent" class="mech-content container-fluid">
+        <form method="POST">
         <div class="emptyrequest" hidden>
             <div class="emptydiv"><img src="../img/empty.png" alt=""></div>
             <h6>There is no mechanic nearby..</h6>
@@ -53,29 +54,32 @@ include('../config.php');
                     <thead>
                     </thead>
                     <tbody>
-                        <?php      
-                            
-                            
-                            $sql="SELECT * from mechanic WHERE mechAddress='$custAddress1' and vehicleType like '%Car%'";
-                            $query=$dbh->prepare($sql);
-                            $query->execute();
-                            $results=$query->fetchALL(PDO::FETCH_OBJ);
-                            $cnt=1;       
-                            if( $query->rowCount()>0){ 
+                        <?php
+                                $sql="SELECT * from mechanic WHERE vehicleType like '%Car%'";
+                               $query=$dbh->prepare($sql);
+                               $query->execute();
+                               $results=$query->fetchALL(PDO::FETCH_OBJ);
+                               $cnt=1;       
+                               if( $query->rowCount()>0){
+                                   
                                 foreach($results as $result){
-                                    if($custAddress1==$custAddress1){
-                        ?>
+                                    if($result->distanceKM <= 3.0)
+                                {
+                                    ?>
                         <tr class="d-flex align-items-center justify-content-around mt-2">
                             <td><?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?></td>
                             <td><?php echo htmlentities($result->Specialization);?></td>
+                            <td>k.m <?php echo htmlentities($result->distanceKM);?> </td>
+
                             <td><a class="btn btn-warning px-3" href="voCarmechRequest.php?regeditid=<?php echo htmlentities($result->mechID)?>">Details</a></td>
                         </tr>
                     </tbody>
                     <?php  } $cnt=$cnt+1;}}?>
                 </table>
+               
             </div>
         </div>
-       
+       </form>
         <!-- Filter Search -->
         <div class="modal fade" id="Filter-modal" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
@@ -128,6 +132,7 @@ include('../config.php');
                 </div>
             </div>
         </div>
+    
     </section>
     <div class="row d-block d-lg-none"><?php include('voBottom-nav.php');?></div>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
