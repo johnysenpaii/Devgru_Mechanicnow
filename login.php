@@ -1,8 +1,18 @@
 <?php
 session_start();
-include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
+include('./config.php');
 if(isset($_POST['Login']))
 {
+    $regeditid = $_SESSION['mechID'];
+    $regeditid = $_SESSION['custID'];
+    $latitude = $_POST['latitude'];
+    $longitude = $_POST['longitude'];
+  $sql="UPDATE customer set latitude=:latitude,longitude=:longitude WHERE custID=:regeditid"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
+  $query=$dbh->prepare($sql);
+  $query->bindParam(':latitude',$latitude,PDO::PARAM_STR);
+  $query->bindParam(':longitude',$longitude,PDO::PARAM_STR);
+  $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
+  $query->execute(); 
     $Username=$_POST['Username'];
     
     //$valid = password_verify($input, $Password); //1 or 0
@@ -14,6 +24,8 @@ if(isset($_POST['Login']))
     if($query->rowCount() == 1){
         $query->fetch(PDO::FETCH_ASSOC);
         $custID=$results['custID'];
+        $latitude=$results['latitude'];
+        $longitude=$results['longitude'];
         $custFirstname=$results['custFirstname'];
         $custLastname=$results['custLastname'];
         $custAddress=$results['custAddress'];
@@ -26,14 +38,25 @@ if(isset($_POST['Login']))
             $_SESSION['custID']=$custID;
             $_SESSION['custFirstname']=$custFirstname;
             $_SESSION['custLastname']=$custLastname;
+            $_SESSION['latitude']=$latitude;
+            $_SESSION['longitude']=$longitude;
             $_SESSION['custAddress']=$custAddress;
             $_SESSION['Username']=$attemptedUsername;
             $_SESSION['Password']=$hashedPwd;
             echo "<script type='text/javascript'>document.location='./vehicleownerPages/voDashboard.php';</script>";
         }else{
-           echo '<script>alert("Oops! Username and Password mismatch!")</script>';
+         echo '<script>alert("Oops! Username and Password mismatch!")</script>';
         }
     }else{
+        $regeditid = $_SESSION['mechID'];
+        $latitude = $_POST['latitude'];
+        $longitude = $_POST['longitude'];
+        $sql="UPDATE mechanic set latitude=:latitude,longitude=:longitude WHERE mechID=:regeditid"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
+  $query=$dbh->prepare($sql);
+  $query->bindParam(':latitude',$latitude,PDO::PARAM_STR);
+  $query->bindParam(':longitude',$longitude,PDO::PARAM_STR);
+  $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
+  $query->execute(); 
         //echo '<script>alert("User not found!")</script>';
         $sql="SELECT * FROM mechanic WHERE Username=:Username AND role='MECHANIC'";
         $query1=$dbh->prepare($sql);
@@ -48,22 +71,27 @@ if(isset($_POST['Login']))
             $attemptedMUsername=$results1['Username'];
             $mechAddress=$results1['mechAddress'];
             $hashedPwdM=$results1['Password'];
+            $latitude=$results1['latitude'];
+            $longitude=$results1['longitude'];
         
             $Password1=$_POST['Password'];
             if(password_verify($Password1, $hashedPwdM) == 1){
                 session_regenerate_id();
                 $_SESSION['mechID']=$mechID;
+                $_SESSION['latitude']=$latitude;
+                $_SESSION['longitude']=$longitude;
                 $_SESSION['mechFirstname']=$mechFirstname;
                 $_SESSION['mechLastname']=$mechLastname;
                 $_SESSION['mechAddress']=$mechAddress;
                 $_SESSION['Username']=$attemptedMUsername;
                 $_SESSION['Password']=$hashedPwdM;
                 echo "<script type='text/javascript'>document.location='./mechanicPages/mechDashboard.php';</script>";
+                header( "refresh:5;url=./mechanicPages/mechDashboard.php" );
             }else{
             echo '<script>alert("Oops! Username and Password mismatch!")</script>';
             }
         }else{
-            //echo '<script>alert("User not found!")</script>';
+            echo '<script>alert("User not found!")</script>';
             $Password=$_POST['Password'];
             $sql="SELECT * FROM admin WHERE Username=:Username AND Password=:Password AND role='admin'";
             $query=$dbh->prepare($sql);
@@ -76,14 +104,19 @@ if(isset($_POST['Login']))
             session_regenerate_id();
             $_SESSION['Username']=$results['Username'];
             $_SESSION['Password']=$results['Password'];
-            echo "<script type='text/javascript'>alert('Welcome Admin!!');</script>";
-            echo "<script type='text/javascript'>document.location='./adminPages';</script>";
+           echo "<script type='text/javascript'>alert('Welcome Admin!!');</script>";
+           echo "<script type='text/javascript'>document.location='../adminSide.php';</script>";
             }
             else{
-                echo "<script type='text/javascript'>alert('User not Found!');</script>";
+               echo "<script type='text/javascript'>alert('User not Found!');</script>";
             }
         }
     }
+
+  
+  
+
+
 } 
 ?>
 <!DOCTYPE html>
@@ -104,7 +137,8 @@ if(isset($_POST['Login']))
     <title>Mechanic Now | Login</title>
     <link rel="shortcut icon" type="x-icon" href="img/mechanicnowlogo.svg">
 </head>
-<body>
+
+<body onload="getLocation()">
     <div class="btag">
         <div class="wrapper">
         <section class="form signup">
@@ -113,6 +147,10 @@ if(isset($_POST['Login']))
                 <img src="img/navlogo.png" alt="">
             </div>
             <form method="POST">
+            <input hidden type="text"  id="latitude" name="latitude" value="">
+            <input hidden type="text"  id="longitude" name="longitude" value="">
+          
+
                 <div class="err-txt" hidden>This is an error message</div>
                     <div class="field input">
                         <label>Username</label>
@@ -124,6 +162,7 @@ if(isset($_POST['Login']))
                     </div>
                     <div class="field button">
                         <input type="submit" name="Login" value="Login">
+
                     </div>
                     <div class="link">Doesn't have an account yet? <a href="#" data-bs-toggle="modal" data-bs-target="#reg-modal">Signup</a></div>
             </form>
@@ -156,6 +195,23 @@ if(isset($_POST['Login']))
         </div>
     </div>
     </div>
+<script type="text/javascript">
+var x = document.getElementById("latitude");
+var y = document.getElementById("longitude");
+function getLocation() {
+if (navigator.geolocation) {
+navigator.geolocation.getCurrentPosition(showPosition);
+} else { 
+x.value = "Geolocation is not supported by this browser.";
+y.value = "Geolocation is not supported by this browser.";
+}
+}
+function showPosition(position) {
+  x.value = position.coords.latitude;
+  y.value = position.coords.longitude;
+
+}
+</script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <script src="js/bootstrap.bundle.min.js"></script>
 </body>

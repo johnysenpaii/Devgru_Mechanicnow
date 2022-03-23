@@ -3,6 +3,9 @@ session_start();
 include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
 $custAddress1=$_SESSION['custAddress'];
 $custID1=$_SESSION['custID'];
+$latitude=$_SESSION['latitude'];
+$longitude=$_SESSION['longitude'];
+
 
 if(isset($_POST['send'])){  
     $host="localhost";
@@ -11,6 +14,7 @@ if(isset($_POST['send'])){
     $db_name="mechanicnowdb"; 
     $tbl_name="request"; 
     $con=mysqli_connect("$host", "$username", "$word","$db_name")or die("cannot connect");//connection string  
+
     $mechName=$_POST['mechName']; 
     $Specialization=$_POST['Specialization'];
     $mechAddress=$_POST['mechAddress'];
@@ -20,6 +24,7 @@ if(isset($_POST['send'])){
     $vOwnerName=$_POST['vOwnerName'];
     $service=$_POST['service'];
     $mechID=$_POST['mechID'];
+    $currentlocation=$_POST['currentlocation'];
     $chk=""; 
     $spec="";
     $mechN="";
@@ -29,6 +34,7 @@ if(isset($_POST['send'])){
     $mechAdd="";
     $custAdd="";
     $serv="";
+    $currentL="";
     foreach($checkbox1 as $chk1){  
         $chk .= $chk1.", ";
     } 
@@ -40,8 +46,9 @@ if(isset($_POST['send'])){
     $mechAdd .= $mechAddress;
     $custAdd .= $custAddress;
     $serv .= $service;
+    $currentL.=$currentlocation;
 
-    $in_ch=mysqli_query($con,"INSERT INTO request(mechName, vOwnerName, specMessage, mechRepair, serviceType, serviceNeeded, mechID, custID, mechAddress, custAddress) values ('$mechN', '$vON' , '$spec', '$chk', '$Specl', '$serv', '$mID', '$custID1', '$mechAdd', '$custAdd')");  
+    $in_ch=mysqli_query($con,"INSERT INTO request(mechName, vOwnerName, specMessage, mechRepair, serviceType, serviceNeeded, mechID, custID, mechAddress, custAddress, currentlocation, latitude, longitude) values ('$mechN', '$vON' , '$spec', '$chk', '$Specl', '$serv', '$mID', '$custID1', '$mechAdd', '$custAdd','$currentL','$latitude','$longitude')");  
     if($in_ch==1)  
     {  
         echo'<script>alert("Request Sent Successfully, Wait for Mechanic to Confirm!")</script>';  
@@ -71,7 +78,7 @@ if(isset($_POST['send'])){
     <title>Mechanic Now</title>
     <link rel="shortcut icon" type="x-icon" href="../img/mechanicnowlogo.svg">
 </head>
-<body id="contbody" style="background-color: #f8f8f8">
+<body id="contbody" style="background-color: #f8f8f8" onload="GetAddress();">
     <?php include('voHeader.php');?>
     <?php include('./voTopnav.php');?>
 
@@ -102,12 +109,16 @@ if(isset($_POST['send'])){
                             <h6 class="text-start">Mechanic Information</h6>
                             <div class="with-image"><img src="../img/avatar.jpg.jpg" class="rounded-circle imagenajud float-end" alt=""></div>
                             <div class="row py-1" >
+
+                            
                                 <input type="text" class="border-0 text-center" name="mechName" value="<?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?>">
                                 <input type="text" class="border-0 text-center" name="Specialization" value="<?php echo htmlentities($result->Specialization);?>">
                                 <input type="text" class="border-0 text-center" name="mechAddress" value="<?php echo htmlentities($result->mechAddress);?>">
                                 <input hidden type="text" name="vOwnerName" value="<?php echo htmlentities($_SESSION["custFirstname"]); ?> <?php echo htmlentities($_SESSION["custLastname"]); ?>">
                                 <input hidden type="text" name="custAddress" value="<?php echo htmlentities($_SESSION["custAddress"]); ?>">
                                 <input hidden type="text" name="mechID" value="<?php echo htmlentities($result->mechID);?>">
+                                <input id="address" name='currentlocation' value=""> 
+
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-6 text-start">
@@ -158,6 +169,8 @@ if(isset($_POST['send'])){
                 </div>
             </div>
             <?php }}?>
+            <input hidden type="text" id="latitude" name="latitude" value="<?php echo htmlentities($_SESSION["latitude"]); ?> ">
+            <input hidden type="text" id="longitude" name="longitude" value=" <?php echo htmlentities($_SESSION["longitude"]); ?>">
         </form>
 
     </section>
@@ -256,6 +269,23 @@ if(isset($_POST['send'])){
       
     </section>
     <div class="row d-block d-lg-none"><?php include('voBottom-nav.php');?></div>
+    <script>
+         function GetAddress() {
+            var address = document.getElementById("address");
+            var lat = parseFloat(document.getElementById("latitude").value);
+            var lng = parseFloat(document.getElementById("longitude").value);
+            var latlng = new google.maps.LatLng(lat, lng);
+            var geocoder = geocoder = new google.maps.Geocoder();
+            geocoder.geocode({ 'latLng': latlng }, function (results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    if (results[1]) {
+                         address.value = results[0].formatted_address;
+                    }
+                }
+            });
+        }
+    </script>
+
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
