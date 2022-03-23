@@ -64,22 +64,14 @@ elseif(isset($_POST['bicycle'])){
  $results=$query->fetchALL(PDO::FETCH_OBJ);
 $cnt=1;       
 if( $query->rowCount()>0){
-    $i=0;
-
- foreach($results as $result){  
-
-               
+ foreach($results as $result){            
         ?> 
-             <input type="text" name='lat2' id="lat2<?php echo htmlentities($result->latitude[$i])?>" value="">
-             <!-- <input type="text" name='lon2' id="lon2" value="<?php echo htmlentities($result->longitude);?>">
-
             <input hidden type="text" name='lat2' id="lat2" value="<?php echo htmlentities($result->latitude);?>">
             <input hidden type="text" name='lon2' id="lon2" value="<?php echo htmlentities($result->longitude);?>">  
-            <input name="kilo" id="kilo" type="text" value=""> -->
             <?php $i++;}}?>
              <input hidden name="lat1" id="lat1" type="text" value="<?php echo htmlentities($_SESSION['latitude']);?>">
             <input hidden name="lon1" id="lon1" type="text" value="<?php echo htmlentities($_SESSION['longitude']);?>">
-          
+          <input hidden name="kilo" id="kilo" type="text" value=""> 
             <div class="row gx-5 row-ari">
                 <div class="col-sm-9">
                     <div class="row">
