@@ -105,7 +105,7 @@ if(isset($_POST['Login']))
             $_SESSION['Username']=$results['Username'];
             $_SESSION['Password']=$results['Password'];
            echo "<script type='text/javascript'>alert('Welcome Admin!!');</script>";
-           echo "<script type='text/javascript'>document.location='../adminSide.php';</script>";
+           echo "<script type='text/javascript'>document.location='./Admin/adminSide.php';</script>";
             }
             else{
                echo "<script type='text/javascript'>alert('User not Found!');</script>";

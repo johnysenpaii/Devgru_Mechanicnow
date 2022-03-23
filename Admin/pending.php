@@ -1,6 +1,6 @@
 <?php
 session_start();
-include('config.php');
+include('../config.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -86,7 +86,7 @@ include('config.php');
                 </nav>
             </aside>
             <main class="col px-0 flex-grow-1">
-                <div class="container-fluid  py-3">
+                <div class="container-fluid py-3">
                     <section class="container-fluid">
                         <div class="display-6 my-2">Pending approvals</div>
                         <hr class="text-dark m-2">
@@ -168,7 +168,12 @@ include('config.php');
                                                         </td>
                                                     </tr>
                                                 </tbody>
-                                                <?php $cnt=$cnt+1;}}
+                                                <?php $cnt=$cnt+1;}}else {
+                                                   ?>
+                                                     <td>no data
+                                                     </td>
+                                                <?php
+                                                }
                                                ?>
                                             </table>
                                         </div>
@@ -201,7 +206,7 @@ include('config.php');
     function myconfirm() {
         let text = "Are sure you want to leave?.";
         if (confirm(text) == true) {
-            location.replace("adminLogin.php")
+            location.replace("../login.php")
         } else {
             location.reload();
         }
