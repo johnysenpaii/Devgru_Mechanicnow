@@ -68,7 +68,7 @@ if( $query->rowCount()>0){
         ?> 
             <input hidden type="text" name='lat2' id="lat2" value="<?php echo htmlentities($result->latitude);?>">
             <input hidden type="text" name='lon2' id="lon2" value="<?php echo htmlentities($result->longitude);?>">  
-            <?php $i++;}}?>
+            <?php }}?>
              <input hidden name="lat1" id="lat1" type="text" value="<?php echo htmlentities($_SESSION['latitude']);?>">
             <input hidden name="lon1" id="lon1" type="text" value="<?php echo htmlentities($_SESSION['longitude']);?>">
           <input hidden name="kilo" id="kilo" type="text" value=""> 

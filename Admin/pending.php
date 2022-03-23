@@ -85,7 +85,7 @@ include('../config.php');
                     </div>
                 </nav>
             </aside>
-            <main class="col px-0 flex-grow-1">
+            <main class="col-10 px-0 flex-grow-1">
                 <div class="container-fluid py-3">
                     <section class="container-fluid">
                         <div class="display-6 my-2">Pending approvals</div>
