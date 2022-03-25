@@ -8,7 +8,7 @@ if(isset($_POST['ban'])){
     $subject= 'Banned!';
     $message = 'Your account had been banned';
     //Load composer's autoloader
-    require 'C:/xamppht/docs/Devgru_Mechanicnow/Admin/PHPMailer-master/src/Exception.php';
+    require 'C:/xampp/htdocs/Devgru_Mechanicnow/Admin/PHPMailer-master/src/Exception.php';
     require 'C:/xampp/htdocs/Devgru_Mechanicnow/Admin/PHPMailer-master/src/PHPMailer.php';
     require 'C:/xampp/htdocs/Devgru_Mechanicnow/Admin/PHPMailer-master/src/SMTP.php';
     $mail = new PHPMailer(true);                            
