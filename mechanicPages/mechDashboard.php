@@ -81,7 +81,7 @@ $mechID1=$_SESSION['mechID'];
                         <?php  }}}
         else {
                     ?>
-        <div class="emptyrequest pt-5 mt-5">
+        <div class="emptyrequest pt-1 mt-5">
             <div class="emptydiv"><img src="../img/empty.png" alt=""></div>
             <h6>There is no request available..</h6>
         </div>

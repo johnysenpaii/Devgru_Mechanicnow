@@ -91,7 +91,7 @@ if(isset($_POST['Login']))
             echo '<script>alert("Oops! Username and Password mismatch!")</script>';
             }
         }else{
-            echo '<script>alert("User not found!")</script>';
+            //echo '<script>alert("User not found!")</script>';
             $Password=$_POST['Password'];
             $sql="SELECT * FROM admin WHERE Username=:Username AND Password=:Password AND role='admin'";
             $query=$dbh->prepare($sql);
