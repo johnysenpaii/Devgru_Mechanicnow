@@ -1,7 +1,17 @@
 <?php
 session_start();
-include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
-$custAddress1=$_SESSION['custAddress'];
+include('../config.php');
+    $custAddress1=$_SESSION['custAddress'];
+    // $regeditid=$_SESSION["custID"];
+    $custAddress1=$_SESSION['latitude'];
+
+    // $sql="SELECT * from mechanic where custID=:regeditid";
+    // $query=$dbh->prepare($sql);
+    // $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
+    // $query->execute();
+    // $results=$query->fetchALL(PDO::FETCH_OBJ);
+    // extract($results);
+
 
 ?>
 <!DOCTYPE html>
@@ -21,16 +31,13 @@ $custAddress1=$_SESSION['custAddress'];
     <title>Mechanic Now</title>
     <link rel="shortcut icon" type="x-icon" href="../img/mechanicnowlogo.svg">
 </head>
-<body id="contbody" style="background-color: #f8f8f8">
+<body onload="getLocation();" id="contbody" style="background-color: #f8f8f8">
     <?php include('voHeader.php');?>
     <?php include('./voTopnav.php');?>
 
     <section id="mechContent" class="mech-content container-fluid">
-        <div class="emptyrequest" hidden>
-            <div class="emptydiv"><img src="../img/empty.png" alt=""></div>
-            <h6>There is no mechanic nearby..</h6>
-        </div>
-        <div class="row py-3 px-sm-0 px-md-3 text-center table-responsive justify-content-center pb-5">
+         
+        <div class="row py-3 px-sm-0 px-md-3 text-center table-responsive justify-content-center pb-5"> 
             <div class="col-lg-8 bg-white py-4 rounded-3 shadow-lg">
                 <h4 class="text-dark pb-4">Available Car Mechanics</h4>
                 <div class="row d-flex justify-content-end align-items-center px-sm-0 px-md-4">                   
@@ -41,35 +48,46 @@ $custAddress1=$_SESSION['custAddress'];
                         <i class="fa-solid fa-filter fa-2x" data-bs-toggle="modal" data-bs-target="#Filter-modal"></i>
                     </div>
                 </div>
+                
                 <table class="table table-borderless table-curved pt-1 px-sm-0 px-md-4">
                     <thead>
                     </thead>
                     <tbody>
                         <?php
-                           $sql="SELECT * from mechanic WHERE mechAddress='$custAddress1' and Specialization='Car Mechanic'";
-                           $query=$dbh->prepare($sql);
-
-                           $query->execute();
-                           $results=$query->fetchALL(PDO::FETCH_OBJ);
-
-                           if($query->rowCount()>0)
-                           {
-                            foreach($results as $result)   
-                           {   
-                               if($custAddress1==$custAddress1)
-                               {
-                           ?>
+                    $sql="SELECT * from mechanic WHERE vehicleType like '%Car%' and status='approve'";
+                    $query=$dbh->prepare($sql);
+                    $query->execute();
+                    $results=$query->fetchALL(PDO::FETCH_OBJ);
+                    $cnt=1;       
+                    if( $query->rowCount()>0){   
+                        foreach($results as $result){
+                            if($result->distanceKM <= 3.0){
+                ?>  
                         <tr class="d-flex align-items-center justify-content-around mt-2">
                             <td><?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?></td>
                             <td><?php echo htmlentities($result->Specialization);?></td>
+                            <td>k.m <?php echo htmlentities($result->distanceKM);?> </td>
+
                             <td><a class="btn btn-warning px-3" href="voCarmechRequest.php?regeditid=<?php echo htmlentities($result->mechID)?>">Details</a></td>
+
                         </tr>
+                        <?php }} }       
+        else {     
+        ?> 
+        <div class="emptyrequest mt-1 pt-5" >
+            <div class="emptydiv"><img src="../img/empty.png" alt=""></div>
+            <h6>There is no mechanic nearby..</h6>
+        </div>
+        <?php
+        }
+        ?>
                     </tbody>
-                    <?php }}}?>
                 </table>
+                
             </div>
         </div>
-       
+        
+       </form>
         <!-- Filter Search -->
         <div class="modal fade" id="Filter-modal" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
@@ -122,6 +140,7 @@ $custAddress1=$_SESSION['custAddress'];
                 </div>
             </div>
         </div>
+    
     </section>
     <div class="row d-block d-lg-none"><?php include('voBottom-nav.php');?></div>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

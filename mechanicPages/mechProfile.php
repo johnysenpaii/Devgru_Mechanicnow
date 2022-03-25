@@ -62,26 +62,38 @@ if(isset($_POST['edit']) && isset($_FILES['profile_url']))
     $mechEmail=$_POST['mechEmail'];
     $mechCnumber=$_POST['mechCnumber'];
     $mechAddress=$_POST['mechAddress'];
-    // $Specialization=$_POST['Specialization'];
-    // $mechValidID=$_POST['mechValidID'];
     $Username=$_POST['Username'];
     // $Password=$_POST['Password'];
- 
-  $sql="UPDATE mechanic set mechID=:id,mechFirstname=:mechFirstname,mechLastname=:mechLastname,mechEmail=:mechEmail,mechCnumber=:mechCnumber,mechAddress=:mechAddress,Username=:Username WHERE mechID=:regeditid"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
-  $query=$dbh->prepare($sql);
-  $query->bindParam(':id',$id,PDO::PARAM_STR);
-  $query->bindParam(':mechFirstname',$mechFirstname,PDO::PARAM_STR);
-  $query->bindParam(':mechLastname',$mechLastname,PDO::PARAM_STR);
-  $query->bindParam(':mechEmail',$mechEmail,PDO::PARAM_STR);
-  $query->bindParam(':mechCnumber',$mechCnumber,PDO::PARAM_STR);
-  $query->bindParam(':mechAddress',$mechAddress,PDO::PARAM_STR);
-  //$query->bindParam(':Specialization',$Specialization,PDO::PARAM_STR);
- // $query->bindParam(':mechValidID',$mechValidID,PDO::PARAM_STR);
-  $query->bindParam(':Username',$Username,PDO::PARAM_STR);
-  $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
-  $query->execute(); 
 
-  echo "<script type='text/javascript'>document.location='./mechProfile.php';</script>";
+    if(isset($_POST["vehicleType"]) && isset($_POST["Specialization"])){
+        $vehicleType_update=implode(",",$_POST["vehicleType"]);
+        $Specializations=implode(",",$_POST["Specialization"]);
+    }
+    if(empty($vehicleType_update) && empty($Specializations)){
+         echo "<script>alert('Please Select Vehicle Type')</script>";
+    }else{
+        try{
+            if(!isset($errorMsg)){
+                $sql="UPDATE mechanic set mechID=:id,mechFirstname=:mechFirstname,mechLastname=:mechLastname,mechEmail=:mechEmail,mechCnumber=:mechCnumber,mechAddress=:mechAddress,vehicleType=:vehicleType_update,Specialization=:Specializations,Username=:Username WHERE mechID=:regeditid"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
+                $query=$dbh->prepare($sql);
+                $query->bindParam(':id',$id,PDO::PARAM_STR);
+                $query->bindParam(':mechFirstname',$mechFirstname,PDO::PARAM_STR);
+                $query->bindParam(':mechLastname',$mechLastname,PDO::PARAM_STR);
+                $query->bindParam(':mechEmail',$mechEmail,PDO::PARAM_STR);
+                $query->bindParam(':mechCnumber',$mechCnumber,PDO::PARAM_STR);
+                $query->bindParam(':mechAddress',$mechAddress,PDO::PARAM_STR);
+                $query->bindParam(':vehicleType_update',$vehicleType_update,PDO::PARAM_STR);
+                $query->bindParam(':Specializations',$Specializations,PDO::PARAM_STR);
+                $query->bindParam(':Username',$Username,PDO::PARAM_STR);
+                $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
+                $query->execute(); 
+                echo "<script type='text/javascript'>document.location='./mechProfile.php';</script>";
+            }
+        }
+        catch(PDOException $e){
+            echo $e->getMessage();
+        }
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -112,12 +124,18 @@ if(isset($_POST['edit']) && isset($_FILES['profile_url']))
               $query->execute();
               $results=$query->fetchALL(PDO::FETCH_OBJ);
 
-              if($query->rowCount()>0)
-              {
-              foreach ($results as $result) 
-              {
+              if($query->rowCount()>0){
+                foreach ($results as $result){
             ?>
-        <div class="row text-dark mt-4 justify-content-evenly">
+        <div class="row text-dark pt-2 justify-content-evenly">
+            <div class="row note justify-content-center">
+                <div class="col-6 text-end pb-2">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                </div>
+                <div class="col-6 text-start">
+                    <p>Please setup your account so that the vehicle owners can find you.</p>
+                </div>
+            </div>
             <div class="col-sm-12 col-md-5 col-lg-5 with-image bg-white rounded-3 pb-2 p-3 mr-sm-0 mr-md-1 mb-5 mb-md-0 mb-lg-0 shadow-lg text-center">
                 <div class="cont-image text-center">
                     <?php
@@ -155,6 +173,9 @@ if(isset($_POST['edit']) && isset($_FILES['profile_url']))
                     <p style="text-indent:5%;" name="Specialization">Lorem, ipsum, dolor.</p>
                     <div class="row pt-5">
                         <h6>Feedbacks:</h6>
+                        <div class="col-12">
+                            <p class="p-3 text-center" hidden>Theres no feedback yet.</p>
+                        </div>
                         <div class="col-sm-12 col-md-4 pt-3"><i>"Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere sint quibusdam dignissimos distinctio, quidem culpa!"</i></div>
                         <div class="col-sm-12 col-md-4 pt-3"><i>"Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere sint quibusdam dignissimos distinctio, quidem culpa!"</i></div>
                         <div class="col-sm-12 col-md-4 pt-3"><i>"Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere sint quibusdam dignissimos distinctio, quidem culpa!"</i></div> 
@@ -216,33 +237,59 @@ if(isset($_POST['edit']) && isset($_FILES['profile_url']))
                                 </div>
                             </div>
                             <div class="row pt-3">
-                                <div class="col-sm-12 d-flex align-items-center pt-3">
-                                    <div class="row g-2">
                                         <div class="col-md-6">
-                                        <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                                <label class="form-check-label" for="flexCheckDefault">
-                                                    Car
-                                                </label>
-                                            </div>
+                                            <h6 class="pb-2">Vehicle Type: </h6>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                                <label class="form-check-label" for="flexCheckDefault">
-                                                    Motorcycle
-                                                </label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                                <label class="form-check-label" for="flexCheckDefault">
-                                                    Bicycle
-                                                </label>
+                                                <?php
+                                                $divide = explode(",",$result->vehicleType); //return Bicycle
+                                                // var_dump($divide);
+                                                $specialization1 = array("Car","Motorcycle","Bicycle"); //have 3 values 
+                                                // var_dump($specialization1);
+                                                foreach($specialization1 as $result2){ //travel each index in an array
+                                                            //car       bicycle = false
+                                                    if(strcmp($result2, $divide[0] ?? null) && strcmp($result2, $divide[1] ?? null) && strcmp($result2, $divide[2] ?? null)){ //compare bicycle to car motorcycle and bicycle
+                                                    //first it compares bicycle to car, then fail so go to else
+                                                    ?> 
+                                                    <input class="form-check-input" type="checkbox" value="<?php echo $result2;?>" name="vehicleType[]" id="flexCheckDefault" >
+                                                    <label class="form-check-label" for="flexCheckDefault"><?php echo $result2;?></label>
+                                                    <br>
+                                                    <?php
+                                                    }else{
+                                                    ?>
+                                                    <input class="form-check-input" type="checkbox" value="<?php echo $result2;?>" name="vehicleType[]" id="flexCheckDefault" checked="checked">
+                                                    <label class="form-check-label" for="flexCheckDefault"><?php echo $result2;?></label>
+                                                    <br>
+                                                    <?php
+                                                    }
+                                                }
+                                                ?>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
-                                            <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="Say something about yourself" rows="3"></textarea>
+                                            <h6 class="pb-2">Specialization: </h6>
+                                            <div class="form-check">
+                                                <?php
+                                                $divide=explode(",",$result->Specialization);
+                                                //var_dump($divide);
+                                                $specialization1 = array("Diesel Mechanic","General Automotive Mechanic","Brake and Transmission Technician","Auto Body Mechanic","Service Technician","Auto Glass Mechanic","Heavy Equipment Mechanic","Small Engine Mechanic","Tire Mechanic");
+                                                foreach($specialization1 as $result2){
+                                                    if(strcmp($result2, $divide[0] ?? null) && strcmp($result2, $divide[1] ?? null) && strcmp($result2, $divide[2] ?? null) && strcmp($result2, $divide[3] ?? null) && strcmp($result2, $divide[4] ?? null) && strcmp($result2, $divide[5] ?? null) && strcmp($result2, $divide[6] ?? null) && strcmp($result2, $divide[7] ?? null) && strcmp($result2, $divide[8] ?? null) && strcmp($result2, $divide[9] ?? null)){
+                                                    ?>
+                                                    <input class="form-check-input" type="checkbox" value="<?php echo $result2;?>" name="Specialization[]" id="flexCheckDefault">
+                                                    <label class="form-check-label" for="flexCheckDefault"><?php echo $result2;?></label>
+                                                    <br>
+                                                    <?php
+                                                    }else{
+                                                    ?>
+                                                    <input class="form-check-input" type="checkbox" value="<?php echo $result2;?>" name="Specialization[]" id="flexCheckDefault" checked>
+                                                    <label class="form-check-label" for="flexCheckDefault"><?php echo $result2;?></label>
+                                                    <br>
+                                                    <?php
+                                                    }
+                                                }
+                                                ?>
+                                            </div>
                                         </div>
-                                    </div>    
-                                </div>
                             </div>
                         </div>
                     <div class="modal-footer">
@@ -261,3 +308,4 @@ if(isset($_POST['edit']) && isset($_FILES['profile_url']))
     <script src="../js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+

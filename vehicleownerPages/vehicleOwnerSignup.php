@@ -9,6 +9,8 @@ if(isset($_POST['register']))
     $custEmail=$_POST['custEmail'];
     $custCnumber=$_POST['custCnumber'];
     $vehicleType=$_POST['vehicleType'];
+    $latitude=$_POST['latitude'];
+    $longitude=$_POST['longitude'];
     $Username=$_POST['Username'];
     $Password=$_POST['Password'];
     $role=$_POST['role'];
@@ -52,7 +54,7 @@ if(isset($_POST['register']))
         {
           echo "<script type='text/javascript'>document.location='../login.php';</script>";
         }else{
-          $sql="INSERT INTO customer(custFirstname, custLastname, custAddress, custEmail, custCnumber, vehicleType, Username, Password, role)VALUES(:custFirstname, :custLastname, :custAddress, :custEmail, :custCnumber, :vehicleType, :Username, :hashedPwd, :role)";
+          $sql="INSERT INTO customer(custFirstname, custLastname, custAddress, custEmail, custCnumber, vehicleType, Username, Password, role,latitude,longitude)VALUES(:custFirstname, :custLastname, :custAddress, :custEmail, :custCnumber, :vehicleType, :Username, :hashedPwd, :role,:latitude,:longitude)";
           $query=$dbh->prepare($sql);
           $query->bindParam(':custFirstname',$custFirstname,PDO::PARAM_STR);
           $query->bindParam(':custLastname',$custLastname,PDO::PARAM_STR);
@@ -60,6 +62,8 @@ if(isset($_POST['register']))
           $query->bindParam(':custEmail',$custEmail,PDO::PARAM_STR);
           $query->bindParam(':custCnumber',$custCnumber,PDO::PARAM_STR);
           $query->bindParam(':vehicleType',$vehicleType,PDO::PARAM_STR);
+          $query->bindParam(':latitude',$latitude,PDO::PARAM_STR);
+          $query->bindParam(':longitude',$longitude,PDO::PARAM_STR);
           $query->bindParam(':Username',$Username,PDO::PARAM_STR);
           $query->bindParam(':hashedPwd',$hashedPwd,PDO::PARAM_STR);
           $query->bindParam(':role',$role,PDO::PARAM_STR);
@@ -91,7 +95,7 @@ if(isset($_POST['register']))
     <title>Mechanic Now | Signup</title>
     <link rel="shortcut icon" type="x-icon" href="../img/mechanicnowlogo.svg">
 </head>
-<body>
+<body onload="getLocation()">
     <div class="btag">
         <div class="wrapper">
         <section class="form signup">
@@ -150,11 +154,31 @@ if(isset($_POST['register']))
                     <div class="field button but">
                         <input type="submit" name="register" value="Create Account">
                     </div>
+                    <input hidden type="text"  id="latitude" name="latitude" value="">
+                    <input hidden type="text"  id="longitude" name="longitude" value="">
+          
                     <div class="link">Do you have an account? <a href="../login.php">login</a></div>
             </form>
         </section>
     </div>
     </div>
+    <script type="text/javascript">
+var x = document.getElementById("latitude");
+var y = document.getElementById("longitude");
+function getLocation() {
+if (navigator.geolocation) {
+navigator.geolocation.getCurrentPosition(showPosition);
+} else { 
+x.value = "Geolocation is not supported by this browser.";
+y.value = "Geolocation is not supported by this browser.";
+}
+}
+function showPosition(position) {
+  x.value = position.coords.latitude;
+  y.value = position.coords.longitude;
+
+}
+</script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <script src="../js/bootstrap.bundle.min.js"></script>
 </body>

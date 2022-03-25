@@ -130,6 +130,7 @@ body{
     background-image: linear-gradient(to right, #a517ba, #5f1782);
 }
 /* login */
+
 body{
     color: var(--clr-neutral-100);
 }
@@ -270,6 +271,7 @@ form .name-details .field:last-child{
 .btn-primary:focus {
     background-color: var(--clr-primary-500);
     border-color: var(--clr-primary-500);
+    box-shadow: none;
 }
 .line-segment{
     padding-bottom: 10px;
@@ -336,7 +338,6 @@ form .name-details .field:last-child{
     margin: auto;
     width: 60%;
     padding: 10px;
-    padding-top: 8em;
   }
   .emptydiv{
       margin: auto;
@@ -367,8 +368,14 @@ form .name-details .field:last-child{
     border-radius: 16px;
     border-collapse: separate;
     background: var(--clr-primary-500);
-    transition:background .1s;
-    
+    transition:background .1s;   
+}
+.table1 tbody tr {
+    position: relative;
+    border-radius: 16px;
+    border-collapse: separate;
+    background: var(--clr-neutral-100) ;
+    transition:background .1s;   
 }
 .table tbody tr:hover {
     background: var(--clr-primary-800);
