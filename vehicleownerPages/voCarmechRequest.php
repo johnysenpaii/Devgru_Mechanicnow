@@ -94,10 +94,6 @@ if(isset($_POST['send'])){
     <?php include('./voTopnav.php');?>
 
     <section class="mechRequest" class="container-fluid">
-         <div class="emptyrequest" hidden>
-            <div class="emptydiv"><img src="../img/empty.png" alt=""></div>
-            <h6>There is no mechanic nearby..</h6>
-        </div>
         <form method="POST">
             <?php
                 $regeditid=intval($_GET['regeditid']);
@@ -117,11 +113,9 @@ if(isset($_POST['send'])){
                     <div class="row text-dark">
                         <h3 class="pb-4">Request Form</h3>
                         <div class="col-sm-12 col-md-6 pb-5 justify-content-center">
-                            <h6 class="text-start">Mechanic Information</h6>
+                            <h6  class="text-start">Mechanic Information</h6>
                             <div class="with-image"><img src="../img/avatar.jpg.jpg" class="rounded-circle imagenajud float-end" alt=""></div>
                             <div class="row py-1" >
-
-                            
                                 <input readonly type="text" class="border-0 text-center" name="mechName" value="<?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?>">
                                 <input readonly type="text" class="border-0 text-center" name="vehicleType" value="<?php echo htmlentities($result->vehicleType);?>">
                                 <input readonly type="text" class="border-0 text-center" name="Specialization" value="<?php echo htmlentities($result->Specialization);?>">
@@ -129,12 +123,8 @@ if(isset($_POST['send'])){
                                 <input hidden type="text" name="voName" value="<?php echo htmlentities($_SESSION["custFirstname"]); ?> <?php echo htmlentities($_SESSION["custLastname"]); ?>">
                                 <input hidden type="text" name="custAddress" value="<?php echo htmlentities($_SESSION["custAddress"]); ?>">
                                 <input hidden type="text" name="mechID" value="<?php echo htmlentities($result->mechID);?>">
-                                <input id="address" name='currentlocation' value="" hidden> 
                                 <input id="address" name='latitude' value="<?php echo htmlentities($_SESSION["latitude"]); ?>" hidden> 
                                 <input id="address" name='longitude' value="<?php echo htmlentities($_SESSION["longitude"]); ?>" hidden> 
-
-                                              
-
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-6 text-start">
@@ -146,8 +136,8 @@ if(isset($_POST['send'])){
                                 </label>
                             </div>
                             <div id="textboxes" style="display: none">
-                                Date: <input name="date" type="date"/> 
-                                Time: <input name="time" type="time"/> 
+                                Date: <input onfocus="this.value=''" name="date" type="date"/> 
+                                Time: <input onfocus="this.value=''" name="time" type="time"/> 
                             </div>
                             <div class="form-check pb-2">
                                 <input class="form-check-input" type="radio" value="Emergency Service" name="service" id="exampleRadios2">
@@ -177,8 +167,8 @@ if(isset($_POST['send'])){
                                 <label class="form-check-label" for="flexCheckDefault">Dead Light Repair</label>
                             </div>
                              <div class="">
-                                 <label for="">Others specify..</label>
-                                <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="Please specify" rows="3" name="specMessage" value="specMessage"></textarea>
+                                 <label for="">Leave a Message</label>
+                                <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="Please specify..." rows="3" name="specMessage" value="specMessage"></textarea>
                             </div>
                         </div>
                     </div>
@@ -290,21 +280,7 @@ if(isset($_POST['send'])){
     </section>
     <div class="row d-block d-lg-none"><?php include('voBottom-nav.php');?></div>
     <script>
-         function GetAddress() {
-            var address = document.getElementById("address");
-            var lat = parseFloat(document.getElementById("latitude").value);
-            var lng = parseFloat(document.getElementById("longitude").value);
-            var latlng = new google.maps.LatLng(lat, lng);
-            var geocoder = geocoder = new google.maps.Geocoder();
-            geocoder.geocode({ 'latLng': latlng }, function (results, status) {
-                if (status == google.maps.GeocoderStatus.OK) {
-                    if (results[1]) {
-                         address.value = results[0].formatted_address;
-                    }
-                }
-            });
-        }
-    
+        
         $(function() {
         $('input[name="service"]').on('click', function() {
             if ($(this).val() == 'Home Service') {

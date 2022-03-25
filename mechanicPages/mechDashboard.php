@@ -41,7 +41,7 @@ $mechID1=$_SESSION['mechID'];
     <section id="mechContent" class="mech-content container-fluid">
         <div class="row py-3 px-sm-0 px-md-3 text-center table-responsive justify-content-center pb-5">
             <div class="col-lg-8 bg-white py-4 rounded-3 shadow-lg">
-                <h4 class="text-dark pb-4">Available Vehicle Owner Request</h4>
+                <h4 class="text-dark pb-4">Available Request</h4>
                 <div class="row d-flex justify-content-end align-items-center px-sm-0 px-md-4">
                     <div class="col-9 col-md-6 searchlogo">
                         <input class="form-control rounded-pill" type="text" placeholder="Filter Search">
@@ -67,9 +67,6 @@ $mechID1=$_SESSION['mechID'];
                                 if($mechID1==$mechID1)
                                 {
                         ?>
-
-
-
                         <tr class="d-flex align-items-center justify-content-around mt-2">
                             <td><?php echo htmlentities($result->vOwnerName);?></td>
                             <td hidden><?php echo htmlentities($result->custID);?></td>
@@ -79,13 +76,13 @@ $mechID1=$_SESSION['mechID'];
                             </td>
                         </tr> 
                         <?php  }}}
-        else {
-                    ?>
-        <div class="emptyrequest pt-1 mt-5">
-            <div class="emptydiv"><img src="../img/empty.png" alt=""></div>
-            <h6>There is no request available..</h6>
-        </div>
-        <?php
+                        else {
+                        ?>
+                        <div class="emptyrequest pt-1 mt-4">
+                            <div class="emptydiv"><img src="../img/empty.png" alt=""></div>
+                            <h6>There is no request available..</h6>
+                        </div>
+                        <?php
                     }
                     ?>
                     </tbody> 

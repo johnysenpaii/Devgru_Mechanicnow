@@ -224,6 +224,7 @@ if(isset($_POST['edit']) && isset($_FILES['profile_url']))
                                         <input type="submit" name="submit" class="btn btn-primary rounded-pill shadow" value="Upload">
                                     </div>
                                     <input type="hidden" name="id" value="<?php echo htmlentities($result->custID);?>" required="required">
+                                    <label>Personal Details</label>
                                     <div class="col-md-6">
                                         <input class="form-control" type="text" name="custFirstname" value="<?php echo htmlentities($result->custFirstname);?>"  placeholder="Firstname" aria-label="default input example">
                                     </div>
@@ -239,6 +240,7 @@ if(isset($_POST['edit']) && isset($_FILES['profile_url']))
                                     <div class="col-md-12">
                                         <input class="form-control" type="text" name="custAddress" value="<?php echo htmlentities($result->custAddress);?>" placeholder="Baranggay, City, Province" aria-label="default input example">
                                     </div>
+                                    <label>Account Information</label>
                                     <div class="col-md-12">
                                         <input class="form-control" type="text" name="Username" value="<?php echo htmlentities($result->Username);?>" placeholder="Username" aria-label="default input example">
                                     </div>
@@ -248,8 +250,8 @@ if(isset($_POST['edit']) && isset($_FILES['profile_url']))
                         <div class="row pt-3">
                             <div class="col-sm-12 d-flex align-items-center pt-3">
                                 <div class="row g-2">
+                                    <h6 class="pb-2">Vehicle Type :</h6>
                                     <div class="col-md-6">
-                                        <h6 class="pb-2">Vehicle Type: </h6>
                                        <div class="form-check">
                                                 <?php
                                                 $divide = explode(",",$result->vehicleType); //return Bicycle

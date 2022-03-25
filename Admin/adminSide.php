@@ -253,7 +253,7 @@ include('../config.php');
     function myconfirm() {
         let text = "Are sure you want to leave?.";
         if (confirm(text) == true) {
-            location.replace("adminLogin.php")
+            location.replace("login.php")
         } else {
             location.reload();
         }

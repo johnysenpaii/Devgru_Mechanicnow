@@ -27,7 +27,7 @@ $mechID1=$_SESSION['mechID'];
     <section id="activityLog">
         <div class="row py-3 px-sm-0 px-md-3 table-responsive justify-content-center pb-5">
             <div class="col-lg-8  py-4  ">
-                <h4 class="text-dark pb-4">Activity Logs</h4>
+                <center><h4 class="text-dark pb-4">Activity Logs</h4></center>
                 <?php
                     $sql="SELECT * from request WHERE mechID=$mechID1 and status='Accepted' order by resID DESC";
                     $query=$dbh->prepare($sql);
@@ -52,7 +52,6 @@ $mechID1=$_SESSION['mechID'];
                     </div>
                 </div>
                 <?php }}} 
-                    
                     else {
                     ?>
                     <div class="emptyrequest" >

@@ -42,7 +42,7 @@ include('../config.php');
                 <h4 class="text-dark pb-4">Available Car Mechanics</h4>
                 <div class="row d-flex justify-content-end align-items-center px-sm-0 px-md-4">                   
                     <div class="col-9 col-md-6 searchlogo">
-                        <input class="form-control rounded-pill" type="text" placeholder="Filter Search">
+                        <input class="form-control rounded-pill" type="text" placeholder="  Filter Search">
                     </div>
                     <div class="col-3 col-md-1 searchlogo justify-content-center align-items-center">
                         <i class="fa-solid fa-filter fa-2x" data-bs-toggle="modal" data-bs-target="#Filter-modal"></i>
@@ -62,32 +62,27 @@ include('../config.php');
                     if( $query->rowCount()>0){   
                         foreach($results as $result){
                             if($result->distanceKM <= 3.0){
-                ?>  
+                        ?>  
                         <tr class="d-flex align-items-center justify-content-around mt-2">
                             <td><?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?></td>
                             <td><?php echo htmlentities($result->Specialization);?></td>
                             <td>k.m <?php echo htmlentities($result->distanceKM);?> </td>
-
                             <td><a class="btn btn-warning px-3" href="voCarmechRequest.php?regeditid=<?php echo htmlentities($result->mechID)?>">Details</a></td>
-
                         </tr>
                         <?php }} }       
-        else {     
-        ?> 
-        <div class="emptyrequest mt-1 pt-5" >
-            <div class="emptydiv"><img src="../img/empty.png" alt=""></div>
-            <h6>There is no mechanic nearby..</h6>
-        </div>
-        <?php
-        }
-        ?>
+                            else {     
+                        ?> 
+                            <div class="emptyrequest mt-1 pt-4" >
+                            <div class="emptydiv"><img src="../img/empty.png" alt=""></div>
+                            <h6>There is no mechanic nearby. . .</h6>
+                            </div>
+                            <?php
+                            }
+                            ?>
                     </tbody>
                 </table>
-                
             </div>
         </div>
-        
-       </form>
         <!-- Filter Search -->
         <div class="modal fade" id="Filter-modal" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
@@ -97,41 +92,25 @@ include('../config.php');
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="form-check">
+                <div class="form-check">
                         <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                        <label class="form-check-label" for="flexCheckDefault">Tire Mechanic</label>
+                        <label class="form-check-label" for="flexCheckDefault">Tire Repair</label>
                     </div>
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                        <label class="form-check-label" for="flexCheckDefault">Tire Mechanic</label>
+                        <label class="form-check-label" for="flexCheckDefault">Break Repair</label>
                     </div>
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                        <label class="form-check-label" for="flexCheckDefault">Tire Mechanic</label>
+                        <label class="form-check-label" for="flexCheckDefault">Engine Overheat Repair</label>
                     </div>
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                        <label class="form-check-label" for="flexCheckDefault">Tire Mechanic</label>
+                        <label class="form-check-label" for="flexCheckDefault">Dead Battery Repair</label>
                     </div>
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                        <label class="form-check-label" for="flexCheckDefault">Tire Mechanic</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                        <label class="form-check-label" for="flexCheckDefault">Tire Mechanic</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                        <label class="form-check-label" for="flexCheckDefault">Tire Mechanic</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                        <label class="form-check-label" for="flexCheckDefault">Tire Mechanic</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                        <label class="form-check-label" for="flexCheckDefault">Tire Mechanic</label>
+                        <label class="form-check-label" for="flexCheckDefault">Dead Light Repair</label>
                     </div>
                 </div>
                 <div class="modal-footer">

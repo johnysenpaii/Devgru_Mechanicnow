@@ -131,7 +131,7 @@ if(isset($_POST['register']))
                             <option disabled selected hidden>Choose Vehicle Type...</option>
                             <option value="Bicycle">Bicycle</option>
                             <option value="Motorcycle">Motorcycle</option>
-                            <option value="Four wheels">Four wheels</option>
+                            <option value="Car">Car</option>
                         </select>
                     </div>
                     <label>Account Information</label>

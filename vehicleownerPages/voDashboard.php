@@ -141,7 +141,7 @@ elseif(isset($_POST['bicycle'])){
                 </div>
                 <div class="col-sm-3 bg-white text-dark rounded-3 cont-act">
                     <div class="act-content">
-                        <h5 class="py-2 pb-2 text-center">Recent Activities</h5>
+                        <h5 class="py-4 pb-2 text-center">Recent Activities</h5>
                         <?php
                             $sql="SELECT * from request WHERE custID=$custID1 and status='Unaccepted' order by resID DESC";
                             $query=$dbh->prepare($sql);

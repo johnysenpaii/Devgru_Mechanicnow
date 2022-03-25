@@ -26,21 +26,13 @@ $custAddress1=$_SESSION['custAddress'];
     <?php include('./voTopnav.php');?>
 
     <section id="mechContent" class="mech-content container-fluid">
-        <?php
-            $sql="SELECT * from mechanic WHERE mechAddress='$custAddress1' and vehicleType like '%Motorcycle%'";
-            $query=$dbh->prepare($sql);
-            $query->execute();
-            $results=$query->fetchALL(PDO::FETCH_OBJ);
-            if($query->rowCount()>0){
-                foreach($results as $result){   
-                    if($custAddress1==$custAddress1){
-        ?>
-        <div class="row py-3 px-sm-0 px-md-3 text-center table-responsive justify-content-center pb-5">
+    
+    <div class="row py-3 px-sm-0 px-md-3 text-center table-responsive justify-content-center pb-5">
             <div class="col-lg-8 bg-white py-4 rounded-3 shadow-lg">
-                <h4 class="text-dark pb-4">Available Car Mechanics</h4>
+                <h4 class="text-dark pb-4">Available Motorcycle Mechanics</h4>
                 <div class="row d-flex justify-content-end align-items-center px-sm-0 px-md-4">                   
                     <div class="col-9 col-md-6 searchlogo">
-                        <input class="form-control rounded-pill" type="text" placeholder="Filter Search">
+                        <input class="form-control rounded-pill" type="text" placeholder="  Filter Search">
                     </div>
                     <div class="col-3 col-md-1 searchlogo justify-content-center align-items-center">
                         <i class="fa-solid fa-filter fa-2x" data-bs-toggle="modal" data-bs-target="#Filter-modal"></i>
@@ -50,26 +42,36 @@ $custAddress1=$_SESSION['custAddress'];
                     <thead>
                     </thead>
                     <tbody>
+                        <?php
+                    $sql="SELECT * from mechanic WHERE vehicleType like '%Motorcycle%' and status='approve'";
+                    $query=$dbh->prepare($sql);
+                    $query->execute();
+                    $results=$query->fetchALL(PDO::FETCH_OBJ);
+                    $cnt=1;       
+                    if( $query->rowCount()>0){   
+                        foreach($results as $result){
+                            if($result->distanceKM <= 3.0){
+                        ?>  
                         <tr class="d-flex align-items-center justify-content-around mt-2">
                             <td><?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?></td>
                             <td><?php echo htmlentities($result->Specialization);?></td>
+                            <td>k.m <?php echo htmlentities($result->distanceKM);?> </td>
                             <td><a class="btn btn-warning px-3" href="voMotorcyclemechRequest.php?regeditid=<?php echo htmlentities($result->mechID)?>">Details</a></td>
                         </tr>
+                        <?php }} }       
+                            else {     
+                        ?> 
+                            <div class="emptyrequest mt-1 pt-4" >
+                            <div class="emptydiv"><img src="../img/empty.png" alt=""></div>
+                            <h6>There is no mechanic nearby. . .</h6>
+                            </div>
+                            <?php
+                            }
+                            ?>
                     </tbody>
                 </table>
             </div>
         </div>
-        <?php }}}         
-        else {
-        ?>
-        <div class="emptyrequest mt-5 pt-5" >
-            <div class="emptydiv"><img src="../img/empty.png" alt=""></div>
-            <h6>There is no mechanic nearby..</h6>
-        </div>
-        <?php
-        }
-        ?>
-       
         <!-- Filter Search -->
         <div class="modal fade" id="Filter-modal" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
@@ -79,41 +81,21 @@ $custAddress1=$_SESSION['custAddress'];
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="form-check">
+                <div class="form-check">
                         <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                        <label class="form-check-label" for="flexCheckDefault">Tire Mechanic</label>
+                        <label class="form-check-label" for="flexCheckDefault">Tire Repair</label>
                     </div>
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                        <label class="form-check-label" for="flexCheckDefault">Tire Mechanic</label>
+                        <label class="form-check-label" for="flexCheckDefault">Chain Loosening Repair</label>
                     </div>
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                        <label class="form-check-label" for="flexCheckDefault">Tire Mechanic</label>
+                        <label class="form-check-label" for="flexCheckDefault">Break Repair</label>
                     </div>
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                        <label class="form-check-label" for="flexCheckDefault">Tire Mechanic</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                        <label class="form-check-label" for="flexCheckDefault">Tire Mechanic</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                        <label class="form-check-label" for="flexCheckDefault">Tire Mechanic</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                        <label class="form-check-label" for="flexCheckDefault">Tire Mechanic</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                        <label class="form-check-label" for="flexCheckDefault">Tire Mechanic</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                        <label class="form-check-label" for="flexCheckDefault">Tire Mechanic</label>
+                        <label class="form-check-label" for="flexCheckDefault">Dead Light Repair</label>
                     </div>
                 </div>
                 <div class="modal-footer">

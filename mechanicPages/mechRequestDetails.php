@@ -55,7 +55,7 @@ $mechID1=$_SESSION['mechID'];
             <div class="row py-3 px-sm-0 px-md-3 text-center table-responsive justify-content-center pb-5">
                 <div class="col-md-8 bg-white p-4 rounded-3 shadow-lg">
                     <div class="row text-dark">
-                        <h3 class="pb-4">Vehicle Owner Request Details</h3>
+                        <h3 class="pb-4">Request Details</h3>
                         <div class="col-sm-12 col-md-6 pb-5 justify-content-center">
                             
                             <div class="with-image"><img src="../img/avatar.jpg.jpg" class="rounded-circle imagenajud float-end" alt=""></div>
@@ -68,24 +68,24 @@ $mechID1=$_SESSION['mechID'];
                             </div>                       
                         </div>
                         <div class="col-sm-12 col-md-6 text-start">
-                            <h6 class="text-start">Vehicle Owner Information</h6>
+                                <h5 class="text-start">Vehicle Owner Information</h6>
                                 <p><?php echo htmlentities($result->vOwnerName);?></p>
                                 <p class="pb-2"><?php echo htmlentities($result->custAddress);?></p>
-                                <h6 class="text-start">Request Information</h6>
-                                <p class="py-1">Request: <?php echo htmlentities($result->serviceNeeded);?></p> 
-                                <p class="py-1"><?php echo htmlentities($result->date);?></p>
-                                <p class="py-1"><?php echo htmlentities($result->time);?></p>
-                                <p class="py-1"><?php echo htmlentities($result->mechRepair);?></p>
-                                <h6>Note:</h6>
-                                <p class="py-1"><?php echo htmlentities($result->specMessage);?></p>
+                                <h5 class="text-start">Request Information</h5>
+                                <p><i>Service Needed:</i> <?php echo htmlentities($result->serviceNeeded);?></p> 
+                                <p><i>Date:</i> <?php echo htmlentities($result->date);?></p>
+                                <p><i>Time:</i> <?php echo htmlentities($result->time);?></p>
+                                <p class="pb-2"><i>Vehicle Problem:</i> <?php echo htmlentities($result->mechRepair);?></p>
+                                <h5>Noted Message</h5>
+                                <p><?php echo htmlentities($result->specMessage);?></p>
                                
                                 <!-- <input type="text" class="border-0 text-center" name="Specialization" value="<?php echo htmlentities($result->serviceType);?>">
                                 <input type="text" class="border-0 text-center" name="mechAddress" value="<?php echo htmlentities($result->serviceNeeded);?>">
                                 <input type="text" class="border-0 text-center" name="mechAddress" value="<?php echo htmlentities($result->mechRepair);?>">
                                 <input type="text" class="border-0 text-center" name="mechAddress" value="<?php echo htmlentities($result->specMessage);?>"> -->
-                                <div class="">
+                                <div class="py-2">
                                     <label for="">Leave a message</label>
-                                    <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="Please leave a message before accepting" rows="3" name="specMessage" value="specMessage" required></textarea>
+                                    <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="Leave a message before accepting. . ." rows="3" name="specMessage" value="specMessage" required></textarea>
                                 </div>
                         </div>
                     </div>

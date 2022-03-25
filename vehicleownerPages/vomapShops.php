@@ -37,7 +37,7 @@ $custID1=$_SESSION['custID'];
         <div class="row justify-content-center pt-3">
             <div class="col-md-10 text-center">
                 <div id="google-maps">
-                    <iframe src="https://www.google.com/maps/d/u/0/embed?mid=1BrNeEvgKndjLstu-_KqHd0WpA6Yjk8zQ&ehbc=2E312F" frameborder="0" width="100%" height="550"></iframe>
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d125600.64171524956!2d123.91604364000311!3d10.340280042809674!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1smechanic%20shops%20near%20Cebu%20City%2C%20Cebu!5e0!3m2!1sen!2sph!4v1648229944458!5m2!1sen!2sph" frameborder="0" width="100%" height="540" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
             </div>
         </div>
