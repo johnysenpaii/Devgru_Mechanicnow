@@ -15,16 +15,18 @@ if(isset($_POST['send'])){
     $tbl_name="request"; 
     $con=mysqli_connect("$host", "$username", "$word","$db_name")or die("cannot connect");//connection string  
 
-    $mechName=$_POST['mechName']; 
+    $mechName=$_POST['mechName'];
+    $voName=$_POST['voName'];
     $Specialization=$_POST['Specialization'];
+    $vehicleType=$_POST['vehicleType'];
     $mechAddress=$_POST['mechAddress'];
     $custAddress=$_POST['custAddress'];
     $specMessage=$_POST['specMessage'];
-    $checkbox1=$_POST['mechRepair'];  
-    $vOwnerName=$_POST['vOwnerName'];
+    $mechRepair=$_POST['mechRepair'];  //checkbox1
     $service=$_POST['service'];
     $mechID=$_POST['mechID'];
-    $currentlocation=$_POST['currentlocation'];
+
+    // $currentlocation=$_POST['currentlocation'];
     $chk=""; 
     $spec="";
     $mechN="";
@@ -34,21 +36,23 @@ if(isset($_POST['send'])){
     $mechAdd="";
     $custAdd="";
     $serv="";
-    $currentL="";
-    foreach($checkbox1 as $chk1){  
+
+    // $currentL="";
+    foreach($mechRepair as $chk1){  
         $chk .= $chk1.", ";
     } 
     $spec .= $specMessage;  
     $mechN .= $mechName;
-    $vON .= $vOwnerName;
+    $vON .= $voName;
     $mID .= $mechID;
     $Specl .= $Specialization;
     $mechAdd .= $mechAddress;
     $custAdd .= $custAddress;
     $serv .= $service;
-    $currentL.=$currentlocation;
+   
+    // $currentL.=$currentlocation;
 
-    $in_ch=mysqli_query($con,"INSERT INTO request(mechName, vOwnerName, specMessage, mechRepair, serviceType, serviceNeeded, mechID, custID, mechAddress, custAddress, currentlocation, latitude, longitude) values ('$mechN', '$vON' , '$spec', '$chk', '$Specl', '$serv', '$mID', '$custID1', '$mechAdd', '$custAdd','$currentL','$latitude','$longitude')");  
+    $in_ch=mysqli_query($con,"INSERT INTO request(mechName, vOwnerName, specMessage, mechRepair, serviceType, serviceNeeded, mechID, custID, mechAddress, custAddress,latitude,longitude) values ('$mechN', '$vON' , '$spec', '$chk', '$Specl', '$serv', '$mID', '$custID1', '$mechAdd', '$custAdd','$latitude','$longitude')");//,'$latitude','$longitude','$currentL',
     if($in_ch==1)  
     {  
         echo'<script>alert("Request Sent Successfully, Wait for Mechanic to Confirm!")</script>';  
@@ -111,13 +115,18 @@ if(isset($_POST['send'])){
                             <div class="row py-1" >
 
                             
-                                <input type="text" class="border-0 text-center" name="mechName" value="<?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?>">
-                                <input type="text" class="border-0 text-center" name="Specialization" value="<?php echo htmlentities($result->Specialization);?>">
-                                <input type="text" class="border-0 text-center" name="mechAddress" value="<?php echo htmlentities($result->mechAddress);?>">
-                                <input hidden type="text" name="vOwnerName" value="<?php echo htmlentities($_SESSION["custFirstname"]); ?> <?php echo htmlentities($_SESSION["custLastname"]); ?>">
+                                <input readonly type="text" class="border-0 text-center" name="mechName" value="<?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?>">
+                                <input readonly type="text" class="border-0 text-center" name="vehicleType" value="<?php echo htmlentities($result->vehicleType);?>">
+                                <input readonly type="text" class="border-0 text-center" name="Specialization" value="<?php echo htmlentities($result->Specialization);?>">
+                                <input readonly type="text" class="border-0 text-center" name="mechAddress" value="<?php echo htmlentities($result->mechAddress);?>">
+                                <input hidden type="text" name="voName" value="<?php echo htmlentities($_SESSION["custFirstname"]); ?> <?php echo htmlentities($_SESSION["custLastname"]); ?>">
                                 <input hidden type="text" name="custAddress" value="<?php echo htmlentities($_SESSION["custAddress"]); ?>">
                                 <input hidden type="text" name="mechID" value="<?php echo htmlentities($result->mechID);?>">
-                                <input id="address" name='currentlocation' value=""> 
+                                <input id="address" name='currentlocation' value="" hidden> 
+                                <input id="address" name='latitude' value="<?php echo htmlentities($_SESSION["latitude"]); ?>" hidden> 
+                                <input id="address" name='longitude' value="<?php echo htmlentities($_SESSION["longitude"]); ?>" hidden> 
+
+                                              
 
                             </div>
                         </div>

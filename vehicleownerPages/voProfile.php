@@ -62,28 +62,54 @@ if(isset($_POST['edit']) && isset($_FILES['profile_url']))
     $custAddress=$_POST['custAddress'];
     $custEmail=$_POST['custEmail'];
     $custCnumber=$_POST['custCnumber'];
-    //$vehicleType=$_POST['vehicleType'];
-    // $Specialization=$_POST['Specialization'];
-    // $mechValidID=$_POST['mechValidID'];
     $Username=$_POST['Username'];
     // $Password=$_POST['Password'];
- 
-  $sql="UPDATE customer set custID=:id,custFirstname=:custFirstname,custLastname=:custLastname, custAddress=:custAddress, custEmail=:custEmail, custCnumber=:custCnumber, Username=:Username WHERE custID=:regeditid"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
-  $query=$dbh->prepare($sql);
-  $query->bindParam(':id',$id,PDO::PARAM_STR);
-  $query->bindParam(':custFirstname',$custFirstname,PDO::PARAM_STR);
-  $query->bindParam(':custLastname',$custLastname,PDO::PARAM_STR);
-  $query->bindParam(':custAddress',$custAddress,PDO::PARAM_STR);
-  $query->bindParam(':custEmail',$custEmail,PDO::PARAM_STR);
-  $query->bindParam(':custCnumber',$custCnumber,PDO::PARAM_STR);
-  //$query->bindParam(':vehicleType',$vehicleType,PDO::PARAM_STR);
-  //$query->bindParam(':Specialization',$Specialization,PDO::PARAM_STR);
- // $query->bindParam(':mechValidID',$mechValidID,PDO::PARAM_STR);
-  $query->bindParam(':Username',$Username,PDO::PARAM_STR);
-  $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
-  $query->execute(); 
 
-  echo "<script type='text/javascript'>document.location='./voProfile.php';</script>";
+    if(isset($_POST["vehicleType"])){
+        $vehicleType_update=implode(",",$_POST["vehicleType"]);
+    }
+    if(empty($vehicleType_update)){
+         echo "<script>alert('Please Select Vehicle Type')</script>";
+    }else{
+        try{
+            if(!isset($errorMsg)){
+                $sql="UPDATE customer set custID=:id,custFirstname=:custFirstname,custLastname=:custLastname, custAddress=:custAddress, custEmail=:custEmail, custCnumber=:custCnumber, vehicleType=:vehicleType_update, Username=:Username WHERE custID=:regeditid"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
+                $query=$dbh->prepare($sql);
+                $query->bindParam(':id',$id,PDO::PARAM_STR);
+                $query->bindParam(':custFirstname',$custFirstname,PDO::PARAM_STR);
+                $query->bindParam(':custLastname',$custLastname,PDO::PARAM_STR);
+                $query->bindParam(':custAddress',$custAddress,PDO::PARAM_STR);
+                $query->bindParam(':custEmail',$custEmail,PDO::PARAM_STR);
+                $query->bindParam(':custCnumber',$custCnumber,PDO::PARAM_STR);
+                $query->bindParam(':vehicleType_update',$vehicleType_update,PDO::PARAM_STR);
+                $query->bindParam(':Username',$Username,PDO::PARAM_STR);
+                $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
+                $query->execute(); 
+
+                echo "<script type='text/javascript'>document.location='./voProfile.php';</script>";
+            }
+        }
+        catch(PDOException $e){
+            echo $e->getMessage();
+        }
+    }
+ 
+//   $sql="UPDATE customer set custID=:id,custFirstname=:custFirstname,custLastname=:custLastname, custAddress=:custAddress, custEmail=:custEmail, custCnumber=:custCnumber, Username=:Username WHERE custID=:regeditid"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
+//   $query=$dbh->prepare($sql);
+//   $query->bindParam(':id',$id,PDO::PARAM_STR);
+//   $query->bindParam(':custFirstname',$custFirstname,PDO::PARAM_STR);
+//   $query->bindParam(':custLastname',$custLastname,PDO::PARAM_STR);
+//   $query->bindParam(':custAddress',$custAddress,PDO::PARAM_STR);
+//   $query->bindParam(':custEmail',$custEmail,PDO::PARAM_STR);
+//   $query->bindParam(':custCnumber',$custCnumber,PDO::PARAM_STR);
+//   //$query->bindParam(':vehicleType',$vehicleType,PDO::PARAM_STR);
+//   //$query->bindParam(':Specialization',$Specialization,PDO::PARAM_STR);
+//  // $query->bindParam(':mechValidID',$mechValidID,PDO::PARAM_STR);
+//   $query->bindParam(':Username',$Username,PDO::PARAM_STR);
+//   $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
+//   $query->execute(); 
+
+//   echo "<script type='text/javascript'>document.location='./voProfile.php';</script>";
 }
 ?>
 <!DOCTYPE html>
@@ -223,28 +249,36 @@ if(isset($_POST['edit']) && isset($_FILES['profile_url']))
                             <div class="col-sm-12 d-flex align-items-center pt-3">
                                 <div class="row g-2">
                                     <div class="col-md-6">
+                                        <h6 class="pb-2">Vehicle Type: </h6>
                                        <div class="form-check">
-                                            <input class="form-check-input" name="vehicleType" type="checkbox" value="" id="flexCheckDefault">
-                                            <label class="form-check-label" for="flexCheckDefault">
-                                                Bicycles
-                                            </label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" name="vehicleType" type="checkbox" value="" id="flexCheckDefault">
-                                            <label class="form-check-label" for="flexCheckDefault">
-                                                Motorcycle
-                                            </label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" name="vehicleType" type="checkbox" value="" id="flexCheckDefault">
-                                            <label class="form-check-label" for="flexCheckDefault">
-                                                Four Wheels
-                                            </label>
-                                        </div>
+                                                <?php
+                                                $divide = explode(",",$result->vehicleType); //return Bicycle
+                                                // var_dump($divide);
+                                                $specialization1 = array("Car","Motorcycle","Bicycle"); //have 3 values 
+                                                // var_dump($specialization1);
+                                                foreach($specialization1 as $result2){ //travel each index in an array
+                                                            //car       bicycle = false
+                                                    if(strcmp($result2, $divide[0] ?? null) && strcmp($result2, $divide[1] ?? null) && strcmp($result2, $divide[2] ?? null)){ //compare bicycle to car motorcycle and bicycle
+                                                    //first it compares bicycle to car, then fail so go to else
+                                                    ?> 
+                                                    <input class="form-check-input" type="checkbox" value="<?php echo $result2;?>" name="vehicleType[]" id="flexCheckDefault" >
+                                                    <label class="form-check-label" for="flexCheckDefault"><?php echo $result2;?></label>
+                                                    <br>
+                                                    <?php
+                                                    }else{
+                                                    ?>
+                                                    <input class="form-check-input" type="checkbox" value="<?php echo $result2;?>" name="vehicleType[]" id="flexCheckDefault" checked="checked">
+                                                    <label class="form-check-label" for="flexCheckDefault"><?php echo $result2;?></label>
+                                                    <br>
+                                                    <?php
+                                                    }
+                                                }
+                                                ?>
+                                            </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <!-- <div class="col-md-6">
                                         <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="Say something about yourself" rows="3"></textarea>
-                                    </div>
+                                    </div> -->
                                 </div>    
                             </div>
                         </div>        

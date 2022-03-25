@@ -39,7 +39,7 @@ if(isset($_POST['register']) && isset($_FILES['mechValidID']))
     $mechAddress=$_POST['mechAddress'];
     $mechEmail=$_POST['mechEmail'];
     $mechCnumber=$_POST['mechCnumber'];
-    $Specialization=$_POST['Specialization'];
+    // $Specialization=$_POST['Specialization'];
     $Username=$_POST['Username'];
     $Password=$_POST['Password'];
     $role=$_POST['role'];
@@ -49,8 +49,7 @@ if(isset($_POST['register']) && isset($_FILES['mechValidID']))
       {
         echo "<script>alert('Oops! Password did not match! Please try again.')</script>";
         echo "<script type='text/javascript'>document.location='./mechanicSignup.php';</script>";
-      }
-      else{
+      }else{
         //hashed password
         $hashedPwd = password_hash($Password, PASSWORD_DEFAULT);
         //check email
@@ -63,45 +62,47 @@ if(isset($_POST['register']) && isset($_FILES['mechValidID']))
             echo "<script>alert('Oops! Email has already Exist!.')</script>";
             echo "<script type='text/javascript'>document.location='./mechanicSignup.php';</script>";
         }else{
-          //check Username
-          $sql2="SELECT * FROM mechanic WHERE Username = ?";
-          $query = $dbh->prepare($sql2);
-          $query->execute([$Username]);
-          $result = $query->rowCount();
-          if($result > 0){
-              // $error="<span class='text-danger'>Username has already Exist!!</span>";
-              echo "<script>alert('Oops! Username Already Exist!')</script>";
-              echo "<script type='text/javascript'>document.location='./mechanicSignup.php';</script>";
-          }else{
-            $sql="SELECT * FROM mechanic WHERE Username=:Username";
-            $query=$dbh->prepare($sql);
-            $query->bindParam(':Username',$Username,PDO::PARAM_STR);
-            $query->execute();
-            $results=$query->fetch(PDO::FETCH_ASSOC);
-            if($query->rowCount()>0)
-            {
-              echo "<script type='text/javascript'>document.location='../login.php';</script>";
+            //check Username
+            $sql2="SELECT * FROM mechanic WHERE Username = ?";
+            $query = $dbh->prepare($sql2);
+            $query->execute([$Username]);
+            $result = $query->rowCount();
+            if($result > 0){
+                    // $error="<span class='text-danger'>Username has already Exist!!</span>";
+                    echo "<script>alert('Oops! Username Already Exist!')</script>";
+                    echo "<script type='text/javascript'>document.location='./mechanicSignup.php';</script>";
             }else{
-              $sql="INSERT INTO mechanic(mechFirstname, mechLastname, mechAddress, mechEmail, mechCnumber, mechValidID, Specialization, Username, Password, role)VALUES(:mechFirstname, :mechLastname, :mechAddress, :mechEmail, :mechCnumber, :mechValidID, :Specialization, :Username, :hashedPwd, :role)";
-              $query=$dbh->prepare($sql);
-              $query->bindParam(':mechFirstname',$mechFirstname,PDO::PARAM_STR);
-              $query->bindParam(':mechLastname',$mechLastname,PDO::PARAM_STR);
-              $query->bindParam(':mechAddress',$mechAddress,PDO::PARAM_STR);
-              $query->bindParam(':mechEmail',$mechEmail,PDO::PARAM_STR);
-              $query->bindParam(':mechCnumber',$mechCnumber,PDO::PARAM_STR);
-              $query->bindParam(':mechValidID',$new_img_name,PDO::PARAM_STR);
-              $query->bindParam(':Specialization',$Specialization,PDO::PARAM_STR);
-              $query->bindParam(':Username',$Username,PDO::PARAM_STR);
-              $query->bindParam(':hashedPwd',$hashedPwd,PDO::PARAM_STR);
-              $query->bindParam(':role',$role,PDO::PARAM_STR);
-              $query->execute();
-              session_regenerate_id();
-              echo "<script type='text/javascript'>document.location='../login.php';</script>";
+                $sql="SELECT * FROM mechanic WHERE Username=:Username";
+                $query=$dbh->prepare($sql);
+                $query->bindParam(':Username',$Username,PDO::PARAM_STR);
+                $query->execute();
+                $results=$query->fetch(PDO::FETCH_ASSOC);
+                if($query->rowCount()>0)
+                {
+                echo "<script type='text/javascript'>document.location='../login.php';</script>";
+                }else{
+                                $sql="INSERT INTO mechanic(mechFirstname, mechLastname, mechAddress, mechEmail, mechCnumber, mechValidID, Username, Password, role)VALUES(:mechFirstname, :mechLastname, :mechAddress, :mechEmail, :mechCnumber, :mechValidID, :Username, :hashedPwd, :role)"; //specialization
+                                $query=$dbh->prepare($sql);
+                                $query->bindParam(':mechFirstname',$mechFirstname,PDO::PARAM_STR);
+                                $query->bindParam(':mechLastname',$mechLastname,PDO::PARAM_STR);
+                                $query->bindParam(':mechAddress',$mechAddress,PDO::PARAM_STR);
+                                $query->bindParam(':mechEmail',$mechEmail,PDO::PARAM_STR);
+                                $query->bindParam(':mechCnumber',$mechCnumber,PDO::PARAM_STR);
+                                $query->bindParam(':mechValidID',$new_img_name,PDO::PARAM_STR);
+                                $query->bindParam(':Username',$Username,PDO::PARAM_STR);
+                                $query->bindParam(':hashedPwd',$hashedPwd,PDO::PARAM_STR);
+                                $query->bindParam(':role',$role,PDO::PARAM_STR);
+                                $query->execute();
+                                session_regenerate_id();
+                                echo "<script type='text/javascript'>document.location='../login.php';</script>";
+                            
+                
+                    }
+                }
             }
-          }
-        }
-      } 
+        } 
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -151,15 +152,16 @@ if(isset($_POST['register']) && isset($_FILES['mechValidID']))
                     <div class="field input">
                         <input type="text" placeholder="Baranggay, City, Province" name="mechAddress" required>
                     </div>
-                    <div class="field input">
+                    <!-- <div class="field input">
                         <select name="Specialization" id="" required>
                             <option disabled selected hidden>Choose Mechanic Type...</option>
                             <option value="Bicycle Mechanic">Bicycle Mechanic</option>
                             <option value="Motorcycle Mechanic">Motorcycle Mechanic</option>
                             <option value="Car Mechanic">Car Mechanic</option>
                         </select>
-                    </div>
+                    </div> -->
                     <div class="">
+                        <label>Please attach Valid ID or Certificate</label>
                         <input class="form-control" name="mechValidID" type="file" id="formFileMultiple" placeholder="Attach Valid ID" multiple required>
                     </div>
                     <label>Account Information</label>
@@ -182,6 +184,7 @@ if(isset($_POST['register']) && isset($_FILES['mechValidID']))
                         <input type="submit" name="register" value="Create Account">
                     </div>
                     <div class="link">Do you have an account? <a href="../login.php">login</a></div>
+                                                                                                                                   
             </form>
         </section>
     </div>

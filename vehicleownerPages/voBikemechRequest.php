@@ -106,8 +106,6 @@ if(isset($_POST['send'])){
                             <h6 class="text-start">Mechanic Information</h6>
                             <div class="with-image"><img src="../img/avatar.jpg.jpg" class="rounded-circle imagenajud float-end" alt=""></div>
                             <div class="row py-1" >
-
-                            
                                 <input type="text" class="border-0 text-center" name="mechName" value="<?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?>">
                                 <input type="text" class="border-0 text-center" name="Specialization" value="<?php echo htmlentities($result->Specialization);?>">
                                 <input type="text" class="border-0 text-center" name="mechAddress" value="<?php echo htmlentities($result->mechAddress);?>">
@@ -139,18 +137,23 @@ if(isset($_POST['send'])){
                                 <input class="form-check-input" type="checkbox" id="flexCheckDefault"  name="mechRepair[]" value="Chain Loosening Repair">
                                 <label class="form-check-label" for="flexCheckDefault">Chain Loosening Repair</label>
                             </div>
-                           
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="flexCheckDefault" name="mechRepair[]" value="Break Repair">
+                                <label class="form-check-label" for="flexCheckDefault">Break Repair</label>
+                            </div>
+                             <div class="">
+                                 <label for="">Others specify..</label>
+                                <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="Please specify" rows="3" name="specMessage" value="specMessage"></textarea>
+                            </div>
                         </div>
                     </div>
                     <div class="row pt-3">
                         <div class="col-md-6 d-grid pb-2"><button class="btn btn-primary rounded-pill" name="send" value="send">Request</button></div>
-                        <div class="col-md-6 d-grid pb-2"> <button class="btn btn-secondary rounded-pill boton" type="button"><a href="./voBikemech.php">Back</a></button></div>
+                        <div class="col-md-6 d-grid pb-2"> <button class="btn btn-secondary rounded-pill boton" type="button"><a href="./voCarmech.php">Back</a></button></div>
                     </div>
                 </div>
             </div>
             <?php }}?>
-            <input hidden type="text" id="latitude" name="latitude" value="<?php echo htmlentities($_SESSION["latitude"]); ?> ">
-                            <input hidden type="text" id="longitude" name="longitude" value=" <?php echo htmlentities($_SESSION["longitude"]); ?>">
         </form>
 
     </section>

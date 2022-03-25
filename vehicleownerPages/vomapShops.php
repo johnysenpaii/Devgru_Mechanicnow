@@ -30,8 +30,15 @@ $custID1=$_SESSION['custID'];
     <?php include('./voTopnav.php');?>
     
     <section id="serviceOptions" class="container-fluid">
-        <div class="col-sm-12 col-md-6 col-xl-12 ">
+        <!-- <div class="col-sm-12 col-md-6 col-xl-12 ">
             <div class="justify-content-center" id="google-maps"><iframe class="justify-content-center" width="1000" height="720" src="https://www.google.com/maps/d/u/0/embed?mid=1BrNeEvgKndjLstu-_KqHd0WpA6Yjk8zQ&ehbc=2E312F"></iframe>
+            </div>
+        </div> -->
+        <div class="row justify-content-center pt-3">
+            <div class="col-md-10 text-center">
+                <div id="google-maps">
+                    <iframe src="https://www.google.com/maps/d/u/0/embed?mid=1BrNeEvgKndjLstu-_KqHd0WpA6Yjk8zQ&ehbc=2E312F" frameborder="0" width="100%" height="550"></iframe>
+                </div>
             </div>
         </div>
     </section>

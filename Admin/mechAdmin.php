@@ -168,13 +168,7 @@ include('../config.php');
 
                                                     </tr>
                                                 </tbody>
-                                                <?php }}
-                                                 else{
-                                                    echo "<script type='text/javascript'>alert('no username');</script>";
-                                                    echo "<script type='text/javascript'>location.replace('mechAdmin.php');</script>";
-
-
-                                                }?>
+                                                <?php }}?>
                                             </table>
                                         </div>
                                     </div>

@@ -29,6 +29,15 @@ elseif(isset($_POST['bicycle'])){
         $query->execute();
         echo "<script type='text/javascript'>document.location='voBikemech.php';</script>";
 }
+
+// if(isset($_POST['update'])){
+//      $sql="UPDATE customer set latitude=:latitude,longitude=:longitude WHERE custID=:custID"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
+//             $query2=$dbh->prepare($sql);
+//             $query2->bindParam(':latitude',$latitude,PDO::PARAM_STR);
+//             $query2->bindParam(':longitude',$longitude,PDO::PARAM_STR);
+//             $query2->bindParam(':custID',$custID,PDO::PARAM_STR);
+//             $query2->execute(); 
+// }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -40,6 +49,7 @@ elseif(isset($_POST['bicycle'])){
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css2?family=Stick+No+Bills:wght@600&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/810a80b0a3.js" crossorigin="anonymous"></script>
     <link rel="stylesheet"
@@ -50,6 +60,7 @@ elseif(isset($_POST['bicycle'])){
     <link rel="stylesheet" href="../css/style.css">
     <title>Mechanic Now</title>
     <link rel="shortcut icon" type="x-icon" href="../img/mechanicnowlogo.svg">
+
 </head>
 
 <body id="contbody" style="background-color: #f8f8f8" onload="calcCrow()">
@@ -58,14 +69,14 @@ elseif(isset($_POST['bicycle'])){
     <section id="serviceOptions" class="container-fluid container-md py-3 pb-5 mb-5">
         <form action="" method="POST">
             <?php
- $sql="SELECT * FROM mechanic WHERE mechID";
- $query=$dbh->prepare($sql);
- $query->execute();
- $results=$query->fetchALL(PDO::FETCH_OBJ);
-$cnt=1;       
-if( $query->rowCount()>0){
- foreach($results as $result){            
-        ?> 
+            $sql="SELECT * FROM mechanic WHERE mechID";
+            $query=$dbh->prepare($sql);
+            $query->execute();
+            $results=$query->fetchALL(PDO::FETCH_OBJ);
+            $cnt=1;       
+            if( $query->rowCount()>0){
+                foreach($results as $result){            
+            ?> 
             <input hidden type="text" name='lat2' id="lat2" value="<?php echo htmlentities($result->latitude);?>">
             <input hidden type="text" name='lon2' id="lon2" value="<?php echo htmlentities($result->longitude);?>">  
             <?php }}?>
@@ -83,7 +94,6 @@ if( $query->rowCount()>0){
                                     <div class="card h-100">
                                         <img src="../img/car.svg" class="card-img-top" alt="...">
                                         <div class="card-body">
-                                        
                                             <center>
                                                 <h5 class="card-title">Car</h5>
                                             </center>
@@ -133,6 +143,27 @@ if( $query->rowCount()>0){
                     <div class="act-content">
                         <h5 class="py-2 pb-2 text-center">Recent Activities</h5>
                         <?php
+                            $sql="SELECT * from request WHERE custID=$custID1 and status='Unaccepted' order by resID DESC";
+                            $query=$dbh->prepare($sql);
+                            $query->execute();
+                            $results=$query->fetchALL(PDO::FETCH_OBJ);
+
+                            if($query->rowCount()>0)
+                            {
+                            foreach ($results as $result)
+                            {
+                                if($custID1==$custID1)
+                                {
+                        ?>
+                        <div class="col py-2 hovers rounded-3">
+                            <!-- <h6><?php echo htmlentities($result->serviceNeeded);?></h6> -->
+                            <p class="fs-6 pb-2">You sent an <?php echo htmlentities($result->serviceNeeded);?> request to <?php echo htmlentities($result->mechName);?></p>
+                            <div class="d-grid">
+                                <button class="btn btn-primary" type="button">Details</button>
+                            </div>
+                        </div>
+                        <?php }}}?>
+                        <!-- <?php
                         $sql="SELECT * from request WHERE custID=$custID1 and status='Unaccepted' order by resID DESC";
                         $query=$dbh->prepare($sql);
                         $query->execute();
@@ -144,13 +175,14 @@ if( $query->rowCount()>0){
                         {
                             if($custID1==$custID1)
                             {
-                    ?>
-                        <div class="request-table">
+                        ?> -->
+                        <!-- <div class="request-table">
                             <table class="table-card">
                                 <tr class="row-card">
                                     <td class="data-card">
-                                        <div class="td-card">
+                                        <div class="td-card text-dark">
                                             <h3><?php echo htmlentities($result->mechName);?></h3>
+                                            <h3>Home Service</h3>
                                             <p><strong>Description : </strong>
                                                 <?php echo htmlentities($result->mechRepair);?></p>
                                             <p id="status"><strong>Status: </strong>
@@ -163,13 +195,36 @@ if( $query->rowCount()>0){
                                     </td>
                                 </tr>
                             </table>
-                        </div>
-                        <?php }}}?>
+                        </div> -->
+                        <!-- <?php }}}?> -->
                     </div>
                 </div>
 
             </div>
         </form>
+        <!-- Start of modal -->
+        <!-- <div class="modal" tabindex="-1" id="myModal" >
+            <form method="POST">
+            <div class="modal-dialog text-dark">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Notice</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Some of the function may require location, Do you want to turn it on?</p>
+                    <input   type="text"  id="latitude" name="latitude" value="">
+                    <input  type="text"  id="longitude" name="longitude" value="">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" >Yes</button>
+                    <button type="submit" class="btn btn-secondary" name="update">Back</button>
+                </div>
+                </div>
+            </div>
+            </form>
+        </div> -->
     </section>
     <div class="row d-block d-lg-none"><?php include('voBottom-nav.php');?></div>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
@@ -182,7 +237,22 @@ if( $query->rowCount()>0){
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
     </script>
     <script src="../js/bootstrap.bundle.min.js"></script>
-    <script>
+    <script>   
+//     var x = document.getElementById("latitude");
+//     var y = document.getElementById("longitude");
+// function getLocation() {
+//     if (navigator.geolocation) {
+//         navigator.geolocation.getCurrentPosition(showPosition);
+//     } else { 
+//         x.value = "Geolocation is not supported by this browser.";
+//         y.value = "Geolocation is not supported by this browser.";
+//     }
+//     function showPosition(position) {
+//     x.value = position.coords.latitude;
+//     y.value = position.coords.longitude;
+//     document.getElementById("latitude").innerHTML = x;
+//     document.getElementById("longitude").innerHTML = y;
+//     }
         var km = document.getElementById('kilo');
         var lat1 = document.getElementById('lat1').value;
         var lon1 = document.getElementById('lon1').value;
@@ -210,7 +280,10 @@ function toRad(Value)
 {
     return Value * Math.PI / 180;
 }
-    </script>
+
+
+</script>
+    
 </body>
 
 </html>
