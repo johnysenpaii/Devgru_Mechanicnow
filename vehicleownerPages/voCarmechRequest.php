@@ -25,7 +25,8 @@ if(isset($_POST['send'])){
     $mechRepair=$_POST['mechRepair'];  //checkbox1
     $service=$_POST['service'];
     $mechID=$_POST['mechID'];
-
+    $date=$_POST['date'];
+    $time=$_POST['time'];
     // $currentlocation=$_POST['currentlocation'];
     $chk=""; 
     $spec="";
@@ -36,6 +37,9 @@ if(isset($_POST['send'])){
     $mechAdd="";
     $custAdd="";
     $serv="";
+    $date1="";
+    $time1="";
+
 
     // $currentL="";
     foreach($mechRepair as $chk1){  
@@ -49,10 +53,12 @@ if(isset($_POST['send'])){
     $mechAdd .= $mechAddress;
     $custAdd .= $custAddress;
     $serv .= $service;
+    $date1 .= $date;
+    $time1 .= $time;
    
     // $currentL.=$currentlocation;
 
-    $in_ch=mysqli_query($con,"INSERT INTO request(mechName, vOwnerName, specMessage, mechRepair, serviceType, serviceNeeded, mechID, custID, mechAddress, custAddress,latitude,longitude) values ('$mechN', '$vON' , '$spec', '$chk', '$Specl', '$serv', '$mID', '$custID1', '$mechAdd', '$custAdd','$latitude','$longitude')");//,'$latitude','$longitude','$currentL',
+    $in_ch=mysqli_query($con,"INSERT INTO request(mechName, vOwnerName, specMessage, mechRepair, serviceType, serviceNeeded, mechID, custID, mechAddress, custAddress,latitude,longitude,date,time) values ('$mechN', '$vON' , '$spec', '$chk', '$Specl', '$serv', '$mID', '$custID1', '$mechAdd', '$custAdd','$latitude','$longitude','$date1','$time1')");//,'$latitude','$longitude','$currentL',
     if($in_ch==1)  
     {  
         echo'<script>alert("Request Sent Successfully, Wait for Mechanic to Confirm!")</script>';  
@@ -76,6 +82,7 @@ if(isset($_POST['send'])){
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Stick+No+Bills:wght@600&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/810a80b0a3.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/fontawesome.min.css" integrity="sha384-jLKHWM3JRmfMU0A5x5AkjWkw/EYfGUAGagvnfryNV3F9VqM98XiIH7VBGVoxVSc7" crossorigin="anonymous">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="../css/style.css">
@@ -137,6 +144,10 @@ if(isset($_POST['send'])){
                                 <label class="form-check-label" for="exampleRadios1">
                                     Home Service
                                 </label>
+                            </div>
+                            <div id="textboxes" style="display: none">
+                                Date: <input name="date" type="date"/> 
+                                Time: <input name="time" type="time"/> 
                             </div>
                             <div class="form-check pb-2">
                                 <input class="form-check-input" type="radio" value="Emergency Service" name="service" id="exampleRadios2">
@@ -292,6 +303,28 @@ if(isset($_POST['send'])){
                     }
                 }
             });
+        }
+    
+        $(function() {
+        $('input[name="service"]').on('click', function() {
+            if ($(this).val() == 'Home Service') {
+                $('#textboxes').show();
+            }
+            else {
+                $('#textboxes').hide();
+            }
+            });
+        });
+
+        function totalIt() {
+        var input = document.getElementsByName("mechAmount");
+        var total = 0;
+            for (var i = 0; i < input.length; i++) {
+                if (input[i].checked) {
+                total += parseFloat(input[i].value);
+                }
+            }
+            document.getElementsByName("Tamount")[0].value = "₱" + total.toFixed(2);
         }
     </script>
 

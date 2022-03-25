@@ -63,7 +63,7 @@ $mechID1=$_SESSION['mechID'];
                                 
                                 <!-- <input type="text" class="border-0 text-center" name="mechName" value="<?php echo htmlentities($result->vOwnerName);?>">
                                 <input type="text" class="border-0 text-center" name="Specialization" value="<?php echo htmlentities($result->custAddress);?>"> -->
-                                <iframe src="https://maps.google.com/maps?q=<?php echo htmlentities($result->latitude);?>,<?php echo htmlentities($result->longitude);?>&output=embed" frameborder="0" width="700" height="400">
+                                <iframe src="https://maps.google.com/maps?q=<?php echo htmlentities($result->latitude);?>,<?php echo htmlentities($result->longitude);?>&<?php echo htmlentities($_SESSION['latitude']);?>,<?php echo htmlentities($_SESSION['longitude']);?>&output=embed" frameborder="0" width="700" height="400">
                                 </iframe>
                             </div>                       
                         </div>
@@ -72,10 +72,13 @@ $mechID1=$_SESSION['mechID'];
                                 <p><?php echo htmlentities($result->vOwnerName);?></p>
                                 <p class="pb-2"><?php echo htmlentities($result->custAddress);?></p>
                                 <h6 class="text-start">Request Information</h6>
-                                <p class="py-1">Request: <?php echo htmlentities($result->serviceNeeded);?></p>
+                                <p class="py-1">Request: <?php echo htmlentities($result->serviceNeeded);?></p> 
+                                <p class="py-1"><?php echo htmlentities($result->date);?></p>
+                                <p class="py-1"><?php echo htmlentities($result->time);?></p>
                                 <p class="py-1"><?php echo htmlentities($result->mechRepair);?></p>
                                 <h6>Note:</h6>
                                 <p class="py-1"><?php echo htmlentities($result->specMessage);?></p>
+                               
                                 <!-- <input type="text" class="border-0 text-center" name="Specialization" value="<?php echo htmlentities($result->serviceType);?>">
                                 <input type="text" class="border-0 text-center" name="mechAddress" value="<?php echo htmlentities($result->serviceNeeded);?>">
                                 <input type="text" class="border-0 text-center" name="mechAddress" value="<?php echo htmlentities($result->mechRepair);?>">

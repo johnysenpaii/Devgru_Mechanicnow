@@ -74,7 +74,7 @@ include('../config.php');
                         <?php }} }       
         else {     
         ?> 
-        <div class="emptyrequest mt-5 pt-5" >
+        <div class="emptyrequest mt-1 pt-5" >
             <div class="emptydiv"><img src="../img/empty.png" alt=""></div>
             <h6>There is no mechanic nearby..</h6>
         </div>
