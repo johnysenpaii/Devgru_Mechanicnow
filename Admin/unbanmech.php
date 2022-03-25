@@ -8,9 +8,9 @@ if(isset($_POST['ban'])){
     $subject= 'Unbanned';
     $message = 'Now you can resume your account';
     //Load composer's autoloader
-    require 'C:/xampp/htdocs/Mechanicnow/Mechanicnow/PHPMailer-master/src/Exception.php';
-    require 'C:/xampp/htdocs/Mechanicnow/Mechanicnow/PHPMailer-master/src/PHPMailer.php';
-    require 'C:/xampp/htdocs/Mechanicnow/Mechanicnow/PHPMailer-master/src/SMTP.php';
+    require 'C:/xampp/htdocs/Devgru_Mechanicnow/Admin/PHPMailer-master/src/Exception.php';
+    require 'C:/xampp/htdocs/Devgru_Mechanicnow/Admin/PHPMailer-master/src/PHPMailer.php';
+    require 'C:/xampp/htdocs/Devgru_Mechanicnow/Admin/PHPMailer-master/src/SMTP.php';
     $mail = new PHPMailer(true);                            
     
         //Server settings
