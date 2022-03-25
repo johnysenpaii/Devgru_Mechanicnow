@@ -368,8 +368,14 @@ form .name-details .field:last-child{
     border-radius: 16px;
     border-collapse: separate;
     background: var(--clr-primary-500);
-    transition:background .1s;
-    
+    transition:background .1s;   
+}
+.table1 tbody tr {
+    position: relative;
+    border-radius: 16px;
+    border-collapse: separate;
+    background: var(--clr-neutral-100) ;
+    transition:background .1s;   
 }
 .table tbody tr:hover {
     background: var(--clr-primary-800);

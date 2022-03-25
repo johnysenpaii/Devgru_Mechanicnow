@@ -26,11 +26,17 @@ $custAddress1=$_SESSION['custAddress'];
     <?php include('./voTopnav.php');?>
 
     <section id="mechContent" class="mech-content container-fluid">
-        <div class="emptyrequest" hidden>
-            <div class="emptydiv"><img src="../img/empty.png" alt=""></div>
-            <h6>There is no mechanic nearby..</h6>
-        </div>
-        <div class="row py-3 px-sm-0 px-md-3 text-center table-responsive justify-content-center pb-5">
+        <?php
+            $sql="SELECT * from mechanic WHERE vehicleType like '%Bicycle%'";
+            $query=$dbh->prepare($sql);
+            $query->execute();
+            $results=$query->fetchALL(PDO::FETCH_OBJ);
+            $cnt=1;       
+            if( $query->rowCount()>0){   
+                foreach($results as $result){
+                    if($result->distanceKM <= 3.0){
+        ?> 
+        <div class="row py-3 px-sm-0 px-md-3 text-center table-responsive justify-content-center pb-5" hidden>
             <div class="col-lg-8 bg-white py-4 rounded-3 shadow-lg">
                 <h4 class="text-dark pb-4">Available Car Mechanics</h4>
                 <div class="row d-flex justify-content-end align-items-center px-sm-0 px-md-4">                   
@@ -45,40 +51,23 @@ $custAddress1=$_SESSION['custAddress'];
                     <thead>
                     </thead>
                     <tbody>
-                        <?php
-                           $sql="SELECT * from mechanic WHERE mechAddress='$custAddress1' and vehicleType like '%Bicycle%'";
-                           $query=$dbh->prepare($sql);
-
-                           $query->execute();
-                           $results=$query->fetchALL(PDO::FETCH_OBJ);
-
-                           if($query->rowCount()>0)
-                           {
-                            foreach($results as $result)   
-                           {   
-                               if($custAddress1==$custAddress1)
-                               {
-                           ?>
                         <tr class="d-flex align-items-center justify-content-around mt-2">
                             <td><?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?></td>
                             <td><?php echo htmlentities($result->Specialization);?></td>
                             <td><a class="btn btn-warning px-3" href="voBikemechRequest.php?regeditid=<?php echo htmlentities($result->mechID)?>">Details</a></td>
                         </tr>
                     </tbody>
-                    <?php }}}
-                    else {
-                        ?>
-                <div class="emptyrequest" >
-                <div class="emptydiv"><img src="../img/empty.png" alt=""></div>
-                <h6>There is no mechanic nearby..</h6>
-                </div>
-                                                    <?php
-                                                    }
-                                                   ?>
                 </table>
             </div>
         </div>
-       
+        <?php }}}
+        else {
+        ?>
+            <div class="emptyrequest mt-5 pt-5" >
+                <div class="emptydiv"><img src="../img/empty.png" alt=""></div>
+                <h6>There is no mechanic nearby..</h6>
+            </div>
+        <?php }?>
         <!-- Filter Search -->
         <div class="modal fade" id="Filter-modal" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">

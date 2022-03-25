@@ -8,7 +8,8 @@ if(isset($_POST['Accept']))
     $query=$dbh->prepare($sql); 
     $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR); 
     $query->execute();
-    echo"<script>location.replace('mechActivityLog.php');</script>";
+    echo"<script type='text/javascript'>alert('Accepted Successfully!');</script>";
+    echo"<script>location.replace('./mechDashboard.php');</script>";
 }
 $mechID1=$_SESSION['mechID'];
 ?>
@@ -30,7 +31,7 @@ $mechID1=$_SESSION['mechID'];
     <link rel="shortcut icon" type="x-icon" href="../img/mechanicnowlogo.svg">
 </head>
 <body id="contbody" style="background-color: #f8f8f8">
-    <?php include('mechHeader.php');?>
+    <?php include('./mechHeader.php');?>
 
     <section class="mechRequest" class="container-fluid">
          <div class="emptyrequest" hidden>
@@ -56,21 +57,25 @@ $mechID1=$_SESSION['mechID'];
                     <div class="row text-dark">
                         <h3 class="pb-4">Vehicle Owner Request Details</h3>
                         <div class="col-sm-12 col-md-6 pb-5 justify-content-center">
-                            <h6 class="text-start">Vehicle Owner Information</h6>
+                            
                             <div class="with-image"><img src="../img/avatar.jpg.jpg" class="rounded-circle imagenajud float-end" alt=""></div>
-                            <div class="row py-1" >
-                                <p><?php echo htmlentities($result->vOwnerName);?></p>
-                                <p><?php echo htmlentities($result->custAddress);?></p>
+                            <div class="row py-0 pt-0" >
+                                
                                 <!-- <input type="text" class="border-0 text-center" name="mechName" value="<?php echo htmlentities($result->vOwnerName);?>">
                                 <input type="text" class="border-0 text-center" name="Specialization" value="<?php echo htmlentities($result->custAddress);?>"> -->
+                                <iframe src="https://maps.google.com/maps?q=<?php echo htmlentities($result->latitude);?>,<?php echo htmlentities($result->longitude);?>&output=embed" frameborder="0" width="700" height="400">
+                                </iframe>
                             </div>                       
                         </div>
                         <div class="col-sm-12 col-md-6 text-start">
-                            <h6 class="text-start">Request Information</h6>
-                                <p><?php echo htmlentities($result->serviceType);?></p>
-                                <p><?php echo htmlentities($result->serviceNeeded);?></p>
-                                <p><?php echo htmlentities($result->mechRepair);?></p>
-                                <p><?php echo htmlentities($result->specMessage);?></p>
+                            <h6 class="text-start">Vehicle Owner Information</h6>
+                                <p><?php echo htmlentities($result->vOwnerName);?></p>
+                                <p class="pb-2"><?php echo htmlentities($result->custAddress);?></p>
+                                <h6 class="text-start">Request Information</h6>
+                                <p class="py-1">Request: <?php echo htmlentities($result->serviceNeeded);?></p>
+                                <p class="py-1"><?php echo htmlentities($result->mechRepair);?></p>
+                                <h6>Note:</h6>
+                                <p class="py-1"><?php echo htmlentities($result->specMessage);?></p>
                                 <!-- <input type="text" class="border-0 text-center" name="Specialization" value="<?php echo htmlentities($result->serviceType);?>">
                                 <input type="text" class="border-0 text-center" name="mechAddress" value="<?php echo htmlentities($result->serviceNeeded);?>">
                                 <input type="text" class="border-0 text-center" name="mechAddress" value="<?php echo htmlentities($result->mechRepair);?>">

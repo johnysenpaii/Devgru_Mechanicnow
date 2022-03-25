@@ -31,18 +31,27 @@ $mechID1=$_SESSION['mechID'];
     <section id="nav-top" class="d-none d-md-block top-navigation container-fluid">
         <div class="row">
             <!-- d-flex justify-content-evenly -->
-            <div class="d-flex justify-content-start pt-3">
+            <div class="d-flex justify-content-center pt-3">
                 <a href="mechActivityLog.php" class="py-1 px-5 mx-1 bg-white text-dark rounded-pill btn">Activity
                     Log</a>
                 <a href="" class="py-1 px-5 mx-1 bg-white text-dark rounded-pill btn">Transaction</a>
             </div>
         </div>
     </section>
-    <section id="mechContent" class="mech-content container-fluid bg-dark">
-        <div class="emptyrequest" hidden>
-            <div class="emptydiv"><img src="../img/empty.png" alt=""></div>
-            <h6>There is no requests available at the moment..</h6>
-        </div>
+    <section id="mechContent" class="mech-content container-fluid">
+        <?php
+                            $sql="SELECT * from request WHERE mechID=$mechID1 and status='Unaccepted'";
+                            $query=$dbh->prepare($sql);
+                            $query->execute();
+                            $results=$query->fetchALL(PDO::FETCH_OBJ);
+
+                            if($query->rowCount()>0)
+                            {
+                            foreach ($results as $result)
+                            {
+                                if($mechID1==$mechID1)
+                                {
+                        ?>
         <div class="row py-3 px-sm-0 px-md-3 text-center table-responsive justify-content-center pb-5">
             <div class="col-lg-8 bg-white py-4 rounded-3 shadow-lg">
                 <h4 class="text-dark pb-4">Available Vehicle Owner Request</h4>
@@ -58,19 +67,7 @@ $mechID1=$_SESSION['mechID'];
                     <thead>
                     </thead>
                     <tbody>
-                        <?php
-                            $sql="SELECT * from request WHERE mechID=$mechID1 and status='Unaccepted'";
-                            $query=$dbh->prepare($sql);
-                            $query->execute();
-                            $results=$query->fetchALL(PDO::FETCH_OBJ);
-
-                            if($query->rowCount()>0)
-                            {
-                            foreach ($results as $result)
-                            {
-                                if($mechID1==$mechID1)
-                                {
-                        ?>
+                        
                         <tr class="d-flex align-items-center justify-content-around mt-2">
                             <td><?php echo htmlentities($result->vOwnerName);?></td>
                             <td hidden><?php echo htmlentities($result->custID);?></td>
@@ -78,10 +75,19 @@ $mechID1=$_SESSION['mechID'];
                             <td><a class="btn btn-warning px-3" href="mechRequestDetails.php?regeditid=<?php echo htmlentities($result->resID)?>">Details</a></td>
                         </tr>
                     </tbody>
-                    <?php  }}}?>
                 </table>
             </div>
         </div>
+         <?php  }}}
+        else {
+                    ?>
+                    <div class="emptyrequest pt-5 mt-5">
+                        <div class="emptydiv"><img src="../img/empty.png" alt=""></div>
+                        <h6>There is no request available..</h6>
+                    </div>
+                    <?php
+                    }
+                    ?>
         <!-- <div class="row container-fluid py-5 text-center table-responsive justify-content-center">
             <div class="col-lg-8">
                 <h4 class="text-dark">Request Available</h4>

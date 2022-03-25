@@ -2,13 +2,13 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 session_start();
-include('..\config.php');
+include('../config.php');
 if(isset($_POST['approve'])){
     $email = $_POST['mechEmail'];
     $subject= 'Approval';
     $message = 'Now your Approve';
     //Load composer's autoloader
-    require 'C:/xamppht/docs/Devgru_Mechanicnow/Admin/PHPMailer-master/src/Exception.php';
+    require 'C:/xampp/htdocs/Devgru_Mechanicnow/Admin/PHPMailer-master/src/Exception.php';
     require 'C:/xampp/htdocs/Devgru_Mechanicnow/Admin/PHPMailer-master/src/PHPMailer.php';
     require 'C:/xampp/htdocs/Devgru_Mechanicnow/Admin/PHPMailer-master/src/SMTP.php';
     $mail = new PHPMailer(true);                            
@@ -18,7 +18,7 @@ if(isset($_POST['approve'])){
         $mail->Host = 'smtp.gmail.com';                      
         $mail->SMTPAuth = true;                             
         $mail->Username = 'jepriel.t.ojt@gmail.com';     
-        $mail->Password = 'Tibay1234@';             
+        $mail->Password = 'Jepoy1234@';             
         $mail->SMTPOptions = array(
             'ssl' => array(
             'verify_peer' => false,

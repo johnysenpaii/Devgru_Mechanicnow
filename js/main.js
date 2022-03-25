@@ -1,3 +1,7 @@
+$(document).ready(function(){
+            $('#myModal').modal('show');
+        });
+
 
 var x = document.getElementById("latitude");
 var y = document.getElementById("longitude");

@@ -3,6 +3,7 @@ session_start();
 include('../config.php');
     $custAddress1=$_SESSION['custAddress'];
     // $regeditid=$_SESSION["custID"];
+    $custAddress1=$_SESSION['latitude'];
 
     // $sql="SELECT * from mechanic where custID=:regeditid";
     // $query=$dbh->prepare($sql);
@@ -35,8 +36,8 @@ include('../config.php');
     <?php include('./voTopnav.php');?>
 
     <section id="mechContent" class="mech-content container-fluid">
-        
-        <div class="row py-3 px-sm-0 px-md-3 text-center table-responsive justify-content-center pb-5">
+         
+        <div class="row py-3 px-sm-0 px-md-3 text-center table-responsive justify-content-center pb-5"> 
             <div class="col-lg-8 bg-white py-4 rounded-3 shadow-lg">
                 <h4 class="text-dark pb-4">Available Car Mechanics</h4>
                 <div class="row d-flex justify-content-end align-items-center px-sm-0 px-md-4">                   
@@ -47,49 +48,45 @@ include('../config.php');
                         <i class="fa-solid fa-filter fa-2x" data-bs-toggle="modal" data-bs-target="#Filter-modal"></i>
                     </div>
                 </div>
-
+                
                 <table class="table table-borderless table-curved pt-1 px-sm-0 px-md-4">
                     <thead>
                     </thead>
                     <tbody>
                         <?php
-                                $sql="SELECT * from mechanic WHERE vehicleType like '%Car%'";
-                               $query=$dbh->prepare($sql);
-                               $query->execute();
-                               $results=$query->fetchALL(PDO::FETCH_OBJ);
-                               $cnt=1;       
-                               if( $query->rowCount()>0){
-                                   
-                                foreach($results as $result){
-                                    if($result->distanceKM <= 3.0)
-                                {
-                                    ?>
+                    $sql="SELECT * from mechanic WHERE vehicleType like '%Car%' and status='approve'";
+                    $query=$dbh->prepare($sql);
+                    $query->execute();
+                    $results=$query->fetchALL(PDO::FETCH_OBJ);
+                    $cnt=1;       
+                    if( $query->rowCount()>0){   
+                        foreach($results as $result){
+                            if($result->distanceKM <= 3.0){
+                ?>  
                         <tr class="d-flex align-items-center justify-content-around mt-2">
                             <td><?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?></td>
                             <td><?php echo htmlentities($result->Specialization);?></td>
                             <td>k.m <?php echo htmlentities($result->distanceKM);?> </td>
 
                             <td><a class="btn btn-warning px-3" href="voCarmechRequest.php?regeditid=<?php echo htmlentities($result->mechID)?>">Details</a></td>
+
                         </tr>
-                    </tbody>
-                    <?php }}}
-                    
-                    else {
-                    ?>
-            <div class="emptyrequest" >
+                        <?php }} }       
+        else {     
+        ?> 
+        <div class="emptyrequest mt-5 pt-5" >
             <div class="emptydiv"><img src="../img/empty.png" alt=""></div>
             <h6>There is no mechanic nearby..</h6>
-            </div>
-                                                <?php
-                                                }
-                                               ?>
-
-
-
+        </div>
+        <?php
+        }
+        ?>
+                    </tbody>
                 </table>
-               
+                
             </div>
         </div>
+        
        </form>
         <!-- Filter Search -->
         <div class="modal fade" id="Filter-modal" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
