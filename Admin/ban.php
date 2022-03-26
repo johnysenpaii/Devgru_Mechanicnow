@@ -18,7 +18,7 @@ if(isset($_POST['ban'])){
         $mail->Host = 'smtp.gmail.com';                      
         $mail->SMTPAuth = true;                             
         $mail->Username = 'jepriel.t.ojt@gmail.com';     
-        $mail->Password = 'Tibay1234@';             
+        $mail->Password = 'Jepoy1234@';             
         $mail->SMTPOptions = array(
             'ssl' => array(
             'verify_peer' => false,

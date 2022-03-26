@@ -89,9 +89,7 @@ if(isset($_POST['send'])){
     <title>Mechanic Now</title>
     <link rel="shortcut icon" type="x-icon" href="../img/mechanicnowlogo.svg">
 </head>
-<body id="contbody" style="background-color: #f8f8f8" onload="GetAddress();">
-    <?php include('voHeader.php');?>
-    <?php include('./voTopnav.php');?>
+<body id="contbody" style="background-color: #f8f8f8; margin-top: 10px;" onload="GetAddress();">
 
     <section class="mechRequest" class="container-fluid">
         <form method="POST">
@@ -113,7 +111,7 @@ if(isset($_POST['send'])){
                     <div class="row text-dark">
                         <h3 class="pb-4">Request Form</h3>
                         <div class="col-sm-12 col-md-6 pb-5 justify-content-center">
-                            <h6  class="text-start">Mechanic Information</h6>
+                            <h5 class="text-start"><center><strong>Mechanic Information</center></strong></h5>
                             <div class="with-image"><img src="../img/avatar.jpg.jpg" class="rounded-circle imagenajud float-end" alt=""></div>
                             <div class="row py-1" >
                                 <input readonly type="text" class="border-0 text-center" name="mechName" value="<?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?>">

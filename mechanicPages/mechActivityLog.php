@@ -22,12 +22,19 @@ $mechID1=$_SESSION['mechID'];
 </head>
 <body id="contbody" style="background-color: #f8f8f8">
     <?php include('mechHeader.php');?>
-    <!-- <?php include('./mechTopnav.php');?> -->
+    <!-- <?php include('mechTopnav.php');?> -->
 
     <section id="activityLog">
+    <div class="row">
+            <!-- d-flex justify-content-evenly -->
+            <div class="d-flex justify-content-center pt-3">
+                <a href="mechActivityLog.php" class="py-1 px-5 mx-1 bg-white text-dark rounded-pill btn">Activity
+                    Log</a>
+                <a href="" class="py-1 px-5 mx-1 bg-white text-dark rounded-pill btn">Transaction</a>
+            </div>
+        </div>
         <div class="row py-3 px-sm-0 px-md-3 table-responsive justify-content-center pb-5">
             <div class="col-lg-8  py-4  ">
-                <center><h4 class="text-dark pb-4">Activity Logs</h4></center>
                 <?php
                     $sql="SELECT * from request WHERE mechID=$mechID1 and status='Accepted' order by resID DESC";
                     $query=$dbh->prepare($sql);
@@ -54,9 +61,9 @@ $mechID1=$_SESSION['mechID'];
                 <?php }}} 
                     else {
                     ?>
-                    <div class="emptyrequest" >
+                    <div class="emptyrequest mt-5 pt-5" >
                             <div class="emptydiv"><img src="../img/empty.png" alt=""></div>
-                            <h6>There is no mechanic nearby..</h6>
+                            <h6>No available activities. . .</h6>
                    </div>
                    <?php
                     }

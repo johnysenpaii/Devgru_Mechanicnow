@@ -54,7 +54,7 @@ include('../config.php');
                     </thead>
                     <tbody>
                         <?php
-                    $sql="SELECT * from mechanic WHERE vehicleType like '%Car%' and status='approve'";
+                    $sql="SELECT * from mechanic WHERE vehicleType like '%Car Mechanic%' and status='approve'";
                     $query=$dbh->prepare($sql);
                     $query->execute();
                     $results=$query->fetchALL(PDO::FETCH_OBJ);
@@ -74,7 +74,7 @@ include('../config.php');
                         ?> 
                             <div class="emptyrequest mt-1 pt-4" >
                             <div class="emptydiv"><img src="../img/empty.png" alt=""></div>
-                            <h6>There is no mechanic nearby. . .</h6>
+                            <h6>No mechanic nearby. . .</h6>
                             </div>
                             <?php
                             }

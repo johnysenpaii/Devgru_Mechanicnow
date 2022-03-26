@@ -27,7 +27,6 @@ $custID1=$_SESSION['custID'];
     <section id="activityLog">
         <div class="row py-3 px-sm-0 px-md-3 table-responsive justify-content-center pb-5">
             <div class="col-lg-8  py-4  ">
-                <center><h4 class="text-dark pb-4">Activity Logs</h4></center>
                 <?php
                     $sql="SELECT * from request WHERE custID=$custID1 and status='Accepted' order by resID DESC";
                     $query=$dbh->prepare($sql);
@@ -55,9 +54,9 @@ $custID1=$_SESSION['custID'];
                     
                     else {
                     ?>
-                    <div class="emptyrequest" >
+                    <div class="emptyrequest mt-5 pt-5" >
                             <div class="emptydiv"><img src="../img/empty.png" alt=""></div>
-                            <h6>No logs available. . .</h6>
+                            <h6>No available activities. . .</h6>
                    </div>
                    <?php
                     }

@@ -80,7 +80,7 @@ $mechID1=$_SESSION['mechID'];
                         ?>
                         <div class="emptyrequest pt-1 mt-4">
                             <div class="emptydiv"><img src="../img/empty.png" alt=""></div>
-                            <h6>There is no request available..</h6>
+                            <h6>No request available . . .</h6>
                         </div>
                         <?php
                     }
