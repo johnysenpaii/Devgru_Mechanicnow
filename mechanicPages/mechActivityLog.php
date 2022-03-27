@@ -34,7 +34,7 @@ $mechID1=$_SESSION['mechID'];
             </div>
         </div>
         <div class="row py-3 px-sm-0 px-md-3 table-responsive justify-content-center pb-5">
-            <div class="col-lg-8  py-4  ">
+            <div class="col-lg-8">
                 <?php
                     $sql="SELECT * from request WHERE mechID=$mechID1 and status='Accepted' order by resID DESC";
                     $query=$dbh->prepare($sql);
@@ -61,7 +61,7 @@ $mechID1=$_SESSION['mechID'];
                     </div>
                 </div>
                 <?php }}} 
-                    else {
+                    else {  
                     ?>
                     <div class="emptyrequest mt-5 pt-5" >
                             <div class="emptydiv"><img src="../img/empty.png" alt=""></div>
@@ -118,6 +118,7 @@ $mechID1=$_SESSION['mechID'];
         </section>
 
     </div> -->
+    
 
     <script src="js/main.js"></script>
 </body>
