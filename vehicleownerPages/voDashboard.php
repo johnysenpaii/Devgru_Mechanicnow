@@ -157,7 +157,7 @@ elseif(isset($_POST['bicycle'])){
                         ?>
                         <div class="col py-2 hovers rounded-3">
                             <!-- <h6><?php echo htmlentities($result->serviceNeeded);?></h6> -->
-                            <p class="fs-6 pb-2">You sent an <?php echo htmlentities($result->serviceNeeded);?> request to <?php echo htmlentities($result->mechName);?></p>
+                            <p class="fs-6 pb-2"><?php echo htmlentities($result->serviceNeeded);?> Request</p>
                             <div class="d-grid">
                                 <button class="btn btn-primary" type="button">Details</button>
                             </div>

@@ -74,7 +74,7 @@ $mechID1=$_SESSION['mechID'];
                                 <h5 class="text-start">Request Information</h5>
                                 <p><i>Service Needed:</i> <?php echo htmlentities($result->serviceNeeded);?></p> 
                                 <p><i>Date:</i> <?php echo htmlentities($result->date);?></p>
-                                <p><i>Time:</i> <?php echo htmlentities($result->time);?></p>
+                                <p><i>Time:</i> <?php echo htmlentities($result->time) < 12 ? 'AM' : 'PM';?> <?php echo htmlentities($result->time);?></p>
                                 <p class="pb-2"><i>Vehicle Problem:</i> <?php echo htmlentities($result->mechRepair);?></p>
                                 <h5>Noted Message</h5>
                                 <p><?php echo htmlentities($result->specMessage);?></p>

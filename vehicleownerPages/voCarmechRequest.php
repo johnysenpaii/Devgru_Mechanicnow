@@ -113,7 +113,7 @@ if(isset($_POST['send'])){
                         <div class="col-sm-12 col-md-6 pb-5 justify-content-center">
                             <h5 class="text-start"><center><strong>Mechanic Information</center></strong></h5>
                             <div class="with-image"><img src="../img/avatar.jpg.jpg" class="rounded-circle imagenajud float-end" alt=""></div>
-                            <div class="row py-1" >
+                            <div class="row py-2" >
                                 <input readonly type="text" class="border-0 text-center" name="mechName" value="<?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?>">
                                 <input readonly type="text" class="border-0 text-center" name="vehicleType" value="<?php echo htmlentities($result->vehicleType);?>">
                                 <input readonly type="text" class="border-0 text-center" name="Specialization" value="<?php echo htmlentities($result->Specialization);?>">
