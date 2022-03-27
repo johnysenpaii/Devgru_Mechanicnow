@@ -28,13 +28,12 @@ $mechID1=$_SESSION['mechID'];
     <div class="row">
             <!-- d-flex justify-content-evenly -->
             <div class="d-flex justify-content-center pt-3">
-                <a href="mechActivityLog.php" class="py-1 px-5 mx-1 bg-white text-dark rounded-pill btn">Activity
-                    Log</a>
-                <a href="" class="py-1 px-5 mx-1 bg-white text-dark rounded-pill btn">Transaction</a>
+                <a href="mechActivityLog.php" class="py-1 px-5 mx-1 bg-white text-dark rounded-pill btn">Activity Log</a>
+                <a href="" class="py-1 px-5 mx-1 bg-white text-dark rounded-pill btn">Transaction History</a>
             </div>
         </div>
         <div class="row py-3 px-sm-0 px-md-3 table-responsive justify-content-center pb-5">
-            <div class="col-lg-8  py-4  ">
+            <div class="col-lg-8">
                 <?php
                     $sql="SELECT * from request WHERE mechID=$mechID1 and status='Accepted' order by resID DESC";
                     $query=$dbh->prepare($sql);
