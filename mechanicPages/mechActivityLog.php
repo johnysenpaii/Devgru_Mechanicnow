@@ -54,8 +54,10 @@ $mechID1=$_SESSION['mechID'];
                         <p class="card-text"><?php echo htmlentities($result->mechRepair);?></p>
                         <h6 class="pt-2">Note:</h6>
                         <p class="card-text"><?php echo htmlentities($result->specMessage);?></p>
-                        <p class="card-text float-end"><?php echo htmlentities($result->status);?></p>
                         <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+                    </div>
+                    <div class="row d-flex justify-content-center py-3">
+                        <div class="col-md-3 d-grid pb-2"><button class="btn btn-primary rounded-pill" name="done" value="done">Done</button></div>
                     </div>
                 </div>
                 <?php }}} 
