@@ -1,7 +1,7 @@
 <?php
 session_start();
 include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
-$custID1=$_SESSION['custID'];
+$mechID1=$_SESSION['mechID']; 
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -21,27 +21,30 @@ $custID1=$_SESSION['custID'];
     <link rel="shortcut icon" type="x-icon" href="../img/mechanicnowlogo.svg">
 </head>
 <body id="contbody" style="background-color: #f8f8f8">
-    <?php include('voHeader.php');?>
-    <?php include('./voTopnav.php');?>
+    <?php include('mechHeader.php');?>
     
     <section id="activityLog">
         <div class="row py-3 px-sm-0 px-md-3 table-responsive justify-content-center pb-5">
+        <div class="d-flex justify-content-center pt-3">
+                <a href="mechActivityLog.php" class="py-1 px-5 mx-1 bg-white text-dark rounded-pill btn">Activity Log</a>
+                <a href="mechTransaction.php" class="py-1 px-5 mx-1 bg-white text-dark rounded-pill btn">Transaction History</a>
+            </div>
             <div class="col-lg-8  py-4  ">
                 <?php
-                    $sql="SELECT * from request WHERE custID=$custID1 and status='confirmed' order by resID DESC";
+                    $sql="SELECT * from request WHERE mechID=$mechID1 and status='confirmed' order by resID DESC";
                     $query=$dbh->prepare($sql);
                     $query->execute();
                     $results=$query->fetchALL(PDO::FETCH_OBJ);
                     if($query->rowCount()>0){
                         foreach ($results as $result){
-                            if($custID1==$custID1){
+                            if($mechID1==$mechID1){
                 ?>
                 <div class="card text-dark mb-2">
                     <!-- <div class="card-header">
                         
                     </div> -->
                     <div class="card-body">
-                        <h5 class="card-title"><?php echo htmlentities($result->mechName);?></h5>
+                        <h5 class="card-title"><?php echo htmlentities($result->vOwnerName);?></h5>
                         <p><?php echo htmlentities($result->custAddress);?></p>
                         <p class="card-text"><?php echo htmlentities($result->mechRepair);?></p>
                         <h6 class="pt-2">Note:</h6>

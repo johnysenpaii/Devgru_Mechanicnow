@@ -49,7 +49,7 @@ if(isset($_POST["verify"])){
             <!-- d-flex justify-content-evenly -->
             <div class="d-flex justify-content-center pt-3">
                 <a href="mechActivityLog.php" class="py-1 px-5 mx-1 bg-white text-dark rounded-pill btn">Activity Log</a>
-                <a href="" class="py-1 px-5 mx-1 bg-white text-dark rounded-pill btn">Transaction History</a>
+                <a href="mechTransaction.php" class="py-1 px-5 mx-1 bg-white text-dark rounded-pill btn">Transaction History</a>
             </div>
         </div>
         <div class="row py-3 px-sm-0 px-md-3 table-responsive justify-content-center pb-5">
@@ -61,7 +61,8 @@ if(isset($_POST["verify"])){
                     $query->execute();
                     $results=$query->fetchALL(PDO::FETCH_OBJ);
                     if($query->rowCount()>0){
-                        foreach ($results as $result){                           if($mechID1==$mechID1){
+                        foreach ($results as $result){                           
+                            if($mechID1==$mechID1){
                 ?>
                 <div class="card text-dark mb-2">
                     <!-- <div class="card-header">

@@ -34,7 +34,7 @@ $mechID1=$_SESSION['mechID'];
             <div class="d-flex justify-content-center pt-3">
                 <a href="mechActivityLog.php" class="py-1 px-5 mx-1 bg-white text-dark rounded-pill btn">Activity
                     Log</a>
-                <a href="" class="py-1 px-5 mx-1 bg-white text-dark rounded-pill btn">Transaction History</a>
+                <a href="mechTransaction.php" class="py-1 px-5 mx-1 bg-white text-dark rounded-pill btn">Transaction History</a>
             </div>
         </div>
     </section>
