@@ -293,6 +293,7 @@ if(isset($_POST['edit']) && isset($_FILES['profile_url']))
                 </div>
             </div>
         </div>
+        </div>
     </section>
     <div class="row d-block d-lg-none"><?php include('voBottom-nav.php');?></div>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
