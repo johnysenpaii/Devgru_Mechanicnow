@@ -50,11 +50,7 @@ if(isset($_POST["verify"])){
             <div class="d-flex justify-content-center pt-3">
                 <a href="mechActivityLog.php" class="py-1 px-5 mx-1 bg-white text-dark rounded-pill btn">Activity
                     Log</a>
-<<<<<<< Updated upstream
-                <a href="" class="py-1 px-5 mx-1 bg-white text-dark rounded-pill btn">Transaction</a>
-=======
                 <a href="" class="py-1 px-5 mx-1 bg-white text-dark rounded-pill btn">Transaction History</a>
->>>>>>> Stashed changes
             </div>
         </div>
         <div class="row py-3 px-sm-0 px-md-3 table-responsive justify-content-center pb-5">
