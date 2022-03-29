@@ -50,7 +50,7 @@ $custAddress1=$_SESSION['custAddress'];
                     $cnt=1;       
                     if( $query->rowCount()>0){   
                         foreach($results as $result){
-                            if($result->distanceKM <= 3.0){
+                            if($result->distanceKM <= 5.0){
                         ?>  
                         <tr class="d-flex align-items-center justify-content-around mt-2">
                             <td><?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?></td>

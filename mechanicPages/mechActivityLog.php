@@ -9,7 +9,7 @@ if(isset($_POST["verify"])){
   $query=$dbh->prepare($sql1);
   $query->bindParam(':resID',$resID,PDO::PARAM_STR);
   $query->execute(); 
-  echo '<script>alert("please wait vehicle onwer to approve")</script>';
+  echo '<script>alert("Please wait for the vehicle owner to approve")</script>';
 
 
 }
@@ -71,7 +71,6 @@ if(isset($_POST["verify"])){
                     <div class="card-body">
                         <input type="text" hidden name="resID" value="<?php echo htmlentities($result->resID);?>">
                         <h5 class="card-title"><?php echo htmlentities($result->vOwnerName);?></h5>
-                        <p><?php echo htmlentities($result->custAddress);?></p>
                         <p class="card-text"><?php echo htmlentities($result->mechRepair);?></p>
                         <h6 class="pt-2">Note:</h6>
                         <p class="card-text"><?php echo htmlentities($result->specMessage);?></p>

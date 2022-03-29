@@ -1,7 +1,6 @@
 <?php
 session_start();
 include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
-$custAddress1=$_SESSION['custAddress'];
 $custID1=$_SESSION['custID'];
 $latitude=$_SESSION['latitude'];
 $longitude=$_SESSION['longitude'];
@@ -19,8 +18,6 @@ if(isset($_POST['send'])){
     $voName=$_POST['voName'];
     $Specialization=$_POST['Specialization'];
     $vehicleType=$_POST['vehicleType'];
-    $mechAddress=$_POST['mechAddress'];
-    $custAddress=$_POST['custAddress'];
     $specMessage=$_POST['specMessage'];
     $mechRepair=$_POST['mechRepair'];  //checkbox1
     $service=$_POST['service'];
@@ -34,8 +31,6 @@ if(isset($_POST['send'])){
     $vON="";
     $mID="";
     $Specl="";
-    $mechAdd="";
-    $custAdd="";
     $serv="";
     $date1="";
     $time1="";
@@ -50,15 +45,13 @@ if(isset($_POST['send'])){
     $vON .= $voName;
     $mID .= $mechID;
     $Specl .= $Specialization;
-    $mechAdd .= $mechAddress;
-    $custAdd .= $custAddress;
     $serv .= $service;
     $date1 .= $date;
     $time1 .= $time;
    
     // $currentL.=$currentlocation;
 
-    $in_ch=mysqli_query($con,"INSERT INTO request(mechName, vOwnerName, specMessage, mechRepair, serviceType, serviceNeeded, mechID, custID, mechAddress, custAddress,latitude,longitude,date,time) values ('$mechN', '$vON' , '$spec', '$chk', '$Specl', '$serv', '$mID', '$custID1', '$mechAdd', '$custAdd','$latitude','$longitude','$date1','$time1')");//,'$latitude','$longitude','$currentL',
+    $in_ch=mysqli_query($con,"INSERT INTO request(mechName, vOwnerName, specMessage, mechRepair, serviceType, serviceNeeded, mechID, custID, latitude, longitude, date, time) values ('$mechN', '$vON' , '$spec', '$chk', '$Specl', '$serv', '$mID', '$custID1', '$latitude', '$longitude', '$date1', '$time1')");//,'$latitude','$longitude','$currentL',
     if($in_ch==1)  
     {  
         echo'<script>alert("Request Sent Successfully, Wait for Mechanic to Confirm!")</script>';  
@@ -112,20 +105,20 @@ if(isset($_POST['send'])){
                         <h3 class="pb-4">Request Form</h3>
                         <div class="col-sm-12 col-md-6 pb-5 justify-content-center">
                             <h5 class="text-start"><center><strong>Mechanic Information</center></strong></h5>
-                            <div class="with-image"><img src="../img/avatar.jpg.jpg" class="rounded-circle imagenajud float-end" alt=""></div>
+                            <div class="with-image"><img src="../img/vo.jpg" class="rounded-circle imagenajud float-center mt-2" alt=""></div>
                             <div class="row py-2" >
                                 <input readonly type="text" class="border-0 text-center" name="mechName" value="<?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?>">
+                                <h6 class="border-0 text-center mt-2"><i>Mechanic Type</i></h6>
                                 <input readonly type="text" class="border-0 text-center" name="vehicleType" value="<?php echo htmlentities($result->vehicleType);?>">
+                                <h6 class="border-0 text-center"><i>Specialization</i></h6>
                                 <input readonly type="text" class="border-0 text-center" name="Specialization" value="<?php echo htmlentities($result->Specialization);?>">
-                                <input readonly type="text" class="border-0 text-center" name="mechAddress" value="<?php echo htmlentities($result->mechAddress);?>">
                                 <input hidden type="text" name="voName" value="<?php echo htmlentities($_SESSION["custFirstname"]); ?> <?php echo htmlentities($_SESSION["custLastname"]); ?>">
-                                <input hidden type="text" name="custAddress" value="<?php echo htmlentities($_SESSION["custAddress"]); ?>">
                                 <input hidden type="text" name="mechID" value="<?php echo htmlentities($result->mechID);?>">
                                 <input id="address" name='latitude' value="<?php echo htmlentities($_SESSION["latitude"]); ?>" hidden> 
                                 <input id="address" name='longitude' value="<?php echo htmlentities($_SESSION["longitude"]); ?>" hidden> 
                             </div>
                         </div>
-                        <div class="col-sm-12 col-md-6 text-start">
+                        <div class="col-sm-12 col-md-6 mt-3 text-start">
                             <p>If you want a long term service, select Home Service. Select Emergency service if you are on-road.</p>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" value="Home Service" name="service" id="exampleRadios1">
@@ -160,7 +153,7 @@ if(isset($_POST['send'])){
                                 <input class="form-check-input" type="checkbox" id="flexCheckDefault" name="mechRepair[]" value="Dead Light Repair">
                                 <label class="form-check-label" for="flexCheckDefault">Dead Light Repair</label>
                             </div>
-                             <div class="">
+                             <div class="mt-2">
                                  <label for="">Leave a Message</label>
                                 <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="Please specify..." rows="3" name="specMessage" value="specMessage"></textarea>
                             </div>
