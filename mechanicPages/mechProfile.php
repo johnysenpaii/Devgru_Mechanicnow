@@ -215,6 +215,7 @@ if(isset($_POST['edit']) && isset($_FILES['profile_url']))
                                             <input type="submit" name="submit" class="btn btn-primary rounded-pill shadow" value="Upload">
                                         </div>
                                          <input type="hidden" name="id" value="<?php echo htmlentities($result->mechID);?>" required="required">
+                                         <label>Personal Details</label>
                                         <div class="col-md-6">
                                             <input class="form-control" type="text" name="mechFirstname" value="<?php echo htmlentities($result->mechFirstname);?>" placeholder="Firstname" aria-label="default input example">
                                         </div>
@@ -230,6 +231,7 @@ if(isset($_POST['edit']) && isset($_FILES['profile_url']))
                                         <div class="col-md-12">
                                             <input class="form-control" type="text" name="mechAddress" value="<?php echo htmlentities($result->mechAddress);?>" placeholder="Baranggay, City, Province" aria-label="default input example">
                                         </div>
+                                        <label>Account Information</label>
                                         <div class="col-md-12">
                                             <input class="form-control" type="text" name="Username" value="<?php echo htmlentities($result->Username);?>" placeholder="Username" aria-label="default input example">
                                         </div>
@@ -238,12 +240,12 @@ if(isset($_POST['edit']) && isset($_FILES['profile_url']))
                             </div>
                             <div class="row pt-3">
                                         <div class="col-md-6">
-                                            <h6 class="pb-2">Vehicle Type: </h6>
+                                            <h6 class="pb-2">Mechanic Type :</h6>
                                             <div class="form-check">
                                                 <?php
                                                 $divide = explode(",",$result->vehicleType); //return Bicycle
                                                 // var_dump($divide);
-                                                $specialization1 = array("Car","Motorcycle","Bicycle"); //have 3 values 
+                                                $specialization1 = array("Car Mechanic","Motorcycle Mechanic","Bicycle Mechanic"); //have 3 values 
                                                 // var_dump($specialization1);
                                                 foreach($specialization1 as $result2){ //travel each index in an array
                                                             //car       bicycle = false
@@ -271,7 +273,7 @@ if(isset($_POST['edit']) && isset($_FILES['profile_url']))
                                                 <?php
                                                 $divide=explode(",",$result->Specialization);
                                                 //var_dump($divide);
-                                                $specialization1 = array("Diesel Mechanic","General Automotive Mechanic","Brake and Transmission Technician","Auto Body Mechanic","Service Technician","Auto Glass Mechanic","Heavy Equipment Mechanic","Small Engine Mechanic","Tire Mechanic");
+                                                $specialization1 = array("Tire Repair","Break Repair" ,"Chain Loosening Repair","Engine Overheat Repair" ,"Dead Battery Repair","Dead Light Repair");
                                                 foreach($specialization1 as $result2){
                                                     if(strcmp($result2, $divide[0] ?? null) && strcmp($result2, $divide[1] ?? null) && strcmp($result2, $divide[2] ?? null) && strcmp($result2, $divide[3] ?? null) && strcmp($result2, $divide[4] ?? null) && strcmp($result2, $divide[5] ?? null) && strcmp($result2, $divide[6] ?? null) && strcmp($result2, $divide[7] ?? null) && strcmp($result2, $divide[8] ?? null) && strcmp($result2, $divide[9] ?? null)){
                                                     ?>

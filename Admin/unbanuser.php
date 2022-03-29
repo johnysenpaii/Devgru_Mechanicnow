@@ -8,9 +8,9 @@ if(isset($_POST['ban'])){
     $subject= 'Now you can use your account again!';
     $message = 'Now you can use your account again!';
     //Load composer's autoloader
-    require 'C:/xampp/htdocs/Mechanicnow/Mechanicnow/PHPMailer-master/src/Exception.php';
-    require 'C:/xampp/htdocs/Mechanicnow/Mechanicnow/PHPMailer-master/src/PHPMailer.php';
-    require 'C:/xampp/htdocs/Mechanicnow/Mechanicnow/PHPMailer-master/src/SMTP.php';
+    require 'C:/xampp/htdocs/Devgru_Mechanicnow/Admin/PHPMailer-master/src/Exception.php';
+    require 'C:/xampp/htdocs/Devgru_Mechanicnow/Admin/PHPMailer-master/src/PHPMailer.php';
+    require 'C:/xampp/htdocs/Devgru_Mechanicnow/Admin/PHPMailer-master/src/SMTP.php';
     $mail = new PHPMailer(true);                            
     
         //Server settings
@@ -18,7 +18,7 @@ if(isset($_POST['ban'])){
         $mail->Host = 'smtp.gmail.com';                      
         $mail->SMTPAuth = true;                             
         $mail->Username = 'jepriel.t.ojt@gmail.com';     
-        $mail->Password = 'Tibay1234@';             
+        $mail->Password = 'Jepoy1234@';             
         $mail->SMTPOptions = array(
             'ssl' => array(
             'verify_peer' => false,

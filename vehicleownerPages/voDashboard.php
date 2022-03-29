@@ -79,10 +79,7 @@ elseif(isset($_POST['bicycle'])){
             ?> 
             <input hidden type="text" name='lat2' id="lat2" value="<?php echo htmlentities($result->latitude);?>">
             <input hidden type="text" name='lon2' id="lon2" value="<?php echo htmlentities($result->longitude);?>">  
-            <?php 
-                }
-            }
-            ?>
+            <?php }}?>
              <input hidden name="lat1" id="lat1" type="text" value="<?php echo htmlentities($_SESSION['latitude']);?>">
             <input hidden name="lon1" id="lon1" type="text" value="<?php echo htmlentities($_SESSION['longitude']);?>">
           <input hidden name="kilo" id="kilo" type="text" value=""> 
@@ -144,7 +141,7 @@ elseif(isset($_POST['bicycle'])){
                 </div>
                 <div class="col-sm-3 bg-white text-dark rounded-3 cont-act">
                     <div class="act-content">
-                        <h5 class="py-2 pb-2 text-center">Recent Activities</h5>
+                        <h5 class="py-4 pb-2 text-center">Recent Activities</h5>
                         <?php
                             $sql="SELECT * from request WHERE custID=$custID1 and status='Unaccepted' order by resID DESC";
                             $query=$dbh->prepare($sql);
@@ -160,7 +157,7 @@ elseif(isset($_POST['bicycle'])){
                         ?>
                         <div class="col py-2 hovers rounded-3">
                             <!-- <h6><?php echo htmlentities($result->serviceNeeded);?></h6> -->
-                            <p class="fs-6 pb-2">You sent an <?php echo htmlentities($result->serviceNeeded);?> request to <?php echo htmlentities($result->mechName);?></p>
+                            <p class="fs-6 pb-2"><?php echo htmlentities($result->serviceNeeded);?> Request</p>
                             <div class="d-grid">
                                 <button class="btn btn-primary" type="button">Details</button>
                             </div>
