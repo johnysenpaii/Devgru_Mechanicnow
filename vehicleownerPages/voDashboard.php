@@ -141,7 +141,7 @@ elseif(isset($_POST['bicycle'])){
                 </div>
                 <div class="col-sm-3 bg-white text-dark rounded-3 cont-act">
                     <div class="act-content">
-                        <h5 class="py-4 pb-2 text-center">Recent Activities</h5>
+                        <h5 class="py-4 pb-2 text-center line-segment">Recent Activities</h5>
                         <?php
                             $sql="SELECT * from request WHERE custID=$custID1 and status='Unaccepted' order by resID DESC";
                             $query=$dbh->prepare($sql);
@@ -157,12 +157,21 @@ elseif(isset($_POST['bicycle'])){
                         ?>
                         <div class="col py-2 hovers rounded-3">
                             <!-- <h6><?php echo htmlentities($result->serviceNeeded);?></h6> -->
-                            <p class="fs-6 pb-2"><?php echo htmlentities($result->serviceNeeded);?> Request</p>
+                            <p class="fs-6 pb-2 pt-2"><?php echo htmlentities($result->serviceNeeded);?> Request</p>
                             <div class="d-grid">
                                 <button class="btn btn-primary" type="button">Details</button>
                             </div>
                         </div>
-                        <?php }}}?>
+                        <?php }}}
+                        else { 
+                        ?> 
+                            <div class="emptyrequest mt-5 pt-4" >
+                            <div class="emptydiv"><img src="../img/empty.png" alt=""></div>
+                            <center><h6>No Activity. . .</h6></center>
+                            </div>
+                            <?php
+                            }
+                        ?>
                         <!-- <?php
                         $sql="SELECT * from request WHERE custID=$custID1 and status='Unaccepted' order by resID DESC";
                         $query=$dbh->prepare($sql);
