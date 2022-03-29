@@ -52,7 +52,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
-                    <h1 class="banner-text">Find NOW, Fix NOW. For The Repair You Need</h1>
+                    <h1 class="banner-text">Find NOW, Fix NOW. For the repair you need</h1>
                 </div>
                 <div class="col-md-6 text-center">
                     <img src="img/mnrevisedlogo864-nooutline.png" class="img-fluid" alt="">
