@@ -25,6 +25,8 @@ if(isset($_POST['send'])){
     $mechRepair=$_POST['mechRepair'];  //checkbox1
     $service=$_POST['service'];
     $mechID=$_POST['mechID'];
+    $date=$_POST['date'];
+    $time=$_POST['time'];
 
     // $currentlocation=$_POST['currentlocation'];
     $chk=""; 
@@ -36,6 +38,8 @@ if(isset($_POST['send'])){
     $mechAdd="";
     $custAdd="";
     $serv="";
+    $date1="";
+    $time1="";
 
     // $currentL="";
     foreach($mechRepair as $chk1){  
@@ -52,7 +56,7 @@ if(isset($_POST['send'])){
    
     // $currentL.=$currentlocation;
 
-    $in_ch=mysqli_query($con,"INSERT INTO request(mechName, vOwnerName, specMessage, mechRepair, serviceType, serviceNeeded, mechID, custID, mechAddress, custAddress,latitude,longitude) values ('$mechN', '$vON' , '$spec', '$chk', '$Specl', '$serv', '$mID', '$custID1', '$mechAdd', '$custAdd','$latitude','$longitude')");//,'$latitude','$longitude','$currentL',
+    $in_ch=mysqli_query($con,"INSERT INTO request(mechName, vOwnerName, specMessage, mechRepair, serviceType, serviceNeeded, mechID, custID, mechAddress, custAddress,latitude,longitude,date,time) values ('$mechN', '$vON' , '$spec', '$chk', '$Specl', '$serv', '$mID', '$custID1', '$mechAdd', '$custAdd','$latitude','$longitude','$date1','$time1')");//,'$latitude','$longitude','$currentL',
     if($in_ch==1)  
     {  
         echo'<script>alert("Request Sent Successfully, Wait for Mechanic to Confirm!")</script>';  
@@ -138,6 +142,10 @@ if(isset($_POST['send'])){
                                     Home Service
                                 </label>
                             </div>
+                                <div id="textboxes" style="display: none">
+                                    Date: <input name="date" type="date"/> 
+                                    Time: <input name="time" type="time"/> 
+                                </div>
                             <div class="form-check pb-2">
                                 <input class="form-check-input" type="radio" value="Emergency Service" name="service" id="exampleRadios2">
                                 <label class="form-check-label" for="exampleRadios2">
@@ -293,6 +301,16 @@ if(isset($_POST['send'])){
                 }
             });
         }
+        $(function() {
+        $('input[name="service"]').on('click', function() {
+            if ($(this).val() == 'Home Service') {
+                $('#textboxes').show();
+            }
+            else {
+                $('#textboxes').hide();
+            }
+            });
+        });
     </script>
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

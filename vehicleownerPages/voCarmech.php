@@ -54,15 +54,15 @@ include('../config.php');
                     </thead>
                     <tbody>
                         <?php
-                    $sql="SELECT * from mechanic WHERE vehicleType like '%Car%' and status='approve'";
-                    $query=$dbh->prepare($sql);
-                    $query->execute();
-                    $results=$query->fetchALL(PDO::FETCH_OBJ);
-                    $cnt=1;       
-                    if( $query->rowCount()>0){   
-                        foreach($results as $result){
-                            if($result->distanceKM <= 3.0){
-                ?>  
+                            $sql="SELECT * from mechanic WHERE vehicleType like '%Car%' and status='approve'";
+                            $query=$dbh->prepare($sql);
+                            $query->execute();
+                            $results=$query->fetchALL(PDO::FETCH_OBJ);
+                            $cnt=1;       
+                            if( $query->rowCount()>0){   
+                                foreach($results as $result){
+                                    if($result->distanceKM <= 3.0){
+                        ?>  
                         <tr class="d-flex align-items-center justify-content-around mt-2">
                             <td><?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?></td>
                             <td><?php echo htmlentities($result->Specialization);?></td>
