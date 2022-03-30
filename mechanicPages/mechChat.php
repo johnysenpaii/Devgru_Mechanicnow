@@ -5,12 +5,14 @@ include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
             $custID = $_POST['cID'];
             $mechID = $_POST['mechID'];
             $message = $_POST['message'];
+            $role = $_POST['role'];
 
-            $sql2 = "INSERT INTO chat(custID, mechID, message) VALUES(:cID, :mechID, :message)";
+            $sql2 = "INSERT INTO chat(custID, mechID, message, role) VALUES(:cID, :mechID, :message, :role)";
             $query2 = $dbh->prepare($sql2);
             $query2->bindParam(':cID',$custID,PDO::PARAM_STR);
             $query2->bindParam(':mechID',$mechID,PDO::PARAM_STR);
             $query2->bindParam(':message',$message,PDO::PARAM_STR);
+            $query2->bindParam(':role',$role,PDO::PARAM_STR);
             $query2->execute();
         // if(isset($_POST['custID']) && isset($_POST['mechID']) && isset($_POST['message'])){
             
@@ -44,21 +46,25 @@ include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
     <link rel="stylesheet" href="../css/style.css">
     <title>Mechanic Now</title>
     <link rel="shortcut icon" type="x-icon" href="../img/mechanicnowlogo.svg">
+    <style>
+        .chatBox::-webkit-scrollbar{
+            width: 0px;
+        }
+    </style>
 </head>
 <body style="background: #f8f8f8">
-    <?php include('./voHeader.php');?>
-    <section class="chatsection mt-3">
-        <div class="container">
+    <?php include('mechHeader.php');?>
+    <section class="chatsection">
+        <div class="container-fluid">
             <div class="row no-glutters">
-
                 <!-- chat list column -->
                 <div class="col-md-4 text-light" style="background: #302D32">
                     <div class="name py-3 text-center">
                         <h5>Chats</h5>
                     </div>
                     <div class="row justify-content-center align-items-center pb-4 d-flex">
-                        <div class="col-12 input-group-sm ">
-                            <input class="form-control rounded-pill" type="text" placeholder="Filter Search" aria-describedby="inputGroup-sizing-sm">
+                        <div class="col-12 input-group-sm px-4">
+                            <input class="form-control rounded-pill shadow-none border-0" type="text" placeholder="Filter Search" aria-describedby="inputGroup-sizing-sm">
                         </div>
                     </div>  
                         <?php
@@ -72,27 +78,27 @@ include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
                                     //if($result->distanceKM <= 3.0){
                         ?>
                         <form method="POST">
-                        <div class="row py-2">
-                            <div class="col-md-2">
-                                <img src="../img/avatar.jpg" alt="" style="height: 3em;width: 3em;" class="rounded-circle">
+                            <div class="row px-2">
+                                <button type="submit" name="submit" value="submit" class="btn btn-warning text-white shadow-none">
+                                    <div class="row py-2 px-2">
+                                        <div class="col-md-2">
+                                            <img src="../img/avatar.jpg" alt="" style="height: 3em;width: 3em;" class="rounded-circle">
+                                        </div>
+                                        <input type="hidden" name="custID" value="<?php echo htmlentities($result->custID)?>">
+                                        <div class="col-md-10 text-start">
+                                            <h6><?php echo htmlentities($result->custFirstname." ".$result->custLastname);?></h6>
+                                            <p class="fs-6"><small>This is test message</small></p>
+                                        </div>
+                                    </div>
+                                </button>
                             </div>
-                            <input type="hidden" name="custID" value="<?php echo htmlentities($result->custID)?>">
-                            <!-- <a class="text-light col-md-10" style="text-decoration: none;" href="" > -->
-                                <div class="col-md-10">
-                                    <h6><?php echo htmlentities($result->custFirstname." ".$result->custLastname);?></h6>
-                                    <p class="fs-6"><small>This is test message</small></p>
-                                    <input type="submit" name="submit" value="submit">
-                                </div>
-                            <!-- </a> -->
-                        </div>
                         </form>
                         <?php }}?>
                 </div>
-
                 <!-- chat column -->
                 <div class="col-md-8" style="background: #f8f8f8">
                     <div class="col">
-                        <div class="row bg-white py-1 text-dark align-items-center">
+                        <div class="row py-1 text-white align-items-center" style="background-color: #9132DA">
                             <div class="col-md-2">
                                 <i class="fa-solid fa-arrow-left px-3"></i>
                                 <img src="../img/avatar.jpg" alt="" style="height: 3em;width: 3em;" class="rounded-circle">
@@ -109,7 +115,7 @@ include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
                                     $query_run = mysqli_query($connection, $sql1);
                                     while($row = mysqli_fetch_array($query_run)){
                                 ?>
-                                <h5><?php echo $row['custFirstname']?></h5>
+                                <h5><?php echo $row['custFirstname']?> <?php echo $row['custLastname']?></h5>
                                 <?php 
                                     $id = $row['custID'];
                                 }}?>
@@ -117,7 +123,7 @@ include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
                             </div>
                         </div>
                         <div class="row text-dark">
-                            <div class="col-sm-12">
+                            <div class="col-sm-12 chatBox" style="height: 485px ;overflow-y: auto;">
                                 <?php
                                  if(isset($_POST['submit'])){
                          
@@ -142,19 +148,18 @@ include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
                                         $query3 = mysqli_query($connection, $sql3);
                                         if(mysqli_num_rows($query3) > 0){
                                             while($row = mysqli_fetch_assoc($query3)){
-                                                if($row['custID'] == $custID){ //if match then hes the sender
+                                                if($row['role'] === "receiver"){ //if match then hes the sender
                                                 ?>
                                                     <div class=" text-dark m-3 justify-content-end text-end">
-                                                        <p  class=" d-inline-block bg-white py-2 px-4 rounded-pill"><?php echo $row['message'];?></p>
-                                                        <img src="../img/avatar.jpg" alt="" style="height: 1.5em;width: 1.5em;" class="rounded-circle">
+                                                        <div class="d-inline-block text-wrap bg-white py-2 px-3 rounded-3 shadow text-start" style="max-width: 45em; word-wrap: break-word;"><?php echo $row['message'];?></div>
+                                                        <!-- <img src="../img/avatar.jpg" alt="" style="height: 1.5em;width: 1.5em;" class="rounded-circle"> -->
                                                     </div>
-                
                                                 <?php
                                                 }else{ //hes the receiver 
                                                 ?>
-                                                    <div class=" text-dark m-3">
+                                                    <div class=" text-light m-3">
                                                         <img src="../img/avatar.jpg" alt="" style="height: 1.5em;width: 1.5em;" class="rounded-circle">
-                                                        <p  class=" d-inline-block bg-white py-2 px-4 rounded-pill"><?php echo $row['message'];?></p>
+                                                        <p class=" d-inline-block py-2 px-3 rounded-3 text-wrap" style="background-color: #302D32; max-width: 45em; word-wrap: break-word;"><?php echo $row['message'];?></p>
                                                     </div>
                                                 <?php
                                                 }
@@ -163,72 +168,28 @@ include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
                                     }
                                 }
                                 }
-                                ?>
-                                 <!-- <div class=" text-dark m-3">
-                                     <img src="../img/avatar.jpg" alt="" style="height: 1.5em;width: 1.5em;" class="rounded-circle">
-                                     <p  class=" d-inline-block bg-white py-2 px-4 rounded-pill">Hi John Gusto ko maka kuhag kuan</p>
-                                 </div>
-                                 <div class=" text-dark m-3 justify-content-end text-end">
-                                     <p  class=" d-inline-block bg-white py-2 px-4 rounded-pill">Katong kuan?</p>
-                                     <img src="../img/avatar.jpg" alt="" style="height: 1.5em;width: 1.5em;" class="rounded-circle">
-                                 </div>
-                                 <div class=" text-dark m-3">
-                                     <img src="../img/avatar.jpg" alt="" style="height: 1.5em;width: 1.5em;" class="rounded-circle">
-                                     <p  class=" d-inline-block bg-white py-2 px-4 rounded-pill">ouh</p>
-                                 </div>
-                                 <div class=" text-dark m-3">
-                                     <img src="../img/avatar.jpg" alt="" style="height: 1.5em;width: 1.5em;" class="rounded-circle">
-                                     <p  class=" d-inline-block bg-white py-2 px-4 rounded-pill">Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio vero nulla consequatur. Eum deleniti aliquam reiciendis voluptatem, quam magni, a nihil libero, inventore maiores accusantium.</p>
-                                 </div>
-                                 <div class=" text-dark m-3 justify-content-end text-end">
-                                     <p  class=" d-inline-block bg-white py-2 px-4 rounded-pill">cge cge</p>
-                                     <img src="../img/avatar.jpg" alt="" style="height: 1.5em;width: 1.5em;" class="rounded-circle">
-                                 </div>
-                                 <div class=" text-dark m-3 justify-content-end text-end">
-                                     <p  class=" d-inline-block bg-white py-2 px-4 rounded-pill">Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur, tenetur.</p>
-                                     <img src="../img/avatar.jpg" alt="" style="height: 1.5em;width: 1.5em;" class="rounded-circle">
-                                 </div>
-                                 <div class=" text-dark m-3">
-                                     <img src="../img/avatar.jpg" alt="" style="height: 1.5em;width: 1.5em;" class="rounded-circle">
-                                     <p  class=" d-inline-block bg-white py-2 px-4 rounded-pill">ouh</p>
-                                 </div> -->
-                                 
+                                ?>      
                             </div>
                         </div>
-                        <div class="row px-2 py-2" style="background: #302D32">
-                            <div class="col-md-12 d-flex align-items-center justify-content-end text-end">
+                        <div class="row pt-2" style="background: #302D32">
+                            <!-- <div class="col-md-12 d-flex align-items-center justify-content-start text-end"> -->
                                 <form method="POST">
-                                    <div class="px-2 d-flex">
+                                    <div class="input-group pb-2">
+                                        <div class="col-sm-11">
                                         <input type="hidden" name="mechID" value="<?php echo $_SESSION['mechID']?>" required>
-                                        <!-- <?php
-                                            if(isset($_POST['submit'])){
-                                
-                                                $connection = mysqli_connect("localhost", "root", "");
-                                                $db = mysqli_select_db($connection, 'mechanicnowdb');
-                                                $custID = $_POST['custID'];
-                                            $sql1="SELECT * from customer WHERE custID='$custID'";
-                                            $query_run = mysqli_query($connection, $sql1);
-                                            while($row = mysqli_fetch_array($query_run)){
-                                        ?> -->
                                         <input type="hidden" required name="cID" value="<?php echo $id ?>">
-                                        <!-- <?php }}?> -->
-                                        <textarea name="message" id="" rows="1" class="px-2" required></textarea>
+                                        <input type="text" name="message" placeholder="Type message here..." class="form-control rounded-pill shadow-none border-0" required>
+                                        <input type="hidden" name="role" value="receiver">
+                                        </div>
+                                        <button class="btn1 fa-solid fa-paper-plane col-sm-1" type="submit" name="send" style="color: #F8F8F8; border: none; background-color: #302D32"></button>
                                     </div>
-                                    <button class="btn1 fa-solid fa-paper-plane" type="submit" name="send" style="color: #F8F8F8; border: none; background-color: #302D32"></button>
                                 </form>
-                            </div>
+                            <!-- </div> -->
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
     </section>
-
-
-
-
-
-
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
     </script>

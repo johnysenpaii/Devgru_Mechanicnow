@@ -5,12 +5,14 @@ include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
             $custID = $_POST['custID'];
             $mechID = $_POST['mID'];
             $message = $_POST['message'];
+            $role = $_POST['role'];
 
-            $sql2 = "INSERT INTO chat(custID, mechID, message) VALUES(:custID, :mID, :message)";
+            $sql2 = "INSERT INTO chat(custID, mechID, message, role) VALUES(:custID, :mID, :message, :role)";
             $query2 = $dbh->prepare($sql2);
             $query2->bindParam(':custID',$custID,PDO::PARAM_STR);
             $query2->bindParam(':mID',$mechID,PDO::PARAM_STR);
             $query2->bindParam(':message',$message,PDO::PARAM_STR);
+            $query2->bindParam(':role',$role,PDO::PARAM_STR);
             $query2->execute();
         // if(isset($_POST['custID']) && isset($_POST['mechID']) && isset($_POST['message'])){
             
@@ -136,12 +138,13 @@ include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
                                     if(isset($row['mechID'])){
                                         $custID = mysqli_real_escape_string($connection, $_SESSION['custID']);
                                         $mechID = mysqli_real_escape_string($connection, $_POST['mechID']);
+                                        // $role = mysqli_real_escape_string($connection, $_POST['role']);
 
                                         $sql3 = "SELECT * FROM chat WHERE (custID = {$custID} AND mechID = {$mechID}) OR (custID = {$mechID} AND mechID = {$custID}) ORDER BY messageID ASC";
                                         $query3 = mysqli_query($connection, $sql3);
                                         if(mysqli_num_rows($query3) > 0){
                                             while($row = mysqli_fetch_assoc($query3)){
-                                                if($row['custID'] == $custID){ //if match then hes the sender
+                                                if($row['role'] === "sender"){ //if match then hes the sender
                                                 ?>
                                                     <div class=" text-dark m-3 justify-content-end text-end">
                                                         <p  class=" d-inline-block bg-white py-2 px-4 rounded-pill"><?php echo $row['message'];?></p>
@@ -150,9 +153,9 @@ include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
                                                 <?php
                                                 }else{ //hes the receiver 
                                                 ?>
-                                                    <div class=" text-dark m-3">
+                                                    <div class=" text-light m-3">
                                                         <img src="../img/avatar.jpg" alt="" style="height: 1.5em;width: 1.5em;" class="rounded-circle">
-                                                        <p  class=" d-inline-block bg-white py-2 px-4 rounded-pill"><?php echo $row['message'];?></p>
+                                                        <p  class=" d-inline-block py-2 px-4 rounded-pill" style="background-color: #302D32;"><?php echo $row['message'];?></p>
                                                     </div>
                                                 <?php
                                                 }
@@ -211,6 +214,7 @@ include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
                                         <input type="hidden" required name="mID" value="<?php echo $id ?>">
                                         <!-- <?php }}?> -->
                                         <textarea name="message" id="" rows="1" class="px-2" required></textarea>
+                                        <input type="hidden" name="role" value="sender">
                                     </div>
                                     <button class="btn1 fa-solid fa-paper-plane" type="submit" name="send" style="color: #F8F8F8; border: none; background-color: #302D32"></button>
                                 </form>

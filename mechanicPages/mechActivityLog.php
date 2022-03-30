@@ -3,16 +3,16 @@ session_start();
 include('../config.php');
 $mechID1=$_SESSION['mechID']; 
 
-if(isset($_POST["verify"])){
- $resID=intval($_POST['resID']);
-  $sql1="UPDATE request set status='verify' WHERE resID=:resID"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
-  $query=$dbh->prepare($sql1);
-  $query->bindParam(':resID',$resID,PDO::PARAM_STR);
-  $query->execute(); 
-  echo '<script>alert("please wait vehicle onwer to approve")</script>';
+// if(isset($_POST["verify"])){
+//  $resID=intval($_POST['resID']);
+//   $sql1="UPDATE request set status='verify' WHERE resID=:resID"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
+//   $query=$dbh->prepare($sql1);
+//   $query->bindParam(':resID',$resID,PDO::PARAM_STR);
+//   $query->execute(); 
+//   echo '<script>alert("please wait vehicle onwer to approve")</script>';
 
 
-}
+// }
 
 
 
@@ -76,8 +76,10 @@ if(isset($_POST["verify"])){
                         <h6 class="pt-2">Note:</h6>
                         <p class="card-text"><?php echo htmlentities($result->specMessage);?></p>
                         <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+                        <a href="./manageRequest.php" class="btn btn-primary">Manage Request</a>
+                        <!-- <button class="btn btn-primary btn-lg" type="submit" id="verify" value="verify">Manage Request</button> -->
                     </div>
-                   <button class="btn btn-primary btn-lg" name="verify" type="submit" id="verify" value="verify">Verify</button>
+                  
                 </div>
                 <?php }}} 
                     else {  
