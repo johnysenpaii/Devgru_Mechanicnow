@@ -59,8 +59,8 @@ $v2 = doubleval($_SESSION["longitude"]);
                         <tr class="d-flex align-items-center justify-content-around mt-2">
                             <td><?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?></td>
                             <td><?php echo htmlentities($result->Specialization);?></td>
-                            <td>k.m <?php echo number_format($result->distance,1);?> </td>
-                            <td><a class="btn btn-warning px-3" href="voCarmechRequest.php?regeditid=<?php echo htmlentities($result->mechID)?>">Details</a></td>
+                            <td><?php echo number_format($result->distance,1);?> k.m</td>
+                            <td><a class="btn btn-warning px-3" href="voMotorcyclemechRequest.php?regeditid=<?php echo htmlentities($result->mechID)?>">Details</a></td>
                         </tr>
                         <?php }}     
                             else {     
