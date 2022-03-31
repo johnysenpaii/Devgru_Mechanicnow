@@ -126,7 +126,7 @@ if(isset($_POST['deny'])){
                                                 <li><a href="banlist.php" class="dropdown-item pl-4 p-2"><i class="bi bi-exclamation-circle-fill"></i> Banned Mechanics</a></li>
                                                 <li><a href="userbanlist.php" class="dropdown-item pl-4 p-2"><i
                                                 class="bi bi-exclamation-circle-fill"></i> Banned Clients</a></li>
-SS  
+ 
                                 </ul>
                             </li>
                             <li class="nav-item dropdown w-100">

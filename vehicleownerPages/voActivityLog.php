@@ -57,7 +57,6 @@ if(isset($_POST["confirm"])){
                         <div class="card-body">
                             <input type="text" hidden name="resID" value="<?php echo htmlentities($result->resID);?>">
                             <h5 class="card-title"><?php echo htmlentities($result->mechName);?></h5>
-                            <p><?php echo htmlentities($result->custAddress);?></p>
                             <p class="card-text"><?php echo htmlentities($result->mechRepair);?></p>
                             <h6 class="pt-2">Note:</h6>
                             <p class="card-text"><?php echo htmlentities($result->specMessage);?></p>

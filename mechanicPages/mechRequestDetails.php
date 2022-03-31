@@ -70,8 +70,7 @@ $mechID1=$_SESSION['mechID'];
                         <div class="col-sm-12 col-md-6 text-start">
                                 <h5 class="text-start">Vehicle Owner Information</h6>
                                 <p><?php echo htmlentities($result->vOwnerName);?></p>
-                                <p class="pb-2"><?php echo htmlentities($result->custAddress);?></p>
-                                <h5 class="text-start">Request Information</h5>
+                                <h5 class="text-start mt-2">Request Information</h5>
                                 <p><i>Service Needed:</i> <?php echo htmlentities($result->serviceNeeded);?></p> 
                                 <p><i>Date:</i> <?php echo htmlentities($result->date);?></p>
                                 <p><i>Time:</i> <?php echo htmlentities($result->time) < 12 ? 'AM' : 'PM';?> <?php echo htmlentities($result->time);?></p>
