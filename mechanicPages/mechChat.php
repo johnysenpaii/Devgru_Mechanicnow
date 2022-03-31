@@ -64,11 +64,11 @@ include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
                     </div>
                     <div class="row justify-content-center align-items-center pb-4 d-flex">
                         <div class="col-12 input-group-sm px-4">
-                            <input class="form-control rounded-pill shadow-none border-0" type="text" placeholder="Filter Search" aria-describedby="inputGroup-sizing-sm">
+                            <input class="form-control rounded-pill shadow-none" type="text" placeholder="Filter Search" aria-describedby="inputGroup-sizing-sm">
                         </div>
                     </div>  
                         <?php
-                            $sql="SELECT * from customer WHERE ban !='unban'";//vehicleType like '%Car%' and status='approve'"
+                            $sql="SELECT * from customer WHERE ban ='unban'";//vehicleType like '%Car%' and status='approve'"
                             $query=$dbh->prepare($sql);
                             $query->execute();
                             $results=$query->fetchALL(PDO::FETCH_OBJ);
