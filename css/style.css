@@ -264,6 +264,15 @@ form .name-details .field:last-child{
 .container-fluid .row .rounded-3{
     border-radius: 16px;
 }
+.bg-primary,
+.bg-primary:hover,
+.bg-primary:active,
+.bg-primary:visited,
+.bg-primary:focus {
+    background-color: var(--clr-primary-500);
+    border-color: var(--clr-primary-500);
+    box-shadow: none;
+}
 .btn-primary,
 .btn-primary:hover,
 .btn-primary:active,
@@ -406,13 +415,14 @@ form .name-details .field:last-child{
     background-color: var(--clr-primary-800);
     border-color: var(--clr-primary-800);
     border-radius: 20px;
-    box-shadow: 0 0 128px 0 rgba(0,0,0,0.1),
-                0 32px 64px -48px rgba(0,0,0,0.5);
+    box-shadow: none;
 }
 .btn-warning:hover{
     background-color: var(--clr-primary-500);
     border-color: var(--clr-primary-500);
     color: var(--clr-primary-300);
+    box-shadow: none;
+    
 }
 /* mechanic dashboard modal */
 .with-image{
@@ -449,4 +459,8 @@ form .name-details .field:last-child{
 .btn a{
     color: #f8f8f8;
     text-decoration: none;
+}
+/* chat */
+.chatBox::-webkit-scrollbar{
+    width: 0px;
 }
