@@ -2,17 +2,8 @@
 session_start();
 include('../config.php');
     $custAddress1=$_SESSION['custAddress'];
-    // $regeditid=$_SESSION["custID"];
-    $custAddress1=$_SESSION['latitude'];
-
-    // $sql="SELECT * from mechanic where custID=:regeditid";
-    // $query=$dbh->prepare($sql);
-    // $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
-    // $query->execute();
-    // $results=$query->fetchALL(PDO::FETCH_OBJ);
-    // extract($results);
-
-
+    $v1 = doubleval($_SESSION["latitude"]);
+    $v2 = doubleval($_SESSION["longitude"]);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -54,22 +45,27 @@ include('../config.php');
                     </thead>
                     <tbody>
                         <?php
-                    $sql="SELECT * from mechanic WHERE vehicleType like '%Car Mechanic%' and status='approve'";
+                       
+
+                    $sql="SELECT mechID,mechFirstname,mechLastname,Specialization,
+                    (3959 * acos(cos(radians($v1)) *cos(radians(latitude))* cos(radians(longitude)-radians($v2))+sin(radians($v1))
+                    *sin(radians(latitude))))as distance  from  mechanic WHERE 
+                    vehicleType like '%Car Mechanic%' and status='approve' having distance < 3 order by distance limit 0, 20 ";
                     $query=$dbh->prepare($sql);
                     $query->execute();
                     $results=$query->fetchALL(PDO::FETCH_OBJ);
                     $cnt=1;       
                     if( $query->rowCount()>0){   
                         foreach($results as $result){
-                            if($result->distanceKM <= 5.0){
+                            
                         ?>  
                         <tr class="d-flex align-items-center justify-content-around mt-2">
                             <td><?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?></td>
                             <td><?php echo htmlentities($result->Specialization);?></td>
-                            <td>k.m <?php echo htmlentities($result->distanceKM);?> </td>
+                            <td>k.m <?php echo number_format($result->distance,1);?> </td>
                             <td><a class="btn btn-warning px-3" href="voCarmechRequest.php?regeditid=<?php echo htmlentities($result->mechID)?>">Details</a></td>
                         </tr>
-                        <?php }} }       
+                        <?php }}     
                             else {     
                         ?> 
                             <div class="emptyrequest mt-1 pt-4" >

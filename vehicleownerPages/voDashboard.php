@@ -3,41 +3,11 @@ session_start();
 include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
 $custID1=$_SESSION['custID']; 
 
-if(isset($_POST['car'])){
-
-        $kilo = $_POST['kilo'];
-        $sql="UPDATE mechanic set distanceKM=:kilo WHERE mechID"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
-        $query=$dbh->prepare($sql);
-        $query->bindParam(':kilo',$kilo,PDO::PARAM_STR);
-        $query->execute();
-        echo "<script type='text/javascript'>document.location='voCarmech.php';</script>";
-        
+if(isset($_POST['car']) ||isset($_POST['motorcycle']) || isset($_POST['bicycle'])){
+        $l1=$_SESSION["latitude"];
+        $l2=$_SESSION["longitude"];
+        header("Location:voCarmech.php?/lat=$l1&long=$l2");                
 }
-elseif(isset($_POST['motorcycle'])){
-    $kilo = $_POST['kilo'];
-        $sql="UPDATE mechanic set distanceKM=:kilo WHERE mechID"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
-        $query=$dbh->prepare($sql);
-        $query->bindParam(':kilo',$kilo,PDO::PARAM_STR);
-        $query->execute();
-        echo "<script type='text/javascript'>document.location='voMotorcyclemech.php';</script>";
-}
-elseif(isset($_POST['bicycle'])){
-    $kilo = $_POST['kilo'];
-        $sql="UPDATE mechanic set distanceKM=:kilo WHERE mechID"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
-        $query=$dbh->prepare($sql);
-        $query->bindParam(':kilo',$kilo,PDO::PARAM_STR);
-        $query->execute();
-        echo "<script type='text/javascript'>document.location='voBikemech.php';</script>";
-}
-
-// if(isset($_POST['update'])){
-//      $sql="UPDATE customer set latitude=:latitude,longitude=:longitude WHERE custID=:custID"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
-//             $query2=$dbh->prepare($sql);
-//             $query2->bindParam(':latitude',$latitude,PDO::PARAM_STR);
-//             $query2->bindParam(':longitude',$longitude,PDO::PARAM_STR);
-//             $query2->bindParam(':custID',$custID,PDO::PARAM_STR);
-//             $query2->execute(); 
-// }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -67,22 +37,8 @@ elseif(isset($_POST['bicycle'])){
     <?php include('./voHeader.php');?>
     <?php include('./voTopnav.php');?>
     <section id="serviceOptions" class="container-fluid container-md py-3 pb-5 mb-5">
-        <form action="" method="POST">
-            <?php
-            $sql="SELECT * FROM mechanic WHERE mechID";
-            $query=$dbh->prepare($sql);
-            $query->execute();
-            $results=$query->fetchALL(PDO::FETCH_OBJ);
-            $cnt=1;       
-            if( $query->rowCount()>0){
-                foreach($results as $result){            
-            ?> 
-            <input hidden type="text" name='lat2' id="lat2" value="<?php echo htmlentities($result->latitude);?>">
-            <input hidden type="text" name='lon2' id="lon2" value="<?php echo htmlentities($result->longitude);?>">  
-            <?php }}?>
-             <input hidden name="lat1" id="lat1" type="text" value="<?php echo htmlentities($_SESSION['latitude']);?>">
-            <input hidden name="lon1" id="lon1" type="text" value="<?php echo htmlentities($_SESSION['longitude']);?>">
-          <input hidden name="kilo" id="kilo" type="text" value=""> 
+        <form action="" method="POST">          
+       
             <div class="row gx-5 row-ari">
                 <div class="col-sm-9">
                     <div class="row">
@@ -100,8 +56,8 @@ elseif(isset($_POST['bicycle'])){
                                             <center>
                                                 <p class="card-text">Car Repair and Services.</p>
                                             </center>
-                                            <div class="text-center"><button class="btn btn-primary px-5 rounded-pill my-2"
-                                                    name="car" type="submit" >Find</button></div>
+                                            <div class="text-center"><a class="btn btn-primary px-5 rounded-pill my-2"
+                                                    name="car" type="submit" href="voCarmech.php" >Find</a></div>
                                         </div>
                                     </div>
                                 </div>
@@ -115,8 +71,8 @@ elseif(isset($_POST['bicycle'])){
                                             <center>
                                                 <p class="card-text">Motorcycle Repair and Services.</p>
                                             </center>
-                                            <div class="text-center"><button class="btn btn-primary px-5 rounded-pill my-2"
-                                            name="motorcycle" type="submit" >Find</button></div>
+                                            <div class="text-center"><a class="btn btn-primary px-5 rounded-pill my-2"
+                                            name="motorcycle" type="submit" href="voMotorcyclemech.php">Find</a></div>
                                         </div>
                                     </div>
                                 </div>
@@ -130,8 +86,8 @@ elseif(isset($_POST['bicycle'])){
                                             <center>
                                                 <p class="card-text">Bicycle Repair and Services.</p>
                                             </center>
-                                            <div class="text-center"><button class="btn btn-primary px-5 rounded-pill my-2"
-                                            name="bicycle" type="submit">Find</button></div>
+                                            <div class="text-center"><a class="btn btn-primary px-5 rounded-pill my-2"
+                                            name="bicycle" type="submit" href="voBikemech.php">Find</a></div>
                                         </div>
                                     </div>
                                 </div>
@@ -262,33 +218,33 @@ elseif(isset($_POST['bicycle'])){
 //     document.getElementById("latitude").innerHTML = x;
 //     document.getElementById("longitude").innerHTML = y;
 //     }
-        var km = document.getElementById('kilo');
-        var lat1 = document.getElementById('lat1').value;
-        var lon1 = document.getElementById('lon1').value;
-        var lat2 = document.getElementById('lat2').value;
-        var lon2 = document.getElementById('lon2').value;
-        km.value = (calcCrow(lat1,lon1,lat2,lon2).toFixed(1));
-//This function takes in latitude and longitude of two location and returns the distance between them as the crow flies (in km)
-function calcCrow(lat1, lon1, lat2, lon2) 
-{
-  var R = 6371; // km
-  var dLat = toRad(lat2-lat1);
-  var dLon = toRad(lon2-lon1);
-  var lat1 = toRad(lat1);
-  var lat2 = toRad(lat2);
+//         var km = document.getElementById('kilo');
+//         var lat1 = document.getElementById('lat1').value;
+//         var lon1 = document.getElementById('lon1').value;
+//         var lat2 = document.getElementById('lat2').value;
+//         var lon2 = document.getElementById('lon2').value;
+//         console.log(calcCrow(lat1,lon1,lat2,lon2).toFixed(1));
+// //This function takes in latitude and longitude of two location and returns the distance between them as the crow flies (in km)
+// function calcCrow(lat1, lon1, lat2, lon2) 
+// {
+//   var R = 6371; // km
+//   var dLat = toRad(lat2-lat1);
+//   var dLon = toRad(lon2-lon1);
+//   var lat1 = toRad(lat1);
+//   var lat2 = toRad(lat2);
 
-  var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-    Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
-  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-  var d = R * c;
-  return d;
-}
+//   var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+//     Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
+//   var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+//   var d = R * c;
+//   return d;
+// }
 
-// Converts numeric degrees to radians
-function toRad(Value) 
-{
-    return Value * Math.PI / 180;
-}
+// // Converts numeric degrees to radians
+// function toRad(Value) 
+// {
+//     return Value * Math.PI / 180;
+// }
 
 
 </script>
