@@ -1,6 +1,6 @@
 <?php
 session_start();
-include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
+include('../config.php');
 $custAddress1=$_SESSION['custAddress'];
 $v1 = doubleval($_SESSION["latitude"]);
 $v2 = doubleval($_SESSION["longitude"]);
