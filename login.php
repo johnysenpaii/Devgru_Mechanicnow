@@ -7,13 +7,13 @@ if(isset($_POST['Login']))
     $regeditid = $_SESSION['custID'];
     $latitude = $_POST['latitude'];
     $longitude = $_POST['longitude'];
-  $sql="UPDATE customer set latitude=:latitude,longitude=:longitude WHERE custID=:regeditid"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
-  $query=$dbh->prepare($sql);
-  $query->bindParam(':latitude',$latitude,PDO::PARAM_STR);
-  $query->bindParam(':longitude',$longitude,PDO::PARAM_STR);
-  $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
-  $query->execute(); 
-  $Username=$_POST['Username'];
+    $sql="UPDATE customer set latitude=:latitude,longitude=:longitude WHERE custID=:regeditid"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
+    $query=$dbh->prepare($sql);
+    $query->bindParam(':latitude',$latitude,PDO::PARAM_STR);
+    $query->bindParam(':longitude',$longitude,PDO::PARAM_STR);
+    $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
+    $query->execute(); 
+    $Username=$_POST['Username'];
     
     //$valid = password_verify($input, $Password); //1 or 0
     $sql1 = "SELECT * FROM customer WHERE Username=:Username AND role='vehicleOwner'";
@@ -52,11 +52,11 @@ if(isset($_POST['Login']))
         $latitude = $_POST['latitude'];
         $longitude = $_POST['longitude'];
         $sql="UPDATE mechanic set latitude=:latitude,longitude=:longitude WHERE mechID=:regeditid"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
-  $query=$dbh->prepare($sql);
-  $query->bindParam(':latitude',$latitude,PDO::PARAM_STR);
-  $query->bindParam(':longitude',$longitude,PDO::PARAM_STR);
-  $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
-  $query->execute(); 
+        $query=$dbh->prepare($sql);
+        $query->bindParam(':latitude',$latitude,PDO::PARAM_STR);
+        $query->bindParam(':longitude',$longitude,PDO::PARAM_STR);
+        $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
+        $query->execute(); 
         //echo '<script>alert("User not found!")</script>';
         $sql="SELECT * FROM mechanic WHERE Username=:Username AND role='MECHANIC'";
         $query1=$dbh->prepare($sql);
