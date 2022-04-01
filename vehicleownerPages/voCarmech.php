@@ -22,7 +22,7 @@ include('../config.php');
     <title>Mechanic Now</title>
     <link rel="shortcut icon" type="x-icon" href="../img/mechanicnowlogo.svg">
 </head>
-<body onload="getLocation();" id="contbody" style="background-color: #f8f8f8">
+<body id="contbody" style="background-color: #f8f8f8">
     <?php include('voHeader.php');?>
     <?php include('./voTopnav.php');?>
 
