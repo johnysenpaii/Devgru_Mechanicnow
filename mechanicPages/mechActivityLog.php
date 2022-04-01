@@ -60,6 +60,7 @@ $mechID1=$_SESSION['mechID'];
                     $query=$dbh->prepare($sql);
                     $query->execute();
                     $results=$query->fetchALL(PDO::FETCH_OBJ);
+                    $cnt=1;
                     if($query->rowCount()>0){
                         foreach ($results as $result){                           
                             if($mechID1==$mechID1){
@@ -74,13 +75,14 @@ $mechID1=$_SESSION['mechID'];
                         <p class="card-text"><?php echo htmlentities($result->mechRepair);?></p>
                         <h6 class="pt-2">Note:</h6>
                         <p class="card-text"><?php echo htmlentities($result->specMessage);?></p>
+
                         <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
-                        <a href="./manageRequest.php" class="btn btn-primary">Manage Request</a>
+                        <a href="manageRequest.php?regeditid=<?php echo htmlentities($result->resID)?>" class="btn btn-primary">Manage Request</a>
                         <!-- <button class="btn btn-primary btn-lg" type="submit" id="verify" value="verify">Manage Request</button> -->
                     </div>
                   
                 </div>
-                <?php }}} 
+                <?php $cnt=$cnt+1;}}} 
                     else {  
                     ?>
                 <div class="emptyrequest mt-5 pt-5">
