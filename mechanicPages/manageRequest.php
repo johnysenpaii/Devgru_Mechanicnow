@@ -68,7 +68,7 @@ $mechID1=$_SESSION['mechID'];
                 </div>
 
                 <div class="col-sm-12 col-md-6 bg-white p-3 rounded-3 shadow">
-                    <h5 class="text-start">Vehicle Owner Information</h6>
+                    <h5 class="text-start pt-2">Vehicle Owner Information</h6>
                         <p><?php echo htmlentities($result->vOwnerName);?></p>
                         <h5 class="text-start mt-2">Request Information</h5>
                         <p><i>Service Needed:</i> <?php echo htmlentities($result->serviceNeeded);?></p>
@@ -79,22 +79,34 @@ $mechID1=$_SESSION['mechID'];
                         <h5>Noted Message</h5>
                         <p class="line-segment"><?php echo htmlentities($result->specMessage);?></p>
 
-                        <p class="py-3">Please Update the progress bar so that your client know the status of his/her
-                            request.</p>
+                        <p class="py-3"><em>Update the progress bar to let your client know the status of his/her
+                            request.</em></p>
                         <div class="progress">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated " role="progressbar"
-                                aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div>
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" id="progress" role="progressbar"></div>
                         </div> 
-                         <button class="my-2 btn btn-primary"><i class="bi bi-arrow-counterclockwise"></i></button>
-                        <div class="row p-2 d-flex align-self-end justify-content-end">
-                            <p class="pb-3">Make sure to complete the request before clicking the button.</p>
-                            <button class="btn btn-primary col-md-4 rounded-pill">Request Complete</button>
+                         <button type="button" class="my-3 btn btn-primary rounded-pill" onclick="increase()">Update me <i class="bi bi-arrow-counterclockwise"></i></button>
+                         <input hidden type="text" id="tb"> 
+                        <div class="row pt-5 d-flex align-self-end justify-content-end">
+                            <button type="button" class="btn btn-primary col-md-4 rounded-pill">Request Complete</button>
                         </div>
                 </div>
             </div>
             <?php $cnt=$cnt+1;}}?>
         </form>
     </section>
+    <script>
+        var value = 0, 
+        tb = document.getElementById("tb"),
+        progress = document.getElementById("progress"); 
+        function increase(){ 
+            value = value + 22;
+            if(value>=100) value = 100;
+            tb.value = value; 
+            progress.style.width = value + "%";
+            progress.innerHTML = value  + "%";
+            } 
+    </script>
+
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
     </script>

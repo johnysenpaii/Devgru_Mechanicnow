@@ -147,7 +147,7 @@ if(isset($_POST['deny'])){
                             <br>
                             <hr class="text-light m-1">
                             <li class="nav-item w-100">
-                                <a onclick="myconfirm()" class="nav-link text-danger"><i class="bi bi-door-closed"></i>
+                                <a onclick="myconfirm()" href="#" class="nav-link text-danger"><i class="bi bi-door-closed"></i>
                                     Logout</a>
                             </li>
                         </ul>
@@ -251,7 +251,7 @@ if(isset($_POST['deny'])){
     function myconfirm() {
         let text = "Are sure you want to leave?.";
         if (confirm(text) == true) {
-            location.replace("adminLogin.php")
+            location.replace('../login.php')
         } else {
             location.reload();
         }
