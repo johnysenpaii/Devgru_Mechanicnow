@@ -2,6 +2,16 @@
 session_start();
 include('../config.php');
 $mechID1=$_SESSION['mechID']; 
+if(isset($_POST['UpdateMe']))
+{
+    $tb=$_POST['tb'];
+    $regeditid=intval($_GET['regeditid']);
+    $sql="UPDATE request set progressBar=:tb where resID=:regeditid";
+    $query=$dbh->prepare($sql); 
+    $query->bindParam(':tb',$tb,PDO::PARAM_STR);
+    $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR); 
+    $query->execute();
+}
 
 // if(isset($_POST["verify"])){
 //  $resID=intval($_POST['resID']);
@@ -84,8 +94,8 @@ $mechID1=$_SESSION['mechID'];
                         <div class="progress">
                             <div class="progress-bar progress-bar-striped progress-bar-animated" id="progress" role="progressbar"></div>
                         </div> 
-                         <button type="button" class="my-3 btn btn-primary rounded-pill" onclick="increase()">Update me <i class="bi bi-arrow-counterclockwise"></i></button>
-                         <input hidden type="text" id="tb"> 
+                         <button value="UpdateMe" name="UpdateMe" type="submit" class="my-3 btn btn-primary rounded-pill" onclick="increase()">Update me <i class="bi bi-arrow-counterclockwise"></i></button>
+                         <input name="tb" value="" type="text" id="tb"> 
                         <div class="row pt-5 d-flex align-self-end justify-content-end">
                             <button type="button" class="btn btn-primary col-md-4 rounded-pill">Request Complete</button>
                         </div>
