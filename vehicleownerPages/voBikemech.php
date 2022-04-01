@@ -47,7 +47,7 @@ $v2 = doubleval($_SESSION["longitude"]);
                     $sql="SELECT mechID,mechFirstname,mechLastname,Specialization,
                     (3959 * acos(cos(radians($v1)) *cos(radians(latitude))* cos(radians(longitude)-radians($v2))+sin(radians($v1))
                     *sin(radians(latitude))))as distance  from  mechanic WHERE 
-                    vehicleType like '%Bicycle Mechanic%' and status='approve' having distance < 3 order by distance limit 0, 20 ";
+                    vehicleType like '%Bicycle Mechanic%' and status='approve' having distance < 5 order by distance limit 0, 20 ";
                     $query=$dbh->prepare($sql);
                     $query->execute();
                     $results=$query->fetchALL(PDO::FETCH_OBJ);
