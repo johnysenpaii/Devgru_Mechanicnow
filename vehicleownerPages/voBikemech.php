@@ -59,7 +59,7 @@ $v2 = doubleval($_SESSION["longitude"]);
                             <td><?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?></td>
                             <td><?php echo htmlentities($result->Specialization);?></td>
                             <td>k.m <?php echo number_format($result->distance,1);?> </td>
-                            <td><a class="btn btn-warning px-3" href="voCarmechRequest.php?regeditid=<?php echo htmlentities($result->mechID)?>">Details</a></td>
+                            <td><a class="btn btn-warning px-3" href="voBikemechRequest.php?regeditid=<?php echo htmlentities($result->mechID)?>">Details</a></td>
                         </tr>
                         <?php }}     
                             else {     
