@@ -46,6 +46,9 @@ if(isset($_POST['UpdateMe']))
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="../css/style.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
+    </script>
     <title>Mechanic Now</title>
     <link rel="shortcut icon" type="x-icon" href="../img/mechanicnowlogo.svg">
 </head>
@@ -92,9 +95,9 @@ if(isset($_POST['UpdateMe']))
                         <p class="py-3"><em>Update the progress bar to let your client know the status of his/her
                             request.</em></p>
                         <div class="progress">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated" id="progress" role="progressbar"></div>
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" data-width="<?php echo htmlentities($result->progressBar);?>" id="progress" role="progressbar"></div>
                         </div> 
-                         <button value="UpdateMe" name="UpdateMe" type="submit" class="my-3 btn btn-primary rounded-pill" onclick="increase()">Update me <i class="bi bi-arrow-counterclockwise"></i></button>
+                         <button value="UpdateMe" name="UpdateMe" type="submit" class="my-3 btn btn-primary rounded-pill">Update me <i class="bi bi-arrow-counterclockwise"></i></button>
                          <input name="tb" value="" type="text" id="tb"> 
                         <div class="row pt-5 d-flex align-self-end justify-content-end">
                             <button type="button" class="btn btn-primary col-md-4 rounded-pill">Request Complete</button>
@@ -105,16 +108,34 @@ if(isset($_POST['UpdateMe']))
         </form>
     </section>
     <script>
-        var value = 0, 
-        tb = document.getElementById("tb"),
-        progress = document.getElementById("progress"); 
-        function increase(){ 
-            value = value + 22;
-            if(value>=100) value = 100;
-            tb.value = value; 
-            progress.style.width = value + "%";
-            progress.innerHTML = value  + "%";
-            } 
+        // var value = 0, 
+        // tb = document.getElementById("tb"),
+        // progress = document.getElementById("progress"); 
+        // function increase(){ 
+        //     value = value + 20;
+        //     if(value>=100) value=100;
+        //     tb.value = value; 
+        //     progress.style.width = value + "%";
+        //     progress.innerHTML = value  + "%";
+        // }
+
+        $('body').on('click', '.progress', function(event) {
+        var w_tar = $(this).find('.progress-bar'),
+            w_cur = w_tar.data('width'),
+            w_new = w_cur += 20;
+            
+        if (w_cur > 100) {
+            w_new = 20;
+        }
+        $('#tb').val(w_new);
+        w_tar
+            .css('width', w_new + "%")
+            .data('width', w_new)
+            .text(w_new + "%");
+        });
+        
+
+        $('.progress').trigger('click');
     </script>
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
