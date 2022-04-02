@@ -28,6 +28,7 @@ $mechID1=$_SESSION['mechID'];
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Stick+No+Bills:wght@600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <script src="https://kit.fontawesome.com/810a80b0a3.js" crossorigin="anonymous"></script>
     <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/fontawesome.min.css"
@@ -42,25 +43,57 @@ $mechID1=$_SESSION['mechID'];
 <body id="contbody" style="background-color: #f8f8f8">
     <?php include('mechHeader.php');?>
     <!-- <?php include('mechTopnav.php');?> -->
-
     <section id="manageRequest">
-        <div class="row container-fluid py-3 text-dark">
-            <div class="col-sm-12 col-md-6">
-                 <div id="google-maps">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d125600.64171524956!2d123.91604364000311!3d10.340280042809674!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1smechanic%20shops%20near%20Cebu%20City%2C%20Cebu!5e0!3m2!1sen!2sph!4v1648229944458!5m2!1sen!2sph" frameborder="0" width="100%" height="540" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <form action="" method="POST">
+            <?php
+                        $regeditid=intval($_GET['regeditid']);
+						$sql="SELECT * from request where resID=:regeditid";
+						$query = $dbh->prepare($sql);
+						$query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
+						$query->execute();
+						$results=$query->fetchAll(PDO::FETCH_OBJ);
+						$cnt=1;
+						if($query->rowCount()>0){
+    						foreach($results as $result){
+						?>
+
+            <div class="row container-fluid py-3 text-dark">
+                <div class="col-sm-12 col-md-6">
+                    <div id="google-maps">
+                        <iframe
+                            src="https://maps.google.com/maps?q=<?php echo htmlentities($result->latitude);?>,<?php echo htmlentities($result->longitude);?>&<?php echo htmlentities($_SESSION['latitude']);?>,<?php echo htmlentities($_SESSION['longitude']);?>&output=embed"
+                            frameborder="0" width="100%" height="540">
+                        </iframe>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-md-6 bg-white p-3 rounded-3 shadow">
+                    <h5 class="text-start">Vehicle Owner Information</h6>
+                        <p><?php echo htmlentities($result->vOwnerName);?></p>
+                        <h5 class="text-start mt-2">Request Information</h5>
+                        <p><i>Service Needed:</i> <?php echo htmlentities($result->serviceNeeded);?></p>
+                        <p><i>Date:</i> <?php echo htmlentities($result->date);?></p>
+                        <p><i>Time:</i> <?php echo htmlentities($result->time) < 12 ? 'AM' : 'PM';?>
+                            <?php echo htmlentities($result->time);?></p>
+                        <p class="pb-1 "><i>Vehicle Problem:</i> <?php echo htmlentities($result->mechRepair);?></p>
+                        <h5>Noted Message</h5>
+                        <p class="line-segment"><?php echo htmlentities($result->specMessage);?></p>
+
+                        <p class="py-3">Please Update the progress bar so that your client know the status of his/her
+                            request.</p>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated " role="progressbar"
+                                aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div>
+                        </div> 
+                         <button class="my-2 btn btn-primary"><i class="bi bi-arrow-counterclockwise"></i></button>
+                        <div class="row p-2 d-flex align-self-end justify-content-end">
+                            <p class="pb-3">Make sure to complete the request before clicking the button.</p>
+                            <button class="btn btn-primary col-md-4 rounded-pill">Request Complete</button>
+                        </div>
                 </div>
             </div>
-            <div class="col-sm-12 col-md-6 bg-white p-3 rounded-3 shadow">
-                <p class="pb-5">Please Update the progress bar so that your client know the status of his/her request.</p>
-                <div class="progress rounded-pill">
-                    <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
-                </div>
-                <div class="row p-2 d-flex align-self-end justify-content-end">
-                    <p class="pt-3 pb-1">Make sure to complete the request before clicking the button.</p>
-                    <button class="btn btn-primary col-md-4 rounded-pill">Request Complete</button>
-                </div>
-            </div>
-        </div>
+            <?php $cnt=$cnt+1;}}?>
+        </form>
     </section>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">

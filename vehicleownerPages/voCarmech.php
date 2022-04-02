@@ -49,8 +49,8 @@ include('../config.php');
 
                     $sql="SELECT mechID,mechFirstname,mechLastname,Specialization,
                     (3959 * acos(cos(radians($v1)) *cos(radians(latitude))* cos(radians(longitude)-radians($v2))+sin(radians($v1))
-                    *sin(radians(latitude))))as distance  from  mechanic WHERE 
-                    vehicleType like '%Car Mechanic%' and status='approve' having distance < 5 order by distance limit 0, 20 ";
+                    *sin(radians(latitude)))) as distance  from  mechanic WHERE 
+                    vehicleType like '%Car Mechanic%' and status='approve' having distance < 3 order by distance limit 0, 20 ";
                     $query=$dbh->prepare($sql);
                     $query->execute();
                     $results=$query->fetchALL(PDO::FETCH_OBJ);
@@ -59,13 +59,13 @@ include('../config.php');
                         foreach($results as $result){
                             
                         ?>  
-                        <tr class="d-flex align-items-center justify-content-around mt-2">
+                            <tr class="d-flex align-items-center justify-content-around mt-2">
                             <td><?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?></td>
                             <td><?php echo htmlentities($result->Specialization);?></td>
                             <td><?php echo number_format($result->distance,1);?> k.m</td>
                             <td><a class="btn btn-warning px-3" href="voCarmechRequest.php?regeditid=<?php echo htmlentities($result->mechID)?>">Details</a></td>
                         </tr>
-                        <?php }}     
+                        <?php $cnt=$cnt+1;}}     
                             else {     
                         ?> 
                             <div class="emptyrequest mt-1 pt-4" >
