@@ -121,11 +121,8 @@ if(isset($_POST['register']) && isset($_FILES['mechValidID']))
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Stick+No+Bills:wght@600&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/810a80b0a3.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/fontawesome.min.css"
-        integrity="sha384-jLKHWM3JRmfMU0A5x5AkjWkw/EYfGUAGagvnfryNV3F9VqM98XiIH7VBGVoxVSc7" crossorigin="anonymous">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/fontawesome.min.css" integrity="sha384-jLKHWM3JRmfMU0A5x5AkjWkw/EYfGUAGagvnfryNV3F9VqM98XiIH7VBGVoxVSc7" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <title>Mechanic Now | Signup</title>
     <link rel="shortcut icon" type="x-icon" href="../img/mechanicnowlogo.svg">
 </head>
@@ -163,14 +160,6 @@ if(isset($_POST['register']) && isset($_FILES['mechValidID']))
                     <div class="field input">
                         <input type="text" placeholder="Baranggay, City, Province" name="mechAddress" required>
                     </div>
-                    <!-- <div class="field input">
-                        <select name="Specialization" id="" required>
-                            <option disabled selected hidden>Choose Mechanic Type...</option>
-                            <option value="Bicycle Mechanic">Bicycle Mechanic</option>
-                            <option value="Motorcycle Mechanic">Motorcycle Mechanic</option>
-                            <option value="Car Mechanic">Car Mechanic</option>
-                        </select>
-                    </div> -->
                     <div class="">
                         <label>Please attach Valid ID or Certificate</label>
                         <input class="form-control" name="mechValidID" type="file" id="formFileMultiple"
@@ -223,9 +212,7 @@ if(isset($_POST['register']) && isset($_FILES['mechValidID']))
 
     }
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <script src="../js/bootstrap.bundle.min.js"></script>
 </body>
 

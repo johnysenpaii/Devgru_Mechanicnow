@@ -62,7 +62,7 @@ if(isset($_POST["confirm"])){
                             <p class="card-text"><?php echo htmlentities($result->specMessage);?></p>
                             <p class="card-text float-end"><?php echo htmlentities($result->status);?></p>
                             <!-- <a class="btn btn-primary rounded-pill" data-bs-toggle="modal" href="#exampleModalToggle" role="button">End Service</a> -->
-                            <a class="btn btn-primary rounded-pill" href="./voMonitorMechService.php?regeditid=<?php echo htmlentities($result->mechID);?>">Monitor Service</a>
+                            <a class="btn btn-primary rounded-pill" href="./voMonitorMechService.php?regeditid=<?php echo htmlentities($result->resID);?>">Monitor Service</a>
                             <!-- <button class="btn btn-primary rounded-pill" type="submit" value="confirm" name="confirm">End Service</button> -->
                             <!-- Button trigger modal -->
 
@@ -80,41 +80,6 @@ if(isset($_POST["confirm"])){
                     <?php
                     }
                     ?>
-                </div>
-            </div>
-            <div class="modal fade text-dark" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalToggleLabel">Are you sure you want to end the service?</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body text-center">
-                       <i class="fa-solid fa-triangle-exclamation text-danger"></i> Check the vehicle if it is 100% fixed. <br>
-                       <a class="btn btn-primary rounded-pill shadow-none mt-3" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal">Continue</a>
-                       <button type="button" class="btn btn-secondary rounded-pill shadow-none mt-3" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
-                       <!-- <a class="btn btn-secondary rounded-pill shadow-none mt-3" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal">Cancel</a> -->
-                    </div>
-                    <!-- <div class="modal-footer">
-                        <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal">Continue</button>
-                    </div> -->
-                    </div>
-                </div>
-                </div>
-                <div class="modal fade text-dark" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalToggleLabel2">Modal 2</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        Hide this modal and show the first with the button below.
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-dismiss="modal">Back to first</button>
-                    </div>
-                    </div>
                 </div>
             </div>
         </form>

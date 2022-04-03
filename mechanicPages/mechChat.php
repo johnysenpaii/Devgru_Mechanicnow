@@ -1,6 +1,7 @@
 <?php
 session_start();
 include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
+    $mID = $_SESSION['mechID'];
     if(isset($_POST['send'])){
             $custID = $_POST['cID'];
             $mechID = $_POST['mechID'];
@@ -38,11 +39,8 @@ include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css2?family=Stick+No+Bills:wght@600&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/810a80b0a3.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/fontawesome.min.css"
-        integrity="sha384-jLKHWM3JRmfMU0A5x5AkjWkw/EYfGUAGagvnfryNV3F9VqM98XiIH7VBGVoxVSc7" crossorigin="anonymous">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/fontawesome.min.css" integrity="sha384-jLKHWM3JRmfMU0A5x5AkjWkw/EYfGUAGagvnfryNV3F9VqM98XiIH7VBGVoxVSc7" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="../css/style.css">
     <title>Mechanic Now</title>
     <link rel="shortcut icon" type="x-icon" href="../img/mechanicnowlogo.svg">
@@ -68,14 +66,17 @@ include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
                         </div>
                     </div>  
                         <?php
-                            $sql="SELECT * from customer WHERE ban ='unban'";//vehicleType like '%Car%' and status='approve'"
+                            //$sql="SELECT * from chat WHERE mechID = $mID";//vehicleType like '%Car%' and status='approve'"
+                            //$sql = "select custID, count(*) from chat where mechID =".$mID."group by id having count(*) > 1";
+                            $sql="SELECT `custID` FROM `chat` GROUP BY `custID`";
                             $query=$dbh->prepare($sql);
                             $query->execute();
                             $results=$query->fetchALL(PDO::FETCH_OBJ);
                             $cnt=1;
                             if( $query->rowCount()>0){
                                 foreach($results as $result){
-                                    //if($result->distanceKM <= 3.0){
+                                    //if($result){
+                                    
                         ?>
                         <form method="POST">
                             <div class="row px-2">
@@ -86,7 +87,8 @@ include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
                                         </div>
                                         <input type="hidden" name="custID" value="<?php echo htmlentities($result->custID)?>">
                                         <div class="col-md-10 text-start">
-                                            <h6><?php echo htmlentities($result->custFirstname." ".$result->custLastname);?></h6>
+                                            <!-- $result->custID." ".$result->custLastname -->
+                                            <h6><?php echo htmlentities($result->custID);?></h6> 
                                             <p class="fs-6"><small>This is test message</small></p>
                                         </div>
                                     </div>
@@ -190,15 +192,10 @@ include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
                 </div>
             </div>
     </section>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
-    </script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="../js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

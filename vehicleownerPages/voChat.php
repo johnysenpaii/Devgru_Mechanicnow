@@ -165,35 +165,6 @@ include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
                                 }
                                 }
                                 ?>
-                                 <!-- <div class=" text-dark m-3">
-                                     <img src="../img/avatar.jpg" alt="" style="height: 1.5em;width: 1.5em;" class="rounded-circle">
-                                     <p  class=" d-inline-block bg-white py-2 px-4 rounded-pill">Hi John Gusto ko maka kuhag kuan</p>
-                                 </div>
-                                 <div class=" text-dark m-3 justify-content-end text-end">
-                                     <p  class=" d-inline-block bg-white py-2 px-4 rounded-pill">Katong kuan?</p>
-                                     <img src="../img/avatar.jpg" alt="" style="height: 1.5em;width: 1.5em;" class="rounded-circle">
-                                 </div>
-                                 <div class=" text-dark m-3">
-                                     <img src="../img/avatar.jpg" alt="" style="height: 1.5em;width: 1.5em;" class="rounded-circle">
-                                     <p  class=" d-inline-block bg-white py-2 px-4 rounded-pill">ouh</p>
-                                 </div>
-                                 <div class=" text-dark m-3">
-                                     <img src="../img/avatar.jpg" alt="" style="height: 1.5em;width: 1.5em;" class="rounded-circle">
-                                     <p  class=" d-inline-block bg-white py-2 px-4 rounded-pill">Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio vero nulla consequatur. Eum deleniti aliquam reiciendis voluptatem, quam magni, a nihil libero, inventore maiores accusantium.</p>
-                                 </div>
-                                 <div class=" text-dark m-3 justify-content-end text-end">
-                                     <p  class=" d-inline-block bg-white py-2 px-4 rounded-pill">cge cge</p>
-                                     <img src="../img/avatar.jpg" alt="" style="height: 1.5em;width: 1.5em;" class="rounded-circle">
-                                 </div>
-                                 <div class=" text-dark m-3 justify-content-end text-end">
-                                     <p  class=" d-inline-block bg-white py-2 px-4 rounded-pill">Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur, tenetur.</p>
-                                     <img src="../img/avatar.jpg" alt="" style="height: 1.5em;width: 1.5em;" class="rounded-circle">
-                                 </div>
-                                 <div class=" text-dark m-3">
-                                     <img src="../img/avatar.jpg" alt="" style="height: 1.5em;width: 1.5em;" class="rounded-circle">
-                                     <p  class=" d-inline-block bg-white py-2 px-4 rounded-pill">ouh</p>
-                                 </div> -->
-                                 
                             </div>
                         </div>
                         <div class="row px-2 py-2" style="background: #302D32">

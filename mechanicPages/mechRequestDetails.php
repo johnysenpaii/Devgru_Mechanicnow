@@ -8,6 +8,19 @@ if(isset($_POST['Accept']))
     $query=$dbh->prepare($sql); 
     $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR); 
     $query->execute();
+
+    $custID = $_POST['custID'];
+    $mechID = $_POST['mechID'];
+    $specMessage = $_POST['specMessage'];
+    $role = $_POST['role'];
+
+    $sql2 = "INSERT INTO chat(custID, mechID, message, role) VALUES(:custID, :mechID, :specMessage, :role)";
+    $query2 = $dbh->prepare($sql2);
+    $query2->bindParam(':custID',$custID,PDO::PARAM_STR);
+    $query2->bindParam(':mechID',$mechID,PDO::PARAM_STR);
+    $query2->bindParam(':specMessage',$specMessage,PDO::PARAM_STR);
+    $query2->bindParam(':role',$role,PDO::PARAM_STR);
+    $query2->execute();
     echo"<script type='text/javascript'>alert('Accepted Successfully!');</script>";
     echo"<script>location.replace('./mechDashboard.php');</script>";
 }
@@ -78,14 +91,13 @@ $mechID1=$_SESSION['mechID'];
                                 <h5>Noted Message</h5>
                                 <p><?php echo htmlentities($result->specMessage);?></p>
                                
-                                <!-- <input type="text" class="border-0 text-center" name="Specialization" value="<?php echo htmlentities($result->serviceType);?>">
-                                <input type="text" class="border-0 text-center" name="mechAddress" value="<?php echo htmlentities($result->serviceNeeded);?>">
-                                <input type="text" class="border-0 text-center" name="mechAddress" value="<?php echo htmlentities($result->mechRepair);?>">
-                                <input type="text" class="border-0 text-center" name="mechAddress" value="<?php echo htmlentities($result->specMessage);?>"> -->
+                                <input type="text" name="mechID" value="<?php echo htmlentities($result->mechID);?>" hidden>
+                                <input type="text" name="custID" value="<?php echo htmlentities($result->custID);?>" hidden>
                                 <div class="py-2">
                                     <label for="">Leave a message</label>
                                     <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="Leave a message before accepting. . ." rows="3" name="specMessage" value="specMessage" required></textarea>
                                 </div>
+                                <input type="hidden" name="role" value="receiver">
                         </div>
                     </div>
                     <div class="row pt-3">
