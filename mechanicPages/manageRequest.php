@@ -2,9 +2,11 @@
 session_start();
 include('../config.php');
 $mechID1=$_SESSION['mechID']; 
+
+
 if(isset($_POST['UpdateMe']))
 {
-    $tb=$_POST['tb'];
+    $tb = $_POST['output'];
     $regeditid=intval($_GET['regeditid']);
     $sql="UPDATE request set progressBar=:tb where resID=:regeditid";
     $query=$dbh->prepare($sql); 
@@ -42,8 +44,11 @@ if(isset($_POST['UpdateMe']))
     <link href="https://fonts.googleapis.com/css2?family=Stick+No+Bills:wght@600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <script src="https://kit.fontawesome.com/810a80b0a3.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet"  href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/fontawesome.min.css" integrity="sha384-jLKHWM3JRmfMU0A5x5AkjWkw/EYfGUAGagvnfryNV3F9VqM98XiIH7VBGVoxVSc7" crossorigin="anonymous">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/fontawesome.min.css"
+        integrity="sha384-jLKHWM3JRmfMU0A5x5AkjWkw/EYfGUAGagvnfryNV3F9VqM98XiIH7VBGVoxVSc7" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="../css/style.css">
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
@@ -92,50 +97,65 @@ if(isset($_POST['UpdateMe']))
                         <p class="line-segment"><?php echo htmlentities($result->specMessage);?></p>
 
                         <p class="py-3"><em>Update the progress bar to let your client know the status of his/her
-                            request.</em></p>
-                        <div class="progress" style="height: 25px;" onclick="increase()">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated" id="progress" role="progressbar"><?php echo htmlentities($result->progressBar);?>%</div>
-                        </div> 
-                         <button value="UpdateMe" name="UpdateMe" type="submit" class="my-4 btn btn-primary rounded-pill">Update me <i class="bi bi-arrow-counterclockwise"></i></button>
-                         <input name="tb" value="<?php echo htmlentities($result->progressBar);?>" type="text" id="tb"> 
+                                request.</em></p>
+                        <progress id="file" style="height:50px; width: 500px;" value="<?php echo htmlentities($result->progressBar);?>" max="100" onclick="prog();">djasfdyuastrdytasd</progress>
+                        <input readonly type="text" name="output" class="border-0" value="<?php echo htmlentities($result->progressBar);?>" id="output">
+                        <button type="sumbit" class="btn btn-primary btn-sm rounded-pill" value="UpdateMe" name="UpdateMe" id="UpdateMe">Update me <i class="bi bi-arrow-counterclockwise"></i></button>
+                      
+
+
+
+                        <!-- <div class="progress" style="height: 25px;" onclick="increase()">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" id="progress"
+                            role="progressbar"><?php echo htmlentities($result->progressBar);?>%</div>
+                </div> -->
+                        <!-- <button value="UpdateMe" name="UpdateMe" type="submit" class="my-4 btn btn-primary rounded-pill">Update me <i class="bi bi-arrow-counterclockwise"></i></button> -->
+                        <!-- <input name="tb" value="<?php echo htmlentities($result->progressBar);?>" type="text" id="tb">  -->
                         <div class="row pt-5 d-flex align-self-end justify-content-end">
-                            <button type="button" class="btn btn-primary col-md-4 rounded-pill">Request Complete</button>
+                            <button type="button" class="btn btn-primary col-md-4 rounded-pill">Request
+                                Complete</button>
                         </div>
                 </div>
             </div>
             <?php $cnt=$cnt+1;}}?>
         </form>
     </section>
-    <script>
-        var value = 0, 
-        tb = document.getElementById("tb"),
-        progress = document.getElementById("progress"); 
-        function increase(){ 
-            value = value + 20;
-            if(value>=100) value=100;{ 
-            tb.value = value; 
-            progress.style.width = value + "%";
-            progress.innerHTML = value  + "%";
-            }
-        }
+    <script language=JavaScript>
+    function prog() {
+        var outs = document.getElementById("output");
+        var ins = document.getElementById("file").value;
+        document.getElementById("file").value = ins + 20;
+        outs.value = document.getElementById("file").value;
+    }
+    // var value = 0, 
+    // tb = document.getElementById("tb"),
+    // progress = document.getElementById("progress"); 
+    // function increase(){ 
+    //     value = value + 20;
+    //     if(value>=100){ 
+    //     tb.value = value; 
+    //     progress.style.width = value + "%";
+    //     progress.innerHTML = value  + "%";
+    //     }
+    // }
 
-        // $('body').on('click', '.progress', function(event) {
-        // var w_tar = $(this).find('.progress-bar'),
-        //     w_cur = w_tar.data('width'),
-        //     w_new = w_cur += 20;
-            
-        // if (w_cur > 100) {
-        //     w_new = 20;
-        // }
-        // $('#tb').val(w_new);
-        // w_tar
-        //     .css('width', w_new + "%")
-        //     .data('width', w_new)
-        //     .text(w_new + "%");
-        // });
-        
+    // $('body').on('click', '.progress', function(event) {
+    // var w_tar = $(this).find('.progress-bar'),
+    //     w_cur = w_tar.data('width'),
+    //     w_new = w_cur += 20;
 
-        // $('.progress').trigger('click');
+    // if (w_cur > 100) {
+    //     w_new = 20;
+    // }
+    // $('#tb').val(w_new);
+    // w_tar
+    //     .css('width', w_new + "%")
+    //     .data('width', w_new)
+    //     .text(w_new + "%");
+    // });
+
+
+    // $('.progress').trigger('click');
     </script>
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
@@ -147,12 +167,18 @@ if(isset($_POST['UpdateMe']))
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
     </script>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+    </script>
     <script src="../js/bootstrap.bundle.min.js"></script>
     <script src="../js/main.js"></script>
-    
+
 </body>
 
 </html>
