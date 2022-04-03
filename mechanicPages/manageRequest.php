@@ -112,10 +112,11 @@ if(isset($_POST['UpdateMe']))
         progress = document.getElementById("progress"); 
         function increase(){ 
             value = value + 20;
-            if(value>=100) value=100;
+            if(value>=100) value=100;{ 
             tb.value = value; 
             progress.style.width = value + "%";
             progress.innerHTML = value  + "%";
+            }
         }
 
         // $('body').on('click', '.progress', function(event) {
