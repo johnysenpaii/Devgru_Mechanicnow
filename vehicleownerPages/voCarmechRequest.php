@@ -59,8 +59,24 @@ if(isset($_POST['send'])){
     else  
     {  
         echo'<script>alert("Failed to Send Request")</script>';  
-    }  
-} 
+    } 
+
+    //this is for the vehicle owner that can message mechanic
+            // $custID = $_POST['cID']; //called once as custID1
+            // $mechID = $_POST['mechID']; //called once
+            // $specMessage = $_POST['specMessage']; //called once
+            $role = $_POST['role']; 
+            $custID = $_SESSION['custID']; 
+
+            $sql2 = "INSERT INTO chat(custID, mechID, message, role) VALUES(:custID, :mechID, :specMessage, :role)";
+            $query2 = $dbh->prepare($sql2);
+            $query2->bindParam(':custID',$custID,PDO::PARAM_STR);
+            $query2->bindParam(':mechID',$mechID,PDO::PARAM_STR);
+            $query2->bindParam(':specMessage',$specMessage,PDO::PARAM_STR);
+            $query2->bindParam(':role',$role,PDO::PARAM_STR);
+            $query2->execute();
+            
+    } 
 
 ?>
 <!DOCTYPE html>
@@ -114,7 +130,8 @@ if(isset($_POST['send'])){
                                 <input hidden type="text" name="voName" value="<?php echo htmlentities($_SESSION["custFirstname"]); ?> <?php echo htmlentities($_SESSION["custLastname"]); ?>">
                                 <input hidden type="text" name="mechID" value="<?php echo htmlentities($result->mechID);?>">
                                 <input id="address" name='latitude' value="<?php echo htmlentities($_SESSION["latitude"]); ?>" hidden> 
-                                <input id="address" name='longitude' value="<?php echo htmlentities($_SESSION["longitude"]); ?>" hidden> 
+                                <input id="address" name='longitude' value="<?php echo htmlentities($_SESSION["longitude"]); ?>" hidden>
+                                <input type="hidden" name="role" value="sender">
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-6 mt-3 text-start">
@@ -158,7 +175,7 @@ if(isset($_POST['send'])){
                             </div>
                              <div class="mt-2">
                                  <label for="">Leave a Message</label>
-                                <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="Please specify..." rows="3" name="specMessage" value="specMessage"></textarea>
+                                <textarea class="form-control shadow-none" id="exampleFormControlTextarea1" placeholder="Please specify..." rows="3" name="specMessage" value="specMessage"></textarea>
                             </div>
                         </div>
                     </div>
@@ -172,101 +189,6 @@ if(isset($_POST['send'])){
             <input hidden type="text" id="latitude" name="latitude" value="<?php echo htmlentities($_SESSION["latitude"]); ?> ">
             <input hidden type="text" id="longitude" name="longitude" value=" <?php echo htmlentities($_SESSION["longitude"]); ?>">
         </form>
-
-    </section>
-
-    <!-- <section id="mechContent" class="mech-content container-fluid">
-        <div class="emptyrequest" hidden>
-            <div class="emptydiv"><img src="../img/empty.png" alt=""></div>
-            <h6>There is no mechanic nearby..</h6>
-        </div>
-        <div class="row py-3 px-sm-0 px-md-3 text-center table-responsive justify-content-center pb-5">
-            <div class="col-lg-8 bg-white py-4 rounded-3 shadow-lg">
-                <h4 class="text-dark pb-4">Request Details</h4>
-            </div>
-
-        
-        <section>
-        <form method="POST">
-        <?php
-              $regeditid=intval($_GET['regeditid']);
-              $sql="SELECT * from mechanic WHERE mechID=:regeditid";
-              $query=$dbh->prepare($sql);
-              $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
-              $query->execute();
-              $results=$query->fetchALL(PDO::FETCH_OBJ);
-
-              if($query->rowCount()>0)
-              {
-              foreach ($results as $result) 
-              {
-        ?>
-        <div class="container">
-            <h1>Request Information</h1>
-            <div class="mechanic-table" style="overflow-y:auto;">
-                <h3>Mechanic</h3>
-                <br>
-                <div class="avatar-img"><img src="img/avatar.png" alt=""></div>
-                <label>Name: </label>
-                <input class="textin" type="text" name="mechName"  value="<?php echo htmlentities($result->mechFirstname);?> <?php echo htmlentities($result->mechLastname);?>" readonly required>
-                <br>
-                <label>Specialization: </label>
-                <input class="textin" type="text" name="Specialization"  value="<?php echo htmlentities($result->Specialization);?>" readonly required>
-                <br>
-                <label>Address: </label>
-                <input class="textin" type="text" name="mechAddress"  value="<?php echo htmlentities($result->mechAddress);?>" readonly required>
-                <br>
-                <label>Rating:</label>
-                <input class="textin" type="text" name="" placeholder="Rating here"  value="" readonly required>
-                <p></p>
-                <input hidden type="text" name="vOwnerName" value="<?php echo htmlentities($_SESSION["custFirstname"]); ?> <?php echo htmlentities($_SESSION["custLastname"]); ?>">
-                <input hidden type="text" name="custAddress" value="<?php echo htmlentities($_SESSION["custAddress"]); ?>">
-                <input hidden type="text" name="mechID" value="<?php echo htmlentities($result->mechID);?>">
-            </div>
-            <div class="mechanic-table" style="overflow-y:auto;">
-                <h3>Mechanical Problem</h3>
-                <br>
-                <label>Home Service</label>
-                <input type="radio" value="Home Service" name="service">
-                <label>Emergency Service</label>
-                <input type="radio" value="Emergency Service" name="service">
-                <p></p>
-                <br>
-                <input type="checkbox" name="mechRepair[]" value="Tire Repair">
-                <label>Tire Repair</label>
-                <p></p>
-                <br>
-                <input type="checkbox" name="mechRepair[]" value="Engine Overheat Repair">
-                <label>Engine Overheat Repair</label>
-                <p></p>
-                <br>
-                <input type="checkbox" name="mechRepair[]" value="Dead Battery Repair">
-                <label>Dead Battery Repair</label>
-                <p></p>
-                <br>
-                <input type="checkbox" name="mechRepair[]" value="Break Repair">
-                <label>Break Repair</label>
-                <p></p>
-                <br>
-                <input type="checkbox" name="mechRepair[]" value="Dead Light Repair">
-                <label>Dead Light Repair</label>
-                <p></p>
-                <br>
-                <label style="margin-left: 20px">Others Specify</label>
-                <br>
-                <textarea placeholder="Specify here..." name="specMessage" value="specMessage" style="padding: 30px; font-size: 12px; font-family: var(--ff-primary);"></textarea>
-                <br>
-                <br>
-                <button name="send" value="send" style="color: rgb(156, 28, 150); border-radius: 8%; padding: 10px; font-size: 16px"> Send</button>
-                <button style="color: rgb(156, 28, 150); border-radius: 8%; padding: 10px; font-size: 16px; margin-left: 40px;"><a  href="voCarmech.php">Cancel</a></button>
-            </div>
-            </div>
-            <?php }}?>
-        </form>
-        </section> -->
-
-        
-      
     </section>
     <div class="row d-block d-lg-none"><?php include('voBottom-nav.php');?></div>
     <script>
