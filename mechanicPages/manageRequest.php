@@ -11,6 +11,8 @@ if(isset($_POST['UpdateMe']))
     $query->bindParam(':tb',$tb,PDO::PARAM_STR);
     $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR); 
     $query->execute();
+
+    echo "<script type='text/javascript'>confirm('Are you sure you want to update progress bar ?');</script>";
 }
 
 // if(isset($_POST["verify"])){
@@ -94,11 +96,11 @@ if(isset($_POST['UpdateMe']))
 
                         <p class="py-3"><em>Update the progress bar to let your client know the status of his/her
                             request.</em></p>
-                        <div class="progress">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated" data-width="<?php echo htmlentities($result->progressBar);?>" id="progress" role="progressbar"></div>
+                        <div class="progress" style="height: 25px;" onclick="increase()">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" id="progress" role="progressbar"><?php echo htmlentities($result->progressBar);?>%</div>
                         </div> 
-                         <button value="UpdateMe" name="UpdateMe" type="submit" class="my-3 btn btn-primary rounded-pill">Update me <i class="bi bi-arrow-counterclockwise"></i></button>
-                         <input name="tb" value="" type="text" id="tb"> 
+                         <button value="UpdateMe" name="UpdateMe" type="submit" class="my-4 btn btn-primary rounded-pill">Update me <i class="bi bi-arrow-counterclockwise"></i></button>
+                         <input name="tb" value="<?php echo htmlentities($result->progressBar);?>" type="text" id="tb"> 
                         <div class="row pt-5 d-flex align-self-end justify-content-end">
                             <button type="button" class="btn btn-primary col-md-4 rounded-pill">Request Complete</button>
                         </div>
@@ -108,34 +110,34 @@ if(isset($_POST['UpdateMe']))
         </form>
     </section>
     <script>
-        // var value = 0, 
-        // tb = document.getElementById("tb"),
-        // progress = document.getElementById("progress"); 
-        // function increase(){ 
-        //     value = value + 20;
-        //     if(value>=100) value=100;
-        //     tb.value = value; 
-        //     progress.style.width = value + "%";
-        //     progress.innerHTML = value  + "%";
-        // }
-
-        $('body').on('click', '.progress', function(event) {
-        var w_tar = $(this).find('.progress-bar'),
-            w_cur = w_tar.data('width'),
-            w_new = w_cur += 20;
-            
-        if (w_cur > 100) {
-            w_new = 20;
+        var value = 0, 
+        tb = document.getElementById("tb"),
+        progress = document.getElementById("progress"); 
+        function increase(){ 
+            value = value + 20;
+            if(value>=100) value=100;
+            tb.value = value; 
+            progress.style.width = value + "%";
+            progress.innerHTML = value  + "%";
         }
-        $('#tb').val(w_new);
-        w_tar
-            .css('width', w_new + "%")
-            .data('width', w_new)
-            .text(w_new + "%");
-        });
+
+        // $('body').on('click', '.progress', function(event) {
+        // var w_tar = $(this).find('.progress-bar'),
+        //     w_cur = w_tar.data('width'),
+        //     w_new = w_cur += 20;
+            
+        // if (w_cur > 100) {
+        //     w_new = 20;
+        // }
+        // $('#tb').val(w_new);
+        // w_tar
+        //     .css('width', w_new + "%")
+        //     .data('width', w_new)
+        //     .text(w_new + "%");
+        // });
         
 
-        $('.progress').trigger('click');
+        // $('.progress').trigger('click');
     </script>
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
