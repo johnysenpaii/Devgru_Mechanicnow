@@ -9,6 +9,20 @@ if(isset($_POST["confirm"])){
      $query->bindParam(':resID',$resID,PDO::PARAM_STR);
      $query->execute(); 
    }
+   if(isset($_POST["comment"])){
+    $custID=$_SESSION['custID'];
+    $mechID=$_POST['mechID'];
+    $value=$_POST['value'];
+    $specMessage=$_POST['specMessage'];
+    $sql="INSERT INTO ratingandfeedback(custID,mechID,feedback,ratePercentage)VALUES(:custID, :mechID, :specMessage,:value)";
+    $query=$dbh->prepare($sql);
+    $query->bindParam(':custID',$custID,PDO::PARAM_STR);
+    $query->bindParam(':mechID',$mechID,PDO::PARAM_STR);
+    $query->bindParam(':specMessage',$specMessage,PDO::PARAM_STR);
+    $query->bindParam(':value',$value,PDO::PARAM_STR);
+   
+    $query->execute();
+   }
    
 ?>
 <!DOCTYPE html>
@@ -98,9 +112,11 @@ if(isset($_POST["confirm"])){
                 
                 <div class="col-sm-12 col-md-6 bg-white p-3 rounded-3 shadow">
                     <h5 class="text-start">Monitor Mechanic Services</h6>
+                        <input type="hidden" name="mechID" value="<?php echo htmlentities($result->mechID);?>">
+
                         <p><?php echo htmlentities($result->vOwnerName);?></p>
                         <h5 class="text-start mt-2">Request Information</h5>
-                        <h1 class="text-end pl-5">51%</h1>
+                        <h1 class="text-end pl-5"><?php echo htmlentities($result->progressBar);?> %</h1>
                         <p><i>Service Needed:</i> <?php echo htmlentities($result->serviceNeeded);?></p>
                         <p><i>Date:</i> <?php echo htmlentities($result->date);?></p>
                         <p><i>Time:</i> <?php echo htmlentities($result->time) < 12 ? 'AM' : 'PM';?>
@@ -111,14 +127,7 @@ if(isset($_POST["confirm"])){
 
                         <p class="py-3">Please Update the progress bar so that your client know the status of his/her
                             request.</p>
-                        <div class="progress">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated " role="progressbar"
-                                aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div>
-                        </div> 
-                         <button class="my-2 btn btn-primary"><i class="bi bi-arrow-counterclockwise"></i></button>
-                        <div class="row p-2 d-flex align-self-end justify-content-end">
-                            <p class="pb-3">Make sure to complete the request before clicking the button.</p>
-                            <a class="btn btn-primary col-md-4 rounded-pill" data-bs-toggle="modal" href="#exampleModalToggle" role="button">Request Complete</a>
+                            <a class="btn btn-primary col-md-4 rounded" data-bs-toggle="modal" href="#exampleModalToggle" role="button">Request Complete</a>
                         </div>
                     </div> 
                 </div>
@@ -129,7 +138,6 @@ if(isset($_POST["confirm"])){
                     <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalToggleLabel">Are you sure you want to end the service?</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body text-center">
                        <i class="fa-solid fa-triangle-exclamation text-danger"></i> Check the vehicle if it is 100% fixed. <br>
@@ -156,22 +164,19 @@ if(isset($_POST["confirm"])){
                             <span id="rateMe1"></span>
                         </div>
                         <div class="star-widget">
-                            <input type="radio" name="rate" id="rate-5">
-                            <label for="rate-5" class="fas fa-star"></label>
-                            <input type="radio" name="rate" id="rate-4">
-                            <label for="rate-4" class="fas fa-star"></label>
-                            <input type="radio" name="rate" id="rate-3">
-                            <label for="rate-3" class="fas fa-star"></label>
-                            <input type="radio" name="rate" id="rate-2">
-                            <label for="rate-2" class="fas fa-star"></label>
-                            <input type="radio" name="rate" id="rate-1">
-                            <label for="rate-1" class="fas fa-star"></label>
+                            <input type="radio" name="rate" id="rate-5" value="5"><label for="rate-5" class="fas fa-star"></label>
+                            <input type="radio" name="rate" id="rate-4" value="4"><label for="rate-4" class="fas fa-star"></label>
+                            <input type="radio" name="rate" id="rate-3" value="3"><label for="rate-3" class="fas fa-star"></label>
+                            <input type="radio" name="rate" id="rate-2" value="2"><label for="rate-2" class="fas fa-star"></label>
+                            <input type="radio" name="rate" id="rate-1" value="1"><label for="rate-1" class="fas fa-star"></label>
                             <form action=""></form>
                         </div>
+                       <input type="hidden" name="value" id="value" value="">
                         <div class="mt-2">
                             <label for="">Leave a Feedback</label>
                             <textarea class="form-control shadow-none" id="exampleFormControlTextarea1" rows="3" name="specMessage" value="specMessage"></textarea>
                         </div>
+                        <button class="btn btn-primary my-1" name="comment" type="sumbit">Comment</button>
                     </div>
                     <!-- <div class="modal-footer">
                         <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-dismiss="modal">Back to first</button>
@@ -182,19 +187,16 @@ if(isset($_POST["confirm"])){
         </form>
     </section>
     <script>
-      const btn = document.querySelector("button");
-      const post = document.querySelector(".post");
-      const widget = document.querySelector(".star-widget");
-      const editBtn = document.querySelector(".edit");
-      btn.onclick = ()=>{
-        widget.style.display = "none";
-        post.style.display = "block";
-        editBtn.onclick = ()=>{
-          widget.style.display = "block";
-          post.style.display = "none";
-        }
-        return false;
-      }
+    let star = document.getElementsByName('rate');
+    let showValue = document.getElementById('value');
+
+    for (let i = 0; i < star.length; i++) {
+	star[i].addEventListener('click', function() {
+		i = this.value;
+
+		showValue.value = i;
+	});
+    }
     </script>                           
     
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
