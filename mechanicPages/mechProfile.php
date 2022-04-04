@@ -54,7 +54,7 @@ $regeditid=$_SESSION["mechID"];
 
 }
 
-if(isset($_POST['edit']) && isset($_FILES['profile_url']))
+if(isset($_POST['edit']) && isset($_FILES['profile_url']) && isset($_POST['total1']))
 {
     $id=$_POST['id'];
     $mechFirstname=$_POST['mechFirstname'];
@@ -74,7 +74,8 @@ if(isset($_POST['edit']) && isset($_FILES['profile_url']))
     }else{
         try{
             if(!isset($errorMsg)){
-                $sql="UPDATE mechanic set mechID=:id,mechFirstname=:mechFirstname,mechLastname=:mechLastname,mechEmail=:mechEmail,mechCnumber=:mechCnumber,mechAddress=:mechAddress,vehicleType=:vehicleType_update,Specialization=:Specializations,Username=:Username WHERE mechID=:regeditid"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
+                $total1 = $_POST['total1'];
+                $sql="UPDATE mechanic set mechID=:id,mechFirstname=:mechFirstname,mechLastname=:mechLastname,mechEmail=:mechEmail,mechCnumber=:mechCnumber,mechAddress=:mechAddress,vehicleType=:vehicleType_update,Specialization=:Specializations,Username=:Username,average=:total1 WHERE mechID=:regeditid"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
                 $query=$dbh->prepare($sql);
                 $query->bindParam(':id',$id,PDO::PARAM_STR);
                 $query->bindParam(':mechFirstname',$mechFirstname,PDO::PARAM_STR);
@@ -85,6 +86,7 @@ if(isset($_POST['edit']) && isset($_FILES['profile_url']))
                 $query->bindParam(':vehicleType_update',$vehicleType_update,PDO::PARAM_STR);
                 $query->bindParam(':Specializations',$Specializations,PDO::PARAM_STR);
                 $query->bindParam(':Username',$Username,PDO::PARAM_STR);
+                $query->bindParam(':total1',$total1,PDO::PARAM_STR);
                 $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
                 $query->execute(); 
                 echo "<script type='text/javascript'>document.location='./mechProfile.php';</script>";
@@ -95,6 +97,7 @@ if(isset($_POST['edit']) && isset($_FILES['profile_url']))
         }
     }
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -113,7 +116,7 @@ if(isset($_POST['edit']) && isset($_FILES['profile_url']))
     <title>Mechanic Now</title>
     <link rel="shortcut icon" type="x-icon" href="../img/mechanicnowlogo.svg">
 </head>
-<body id="contbody" style="background-color: #f8f8f8">
+<body id="contbody" style="background-color: #f8f8f8" onload="getStars();">
     <?php include('mechHeader.php');?>
     <section id="Profilepage container-fluid"> 
               <?php //select transaction
@@ -162,8 +165,8 @@ if(isset($_POST['edit']) && isset($_FILES['profile_url']))
                         if( $query->rowCount()>0){   
                             foreach($results as $result1){
                             ?> 
-                            <span type="text"><?php echo number_format($result1->total,1);?></span>
-                            <span type="text" id=stars ><?php echo number_format($result1->total,1);?></span>
+                            <input type="hidden" id="starss" name="total1" value="<?php echo number_format($result1->total,1);?>">
+                            <span type="text" id=stars name="total"><?php echo number_format($result1->total,1);?></span>
                             <?php $cnt=$cnt+1;}}?>    
                         <p hidden><i>No Ratings Yet</i></p>
                     </div>
@@ -317,7 +320,8 @@ if(isset($_POST['edit']) && isset($_FILES['profile_url']))
     </section>
     <div class="row d-block d-lg-none"><?php include('mechBottom-nav.php');?></div>
     <script>
-        document.getElementById("stars").innerHTML = getStars(2.0);
+        var starss =  document.getElementById("starss").value
+        document.getElementById("stars").innerHTML = getStars(starss);
 
 function getStars(rating) {
 
@@ -327,14 +331,14 @@ function getStars(rating) {
 
   // Append all the filled whole stars
   for (var i = rating; i >= 1; i--)
-    output.push('<i class="fa fa-star" aria-hidden="true" style="color: gold;"></i>&nbsp;');
+    output.push('<i class="fa fa-star" aria-hidden="true" style="color: #9132DA;"></i>&nbsp;');
 
   // If there is a half a star, append it
-  if (i == .5) output.push('<i class="fa fa-star-half-o" aria-hidden="true" style="color: gold;"></i>&nbsp;');
+  if (i == .5) output.push('<i class="fa fa-star-half-o" aria-hidden="true" style="color: #9132DA;"></i>&nbsp;');
 
   // Fill the empty stars
   for (let i = (5 - rating); i >= 1; i--)
-    output.push('<i class="fa fa-star-o" aria-hidden="true" style="color: gold;"></i>&nbsp;');
+    output.push('<i class="fa fa-star-o" aria-hidden="true" style="color: #9132DA;"></i>&nbsp;');
 
   return output.join('');
 
