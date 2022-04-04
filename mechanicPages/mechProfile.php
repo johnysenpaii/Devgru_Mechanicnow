@@ -54,7 +54,7 @@ $regeditid=$_SESSION["mechID"];
 
 }
 
-if(isset($_POST['edit']) && isset($_FILES['profile_url']) && isset($_POST['total1']))
+if(isset($_POST['edit']) && isset($_FILES['profile_url']))
 {
     $id=$_POST['id'];
     $mechFirstname=$_POST['mechFirstname'];
@@ -74,8 +74,7 @@ if(isset($_POST['edit']) && isset($_FILES['profile_url']) && isset($_POST['total
     }else{
         try{
             if(!isset($errorMsg)){
-                $total1 = $_POST['total1'];
-                $sql="UPDATE mechanic set mechID=:id,mechFirstname=:mechFirstname,mechLastname=:mechLastname,mechEmail=:mechEmail,mechCnumber=:mechCnumber,mechAddress=:mechAddress,vehicleType=:vehicleType_update,Specialization=:Specializations,Username=:Username,average=:total1 WHERE mechID=:regeditid"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
+                $sql="UPDATE mechanic set mechID=:id,mechFirstname=:mechFirstname,mechLastname=:mechLastname,mechEmail=:mechEmail,mechCnumber=:mechCnumber,mechAddress=:mechAddress,vehicleType=:vehicleType_update,Specialization=:Specializations,Username=:Username WHERE mechID=:regeditid"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
                 $query=$dbh->prepare($sql);
                 $query->bindParam(':id',$id,PDO::PARAM_STR);
                 $query->bindParam(':mechFirstname',$mechFirstname,PDO::PARAM_STR);
@@ -86,7 +85,6 @@ if(isset($_POST['edit']) && isset($_FILES['profile_url']) && isset($_POST['total
                 $query->bindParam(':vehicleType_update',$vehicleType_update,PDO::PARAM_STR);
                 $query->bindParam(':Specializations',$Specializations,PDO::PARAM_STR);
                 $query->bindParam(':Username',$Username,PDO::PARAM_STR);
-                $query->bindParam(':total1',$total1,PDO::PARAM_STR);
                 $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
                 $query->execute(); 
                 echo "<script type='text/javascript'>document.location='./mechProfile.php';</script>";

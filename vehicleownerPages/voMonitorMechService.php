@@ -111,12 +111,11 @@ if(isset($_POST["confirm"])){
                 </div>
                 
                 <div class="col-sm-12 col-md-6 bg-white p-3 rounded-3 shadow">
-                    <h5 class="text-start">Monitor Mechanic Services</h6>
+                    <h4 class="text-start">Monitor Mechanic Services</h4>
                         <input type="hidden" name="mechID" value="<?php echo htmlentities($result->mechID);?>">
-
-                        <p><?php echo htmlentities($result->vOwnerName);?></p>
+                        <h5 class="text-start pt-2">Mechanic Information</h5>
+                        <p><?php echo htmlentities($result->mechName);?></p>
                         <h5 class="text-start mt-2">Request Information</h5>
-                        <h1 class="text-end pl-5"><?php echo htmlentities($result->progressBar);?> %</h1>
                         <p><i>Service Needed:</i> <?php echo htmlentities($result->serviceNeeded);?></p>
                         <p><i>Date:</i> <?php echo htmlentities($result->date);?></p>
                         <p><i>Time:</i> <?php echo htmlentities($result->time) < 12 ? 'AM' : 'PM';?>
@@ -125,9 +124,8 @@ if(isset($_POST["confirm"])){
                         <h5>Noted Message</h5>
                         <p class="line-segment"><?php echo htmlentities($result->specMessage);?></p>
 
-                        <p class="py-3">Please Update the progress bar so that your client know the status of his/her
-                            request.</p>
-                            <a class="btn btn-primary col-md-4 rounded" data-bs-toggle="modal" href="#exampleModalToggle" role="button">Request Complete</a>
+                        <h2 class="text-center pl-5 py-3"><?php echo htmlentities($result->progressBar);?>% Complete</h2>
+                            <a class="btn btn-primary col-md-4 rounded-pill" data-bs-toggle="modal" href="#exampleModalToggle" role="button">End Service</a>
                         </div>
                     </div> 
                 </div>
@@ -141,8 +139,8 @@ if(isset($_POST["confirm"])){
                     </div>
                     <div class="modal-body text-center">
                        <i class="fa-solid fa-triangle-exclamation text-danger"></i> Check the vehicle if it is 100% fixed. <br>
-                       <a class="btn btn-primary rounded-pill shadow-none mt-3" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal">Continue</a>
-                       <button type="button" class="btn btn-secondary rounded-pill shadow-none mt-3" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+                       <a class="btn btn-primary rounded-pill shadow-none mt-3 col-md-2" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal">Yes</a>
+                       <button type="button" class="btn btn-secondary rounded-pill shadow-none mt-3 mx-4 col-md-2" data-bs-dismiss="modal" aria-label="Close">No</button>
                        <!-- <a class="btn btn-secondary rounded-pill shadow-none mt-3" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal">Cancel</a> -->
                     </div>
                     <!-- <div class="modal-footer">
@@ -176,7 +174,7 @@ if(isset($_POST["confirm"])){
                             <label for="">Leave a Feedback</label>
                             <textarea class="form-control shadow-none" id="exampleFormControlTextarea1" rows="3" name="specMessage" value="specMessage"></textarea>
                         </div>
-                        <button class="btn btn-primary my-1" name="comment" type="sumbit">Comment</button>
+                        <button class="btn btn-primary rounded-pill my-1" name="comment" type="sumbit">Submit</button>
                     </div>
                     <!-- <div class="modal-footer">
                         <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-dismiss="modal">Back to first</button>
