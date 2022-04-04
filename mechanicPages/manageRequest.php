@@ -96,14 +96,11 @@ if(isset($_POST['UpdateMe']))
                         <h5>Noted Message</h5>
                         <p class="line-segment"><?php echo htmlentities($result->specMessage);?></p>
 
-                        <p class="py-3"><em>Update the progress bar to let your client know the status of his/her
+                        <p class="py-2"><em>Click the progress bar and update to let your client know the status of his/her
                                 request.</em></p>
-                        <progress id="file" style="height:50px; width: 500px;" value="<?php echo htmlentities($result->progressBar);?>" max="100" onclick="prog();">djasfdyuastrdytasd</progress>
-                        <input readonly type="text" name="output" class="border-0" value="<?php echo htmlentities($result->progressBar);?>" id="output">
-                        <button type="sumbit" class="btn btn-primary btn-sm rounded-pill" value="UpdateMe" name="UpdateMe" id="UpdateMe">Update me <i class="bi bi-arrow-counterclockwise"></i></button>
-                      
-
-
+                        <progress id="file" style="height:50px; width: 620px;" value="<?php echo htmlentities($result->progressBar);?>" max="100" onclick="prog();"></progress>
+                        <button type="sumbit" class="my-2 btn btn-primary rounded-pill" value="UpdateMe" name="UpdateMe" id="UpdateMe">Update me <i class="bi bi-arrow-counterclockwise"></i></button>
+                        <input  type="text" name="output" class="border-0" value="<?php echo htmlentities($result->progressBar);?>" id="output">
 
                         <!-- <div class="progress" style="height: 25px;" onclick="increase()">
                         <div class="progress-bar progress-bar-striped progress-bar-animated" id="progress"
