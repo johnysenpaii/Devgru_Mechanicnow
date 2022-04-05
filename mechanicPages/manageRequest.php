@@ -17,16 +17,18 @@ if(isset($_POST['UpdateMe']))
     echo "<script type='text/javascript'>confirm('Are you sure you want to update progress bar ?');</script>";
 }
 
-// if(isset($_POST["verify"])){
-//  $resID=intval($_POST['resID']);
-//   $sql1="UPDATE request set status='verify' WHERE resID=:resID"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
-//   $query=$dbh->prepare($sql1);
-//   $query->bindParam(':resID',$resID,PDO::PARAM_STR);
-//   $query->execute(); 
-//   echo '<script>alert("please wait vehicle onwer to approve")</script>';
+if(isset($_POST["verify"])){
+    $regeditid=intval($_GET['regeditid']);
+  $sql1="UPDATE request set status='verify' WHERE resID=:regeditid"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
+  $query=$dbh->prepare($sql1);
+  $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR); 
+  $query->execute(); 
+  echo '<script>alert("please wait vehicle onwer to approve")</script>';
+  echo "<script type='text/javascript'>document.location='mechActivityLog.php';</script>";
 
 
-// }
+
+}
 
 
 
@@ -57,7 +59,7 @@ if(isset($_POST['UpdateMe']))
     <link rel="shortcut icon" type="x-icon" href="../img/mechanicnowlogo.svg">
 </head>
 
-<body id="contbody" style="background-color: #f8f8f8">
+<body id="contbody" style="background-color: #f8f8f8" onload="loadss()">
     <?php include('mechHeader.php');?>
     <!-- <?php include('mechTopnav.php');?> -->
     <section id="manageRequest">
@@ -86,7 +88,7 @@ if(isset($_POST['UpdateMe']))
 
                 <div class="col-sm-12 col-md-6 bg-white p-3 rounded-3 shadow">
                     <h5 class="text-start pt-2">Vehicle Owner Information</h6>
-                        <p><?php echo htmlentities($result->vOwnerName);?></p>
+                        <p></p>
                         <h5 class="text-start mt-2">Request Information</h5>
                         <p><i>Service Needed:</i> <?php echo htmlentities($result->serviceNeeded);?></p>
                         <p><i>Date:</i> <?php echo htmlentities($result->date);?></p>
@@ -100,7 +102,7 @@ if(isset($_POST['UpdateMe']))
                                 request.</em></p>
                         <progress id="file" style="height:50px; width: 620px;" value="<?php echo htmlentities($result->progressBar);?>" max="100" onclick="prog();"></progress>
                         <button type="sumbit" class="my-2 btn btn-primary rounded-pill" value="UpdateMe" name="UpdateMe" id="UpdateMe">Update me <i class="bi bi-arrow-counterclockwise"></i></button>
-                        <input  type="text" name="output" class="border-0" value="<?php echo htmlentities($result->progressBar);?>" id="output">
+                        <input  type="text" name="output" class="border-0"  value="<?php echo htmlentities($result->progressBar);?>" id="output">
 
                         <!-- <div class="progress" style="height: 25px;" onclick="increase()">
                         <div class="progress-bar progress-bar-striped progress-bar-animated" id="progress"
@@ -109,7 +111,7 @@ if(isset($_POST['UpdateMe']))
                         <!-- <button value="UpdateMe" name="UpdateMe" type="submit" class="my-4 btn btn-primary rounded-pill">Update me <i class="bi bi-arrow-counterclockwise"></i></button> -->
                         <!-- <input name="tb" value="<?php echo htmlentities($result->progressBar);?>" type="text" id="tb">  -->
                         <div class="row pt-5 d-flex align-self-end justify-content-end">
-                            <button type="button" class="btn btn-primary col-md-4 rounded-pill">Request Complete</button>
+                            <button type="submit" name="verify" style="display: none;" id="hide" class="btn btn-primary col-md-4 rounded-pill">Request Complete</button>
                         </div>
                 </div>
             </div>
@@ -123,6 +125,16 @@ if(isset($_POST['UpdateMe']))
         document.getElementById("file").value = ins + 20;
         outs.value = document.getElementById("file").value;
     }
+function loadss(){
+    var t = document.getElementById("output").value;
+ if( t == 100 ){
+	document.getElementById("hide").style.display = "block";
+    reload();
+ }
+}
+
+
+
     // var value = 0, 
     // tb = document.getElementById("tb"),
     // progress = document.getElementById("progress"); 
