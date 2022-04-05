@@ -109,8 +109,7 @@ if(isset($_POST['UpdateMe']))
                         <!-- <button value="UpdateMe" name="UpdateMe" type="submit" class="my-4 btn btn-primary rounded-pill">Update me <i class="bi bi-arrow-counterclockwise"></i></button> -->
                         <!-- <input name="tb" value="<?php echo htmlentities($result->progressBar);?>" type="text" id="tb">  -->
                         <div class="row pt-5 d-flex align-self-end justify-content-end">
-                            <button type="button" class="btn btn-primary col-md-4 rounded-pill">Request
-                                Complete</button>
+                            <button type="button" class="btn btn-primary col-md-4 rounded-pill">Request Complete</button>
                         </div>
                 </div>
             </div>
