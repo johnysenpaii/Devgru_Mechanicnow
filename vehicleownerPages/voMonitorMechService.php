@@ -2,9 +2,9 @@
 session_start();
 include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
 $custID1=$_SESSION['custID'];
-if(isset($_POST["confirm"])){
+if(isset($_POST["confirm"]) || isset($_POST['comment'])){
     $regeditid=intval($_GET['regeditid']);
-     $sql1="UPDATE request set status='complete' WHERE resID=:regeditid"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
+     $sql1="UPDATE request set status='Complete' WHERE resID=:regeditid"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
      $query=$dbh->prepare($sql1);
      $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
      $query->execute(); 
@@ -118,7 +118,7 @@ if(isset($_POST["confirm"])){
                     <h5 class="text-start">Monitor Mechanic Services</h6>
                         <input type="hidden" name="mechID" value="<?php echo htmlentities($result->mechID);?>">
                         <input type="text"  style="display: none;" name="status" id="status" value="<?php echo htmlentities($result->status);?>">
-                        <p><?php echo htmlentities($result->vOwnerName);?></p>
+                        <p><?php echo htmlentities($result->mechName);?></p>
                         <h5 class="text-start mt-2">Request Information</h5>
                         <h1 id="bar" class="text-end pl-5"><?php echo htmlentities($result->progressBar);?> %</h1>
                         <p><i>Service Needed:</i> <?php echo htmlentities($result->serviceNeeded);?></p>
@@ -131,7 +131,7 @@ if(isset($_POST["confirm"])){
 
                         <p class="py-3">Please Update the progress bar so that your client know the status of his/her
                             request.</p>
-                            <a class="btn btn-primary col-md-4 rounded" id="btnm" style="display: none;" data-bs-toggle="modal" href="#exampleModalToggle" role="button">Request Complete</a>
+                            <a class="btn btn-primary col-md-4 rounded" id="btnm" style="display: none;" data-bs-toggle="modal" href="#exampleModalToggle" role="button">End service</a>
                         </div>
                     </div> 
                 </div>
@@ -145,7 +145,7 @@ if(isset($_POST["confirm"])){
                     </div>
                     <div class="modal-body text-center">
                        <i class="fa-solid fa-triangle-exclamation text-danger"></i> Check the vehicle if it is 100% fixed. <br>
-                       <button class="btn btn-primary rounded-pill shadow-none mt-3" type="submit" name="confirm" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal">Continue</button>
+                       <a class="btn btn-primary rounded-pill shadow-none mt-3" type="submit"  data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" onclick="modalShow()" data-bs-dismiss="modal">Continue</a>
                        <button type="button" class="btn btn-secondary rounded-pill shadow-none mt-3" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
                        <!-- <a class="btn btn-secondary rounded-pill shadow-none mt-3" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal">Cancel</a> -->
                     </div>
@@ -155,12 +155,12 @@ if(isset($_POST["confirm"])){
                     </div>
                 </div>
                 </div>
-                <div class="modal fade text-dark" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+                <div class="modal fade text-dark" id="exampleModalToggle2" role="dialog" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
                 <div class="modal-dialog modal-dialog-centered modal-sm">
                     <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalToggleLabel2">Rate Mechanic</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="submit" name="confirm" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body star">
                         <!-- rate -->
@@ -208,7 +208,14 @@ if(isset($_POST["confirm"])){
             document.getElementById("btnm").style.display = "block";
         }
     }
+    function preventBack(){window.history.forward();}
+        setTimeout("preventBack()",0);
+        window.onunload = function(){ null };
 
+    function modalShow(){
+        document.getElementById("exampleModalToggle2").style.display="block";
+
+    }
     </script>                           
     
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
