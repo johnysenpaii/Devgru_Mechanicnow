@@ -3,11 +3,12 @@ session_start();
 include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
 $custID1=$_SESSION['custID'];
 if(isset($_POST["confirm"])){
-    $resID=intval($_POST['resID']);
-     $sql1="UPDATE request set status='confirmed' WHERE resID=:resID"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
+    $regeditid=intval($_GET['regeditid']);
+     $sql1="UPDATE request set status='complete' WHERE resID=:regeditid"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
      $query=$dbh->prepare($sql1);
-     $query->bindParam(':resID',$resID,PDO::PARAM_STR);
+     $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
      $query->execute(); 
+     echo "<script type='text/javascript'>document.location='voActivityLog.php';</script>";
    }
    if(isset($_POST["comment"])){
     $custID=$_SESSION['custID'];
@@ -25,6 +26,7 @@ if(isset($_POST["confirm"])){
 
     
    }
+
    
 ?>
 <!DOCTYPE html>
@@ -115,7 +117,7 @@ if(isset($_POST["confirm"])){
                 <div class="col-sm-12 col-md-6 bg-white p-3 rounded-3 shadow">
                     <h5 class="text-start">Monitor Mechanic Services</h6>
                         <input type="hidden" name="mechID" value="<?php echo htmlentities($result->mechID);?>">
-                        <input type="hidden"  name="status" id="status" value="<?php echo htmlentities($result->status);?>">
+                        <input type="text"  style="display: none;" name="status" id="status" value="<?php echo htmlentities($result->status);?>">
                         <p><?php echo htmlentities($result->vOwnerName);?></p>
                         <h5 class="text-start mt-2">Request Information</h5>
                         <h1 id="bar" class="text-end pl-5"><?php echo htmlentities($result->progressBar);?> %</h1>
@@ -143,7 +145,7 @@ if(isset($_POST["confirm"])){
                     </div>
                     <div class="modal-body text-center">
                        <i class="fa-solid fa-triangle-exclamation text-danger"></i> Check the vehicle if it is 100% fixed. <br>
-                       <a class="btn btn-primary rounded-pill shadow-none mt-3" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal">Continue</a>
+                       <button class="btn btn-primary rounded-pill shadow-none mt-3" type="submit" name="confirm" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal">Continue</button>
                        <button type="button" class="btn btn-secondary rounded-pill shadow-none mt-3" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
                        <!-- <a class="btn btn-secondary rounded-pill shadow-none mt-3" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal">Cancel</a> -->
                     </div>

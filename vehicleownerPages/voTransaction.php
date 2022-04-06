@@ -28,7 +28,7 @@ $custID1=$_SESSION['custID'];
         <div class="row py-3 px-sm-0 px-md-3 table-responsive justify-content-center pb-5">
             <div class="col-lg-8  py-4  ">
                 <?php
-                    $sql="SELECT * from request WHERE custID=$custID1 and status='confirmed' order by resID DESC";
+                    $sql="SELECT * from request WHERE custID=$custID1 and status='complete' order by resID DESC";
                     $query=$dbh->prepare($sql);
                     $query->execute();
                     $results=$query->fetchALL(PDO::FETCH_OBJ);
