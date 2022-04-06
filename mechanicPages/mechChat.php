@@ -2,29 +2,20 @@
 session_start();
 include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
     $mID = $_SESSION['mechID'];
-    if(isset($_POST['send'])){
-            $custID = $_POST['cID'];
-            $mechID = $_POST['mechID'];
-            $message = $_POST['message'];
-            $role = $_POST['role'];
+    // if(isset($_POST['send'])){
+    //         $custID = $_POST['cID'];
+    //         $mechID = $_POST['mechID'];
+    //         $message = $_POST['message'];
+    //         $role = $_POST['role'];
 
-            $sql2 = "INSERT INTO chat(custID, mechID, message, role) VALUES(:cID, :mechID, :message, :role)";
-            $query2 = $dbh->prepare($sql2);
-            $query2->bindParam(':cID',$custID,PDO::PARAM_STR);
-            $query2->bindParam(':mechID',$mechID,PDO::PARAM_STR);
-            $query2->bindParam(':message',$message,PDO::PARAM_STR);
-            $query2->bindParam(':role',$role,PDO::PARAM_STR);
-            $query2->execute();
-        // if(isset($_POST['custID']) && isset($_POST['mechID']) && isset($_POST['message'])){
-            
-            
-        // }else{
-        //     echo "<script>alert('sending failed')</script>";
-        // }
-        
-    }
-
-
+    //         $sql2 = "INSERT INTO chat(custID, mechID, message, role) VALUES(:cID, :mechID, :message, :role)";
+    //         $query2 = $dbh->prepare($sql2);
+    //         $query2->bindParam(':cID',$custID,PDO::PARAM_STR);
+    //         $query2->bindParam(':mechID',$mechID,PDO::PARAM_STR);
+    //         $query2->bindParam(':message',$message,PDO::PARAM_STR);
+    //         $query2->bindParam(':role',$role,PDO::PARAM_STR);
+    //         $query2->execute();
+    // }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -88,7 +79,7 @@ include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
                                         <input type="hidden" name="custID" value="<?php echo htmlentities($result->custID)?>">
                                         <div class="col-md-10 text-start">
                                             <!-- $result->custID." ".$result->custLastname -->
-                                            <h6><?php echo htmlentities($result->custID);?></h6> 
+                                            <h6><?php echo htmlentities($result->custName);?></h6> 
                                             <p class="fs-6"><small>This is test message</small></p>
                                         </div>
                                     </div>
@@ -126,7 +117,7 @@ include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
                         </div>
                         <div class="row text-dark">
                             <div class="col-sm-12 chatBox" style="height: 485px ;overflow-y: auto;">
-                                <?php
+                                <!-- <?php
                                  if(isset($_POST['submit'])){
                          
                                         $connection = mysqli_connect("localhost", "root", "");
@@ -154,7 +145,7 @@ include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
                                                 ?>
                                                     <div class=" text-dark m-3 justify-content-end text-end">
                                                         <div class="d-inline-block text-wrap bg-white py-2 px-3 rounded-3 shadow text-start" style="max-width: 45em; word-wrap: break-word;"><?php echo $row['message'];?></div>
-                                                        <!-- <img src="../img/avatar.jpg" alt="" style="height: 1.5em;width: 1.5em;" class="rounded-circle"> -->
+
                                                     </div>
                                                 <?php
                                                 }else{ //hes the receiver 
@@ -170,23 +161,21 @@ include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
                                     }
                                 }
                                 }
-                                ?>      
+                                ?>       -->
                             </div>
                         </div>
                         <div class="row pt-2" style="background: #302D32">
-                            <!-- <div class="col-md-12 d-flex align-items-center justify-content-start text-end"> -->
-                                <form method="POST">
+                                <form class="typing-area">
                                     <div class="input-group pb-2">
                                         <div class="col-sm-11">
-                                        <input type="hidden" name="mechID" value="<?php echo $_SESSION['mechID']?>" required>
-                                        <input type="hidden" required name="cID" value="<?php echo $id ?>">
-                                        <input type="text" name="message" placeholder="Type message here..." class="form-control rounded-pill shadow-none border-0" required>
+                                        <!-- <input type="hidden" name="mechID" value="<?php echo $_SESSION['mechID']?>" required> -->
+                                        <input type="hidden" required class="custID" name="cID" value="<?php echo $id ?>">
+                                        <input type="text" name="message" placeholder="Type message here..." class="form-control rounded-pill shadow-none border-0 input-field1" required>
                                         <input type="hidden" name="role" value="receiver">
                                         </div>
                                         <button class="btn1 fa-solid fa-paper-plane col-sm-1" type="submit" name="send" style="color: #F8F8F8; border: none; background-color: #302D32"></button>
                                     </div>
                                 </form>
-                            <!-- </div> -->
                         </div>
                     </div>
                 </div>
@@ -196,6 +185,6 @@ include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="../js/bootstrap.bundle.min.js"></script>
-
+    <script src="../js/chat.js"></script>                           
 </body>
 </html>

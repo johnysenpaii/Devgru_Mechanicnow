@@ -61,17 +61,17 @@ if(isset($_POST['send'])){
         echo'<script>alert("Failed to Send Request")</script>';  
     } 
 
-    //this is for the vehicle owner that can message mechanic
-            // $custID = $_POST['cID']; //called once as custID1
-            // $mechID = $_POST['mechID']; //called once
-            // $specMessage = $_POST['specMessage']; //called once
             $role = $_POST['role']; 
             $custID = $_SESSION['custID']; 
+            $custName = $_POST['custName'];
+           
 
-            $sql2 = "INSERT INTO chat(custID, mechID, message, role) VALUES(:custID, :mechID, :specMessage, :role)";
+            $sql2 = "INSERT INTO chat(custID, mechID, custName, mechName, message, role) VALUES(:custID, :mechID, :custName, :mechName, :specMessage, :role)";
             $query2 = $dbh->prepare($sql2);
             $query2->bindParam(':custID',$custID,PDO::PARAM_STR);
             $query2->bindParam(':mechID',$mechID,PDO::PARAM_STR);
+            $query2->bindParam(':custName',$custName,PDO::PARAM_STR);
+            $query2->bindParam(':mechName',$mechName,PDO::PARAM_STR);
             $query2->bindParam(':specMessage',$specMessage,PDO::PARAM_STR);
             $query2->bindParam(':role',$role,PDO::PARAM_STR);
             $query2->execute();
@@ -128,6 +128,7 @@ if(isset($_POST['send'])){
                                 <h6 class="border-0 text-center"><i>Specialization</i></h6>
                                 <input readonly type="text" class="border-0 text-center" name="Specialization" value="<?php echo htmlentities($result->Specialization);?>">
                                 <input hidden type="text" name="voName" value="<?php echo htmlentities($_SESSION["custFirstname"]); ?> <?php echo htmlentities($_SESSION["custLastname"]); ?>">
+                                <input hidden type="text" name="custName" value="<?php echo htmlentities($_SESSION["custFirstname"]); ?> <?php echo htmlentities($_SESSION["custLastname"]); ?>" hidden>
                                 <input hidden type="text" name="mechID" value="<?php echo htmlentities($result->mechID);?>">
                                 <input id="address" name='latitude' value="<?php echo htmlentities($_SESSION["latitude"]); ?>" hidden> 
                                 <input id="address" name='longitude' value="<?php echo htmlentities($_SESSION["longitude"]); ?>" hidden>

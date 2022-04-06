@@ -11,10 +11,13 @@
                     <a class="nav-link" href="#"></a>
                     </li>
                     <li class="nav-item">
-                    <a class="nav-link" href="./voProfile.php"><i class="fa-regular fa-user"></i> <?php echo htmlentities($_SESSION["Username"]); ?></a>
+                    <a class="nav-link" href="./voProfile.php"><i class="fa-regular fa-user"></i> <?php echo htmlentities($_SESSION["custFirstname"]); ?></a>
                     </li>
                     <li class="nav-item">
                     <a class="nav-link" href="#"><i class="fa-regular fa-bell"></i> Notification</a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link" href="./voChat.php"><i class="fa-regular fa-comment"></i> Messages</a>
                     </li>
                    <li class="nav-item dropdown">
                         <a class="nav-link fa-solid fa-caret-down" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false"></a>
