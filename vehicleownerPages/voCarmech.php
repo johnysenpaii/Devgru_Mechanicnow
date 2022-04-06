@@ -22,7 +22,7 @@ include('../config.php');
     <title>Mechanic Now</title>
     <link rel="shortcut icon" type="x-icon" href="../img/mechanicnowlogo.svg">
 </head>
-<body onload="getLocation();" id="contbody" style="background-color: #f8f8f8">
+<body id="contbody" style="background-color: #f8f8f8">
     <?php include('voHeader.php');?>
     <?php include('./voTopnav.php');?>
 
@@ -45,8 +45,6 @@ include('../config.php');
                     </thead>
                     <tbody>
                         <?php
-                       
-
                     $sql="SELECT mechID,mechFirstname,mechLastname,Specialization,
                     (3959 * acos(cos(radians($v1)) *cos(radians(latitude))* cos(radians(longitude)-radians($v2))+sin(radians($v1))
                     *sin(radians(latitude)))) as distance  from  mechanic WHERE 
@@ -62,7 +60,7 @@ include('../config.php');
                             <tr class="d-flex align-items-center justify-content-around mt-2">
                             <td><?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?></td>
                             <td><?php echo htmlentities($result->Specialization);?></td>
-                            <td><?php echo number_format($result->distance,1);?> k.m</td>
+                            <td>k.m <?php echo number_format($result->distance,1);?> </td>
                             <td><a class="btn btn-warning px-3" href="voCarmechRequest.php?regeditid=<?php echo htmlentities($result->mechID)?>">Details</a></td>
                         </tr>
                         <?php $cnt=$cnt+1;}}     
@@ -123,5 +121,8 @@ include('../config.php');
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="../js/bootstrap.bundle.min.js"></script>
     <script src="../js/main.js"></script>
+    <script>function preventBack(){window.history.forward();}
+        setTimeout("preventBack()",0);
+        window.onunload = function(){ null };</script>
 </body>
 </html>

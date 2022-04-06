@@ -138,7 +138,7 @@ if(isset($_POST['confirmPassword'])){
     <title>Mechanic Now</title>
     <link rel="shortcut icon" type="x-icon" href="../img/mechanicnowlogo.svg">
 </head>
-<body id="contbody" style="background-color: #f8f8f8">
+<body id="contbody" style="background-color: #f8f8f8" onload="getStars();">
     <?php include('mechHeader.php');?>
     <section id="Profilepage container-fluid"> 
               <?php //select transaction
@@ -177,8 +177,20 @@ if(isset($_POST['confirmPassword'])){
                 <div class="row pt-4 text-center">
                     <div class="col-12"><h4><?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?></h4></div>
                     <div class="col-12">
+                        <?php
+                         $mechID=$_SESSION['mechID'];
+						$sql="SELECT AVG(ratePercentage) as total from ratingandfeedback where mechID = '$mechID'";
+						$query = $dbh->prepare($sql);
+						$query->execute();
+						$results=$query->fetchAll(PDO::FETCH_OBJ);
+                        $cnt=1;       
+                        if( $query->rowCount()>0){   
+                            foreach($results as $result1){
+                            ?> 
+                            <input type="hidden" id="starss" name="total1" value="<?php echo number_format($result1->total,1);?>">
+                            <span type="text" id=stars name="total"><?php echo number_format($result1->total,1);?></span>
+                            <?php $cnt=$cnt+1;}}?>    
                         <p hidden><i>No Ratings Yet</i></p>
-                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i>
                     </div>
                 </div>
                 <p class="pt-3" name="mechEmail"><?php echo htmlentities($result->mechEmail);?></p>
@@ -370,6 +382,31 @@ if(isset($_POST['confirmPassword'])){
         </div>
     </section>
     <div class="row d-block d-lg-none"><?php include('mechBottom-nav.php');?></div>
+    <script>
+        var starss =  document.getElementById("starss").value
+        document.getElementById("stars").innerHTML = getStars(starss);
+
+function getStars(rating) {
+
+  // Round to nearest half
+  rating = Math.round(rating * 2) / 2;
+  let output = [];
+
+  // Append all the filled whole stars
+  for (var i = rating; i >= 1; i--)
+    output.push('<i class="fa fa-star" aria-hidden="true" style="color: #9132DA;"></i>&nbsp;');
+
+  // If there is a half a star, append it
+  if (i == .5) output.push('<i class="fa fa-star-half-o" aria-hidden="true" style="color: #9132DA;"></i>&nbsp;');
+
+  // Fill the empty stars
+  for (let i = (5 - rating); i >= 1; i--)
+    output.push('<i class="fa fa-star-o" aria-hidden="true" style="color: #9132DA;"></i>&nbsp;');
+
+  return output.join('');
+
+}
+    </script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>

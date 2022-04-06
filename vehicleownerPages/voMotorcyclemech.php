@@ -1,6 +1,6 @@
 <?php
 session_start();
-include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
+include('../config.php');
 $custAddress1=$_SESSION['custAddress'];
 $v1 = doubleval($_SESSION["latitude"]);
 $v2 = doubleval($_SESSION["longitude"]);
@@ -47,7 +47,7 @@ $v2 = doubleval($_SESSION["longitude"]);
                     $sql="SELECT mechID,mechFirstname,mechLastname,Specialization,
                     (3959 * acos(cos(radians($v1)) *cos(radians(latitude))* cos(radians(longitude)-radians($v2))+sin(radians($v1))
                     *sin(radians(latitude))))as distance  from  mechanic WHERE 
-                    vehicleType like '%Motorcycle Mechanic%' and status='approve' having distance < 3 order by distance limit 0, 20 ";
+                    vehicleType like '%Motorcycle Mechanic%' and status='approve' having distance < 5 order by distance limit 0, 20 ";
                     $query=$dbh->prepare($sql);
                     $query->execute();
                     $results=$query->fetchALL(PDO::FETCH_OBJ);
@@ -115,5 +115,8 @@ $v2 = doubleval($_SESSION["longitude"]);
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="../js/bootstrap.bundle.min.js"></script>
     <script src="../js/main.js"></script>
+    <script>function preventBack(){window.history.forward();}
+        setTimeout("preventBack()",0);
+        window.onunload = function(){ null };</script>
 </body>
 </html>

@@ -133,6 +133,8 @@ if(isset($_POST['send'])){
                                 <input id="address" name='latitude' value="<?php echo htmlentities($_SESSION["latitude"]); ?>" hidden> 
                                 <input id="address" name='longitude' value="<?php echo htmlentities($_SESSION["longitude"]); ?>" hidden>
                                 <input type="hidden" name="role" value="sender">
+                                <iframe class="pt-4" src="https://maps.google.com/maps?q=<?php echo htmlentities($result->latitude);?>,<?php echo htmlentities($result->longitude);?>&<?php echo htmlentities($_SESSION['latitude']);?>,<?php echo htmlentities($_SESSION['longitude']);?>&output=embed" frameborder="0" width="400" height="250">
+                                </iframe>
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-6 mt-3 text-start">
@@ -180,9 +182,9 @@ if(isset($_POST['send'])){
                             </div>
                         </div>
                     </div>
-                    <div class="row pt-3">
-                        <div class="col-md-6 d-grid pb-2"><button class="btn btn-primary rounded-pill" name="send" value="send">Request</button></div>
-                        <div class="col-md-6 d-grid pb-2"> <button class="btn btn-secondary rounded-pill" type="button"><a href="./voCarmech.php">Back</a></button></div>
+                    <div class="row pt-1">
+                        <div class="col-md-6 d-grid pb-1"><button class="btn btn-primary rounded-pill" name="send" value="send">Request</button></div>
+                        <div class="col-md-6 d-grid pb-1"> <button class="btn btn-secondary rounded-pill" type="button"><a href="./voCarmech.php">Back</a></button></div>
                     </div>
                 </div>
             </div>
@@ -225,6 +227,9 @@ if(isset($_POST['send'])){
             }
             });
         });
+        function preventBack(){window.history.forward();}
+        setTimeout("preventBack()",0);
+        window.onunload = function(){ null };
     </script>
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

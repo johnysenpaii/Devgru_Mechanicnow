@@ -39,7 +39,7 @@ $mechID1=$_SESSION['mechID'];
     <link rel="shortcut icon" type="x-icon" href="../img/mechanicnowlogo.svg">
 </head>
 
-<body id="contbody" style="background-color: #f8f8f8">
+<body id="contbody" style="background-color: #f8f8f8" onload="verify()">
     <?php include('mechHeader.php');?>
     <!-- <?php include('mechTopnav.php');?> -->
 
@@ -71,13 +71,14 @@ $mechID1=$_SESSION['mechID'];
                     </div> -->
                     <div class="card-body">
                         <input type="text" hidden name="resID" value="<?php echo htmlentities($result->resID);?>">
+                        <input type="hidden" name="status" id="status" value="<?php echo htmlentities($result->status);?>">
                         <h5 class="card-title"><?php echo htmlentities($result->vOwnerName);?></h5>
                         <p class="card-text"><?php echo htmlentities($result->mechRepair);?></p>
                         <h6 class="pt-2">Note:</h6>
                         <p class="card-text"><?php echo htmlentities($result->specMessage);?></p>
 
                         <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
-                        <a href="manageRequest.php?regeditid=<?php echo htmlentities($result->resID)?>" class="btn btn-primary">Manage Request</a>
+                        <a href="manageRequest.php?regeditid=<?php echo htmlentities($result->resID)?>" id="btnn" class="btn btn-primary">Manage Request</a>
                         <!-- <button class="btn btn-primary btn-lg" type="submit" id="verify" value="verify">Manage Request</button> -->
                     </div>
                   
@@ -96,7 +97,14 @@ $mechID1=$_SESSION['mechID'];
         </div>
         </form>
     </section>
-    
+    <script>
+        function verify(){
+            t = document.getElementById("status").value;
+            if(t == "verify"){
+                document.getElementById("btnn").innerHTML="Pending";
+            }
+        }
+    </script>
     <script src="js/main.js"></script>
 </body>
 

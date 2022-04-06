@@ -239,7 +239,9 @@ elseif(isset($_POST['bicycle'])){
 //     document.getElementById("latitude").innerHTML = x;
 //     document.getElementById("longitude").innerHTML = y;
 
-
+function preventBack(){window.history.forward();}
+        setTimeout("preventBack()",0);
+        window.onunload = function(){ null };
 </script>
     
 </body>
