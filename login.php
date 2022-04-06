@@ -4,7 +4,6 @@ include('./config.php');
 $error=" ";
 if(isset($_POST['Login']))
 {
-    
     $regeditid = $_SESSION['mechID'];
     $regeditid = $_SESSION['custID'];
     $latitude = $_POST['latitude'];
