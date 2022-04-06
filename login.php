@@ -1,8 +1,10 @@
 <?php
 session_start();
 include('./config.php');
+$error=" ";
 if(isset($_POST['Login']))
 {
+    
     $regeditid = $_SESSION['mechID'];
     $regeditid = $_SESSION['custID'];
     $latitude = $_POST['latitude'];
@@ -45,7 +47,7 @@ if(isset($_POST['Login']))
             $_SESSION['Password']=$hashedPwd;
             echo "<script type='text/javascript'>document.location='./vehicleownerPages/voDashboard.php';</script>";
         }else{
-         echo '<script>alert("Oops! Username and Password mismatch!")</script>';
+            $error="<div class='alert alert-danger text-center fw-bold' role='alert'>Username and password mismatch!</div>";
         }
     }else{
         $regeditid = $_SESSION['mechID'];
@@ -88,7 +90,7 @@ if(isset($_POST['Login']))
                 echo "<script type='text/javascript'>document.location='./mechanicPages/mechDashboard.php';</script>";
                 header( "refresh:5;url=./mechanicPages/mechDashboard.php" );
             }else{
-            echo '<script>alert("Oops! Username and Password mismatch!")</script>';
+                $error="<div class='alert alert-danger text-center fw-bold' role='alert'>Username and password mismatch!</div>";
             }
         }else{
             //echo '<script>alert("User not found!")</script>';
@@ -104,11 +106,11 @@ if(isset($_POST['Login']))
             session_regenerate_id();
             $_SESSION['Username']=$results['Username'];
             $_SESSION['Password']=$results['Password'];
-           echo "<script type='text/javascript'>alert('Welcome Admin!!');</script>";
+           echo "<script type='text/javascript'>alert('Welcome Admin!');</script>";
            echo "<script type='text/javascript'>document.location='./Admin/adminSide.php';</script>";
             }
             else{
-               echo "<script type='text/javascript'>alert('User not Found!');</script>";
+               $error="<div class='alert alert-danger text-center fw-bold' role='alert'>User not found!</div>";
             }
         }
     }
@@ -121,6 +123,7 @@ if(isset($_POST['Login']))
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -131,9 +134,12 @@ if(isset($_POST['Login']))
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Stick+No+Bills:wght@600&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/810a80b0a3.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/fontawesome.min.css" integrity="sha384-jLKHWM3JRmfMU0A5x5AkjWkw/EYfGUAGagvnfryNV3F9VqM98XiIH7VBGVoxVSc7" crossorigin="anonymous">
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/fontawesome.min.css"
+        integrity="sha384-jLKHWM3JRmfMU0A5x5AkjWkw/EYfGUAGagvnfryNV3F9VqM98XiIH7VBGVoxVSc7" crossorigin="anonymous">
     <!-- CSS only -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <title>Mechanic Now | Login</title>
     <link rel="shortcut icon" type="x-icon" href="img/mechanicnowlogo.svg">
 </head>
@@ -141,17 +147,19 @@ if(isset($_POST['Login']))
 <body onload="getLocation()">
     <div class="btag">
         <div class="wrapper">
-        <section class="form signup">
-            <div class="headdiv">
-                <h3>Login</h3>
-                <img src="img/navlogo.png" alt="">
-            </div>
-            <form method="POST">
-            <input hidden type="text"  id="latitude" name="latitude" value="">
-            <input hidden type="text"  id="longitude" name="longitude" value="">
-          
+            <section class="form signup">
+                <div class="headdiv">
+                    <h3>Login</h3>
+                    <img src="img/navlogo.png" alt="">
+                </div>
+                <form method="POST">
+                    <input hidden type="text" id="latitude" name="latitude" value="">
+                    <input hidden type="text" id="longitude" name="longitude" value="">
 
-                <div class="err-txt" hidden>This is an error message</div>
+                    <p>
+                       <?php echo $error; ?>
+                    </p>
+                    <div class="err-txt" hidden>This is an error message</div>
                     <div class="field input">
                         <label>Username</label>
                         <input type="text" placeholder="Enter Username" name="Username">
@@ -164,55 +172,64 @@ if(isset($_POST['Login']))
                         <input type="submit" name="Login" value="Login">
 
                     </div>
-                    <div class="link">Doesn't have an account yet? <a href="#" data-bs-toggle="modal" data-bs-target="#reg-modal">Signup</a></div>
-            </form>
-        </section>
-         <!-- Vertically centered modal -->
-        <div class="modal fade" id="reg-modal" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modal-title">Choose Account type</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row g-2 justify-content-around">
-                        <a href="./vehicleownerPages/vehicleOwnerSignup.php" class="col-sm-5 text-center ms1">
-                            <i class="fa-solid fa-car"></i>
-                            <p>Vehicle Owner</p>
-                        </a>
-                        <a href="./mechanicPages/mechanicSignup.php" class="col-sm-5 text-center">
-                            <i class="fa-solid fa-screwdriver-wrench"></i>
-                            <p>Mechanic</p>
-                        </a>
+                    <div class="link">Doesn't have an account yet? <a href="#" data-bs-toggle="modal"
+                            data-bs-target="#reg-modal">Signup</a></div>
+                </form>
+            </section>
+            <!-- Vertically centered modal -->
+            <div class="modal fade" id="reg-modal" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modal-title">Choose Account type</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row g-2 justify-content-around">
+                                <a href="./vehicleownerPages/vehicleOwnerSignup.php" class="col-sm-5 text-center ms1">
+                                    <i class="fa-solid fa-car"></i>
+                                    <p>Vehicle Owner</p>
+                                </a>
+                                <a href="./mechanicPages/mechanicSignup.php" class="col-sm-5 text-center">
+                                    <i class="fa-solid fa-screwdriver-wrench"></i>
+                                    <p>Mechanic</p>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <p>Do you have an account? <a href="login.php">Login</a></p>
+                        </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <p>Do you have an account? <a href="login.php">Login</a></p>
-                </div>
                 </div>
             </div>
         </div>
     </div>
-    </div>
-<script type="text/javascript">
-var x = document.getElementById("latitude");
-var y = document.getElementById("longitude");
-function getLocation() {
-if (navigator.geolocation) {
-navigator.geolocation.getCurrentPosition(showPosition);
-} else { 
-x.value = "Geolocation is not supported by this browser.";
-y.value = "Geolocation is not supported by this browser.";
-}
-}
-function showPosition(position) {
-  x.value = position.coords.latitude;
-  y.value = position.coords.longitude;
+    <script type="text/javascript">
+    var x = document.getElementById("latitude");
+    var y = document.getElementById("longitude");
 
-}
-</script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+            x.value = "Geolocation is not supported by this browser.";
+            y.value = "Geolocation is not supported by this browser.";
+        }
+    }
+
+    function showPosition(position) {
+        x.value = position.coords.latitude;
+        y.value = position.coords.longitude;
+
+    }
+    function preventBack(){window.history.forward();}
+        setTimeout("preventBack()",0);
+        window.onunload = function(){ null };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
+    </script>
     <script src="js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
