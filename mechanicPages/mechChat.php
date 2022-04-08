@@ -1,30 +1,7 @@
 <?php
 session_start();
 include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
-    $mID = $_SESSION['mechID'];
-    if(isset($_POST['send'])){
-            $custID = $_POST['cID'];
-            $mechID = $_POST['mechID'];
-            $message = $_POST['message'];
-            $role = $_POST['role'];
-
-            $sql2 = "INSERT INTO chat(custID, mechID, message, role) VALUES(:cID, :mechID, :message, :role)";
-            $query2 = $dbh->prepare($sql2);
-            $query2->bindParam(':cID',$custID,PDO::PARAM_STR);
-            $query2->bindParam(':mechID',$mechID,PDO::PARAM_STR);
-            $query2->bindParam(':message',$message,PDO::PARAM_STR);
-            $query2->bindParam(':role',$role,PDO::PARAM_STR);
-            $query2->execute();
-        // if(isset($_POST['custID']) && isset($_POST['mechID']) && isset($_POST['message'])){
-            
-            
-        // }else{
-        //     echo "<script>alert('sending failed')</script>";
-        // }
-        
-    }
-
-
+$mID = $_SESSION['mechID'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -48,15 +25,18 @@ include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
         .chatBox::-webkit-scrollbar{
             width: 0px;
         }
+        .chatList::-webkit-scrollbar{
+            width: 0px;
+        }
     </style>
 </head>
 <body style="background: #f8f8f8">
     <?php include('mechHeader.php');?>
     <section class="chatsection">
         <div class="container-fluid">
-            <div class="row no-glutters">
+            <div class="row no-glutters" style=" height: 100% vh;">
                 <!-- chat list column -->
-                <div class="col-md-4 text-light" style="background: #302D32">
+                <div class="col-md-4 text-light mh-100" style="background: #302D32; height: 100% vh;">
                     <div class="name py-3 text-center">
                         <h5>Chats</h5>
                     </div>
@@ -64,48 +44,45 @@ include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
                         <div class="col-12 input-group-sm px-4">
                             <input class="form-control rounded-pill shadow-none" type="text" placeholder="Filter Search" aria-describedby="inputGroup-sizing-sm">
                         </div>
-                    </div>  
+                    </div> 
                         <?php
-                            //$sql="SELECT * from chat WHERE mechID = $mID";//vehicleType like '%Car%' and status='approve'"
-                            //$sql = "select custID, count(*) from chat where mechID =".$mID."group by id having count(*) > 1";
-                            $sql="SELECT `custID` FROM `chat` GROUP BY `custID`";
+                            $sql="SELECT * FROM `chat` GROUP BY `custID`";
                             $query=$dbh->prepare($sql);
                             $query->execute();
                             $results=$query->fetchALL(PDO::FETCH_OBJ);
                             $cnt=1;
                             if( $query->rowCount()>0){
                                 foreach($results as $result){
-                                    //if($result){
-                                    
                         ?>
-                        <form method="POST">
-                            <div class="row px-2">
-                                <button type="submit" name="submit" value="submit" class="btn btn-warning text-white shadow-none">
-                                    <div class="row py-2 px-2">
-                                        <div class="col-md-2">
-                                            <img src="../img/avatar.jpg" alt="" style="height: 3em;width: 3em;" class="rounded-circle">
+                        <div class="col-12 chatList" style="height: 485px ;overflow-y: auto;">
+                            <form method="POST">
+                                <div class="row px-2">
+                                    <button type="submit" name="submit" value="submit" class="btn btn-warning text-white shadow-none">
+                                        <div class="row py-2 px-2">
+                                            <div class="col-3 col-lg-2 text-start">
+                                                <img src="../img/avatar.jpg" alt="" style="height: 3em; width: 3em;" class="rounded-circle">
+                                            </div>
+                                            <input type="hidden" name="custID" value="<?php echo htmlentities($result->custID)?>">
+                                            <div class="col-9 col-lg-10 text-start">
+                                                <h6><?php echo htmlentities($result->custName);?></h6>
+                                                <p class="fs-6"><small>This is test message</small></p>
+                                            </div>
                                         </div>
-                                        <input type="hidden" name="custID" value="<?php echo htmlentities($result->custID)?>">
-                                        <div class="col-md-10 text-start">
-                                            <!-- $result->custID." ".$result->custLastname -->
-                                            <h6><?php echo htmlentities($result->custID);?></h6> 
-                                            <p class="fs-6"><small>This is test message</small></p>
-                                        </div>
-                                    </div>
-                                </button>
-                            </div>
-                        </form>
-                        <?php }}?>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    <?php }}?>
                 </div>
                 <!-- chat column -->
                 <div class="col-md-8" style="background: #f8f8f8">
                     <div class="col">
                         <div class="row py-1 text-white align-items-center" style="background-color: #9132DA">
-                            <div class="col-md-2">
-                                <i class="fa-solid fa-arrow-left px-3"></i>
+                            <div class="col-4 col-sm-3 col-lg-2">
+                                <i class="fa-solid fa-arrow-left px-2"></i>
                                 <img src="../img/avatar.jpg" alt="" style="height: 3em;width: 3em;" class="rounded-circle">
                             </div>
-                            <div class="col-md-9">
+                            <div class="col-8 col-lg-9">
                                 <?php
                                     if(isset($_POST['submit'])){
                          
@@ -113,20 +90,21 @@ include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
                                         $db = mysqli_select_db($connection, 'mechanicnowdb');
                                         $custID = $_POST['custID'];
                                         //echo $mechID;
-                                    $sql1="SELECT * from customer WHERE custID='$custID'";
-                                    $query_run = mysqli_query($connection, $sql1);
-                                    while($row = mysqli_fetch_array($query_run)){
-                                ?>
+                                        $sql1="SELECT * from customer WHERE custID='$custID'";
+                                        $query_run = mysqli_query($connection, $sql1);
+                                        while($row = mysqli_fetch_array($query_run)){
+                                    ?>
                                 <h5><?php echo $row['custFirstname']?> <?php echo $row['custLastname']?></h5>
                                 <?php 
                                     $id = $row['custID'];
+                                    $custName = $row['custFirstname'].' '.$row["custLastname"];
                                 }}?>
                                 
                             </div>
                         </div>
                         <div class="row text-dark">
                             <div class="col-sm-12 chatBox" style="height: 485px ;overflow-y: auto;">
-                                <?php
+                                <!-- <?php
                                  if(isset($_POST['submit'])){
                          
                                         $connection = mysqli_connect("localhost", "root", "");
@@ -154,7 +132,7 @@ include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
                                                 ?>
                                                     <div class=" text-dark m-3 justify-content-end text-end">
                                                         <div class="d-inline-block text-wrap bg-white py-2 px-3 rounded-3 shadow text-start" style="max-width: 45em; word-wrap: break-word;"><?php echo $row['message'];?></div>
-                                                        <!-- <img src="../img/avatar.jpg" alt="" style="height: 1.5em;width: 1.5em;" class="rounded-circle"> -->
+
                                                     </div>
                                                 <?php
                                                 }else{ //hes the receiver 
@@ -170,23 +148,22 @@ include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
                                     }
                                 }
                                 }
-                                ?>      
+                                ?>       -->
                             </div>
                         </div>
                         <div class="row pt-2" style="background: #302D32">
-                            <!-- <div class="col-md-12 d-flex align-items-center justify-content-start text-end"> -->
-                                <form method="POST">
-                                    <div class="input-group pb-2">
-                                        <div class="col-sm-11">
-                                        <input type="hidden" name="mechID" value="<?php echo $_SESSION['mechID']?>" required>
-                                        <input type="hidden" required name="cID" value="<?php echo $id ?>">
-                                        <input type="text" name="message" placeholder="Type message here..." class="form-control rounded-pill shadow-none border-0" required>
-                                        <input type="hidden" name="role" value="receiver">
-                                        </div>
-                                        <button class="btn1 fa-solid fa-paper-plane col-sm-1" type="submit" name="send" style="color: #F8F8F8; border: none; background-color: #302D32"></button>
+                            <form class="typing-area">
+                                <div class="input-group pb-2 g-1">
+                                    <div class="col-11">
+                                    <!-- <input type="hidden" name="mechID" value="<?php echo $_SESSION['mechID']?>" required> -->
+                                    <input type="hidden" required class="custID" name="cID" value="<?php echo $id ?>">
+                                    <input type="hidden" required name="custName" value="<?php echo $custName ?>">
+                                    <input type="text" name="message" placeholder="Type message here..." class="form-control rounded-pill shadow-none border-0 input-field1" required autocomplete="off">
+                                    <input type="hidden" name="role" value="receiver">
                                     </div>
-                                </form>
-                            <!-- </div> -->
+                                    <button class="btn1 fa-solid fa-paper-plane col-1" type="submit" name="send" style="color: #F8F8F8; border: none; background-color: #302D32"></button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -196,6 +173,6 @@ include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="../js/bootstrap.bundle.min.js"></script>
-
+    <script src="../js/chat.js"></script>                           
 </body>
 </html>

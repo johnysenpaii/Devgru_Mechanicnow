@@ -106,6 +106,31 @@ if(isset($_POST['total1'])){
     }  
 }
 
+if(isset($_POST['confirmPassword'])){
+    $CPassword = $_POST['CPassword'];
+    $NPassword = $_POST['NPassword'];
+    $confirmPassword = $_POST['confirmPassword'];
+    $hashedPassword = $_POST['hashedPassword'];
+    //check if password inputed is matched with the password inside the database
+    if(password_verify($CPassword, $hashedPassword) == 1){
+        //check if new password and old password match
+        if ( $NPassword != $confirmPassword){
+            echo "<script>alert('Current Password is incorrect')</script>";
+        }else{
+            $hashedPwd = password_hash($NPassword, PASSWORD_DEFAULT);
+            $sql="UPDATE mechanic set Password=:hashedPwd WHERE mechID=:regeditid"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
+            $query=$dbh->prepare($sql);
+            $query->bindParam(':hashedPwd',$hashedPwd,PDO::PARAM_STR);
+            $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
+            $query->execute(); 
+            echo "<script>alert('Password changed successfully')</script>";
+            echo "<script type='text/javascript'>document.location='./mechProfile.php';</script>";
+        }
+    }else{
+        echo "<script>alert('Current Password is incorrect')</script>";
+    }
+    
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -248,55 +273,39 @@ if(isset($_POST['total1'])){
                                         while ($images = mysqli_fetch_assoc ($res)){ 
                                             if($regeditid == $regeditid ){
                                     ?>
-                                        <img src="../uploads/<?=$images['profile_url']?>"
-                                            class="rounded-circle imagenajud float-end" alt="">
-                                        <?php }} }?>
-                                    </div>
-                                    <div class="col-sm-12 d-flex align-items-center pt-3">
-                                        <div class="row g-2">
-                                            <div class="col-sm-12 col-md-6">
-                                                <input type="file" name="profile_url" class="form-control">
-                                            </div>
-                                            <div class="field col-md-6">
-                                                <input type="submit" name="submit"
-                                                    class="btn btn-primary rounded-pill shadow" value="Upload">
-                                            </div>
-                                            <input type="hidden" name="id"
-                                                value="<?php echo htmlentities($result->mechID);?>" required="required">
-                                            <label>Personal Details</label>
-                                            <div class="col-md-6">
-                                                <input class="form-control" type="text" name="mechFirstname"
-                                                    value="<?php echo htmlentities($result->mechFirstname);?>"
-                                                    placeholder="Firstname" aria-label="default input example">
-                                            </div>
-                                            <div class="col-md-6">
-                                                <input class="form-control" type="text" name="mechLastname"
-                                                    value="<?php echo htmlentities($result->mechLastname);?>"
-                                                    placeholder="Lastname" aria-label="default input example">
-                                            </div>
-                                            <div class="col-md-6">
-                                                <input class="form-control" type="Email" name="mechEmail"
-                                                    value="<?php echo htmlentities($result->mechEmail);?>"
-                                                    placeholder="Email" aria-label="default input example">
-                                            </div>
-                                            <div class="col-md-6">
-                                                <input class="form-control" type="text" name="mechCnumber"
-                                                    value="<?php echo htmlentities($result->mechCnumber);?>"
-                                                    pattern="((^(\+)(\d){12}$)|(^\d{11}$))" placeholder="Contact Number"
-                                                    aria-label="default input example">
-                                            </div>
-                                            <div class="col-md-12">
-                                                <input class="form-control" type="text" name="mechAddress"
-                                                    value="<?php echo htmlentities($result->mechAddress);?>"
-                                                    placeholder="Baranggay, City, Province"
-                                                    aria-label="default input example">
-                                            </div>
-                                            <label>Account Information</label>
-                                            <div class="col-md-12">
-                                                <input class="form-control" type="text" name="Username"
-                                                    value="<?php echo htmlentities($result->Username);?>"
-                                                    placeholder="Username" aria-label="default input example">
-                                            </div>
+                                    <img src="../uploads/<?=$images['profile_url']?>" class="rounded-circle imagenajud float-end" alt="">
+                                    <?php }} }?>
+                                </div>                 
+                                <div class="col-sm-12 d-flex align-items-center pt-3">
+                                    <div class="row g-2">
+                                        <div class="col-sm-12 col-md-6">
+                                            <input type="file" name="profile_url" class="form-control">
+                                        </div>
+                                        <div class="field col-md-6">
+                                            <input type="submit" name="submit" class="btn btn-primary rounded-pill shadow" value="Upload">
+                                        </div>
+                                         <input type="hidden" name="id" value="<?php echo htmlentities($result->mechID);?>" required="required">
+                                         <label>Personal Details</label>
+                                        <div class="col-md-6">
+                                            <input class="form-control" type="text" name="mechFirstname" value="<?php echo htmlentities($result->mechFirstname);?>" placeholder="Firstname" aria-label="default input example">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input class="form-control" type="text" name="mechLastname" value="<?php echo htmlentities($result->mechLastname);?>" placeholder="Lastname" aria-label="default input example">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input class="form-control" type="Email" name="mechEmail" value="<?php echo htmlentities($result->mechEmail);?>" placeholder="Email" aria-label="default input example">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input class="form-control" type="text" name="mechCnumber" value="<?php echo htmlentities($result->mechCnumber);?>" pattern="((^(\+)(\d){12}$)|(^\d{11}$))" placeholder="Contact Number" aria-label="default input example">
+                                        </div>
+                                        <div class="col-md-12">
+                                            <input class="form-control" type="text" name="mechAddress" value="<?php echo htmlentities($result->mechAddress);?>" placeholder="Baranggay, City, Province" aria-label="default input example">
+                                        </div>
+                                        <label>Account Information</label>
+                                        <div class="col-md-12">
+                                            <input class="form-control" type="text" name="Username" value="<?php echo htmlentities($result->Username);?>" placeholder="Username" aria-label="default input example">
+                                            <button class="btn btn-primary rounded-pill shadow mt-3" type="button" class="btn btn-warning px-3" data-bs-toggle="modal" data-bs-target="#exampleModalToggle2" data-bs-dismiss="modal">Change Password</button>
+                                            <!-- <a class="btn btn-primary rounded-pill px-4 shadow" >Change Password</a> -->
                                         </div>
                                     </div>
                                 </div>
@@ -374,6 +383,46 @@ if(isset($_POST['total1'])){
                         </div>
 
                     </div>
+                            </form>                                                    
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content text-dark">
+                <form method="POST">
+                <?php //select transaction
+                    $regeditid=$_SESSION["mechID"];
+                    $sql="SELECT * from mechanic WHERE mechID=:regeditid";
+                    $query=$dbh->prepare($sql);
+                    $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
+                    $query->execute();
+                    $results=$query->fetchALL(PDO::FETCH_OBJ);
+
+                    if($query->rowCount()>0){
+                        foreach ($results as $result){
+                ?>
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalToggleLabel2">Change Password</h5>
+                    <button type="button" class="btn-close shadow-none border-none" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="col-md-12">
+                        <input class="form-control shadow-none my-2" type="Password" name="CPassword" placeholder="Enter Current Password" aria-label="default input example">
+                    </div>
+                    <input class="form-control" type="text" name="hashedPassword" value="<?php echo htmlentities($result->Password);?>" placeholder="Username" aria-label="default input example" hidden>
+                     <div class="col-md-12">
+                        <input class="form-control shadow-none my-2" type="Password" name="NPassword" placeholder="Enter New Password" aria-label="default input example">
+                    </div>
+                     <div class="col-md-12">
+                        <input class="form-control shadow-none my-2" type="Password" name="confirmPassword" placeholder="Confirm Password" aria-label="default input example">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary shadow" name="changePassword">Save Changes</button>
+                </div>
+                <?php }}?>
+                </form>
                 </div>
             </div>
         </form>

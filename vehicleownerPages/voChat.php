@@ -1,29 +1,7 @@
 <?php
 session_start();
 include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
-    if(isset($_POST['send'])){
-            $custID = $_POST['custID'];
-            $mechID = $_POST['mID'];
-            $message = $_POST['message'];
-            $role = $_POST['role'];
-
-            $sql2 = "INSERT INTO chat(custID, mechID, message, role) VALUES(:custID, :mID, :message, :role)";
-            $query2 = $dbh->prepare($sql2);
-            $query2->bindParam(':custID',$custID,PDO::PARAM_STR);
-            $query2->bindParam(':mID',$mechID,PDO::PARAM_STR);
-            $query2->bindParam(':message',$message,PDO::PARAM_STR);
-            $query2->bindParam(':role',$role,PDO::PARAM_STR);
-            $query2->execute();
-        // if(isset($_POST['custID']) && isset($_POST['mechID']) && isset($_POST['message'])){
-            
-            
-        // }else{
-        //     echo "<script>alert('sending failed')</script>";
-        // }
-        
-    }
-
-
+$cID = $_SESSION['custID'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -46,49 +24,54 @@ include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
     <link rel="stylesheet" href="../css/style.css">
     <title>Mechanic Now</title>
     <link rel="shortcut icon" type="x-icon" href="../img/mechanicnowlogo.svg">
+    <style>
+        .chatBox::-webkit-scrollbar{
+            width: 0px;
+        }
+    </style>
 </head>
 <body style="background: #f8f8f8">
     <?php include('./voHeader.php');?>
-    <section class="chatsection mt-3">
-        <div class="container">
+    <section class="chatsection">
+        <div class="container-fluid">
             <div class="row no-glutters">
-
                 <!-- chat list column -->
                 <div class="col-md-4 text-light" style="background: #302D32">
                     <div class="name py-3 text-center">
                         <h5>Chats</h5>
                     </div>
                     <div class="row justify-content-center align-items-center pb-4 d-flex">
-                        <div class="col-12 input-group-sm ">
-                            <input class="form-control rounded-pill" type="text" placeholder="Filter Search" aria-describedby="inputGroup-sizing-sm">
+                        <div class="col-12 input-group-sm px-4">
+                            <input class="form-control rounded-pill shadow-none" type="text" placeholder="Filter Search" aria-describedby="inputGroup-sizing-sm">
                         </div>
-                    </div>  
+                    </div> 
+                        <!-- ari ang query  -->
                         <?php
-                            $sql="SELECT * from mechanic WHERE status='approve'";//vehicleType like '%Car%' and status='approve'"
+                            $sql="SELECT * FROM `chat` GROUP BY `mechID`";
                             $query=$dbh->prepare($sql);
                             $query->execute();
                             $results=$query->fetchALL(PDO::FETCH_OBJ);
                             $cnt=1;
                             if( $query->rowCount()>0){
                                 foreach($results as $result){
-                                    if($result->distanceKM <= 3.0){
                         ?>
                         <form method="POST">
-                        <div class="row py-2">
-                            <div class="col-md-2">
-                                <img src="../img/avatar.jpg" alt="" style="height: 3em;width: 3em;" class="rounded-circle">
-                            </div>
-                            <input type="hidden" name="mechID" value="<?php echo htmlentities($result->mechID)?>">
-                            <!-- <a class="text-light col-md-10" style="text-decoration: none;" href="" > -->
-                                <div class="col-md-10">
-                                    <h6><?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?></h6>
-                                    <p class="fs-6"><small>This is test message</small></p>
-                                    <input type="submit" name="submit" value="submit">
+                        <div class="row px-2">
+                            <button type="submit" name="submit" value="submit" class="btn btn-warning text-white shadow-none">
+                                <div class="row py-2 px-2">
+                                    <div class="col-md-2">
+                                        <img src="../img/avatar.jpg" alt="" style="height: 3em;width: 3em;" class="rounded-circle">
+                                    </div>
+                                    <input type="hidden" name="mechID" value="<?php echo htmlentities($result->mechID)?>">
+                                    <div class="col-md-10 text-start">
+                                        <h6><?php echo htmlentities($result->mechName);?></h6> 
+                                        <p class="fs-6"><small>This is test message</small></p>
+                                    </div>
                                 </div>
-                            <!-- </a> -->
+                            </button>
                         </div>
                         </form>
-                        <?php }}}?>
+                        <?php }}?>
                 </div>
 
                 <!-- chat column -->
@@ -107,20 +90,21 @@ include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
                                         $db = mysqli_select_db($connection, 'mechanicnowdb');
                                         $mechID = $_POST['mechID'];
                                         //echo $mechID;
-                                    $sql1="SELECT * from mechanic WHERE mechID='$mechID'";
-                                    $query_run = mysqli_query($connection, $sql1);
-                                    while($row = mysqli_fetch_array($query_run)){
-                                ?>
-                                <h5><?php echo $row['mechFirstname']?></h5>
+                                        $sql1="SELECT * from mechanic WHERE mechID='$mechID'";
+                                        $query_run = mysqli_query($connection, $sql1);
+                                        while($row = mysqli_fetch_array($query_run)){
+                                    ?>
+                                <h5><?php echo $row['mechFirstname']?> <?php echo $row['mechLastname']?></h5>
                                 <?php 
                                     $id = $row['mechID'];
+                                    $mechName = $row['mechFirstname'].' '.$row["mechLastname"];
                                 }}?>
                                 
                             </div>
                         </div>
                         <div class="row text-dark">
-                            <div class="col-sm-12">
-                                <?php
+                            <div class="col-sm-12 chatBox" style="height: 485px ;overflow-y: auto;">
+                                <!-- <?php
                                  if(isset($_POST['submit'])){
                          
                                         $connection = mysqli_connect("localhost", "root", "");
@@ -164,44 +148,27 @@ include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
                                     }
                                 }
                                 }
-                                ?>
+                                ?> -->
                             </div>
                         </div>
-                        <div class="row px-2 py-2" style="background: #302D32">
-                            <div class="col-md-12 d-flex align-items-center justify-content-end text-end">
-                                <form method="POST">
-                                    <div class="px-2 d-flex">
-                                        <input type="hidden" name="custID" value="<?php echo $_SESSION['custID']?>" required>
-                                        <!-- <?php
-                                            if(isset($_POST['submit'])){
-                                
-                                                $connection = mysqli_connect("localhost", "root", "");
-                                                $db = mysqli_select_db($connection, 'mechanicnowdb');
-                                                $mechID = $_POST['mechID'];
-                                            $sql1="SELECT * from mechanic WHERE mechID='$mechID'";
-                                            $query_run = mysqli_query($connection, $sql1);
-                                            while($row = mysqli_fetch_array($query_run)){
-                                        ?> -->
-                                        <input type="hidden" required name="mID" value="<?php echo $id ?>">
-                                        <!-- <?php }}?> -->
-                                        <textarea name="message" id="" rows="1" class="px-2" required></textarea>
-                                        <input type="hidden" name="role" value="sender">
+                        <div class="row pt-2" style="background: #302D32">
+                            <form class="typing-area">
+                                <div class="input-group pb-2">
+                                    <div class="col-sm-11">
+                                    <input type="hidden" required class="mechID" name="mID" value="<?php echo $id ?>">
+                                    <input type="hidden" required name="mechName" value="<?php echo $mechName ?>">
+                                    <input type="text" name="message" placeholder="Type message here..." class="form-control rounded-pill shadow-none border-0 input-field1" required>
+                                    <input type="hidden" name="role" value="sender">
                                     </div>
-                                    <button class="btn1 fa-solid fa-paper-plane" type="submit" name="send" style="color: #F8F8F8; border: none; background-color: #302D32"></button>
-                                </form>
-                            </div>
+                                    <button class="btn1 fa-solid fa-paper-plane col-sm-1" type="submit" name="send" style="color: #F8F8F8; border: none; background-color: #302D32"></button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-
-
-
-
-
-
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
     </script>
@@ -212,5 +179,6 @@ include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
     </script>
     <script src="../js/bootstrap.bundle.min.js"></script>
+    <script src="../js/mech-chat.js"></script>      
 </body>
 </html>
