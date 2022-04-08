@@ -88,12 +88,15 @@ if(isset($_POST["verify"])){
 
                 <div class="col-sm-12 col-md-6 bg-white p-3 rounded-3 shadow">
                     <h5 class="text-start pt-2">Vehicle Owner Information</h6>
-                        <p></p>
+                        <p><?php echo htmlentities($result->vOwnerName);?><p>
                         <h5 class="text-start mt-2">Request Information</h5>
-                        <p><i>Service Needed:</i> <?php echo htmlentities($result->serviceNeeded);?></p>
+                        <label for="need">Service Needed: </label>
+                        <input disabled class="border-0 bg-white py-2" type="text" id="need" value="<?php echo htmlentities($result->serviceNeeded);?>">
+                        <div id="needs" style="display: none;">
                         <p><i>Date:</i> <?php echo htmlentities($result->date);?></p>
-                        <p><i>Time:</i> <?php echo htmlentities($result->time) < 12 ? 'AM' : 'PM';?>
+                        <p><i>Time:</i> <?php echo htmlentities($result->time) < 12 ? 'AM' : 'PM';?> 
                             <?php echo htmlentities($result->time);?></p>
+                        </div>
                         <p class="pb-1 "><i>Vehicle Problem:</i> <?php echo htmlentities($result->mechRepair);?></p>
                         <h5>Noted Message</h5>
                         <p class="line-segment"><?php echo htmlentities($result->specMessage);?></p>
@@ -164,6 +167,11 @@ function loadss(){
 
 
     // $('.progress').trigger('click');
+    var t = document.getElementById("need").value;
+        if(t == "Home Service")
+        {
+            document.getElementById("needs").style.display = "block";
+        }
     </script>
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
