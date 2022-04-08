@@ -58,8 +58,6 @@ include('../config.php');
                             
                         ?>  
                             <tr class="d-flex align-items-center justify-content-around mt-2">
-                            <td><input type="hidden" id="starss" value="<?php echo htmlentities($result->average);?>">  </td>
-                            <td><span type="text" id="stars" onload="getStars()" name="total"></span></span>  </td>
                             <td><?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?></td>
                             <td><?php echo htmlentities($result->Specialization);?></td>
                             <td>k.m <?php echo number_format($result->distance,1);?> </td>
@@ -128,29 +126,7 @@ include('../config.php');
         setTimeout("preventBack()",0);
         window.onunload = function(){ null };
 
-    var starss = document.getElementById("starss").value
-    document.getElementById("stars").innerHTML = getStars(starss);
-
-    function getStars(starss) {
-
-        // Round to nearest half
-        starss = Math.round(starss * 2) / 2;
-        let output = [];
-
-        // Append all the filled whole stars
-        for (var i = starss; i >= 1; i--)
-            output.push('<i class="fa fa-star" aria-hidden="true" style="color: #9132DA;"></i>&nbsp;');
-
-        // If there is a half a star, append it
-        if (i == .5) output.push('<i class="fa fa-star-half-o" aria-hidden="true" style="color: #9132DA;"></i>&nbsp;');
-
-        // Fill the empty stars
-        for (let i = (5 - starss); i >= 1; i--)
-            output.push('<i class="fa fa-star-o" aria-hidden="true" style="color: #9132DA;"></i>&nbsp;');
-
-        return output.join('');
-    }
-
+   
     </script>
 </body>
 </html>

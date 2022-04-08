@@ -84,9 +84,12 @@ $mechID1=$_SESSION['mechID'];
                                 <h5 class="text-start">Vehicle Owner Information</h6>
                                 <p><?php echo htmlentities($result->vOwnerName);?></p>
                                 <h5 class="text-start mt-2">Request Information</h5>
-                                <p><i>Service Needed:</i> <?php echo htmlentities($result->serviceNeeded);?></p> 
-                                <p><i>Date:</i> <?php echo htmlentities($result->date);?></p>
-                                <p><i>Time:</i> <?php echo htmlentities($result->time) < 12 ? 'AM' : 'PM';?> <?php echo htmlentities($result->time);?></p>
+                                <input disabled class="border-0 bg-white py-2" type="text" id="need" value="<?php echo htmlentities($result->serviceNeeded);?>">
+                              
+                                <div id="needs" style="display: none;">
+                                    <p><i>Date:</i> <?php echo htmlentities($result->date);?></p>
+                                    <p><i>Time:</i> <?php echo htmlentities($result->time) < 12 ? 'AM' : 'PM';?> <?php echo htmlentities($result->time);?></p>
+                                </div>
                                 <p class="pb-2"><i>Vehicle Problem:</i> <?php echo htmlentities($result->mechRepair);?></p>
                                 <h5>Noted Message</h5>
                                 <p><?php echo htmlentities($result->specMessage);?></p>
@@ -155,7 +158,13 @@ $mechID1=$_SESSION['mechID'];
         </section>
        
     </div> -->
-
+    <script>
+        var t = document.getElementById("need").value;
+        if(t == "Home Service")
+        {
+            document.getElementById("needs").style.display = "block";
+        }
+    </script>
     <script src="js/main.js"></script>
 </body>
 </html>
