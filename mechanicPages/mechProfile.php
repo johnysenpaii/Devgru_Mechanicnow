@@ -158,7 +158,7 @@ if(isset($_POST['confirmPassword'])){
 <body id="contbody" style="background-color: #f8f8f8" onload="getStars();">
     <?php include('mechHeader.php');?>
     <section id="Profilepage container-fluid">
-        <form action="" method="POST">
+        <form action="" method="POST" enctype="multipart/form-data">
             <?php //select transaction
               $regeditid=$_SESSION["mechID"];
               $sql="SELECT * from mechanic WHERE mechID=:regeditid";
@@ -263,7 +263,6 @@ if(isset($_POST['confirmPassword'])){
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body form">
-                            <form method="POST" enctype="multipart/form-data">
                                 <div class="row line-segment seg">
                                     <div class="col-sm-3 with-image">
                                         <?php
@@ -382,8 +381,7 @@ if(isset($_POST['confirmPassword'])){
                             <button class="btn btn-primary rounded-pill px-4 shadow" name="edit">Save Changes</button>
                         </div>
 
-                    </div>
-                            </form>                                                    
+                    </div>                                                 
                 </div>
             </div>
         </div>
