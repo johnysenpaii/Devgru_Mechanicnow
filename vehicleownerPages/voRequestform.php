@@ -16,7 +16,7 @@
     <link rel="shortcut icon" type="x-icon" href="../img/mechanicnowlogo.svg">
 </head>
 <body id="contbody" style="background-color: #f8f8f8">
-    <?php include('./voHeader.php');?>
+    <?php include('voHeader.php');?>
     <?php include('./voTopnav.php');?>
     
     <section id="requestform" class="container-fluid"> 

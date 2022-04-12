@@ -133,7 +133,7 @@ if(isset($_POST['total1'])){
 <body id="contbody" style="background-color: #f8f8f8" onload="getStars();">
     <?php include('mechHeader.php');?>
     <section id="Profilepage container-fluid">
-        <form action="" method="POST">
+        <form action="" method="POST" enctype="multipart/form-data">
             <?php //select transaction
               $regeditid=$_SESSION["mechID"];
               $sql="SELECT * from mechanic WHERE mechID=:regeditid";
@@ -238,7 +238,6 @@ if(isset($_POST['total1'])){
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body form">
-                            <form method="POST" enctype="multipart/form-data">
                                 <div class="row line-segment seg">
                                     <div class="col-sm-3 with-image">
                                         <?php
@@ -370,7 +369,7 @@ if(isset($_POST['total1'])){
                         </div>
                         <div class="modal-footer">
                             <!-- <button type="button" class="btn btn-primary rounded-pill px-4 shadow" name="edit">Save Changes</button> -->
-                            <button class="btn btn-primary rounded-pill px-4 shadow" name="edit">Save Changes</button>
+                            <button class="btn btn-primary rounded-pill px-4 shadow" type="submit" name="edit">Save Changes</button>
                         </div>
 
                     </div>

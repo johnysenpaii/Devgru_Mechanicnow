@@ -48,7 +48,7 @@ include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
     <link rel="shortcut icon" type="x-icon" href="../img/mechanicnowlogo.svg">
 </head>
 <body style="background: #f8f8f8">
-    <?php include('./voHeader.php');?>
+    <?php include('voHeader.php');?>
     <section class="chatsection mt-3">
         <div class="container">
             <div class="row no-glutters">

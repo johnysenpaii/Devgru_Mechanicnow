@@ -87,7 +87,7 @@ if(isset($_POST["comment"])){
 </head>
 
 <body id="contbody" style="background-color: #f8f8f8" onload="rating()">
-    <?php include('./voHeader.php');?>
+    <?php include('voHeader.php');?>
     <?php include('./voTopnav.php');?>
 
     <section id="activityLog">
@@ -107,7 +107,7 @@ if(isset($_POST["comment"])){
                         <!-- <div class="card-header">
                         
                     </div> -->
-                        <div class="card-body">
+                        <div class="card-body" onclick="hideone()">
                             <input type="text" hidden name="mechID" value="<?php echo htmlentities($result->mechID);?>">
                             <h5 class="card-title"><?php echo htmlentities($result->mechName);?></h5>
                             <p class="card-text"><?php echo htmlentities($result->mechRepair);?></p>
@@ -217,6 +217,9 @@ if(isset($_POST["comment"])){
         {
             document.getElementById("rateme").style.display = "none";
         }
+    }
+    function hideone(){
+        document.getElementById("hide1").style.display = "none";
     }
     </script>
 

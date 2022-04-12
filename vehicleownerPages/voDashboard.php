@@ -53,7 +53,7 @@ elseif(isset($_POST['bicycle'])){
 </head>
 
 <body id="contbody" style="background-color: #f8f8f8" onload="calcCrow()">
-    <?php include('./voHeader.php');?>
+    <?php include('voHeader.php');?>
     <?php include('./voTopnav.php');?>
     <section id="serviceOptions" class="container-fluid container-md py-3 pb-5 mb-5">
         <form action="" method="POST">
