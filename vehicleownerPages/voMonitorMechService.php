@@ -120,7 +120,6 @@ if(isset($_POST["confirm"]) || isset($_POST['comment'])){
                         <input type="text"  style="display: none;" name="status" id="status" value="<?php echo htmlentities($result->status);?>">
                         <p><?php echo htmlentities($result->mechName);?></p>
                         <h5 class="text-start mt-2">Request Information</h5>
-                        <h1 id="bar" class="text-end pl-5"><?php echo htmlentities($result->progressBar);?> %</h1>
                         <p><i>Service Needed:</i> <?php echo htmlentities($result->serviceNeeded);?></p>
                         <p><i>Date:</i> <?php echo htmlentities($result->date);?></p>
                         <p><i>Time:</i> <?php echo htmlentities($result->time) < 12 ? 'AM' : 'PM';?>
@@ -128,9 +127,7 @@ if(isset($_POST["confirm"]) || isset($_POST['comment'])){
                         <p class="pb-1 "><i>Vehicle Problem:</i> <?php echo htmlentities($result->mechRepair);?></p>
                         <h5>Noted Message</h5>
                         <p class="line-segment"><?php echo htmlentities($result->specMessage);?></p>
-
-                        <p class="py-3">Please Update the progress bar so that your client know the status of his/her
-                            request.</p>
+                        <h1 id="bar" class="text-center pl-5"><?php echo htmlentities($result->progressBar);?> % Fixed</h1>
                             <a class="btn btn-primary col-md-4 rounded" id="btnm" style="display: none;" data-bs-toggle="modal" href="#exampleModalToggle" role="button">End service</a>
                         </div>
                     </div> 
