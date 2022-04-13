@@ -378,7 +378,7 @@ if(isset($_POST['confirmPassword'])){
                         </div>
                         <div class="modal-footer">
                             <!-- <button type="button" class="btn btn-primary rounded-pill px-4 shadow" name="edit">Save Changes</button> -->
-                            <button class="btn btn-primary rounded-pill px-4 shadow" name="edit">Save Changes</button>
+                            <button class="btn btn-primary rounded-pill px-4 shadow" type="submit" name="edit">Save Changes</button>
                         </div>
 
                     </div>                                                 
