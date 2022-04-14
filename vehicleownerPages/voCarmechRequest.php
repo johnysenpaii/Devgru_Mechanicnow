@@ -81,6 +81,7 @@ if(isset($_POST['send'])){
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -91,12 +92,16 @@ if(isset($_POST['send'])){
     <link href="https://fonts.googleapis.com/css2?family=Stick+No+Bills:wght@600&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/810a80b0a3.js" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/fontawesome.min.css" integrity="sha384-jLKHWM3JRmfMU0A5x5AkjWkw/EYfGUAGagvnfryNV3F9VqM98XiIH7VBGVoxVSc7" crossorigin="anonymous">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/fontawesome.min.css"
+        integrity="sha384-jLKHWM3JRmfMU0A5x5AkjWkw/EYfGUAGagvnfryNV3F9VqM98XiIH7VBGVoxVSc7" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="../css/style.css">
     <title>Mechanic Now</title>
     <link rel="shortcut icon" type="x-icon" href="../img/mechanicnowlogo.svg">
 </head>
+
 <body id="contbody" style="background-color: #f8f8f8; margin-top: 10px;" onload="GetAddress();">
 
     <section class="mechRequest" class="container-fluid">
@@ -119,122 +124,182 @@ if(isset($_POST['send'])){
                     <div class="row text-dark">
                         <h3 class="pb-4">Request Form</h3>
                         <div class="col-sm-12 col-md-6 pb-5 justify-content-center">
-                            <h5 class="text-start"><center><strong>Mechanic Information</center></strong></h5>
-                            <div class="with-image"><img src="../img/vo.jpg" class="rounded-circle imagenajud float-center mt-2" alt=""></div>
-                            <div class="row py-2" >
-                                <input readonly type="text" class="border-0 text-center" name="mechName" value="<?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?>">
+                            <h5 class="text-start">
+                                <center><strong>Mechanic Information</center></strong>
+                            </h5>
+                            <div class="with-image"><img src="../img/vo.jpg"
+                                    class="rounded-circle imagenajud float-center mt-2" alt=""></div>
+                            <div class="row py-2">
+                                <input readonly type="text" class="border-0 text-center" name="mechName"
+                                    value="<?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?>">
+                                <td><input type="hidden" id="starss"
+                                        value="<?php echo htmlentities($result->average);?>"> </td>
+                                <td><span type="text" id="stars" onload="getStars()" name="total"></span></span> </td>
                                 <h6 class="border-0 text-center mt-2"><i>Mechanic Type</i></h6>
-                                <input readonly type="text" class="border-0 text-center" name="vehicleType" value="<?php echo htmlentities($result->vehicleType);?>">
+                                <input readonly type="text" class="border-0 text-center" name="vehicleType"
+                                    value="<?php echo htmlentities($result->vehicleType);?>">
                                 <h6 class="border-0 text-center"><i>Specialization</i></h6>
-                                <input readonly type="text" class="border-0 text-center" name="Specialization" value="<?php echo htmlentities($result->Specialization);?>">
-                                <input hidden type="text" name="voName" value="<?php echo htmlentities($_SESSION["custFirstname"]); ?> <?php echo htmlentities($_SESSION["custLastname"]); ?>">
-                                <input hidden type="text" name="custName" value="<?php echo htmlentities($_SESSION["custFirstname"]); ?> <?php echo htmlentities($_SESSION["custLastname"]); ?>" hidden>
-                                <input hidden type="text" name="mechID" value="<?php echo htmlentities($result->mechID);?>">
-                                <input id="address" name='latitude' value="<?php echo htmlentities($_SESSION["latitude"]); ?>" hidden> 
-                                <input id="address" name='longitude' value="<?php echo htmlentities($_SESSION["longitude"]); ?>" hidden>
+                                <input readonly type="text" class="border-0 text-center" name="Specialization"
+                                    value="<?php echo htmlentities($result->Specialization);?>">
+                                <input hidden type="text" name="voName"
+                                    value="<?php echo htmlentities($_SESSION["custFirstname"]); ?> <?php echo htmlentities($_SESSION["custLastname"]); ?>">
+                                <input hidden type="text" name="mechID"
+                                    value="<?php echo htmlentities($result->mechID);?>">
+                                <input id="address" name='latitude'
+                                    value="<?php echo htmlentities($_SESSION["latitude"]); ?>" hidden>
+                                <input id="address" name='longitude'
+                                    value="<?php echo htmlentities($_SESSION["longitude"]); ?>" hidden>
                                 <input type="hidden" name="role" value="sender">
-                                <iframe class="pt-4" src="https://maps.google.com/maps?q=<?php echo htmlentities($result->latitude);?>,<?php echo htmlentities($result->longitude);?>&<?php echo htmlentities($_SESSION['latitude']);?>,<?php echo htmlentities($_SESSION['longitude']);?>&output=embed" frameborder="0" width="400" height="250">
+                                <iframe class="pt-4"
+                                    src="https://maps.google.com/maps?q=<?php echo htmlentities($result->latitude);?>,<?php echo htmlentities($result->longitude);?>&<?php echo htmlentities($_SESSION['latitude']);?>,<?php echo htmlentities($_SESSION['longitude']);?>&output=embed"
+                                    frameborder="0" width="400" height="250">
                                 </iframe>
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-6 mt-3 text-start">
-                            <p>If you want a long term service, select Home Service. Select Emergency service if you are on-road.</p>
+                            <p>If you want a long term service, select Home Service. Select Emergency service if you are
+                                on-road.</p>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" value="Home Service" name="service" id="exampleRadios1">
+                                <input class="form-check-input" type="radio" value="Home Service" name="service"
+                                    id="exampleRadios1">
                                 <label class="form-check-label" for="exampleRadios1">
                                     Home Service
                                 </label>
                             </div>
                             <div id="textboxes" style="display: none">
-                                Date: <input onfocus="this.value=''" name="date" type="date"/> 
-                                Time: <input onfocus="this.value=''" name="time" type="time"/> 
+                                Date: <input onfocus="this.value=''" name="date" type="date" />
+                                Time: <input onfocus="this.value=''" name="time" type="time" />
                             </div>
                             <div class="form-check pb-2">
-                                <input class="form-check-input" type="radio" value="Emergency Service" name="service" id="exampleRadios2">
+                                <input class="form-check-input" type="radio" value="Emergency Service" name="service"
+                                    id="exampleRadios2">
                                 <label class="form-check-label" for="exampleRadios2">
                                     Emergency Service
                                 </label>
                             </div>
                             <h6><i>Please select and/or specify mechanical problem below.</i></h6>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="flexCheckDefault" name="mechRepair[]" value="Tire Repair">
+                                <input class="form-check-input" type="checkbox" id="flexCheckDefault"
+                                    name="mechRepair[]" value="Tire Repair">
                                 <label class="form-check-label" for="flexCheckDefault">Tire Repair</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="flexCheckDefault"  name="mechRepair[]" value="Engine Overheat Repair">
+                                <input class="form-check-input" type="checkbox" id="flexCheckDefault"
+                                    name="mechRepair[]" value="Engine Overheat Repair">
                                 <label class="form-check-label" for="flexCheckDefault">Engine Overheat Repair</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="flexCheckDefault" name="mechRepair[]" value="Dead Battery Repair">
+                                <input class="form-check-input" type="checkbox" id="flexCheckDefault"
+                                    name="mechRepair[]" value="Dead Battery Repair">
                                 <label class="form-check-label" for="flexCheckDefault">Dead Battery Repair</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="flexCheckDefault" name="mechRepair[]" value="Break Repair">
+                                <input class="form-check-input" type="checkbox" id="flexCheckDefault"
+                                    name="mechRepair[]" value="Break Repair">
                                 <label class="form-check-label" for="flexCheckDefault">Break Repair</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="flexCheckDefault" name="mechRepair[]" value="Dead Light Repair">
+                                <input class="form-check-input" type="checkbox" id="flexCheckDefault"
+                                    name="mechRepair[]" value="Dead Light Repair">
                                 <label class="form-check-label" for="flexCheckDefault">Dead Light Repair</label>
                             </div>
-                             <div class="mt-2">
-                                 <label for="">Leave a Message</label>
-                                <textarea class="form-control shadow-none" id="exampleFormControlTextarea1" placeholder="Please specify..." rows="3" name="specMessage" value="specMessage"></textarea>
+                            <div class="mt-2">
+                                <label for="">Leave a Message</label>
+                                <textarea class="form-control shadow-none" id="exampleFormControlTextarea1"
+                                    placeholder="Please specify..." rows="3" name="specMessage"
+                                    value="specMessage"></textarea>
                             </div>
                         </div>
                     </div>
                     <div class="row pt-1">
-                        <div class="col-md-6 d-grid pb-1"><button class="btn btn-primary rounded-pill" name="send" value="send">Request</button></div>
-                        <div class="col-md-6 d-grid pb-1"> <button class="btn btn-secondary rounded-pill" type="button"><a href="./voCarmech.php">Back</a></button></div>
+                        <div class="col-md-6 d-grid pb-1"><button class="btn btn-primary rounded-pill" name="send"
+                                value="send">Request</button></div>
+                        <div class="col-md-6 d-grid pb-1"> <button class="btn btn-secondary rounded-pill"
+                                type="button"><a href="./voCarmech.php">Back</a></button></div>
                     </div>
                 </div>
             </div>
             <?php }}?>
-            <input hidden type="text" id="latitude" name="latitude" value="<?php echo htmlentities($_SESSION["latitude"]); ?> ">
-            <input hidden type="text" id="longitude" name="longitude" value=" <?php echo htmlentities($_SESSION["longitude"]); ?>">
+            <input hidden type="text" id="latitude" name="latitude"
+                value="<?php echo htmlentities($_SESSION["latitude"]); ?> ">
+            <input hidden type="text" id="longitude" name="longitude"
+                value=" <?php echo htmlentities($_SESSION["longitude"]); ?>">
         </form>
     </section>
     <div class="row d-block d-lg-none"><?php include('voBottom-nav.php');?></div>
     <script>
-        
-        $(function() {
+    $(function() {
         $('input[name="service"]').on('click', function() {
             if ($(this).val() == 'Home Service') {
                 $('#textboxes').show();
-            }
-            else {
+            } else {
                 $('#textboxes').hide();
             }
-            });
         });
+    });
 
-        function totalIt() {
+    function totalIt() {
         var input = document.getElementsByName("mechAmount");
         var total = 0;
-            for (var i = 0; i < input.length; i++) {
-                if (input[i].checked) {
+        for (var i = 0; i < input.length; i++) {
+            if (input[i].checked) {
                 total += parseFloat(input[i].value);
-                }
             }
-            document.getElementsByName("Tamount")[0].value = "₱" + total.toFixed(2);
         }
-        $(function() {
+        document.getElementsByName("Tamount")[0].value = "₱" + total.toFixed(2);
+    }
+    $(function() {
         $('input[name="service"]').on('click', function() {
             if ($(this).val() == 'Home Service') {
                 $('#textboxes').show();
-            }
-            else {
+            } else {
                 $('#textboxes').hide();
             }
-            });
         });
-        function preventBack(){window.history.forward();}
-        setTimeout("preventBack()",0);
-        window.onunload = function(){ null };
+    });
+
+    function preventBack() {
+        window.history.forward();
+    }
+    setTimeout("preventBack()", 0);
+    window.onunload = function() {
+        null
+    };
+
+    var starss = document.getElementById("starss").value
+    document.getElementById("stars").innerHTML = getStars(starss);
+
+    function getStars(starss) {
+
+        // Round to nearest half
+        starss = Math.round(starss * 2) / 2;
+        let output = [];
+
+        // Append all the filled whole stars
+        for (var i = starss; i >= 1; i--)
+            output.push('<i class="fa fa-star" aria-hidden="true" style="color: #9132DA;"></i>&nbsp;');
+
+        // If there is a half a star, append it
+        if (i == .5) output.push('<i class="fa fa-star-half-o" aria-hidden="true" style="color: #9132DA;"></i>&nbsp;');
+
+        // Fill the empty stars
+        for (let i = (5 - starss); i >= 1; i--)
+            output.push('<i class="fa fa-star-o" aria-hidden="true" style="color: #9132DA;"></i>&nbsp;');
+
+        return output.join('');
+    }
     </script>
 
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+    </script>
     <script src="../js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

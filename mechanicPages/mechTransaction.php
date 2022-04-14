@@ -45,7 +45,6 @@ $mechID1=$_SESSION['mechID'];
                     </div> -->
                     <div class="card-body">
                         <h5 class="card-title"><?php echo htmlentities($result->vOwnerName);?></h5>
-                        <p><?php echo htmlentities($result->custAddress);?></p>
                         <p class="card-text"><?php echo htmlentities($result->mechRepair);?></p>
                         <h6 class="pt-2">Note:</h6>
                         <p class="card-text"><?php echo htmlentities($result->specMessage);?></p>

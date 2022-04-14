@@ -86,9 +86,12 @@ $mechID1=$_SESSION['mechID'];
                                 <input type="text" name="custName" value="<?php echo htmlentities($result->vOwnerName);?>" hidden> 
                                 <input type="text" name="mechName" value="<?php echo htmlentities($result->mechName);?>" hidden> 
                                 <h5 class="text-start mt-2">Request Information</h5>
-                                <p><i>Service Needed:</i> <?php echo htmlentities($result->serviceNeeded);?></p> 
-                                <p><i>Date:</i> <?php echo htmlentities($result->date);?></p>
-                                <p><i>Time:</i> <?php echo htmlentities($result->time) < 12 ? 'AM' : 'PM';?> <?php echo htmlentities($result->time);?></p>
+                                <input disabled class="border-0 bg-white py-2" type="text" id="need" value="<?php echo htmlentities($result->serviceNeeded);?>">
+                              
+                                <div id="needs" style="display: none;">
+                                    <p><i>Date:</i> <?php echo htmlentities($result->date);?></p>
+                                    <p><i>Time:</i> <?php echo htmlentities($result->time) < 12 ? 'AM' : 'PM';?> <?php echo htmlentities($result->time);?></p>
+                                </div>
                                 <p class="pb-2"><i>Vehicle Problem:</i> <?php echo htmlentities($result->mechRepair);?></p>
                                 <h5>Noted Message</h5>
                                 <p><?php echo htmlentities($result->specMessage);?></p>
@@ -111,6 +114,58 @@ $mechID1=$_SESSION['mechID'];
             <?php }}?>
         </form>
     </section>
+    
+    <!-- <div class="master-container">
+        <section>
+        <form method= "POST">
+        <?php
+              $regeditid=intval($_GET['regeditid']);
+              $sql="SELECT * from request WHERE resID=:regeditid and status='Unaccepted'";
+              $query=$dbh->prepare($sql);
+              $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
+              $query->execute();
+              $results=$query->fetchALL(PDO::FETCH_OBJ);
+
+              if($query->rowCount()>0)
+              {
+              foreach ($results as $result) 
+              {
+        ?>
+        <div class="container">
+                <div class="request-table">
+                    <table class = "table-card">
+                        <tr class = "row-card">
+                            <td class= "data-card">
+                                <div class="td-card">
+                                    <h3><?php echo htmlentities($result->vOwnerName);?></h3>
+                                    <p><strong>Service Type: </strong> <?php echo htmlentities($result->serviceType);?></p>
+                                    <p><strong>Service Needed: </strong> <?php echo htmlentities($result->serviceNeeded);?></p>
+                                    <p><strong>Vehicle Problem:</strong> <?php echo htmlentities($result->mechRepair);?></p>
+                                    <p><strong>Note:</strong> <?php echo htmlentities($result->specMessage);?></p>
+                                    <p><strong>Address:</strong> <?php echo htmlentities($result->custAddress);?></p>
+                                    <textarea placeholder="Specify here..." name="specMessage" value="specMessage" style="padding: 30px; font-size: 12px; font-family: var(--ff-primary);"></textarea>
+                                    <div class="card-btn">
+                                        <button type="submit" class="accept" name="Accept">Accept</button>
+                                        <button class="decline">Decline</button>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <?php }}?>
+            </form>
+        </section>
+       
+    </div> -->
+    <script>
+        var t = document.getElementById("need").value;
+        if(t == "Home Service")
+        {
+            document.getElementById("needs").style.display = "block";
+        }
+    </script>
     <script src="js/main.js"></script>
 </body>
 </html>

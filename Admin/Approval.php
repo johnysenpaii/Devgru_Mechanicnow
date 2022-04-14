@@ -225,7 +225,7 @@ if(isset($_POST['deny'])){
                                             class="bi bi-person-x-fill"></i> Deny</button>
                                 </div>
                             </div>
-                            <?php }}?>
+                            <?php $cnt=$cnt+1;}}?>
                         </form>
                     </section>
                 </div>
