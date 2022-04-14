@@ -36,7 +36,7 @@ $mID = $_SESSION['mechID'];
         <div class="container-fluid">
             <div class="row no-glutters" style=" height: 100% vh;">
                 <!-- chat list column -->
-                <div class="col-md-4 text-light mh-100" style="background: #302D32; height: 100% vh;">
+                <div class="col-md-4 text-light mh-100 chatLists" style="background: #302D32; height: 100% vh;">
                     <div class="name py-3 text-center">
                         <h5>Chats</h5>
                     </div>
@@ -55,16 +55,16 @@ $mID = $_SESSION['mechID'];
                                 foreach($results as $result){
                         ?>
                         <div class="col-12 chatList" style="height: 485px ;overflow-y: auto;">
-                            <form method="POST">
+                            <form method="POST" class="">
                                 <div class="row px-2">
-                                    <button type="submit" name="submit" value="submit" class="btn btn-warning text-white shadow-none">
+                                    <button type="submit" name="submit" value="submit" id="idChat" class="btn btn-warning text-white shadow-none passBtn">
                                         <div class="row py-2 px-2">
                                             <div class="col-3 col-lg-2 text-start">
                                                 <img src="../img/avatar.jpg" alt="" style="height: 3em; width: 3em;" class="rounded-circle">
                                             </div>
                                             <input type="hidden" name="custID" value="<?php echo htmlentities($result->custID)?>">
                                             <div class="col-9 col-lg-10 text-start">
-                                                <h6><?php echo htmlentities($result->custName);?></h6>
+                                                <h6><?php echo htmlentities($result->custID);?></h6>
                                                 <p class="fs-6"><small>This is test message</small></p>
                                             </div>
                                         </div>
@@ -75,14 +75,14 @@ $mID = $_SESSION['mechID'];
                     <?php }}?>
                 </div>
                 <!-- chat column -->
-                <div class="col-md-8" style="background: #f8f8f8">
+                <div class="col-md-8 chatSec" style="background: #f8f8f8">
                     <div class="col">
                         <div class="row py-1 text-white align-items-center" style="background-color: #9132DA">
                             <div class="col-4 col-sm-3 col-lg-2">
                                 <i class="fa-solid fa-arrow-left px-2"></i>
                                 <img src="../img/avatar.jpg" alt="" style="height: 3em;width: 3em;" class="rounded-circle">
                             </div>
-                            <div class="col-8 col-lg-9">
+                            <div class="col-8 col-lg-9 user-inf">
                                 <?php
                                     if(isset($_POST['submit'])){
                          
@@ -169,10 +169,27 @@ $mID = $_SESSION['mechID'];
                 </div>
             </div>
     </section>
+    <script type="text/javascript">
+
+        var mobile = (/iphone|ipod|android|blackberry|mini|windows\sce|palm/i.test(navigator.userAgent.toLowerCase()));  
+        if (mobile) {
+            $('.chatSec').css('display', 'none'); // OR you can use $('.navWrap').hide();
+            $('#idChat').click(function () {
+                if (this.id == 'idChat') {
+                    $('.chatSec').css('display', 'block');
+                    $('.chatLists').css('display', 'none');
+                }
+                });
+        } 
+        else{
+
+        }
+    </script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="../js/bootstrap.bundle.min.js"></script>
-    <script src="../js/chat.js"></script>                           
+    <script src="../js/chat.js"></script>      
+    <script src="../js/mechChatList.js"></script>                           
 </body>
 </html>

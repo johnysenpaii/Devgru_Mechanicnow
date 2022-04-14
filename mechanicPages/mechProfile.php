@@ -187,7 +187,8 @@ if(isset($_POST['confirmPassword'])){
                         if( $query->rowCount()>0){   
                             foreach($results as $result1){
                             ?> 
-                            <input type="hidden" id="starss" name="total1" value="<?php echo number_format($result1->total,1);?>">
+                            <input type="hidden" class="id" name="mechID" value="<?php echo $regeditid;?>">
+                            <input type="hidden" class="input-field1" id="starss" name="total1" value="<?php echo number_format($result1->total,1);?>">
                             <span type="text" id=stars name="total"><?php echo number_format($result1->total,1);?></span>
                             <?php $cnt=$cnt+1;}}?>    
                         <p hidden><i>No Ratings Yet</i></p>

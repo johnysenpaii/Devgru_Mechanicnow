@@ -27,6 +27,13 @@ elseif(isset($_POST['bicycle'])){
 //             $query2->bindParam(':custID',$custID,PDO::PARAM_STR);
 //             $query2->execute(); 
 // }
+if(isset($_POST['update'])){
+        $regeditid = $_POST['regeditid'];
+        $sql = "UPDATE request set status='cancelled' WHERE resID=:regeditid";
+        $query=$dbh->prepare($sql);
+        $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
+        $query->execute();
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -56,15 +63,11 @@ elseif(isset($_POST['bicycle'])){
     <?php include('./voHeader.php');?>
     <?php include('./voTopnav.php');?>
     <section id="serviceOptions" class="container-fluid container-md py-3 pb-5 mb-5">
-        <form action="" method="POST">
-           
-    
-       
             <div class="row gx-5 row-ari">
                 <div class="col-sm-9">
                     <div class="row">
-                        <div
-                            class="col-sm-8 col-md-12 col-lg-10 bg-white text-dark p-3 rounded-3 offset-sm-4 offset-md-0 offset-lg-2">
+                        <form method="POST">
+                        <div class="col-sm-8 col-md-12 col-lg-10 bg-white text-dark p-3 rounded-3 offset-sm-4 offset-md-0 offset-lg-2">
                             <h4 class="line-segment">Choose Mechanic Service Category</h4>
                             <div class="row row-cols-1 row-cols-md-3 g-4 py-3">
                                 <div class="col">
@@ -114,6 +117,7 @@ elseif(isset($_POST['bicycle'])){
                                 </div>
                             </div>
                         </div>
+                        </form>
                     </div>
                 </div>
                 <div class="col-sm-3 bg-white text-dark rounded-3 cont-act">
@@ -133,11 +137,32 @@ elseif(isset($_POST['bicycle'])){
                                 {
                         ?>
                         <div class="col py-2 hovers rounded-3">
-                            <!-- <h6><?php echo htmlentities($result->serviceNeeded);?></h6> -->
                             <p class="fs-6 pb-2 pt-2"><?php echo htmlentities($result->serviceNeeded);?> Request</p>
                             <div class="d-grid">
-                                <button class="btn btn-primary" type="button">Details</button>
+                                <button class="btn btn-primary shadow" type="button" data-bs-toggle="modal" data-bs-target="#detailsmodal">Details</button>
                             </div>
+                        </div>
+                        <!-- modal -->
+                        <div class="modal fade" id="detailsmodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <form method="POST">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content text-dark">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Activity Details</h5>
+                                        <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <input type="text" name="regeditid" value="<?php echo htmlentities($result->resID);?>" hidden>
+                                        <h5><?php echo htmlentities($result->serviceNeeded);?> Request</h5>
+                                        <p><?php echo htmlentities($result->mechName);?></p>
+                                        <p><?php echo htmlentities($result->mechRepair);?></p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" name="update" class="btn btn-primary rounded-pill shadow-none">Cancel Request</button>
+                                    </div>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                         <?php }}}
                         else { 
@@ -149,70 +174,14 @@ elseif(isset($_POST['bicycle'])){
                             <?php
                             }
                         ?>
-                        <!-- <?php
-                        $sql="SELECT * from request WHERE custID=$custID1 and status='Unaccepted' order by resID DESC";
-                        $query=$dbh->prepare($sql);
-                        $query->execute();
-                        $results=$query->fetchALL(PDO::FETCH_OBJ);
-
-                        if($query->rowCount()>0)
-                        {
-                        foreach ($results as $result)
-                        {
-                            if($custID1==$custID1)
-                            {
-                        ?> -->
-                        <!-- <div class="request-table">
-                            <table class="table-card">
-                                <tr class="row-card">
-                                    <td class="data-card">
-                                        <div class="td-card text-dark">
-                                            <h3><?php echo htmlentities($result->mechName);?></h3>
-                                            <h3>Home Service</h3>
-                                            <p><strong>Description : </strong>
-                                                <?php echo htmlentities($result->mechRepair);?></p>
-                                            <p id="status"><strong>Status: </strong>
-                                                <?php echo htmlentities($result->status);?></p>
-                                            <p><strong>Specific Message:</strong>
-                                                <?php echo htmlentities($result->specMessage);?></p>
-                                            <p><strong>Address:</strong>
-                                                <?php echo htmlentities($result->custAddress);?></p>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div> -->
-                        <!-- <?php }}}?> -->
                     </div>
                 </div>
 
             </div>
-        </form>
-        <!-- Start of modal -->
-        <!-- <div class="modal" tabindex="-1" id="myModal" >
-            <form method="POST">
-            <div class="modal-dialog text-dark">
-                <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Notice</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Some of the function may require location, Do you want to turn it on?</p>
-                    <input   type="text"  id="latitude" name="latitude" value="">
-                    <input  type="text"  id="longitude" name="longitude" value="">
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" >Yes</button>
-                    <button type="submit" class="btn btn-secondary" name="update">Back</button>
-                </div>
-                </div>
-            </div>
-            </form>
-        </div> -->
+            
+    <!-- <div class="row d-block d-lg-none"></div> -->
     </section>
-    <div class="row d-block d-lg-none"><?php include('voBottom-nav.php');?></div>
+    <?php include('voBottom-nav.php');?>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
     </script>
@@ -224,25 +193,10 @@ elseif(isset($_POST['bicycle'])){
     </script>
     <script src="../js/bootstrap.bundle.min.js"></script>
     <script>   
-//     var x = document.getElementById("latitude");
-//     var y = document.getElementById("longitude");
-// function getLocation() {
-//     if (navigator.geolocation) {
-//         navigator.geolocation.getCurrentPosition(showPosition);
-//     } else { 
-//         x.value = "Geolocation is not supported by this browser.";
-//         y.value = "Geolocation is not supported by this browser.";
-//     }
-//     function showPosition(position) {
-//     x.value = position.coords.latitude;
-//     y.value = position.coords.longitude;
-//     document.getElementById("latitude").innerHTML = x;
-//     document.getElementById("longitude").innerHTML = y;
-
-function preventBack(){window.history.forward();}
-        setTimeout("preventBack()",0);
-        window.onunload = function(){ null };
-</script>
+    function preventBack(){window.history.forward();}
+            setTimeout("preventBack()",0);
+            window.onunload = function(){ null };
+    </script>
     
 </body>
 

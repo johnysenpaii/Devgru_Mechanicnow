@@ -2,7 +2,7 @@
         <nav class="navbar navbar-expand-lg navbar-light container-fluid">
             <div class="container-fluid">
                 <a class="navbar-brand" href="./voDashboard.php"><img src="../img/navlogo.png" alt=""></a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler shadow-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <i class="fa-solid fa-bars-staggered"></i>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
