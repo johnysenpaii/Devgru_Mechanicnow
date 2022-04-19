@@ -226,7 +226,7 @@ if(isset($_POST['total1'])){
                             data-bs-toggle="modal" data-bs-target="#edit-modal">Edit Profile</button>
                     </div>
                 </div>
-                    class="col-sm-12 col-md-7 col-lg-6 bg-white p-4 ml-sm-0 ml-md-1 mt-sm-1 mt-md-0 shadow-lg rounded-3">
+                <div class="col-sm-12 col-md-7 col-lg-6 bg-white p-4 ml-sm-0 ml-md-1 mt-sm-1 mt-md-0 shadow-lg rounded-3">
                     <div class="row">
                         <p><i>"Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum, laboriosam aperiam
                                 atque perferendis adipisci molestiae praesentium quo blanditiis ab voluptatem, sint
@@ -282,8 +282,6 @@ if(isset($_POST['total1'])){
                                             <input type="submit" name="submit" class="btn btn-primary rounded-pill shadow" value="Upload">
                                         </div>
                                          <input type="hidden" name="id" value="<?php echo htmlentities($result->mechID);?>" required="required">
-                                         <label>Personal Details</label>
-                                                value="<?php echo htmlentities($result->mechID);?>" required="required">
                                             <label>Personal Details</label>
                                             <div class="col-md-6">
                                                 <input class="form-control" type="text" name="mechFirstname"
@@ -317,6 +315,7 @@ if(isset($_POST['total1'])){
                                                 <input class="form-control" type="text" name="Username"
                                                     value="<?php echo htmlentities($result->Username);?>"
                                                     placeholder="Username" aria-label="default input example">
+                                                    <a class="btn btn-primary mt-2 rounded-pill shadow"  data-bs-toggle="modal" data-bs-target="#exampleModalToggle2" data-bs-dismiss="modal">Change Password</a>
                                             </div>
                                         </div>
                                     </div>
@@ -334,7 +333,7 @@ if(isset($_POST['total1'])){
                                                     if(strcmp($result2, $divide[0] ?? null) && strcmp($result2, $divide[1] ?? null) && strcmp($result2, $divide[2] ?? null)){ //compare bicycle to car motorcycle and bicycle
                                                     //first it compares bicycle to car, then fail so go to else
                                                     ?>
-                                            <input class="form-check-input" type="checkbox"
+                                            <input class="form-check-input '.$result2.'" type="checkbox"
                                                 value="<?php echo $result2;?>" name="vehicleType[]"
                                                 id="flexCheckDefault">
                                             <label class="form-check-label"
@@ -480,6 +479,49 @@ if(isset($_POST['total1'])){
                 }
             }
         }
+        filterSelection("all")
+        function filterSelection(c) {
+        var x, i;
+        x = document.getElementsByClassName("filterDiv");
+        if (c == "all") c = "";
+            for (i = 0; i < x.length; i++) {
+                w3RemoveClass(x[i], "show");
+                if (x[i].className.indexOf(c) > -1) w3AddClass(x[i], "show");
+            }
+        }
+
+        function w3AddClass(element, name) {
+            var i, arr1, arr2;
+            arr1 = element.className.split(" ");
+            arr2 = name.split(" ");
+            for (i = 0; i < arr2.length; i++) {
+                if (arr1.indexOf(arr2[i]) == -1) {element.className += " " + arr2[i];}
+            }
+        }
+
+        function w3RemoveClass(element, name) {
+            var i, arr1, arr2;
+            arr1 = element.className.split(" ");
+            arr2 = name.split(" ");
+            for (i = 0; i < arr2.length; i++) {
+                while (arr1.indexOf(arr2[i]) > -1) {
+                arr1.splice(arr1.indexOf(arr2[i]), 1);     
+                }
+            }
+            element.className = arr1.join(" ");
+        }
+
+        // Add active class to the current button (highlight it)
+        var btnContainer = document.getElementById("myBtnContainer");
+        var btns = btnContainer.getElementsByClassName("btn");
+        for (var i = 0; i < btns.length; i++) {
+            btns[i].addEventListener("click", function(){
+                var current = document.getElementsByClassName("active");
+                current[0].className = current[0].className.replace(" active", "");
+                this.className += " active";
+            });
+        }
+
     </script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"></script>

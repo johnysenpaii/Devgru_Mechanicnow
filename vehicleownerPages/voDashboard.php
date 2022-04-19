@@ -28,10 +28,10 @@ elseif(isset($_POST['bicycle'])){
 //             $query2->execute(); 
 // }
 if(isset($_POST['update'])){
-        $regeditid = $_POST['regeditid'];
-        $sql = "UPDATE request set status='cancelled' WHERE resID=:regeditid";
+        $resID = $_POST['resID'];
+        $sql = "UPDATE request set status='cancelled' WHERE resID=:resID";
         $query=$dbh->prepare($sql);
-        $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
+        $query->bindParam(':resID',$resID,PDO::PARAM_STR);
         $query->execute();
     }
 ?>
@@ -56,14 +56,53 @@ if(isset($_POST['update'])){
     <link rel="stylesheet" href="../css/style.css">
     <title>Mechanic Now</title>
     <link rel="shortcut icon" type="x-icon" href="../img/mechanicnowlogo.svg">
-
+    <style>
+        section .bot-nav{
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            height: 55px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.2);
+            background-color: #fff;
+            display: flex;
+            overflow-x: auto;
+        }
+        .bot-nav .nav-links{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 1;
+            min-width: 50px;
+            overflow: hidden;
+            white-space: nowrap;
+            color: #302D32;
+            font-size: 10px;
+            color: var(--clr-primary-800);
+            text-decoration: none;
+            -webkit-tap-highlight-color: transparent;
+            transition: background-color 0.1s ease-in-out;
+        }
+        .nav-links i{
+            padding-bottom: 5px;
+            font-size: 16px;
+        }
+        .nav-links:hover{
+            color: #9132DA;
+        }
+        @media only screen and (min-width: 764px) {
+            .botsec{
+                display: none;
+            }
+        }
+    </style>
 </head>
 
 <body id="contbody" style="background-color: #f8f8f8" onload="calcCrow()">
     <?php include('voHeader.php');?>
     <?php include('./voTopnav.php');?>
     <section id="serviceOptions" class="container-fluid container-md py-3 pb-5 mb-5">
-            <div class="row gx-5 row-ari">
+            <div class="row">
                 <div class="col-sm-9">
                     <div class="row">
                         <form method="POST">
@@ -152,7 +191,7 @@ if(isset($_POST['update'])){
                                         <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <input type="text" name="regeditid" value="<?php echo htmlentities($result->resID);?>" hidden>
+                                        <input type="text" name="resID" value="<?php echo htmlentities($result->resID);?>" >
                                         <h5><?php echo htmlentities($result->serviceNeeded);?> Request</h5>
                                         <p><?php echo htmlentities($result->mechName);?></p>
                                         <p><?php echo htmlentities($result->mechRepair);?></p>
