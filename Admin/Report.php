@@ -13,8 +13,8 @@ include('../config.php');
     <!-- bootstrap 5 css -->
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/css/bootstrap.min.css"
-        integrity="sha384-DhY6onE6f3zzKbjUPRc2hOzGAdEf4/Dz+WJwBvEYL/lkkIsI3ihufq9hk9K4lVoK" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <!-- custom css -->
     <link rel="stylesheet" href="style2.css">
 </head>
@@ -55,7 +55,7 @@ include('../config.php');
                                                 class="bi bi-tools"></i> Mechanics</a></li>
                                     <li><a href="banlist.php" class="dropdown-item pl-4 p-2"><i
                                                 class="bi bi-exclamation-circle-fill"></i> Banned Mechanics</a></li>
-                                                <li><a href="userbanlist.php" class="dropdown-item pl-4 p-2"><i
+                                    <li><a href="userbanlist.php" class="dropdown-item pl-4 p-2"><i
                                                 class="bi bi-exclamation-circle-fill"></i> Banned Clients</a></li>
 
                                 </ul>
@@ -79,7 +79,8 @@ include('../config.php');
                             <br>
                             <hr class="text-light m-1">
                             <li class="nav-item w-100">
-                                <a onclick="myconfirm()" href="#" class="nav-link text-danger"><i class="bi bi-door-closed"></i>
+                                <a onclick="myconfirm()" href="#" class="nav-link text-danger"><i
+                                        class="bi bi-door-closed"></i>
                                     Logout</a>
                             </li>
                         </ul>
@@ -91,12 +92,152 @@ include('../config.php');
                     <section class="my-container">
                         <div class="display-4 my-2">Reports</div>
                         <hr class="text-dark m-2">
+                        <div class="row g-3 d-flex justify-content-center ">
+                            <div class="col-lg-10 col-md-12 col-sm-12 " data-aos="zoom-in"
+                                data-aos-easing="ease-out-cubic" data-aos-duration="1000">
+                                <div class="card p-0 overflow-auto" style="height: 500px;">
+                                    <ol class="list-group border-bottom-0">
+                                        <li
+                                            class="list-group-item d-flex justify-content-between align-items-start bg-info">
+                                            <div class="fw-bold">Transaction completed</div>
+                                            <?php 
+											$sql3 ="SELECT resID from request where status='Complete'";
+											$query3 = $dbh -> prepare($sql3);
+											$query3->execute();
+											$results3=$query3->fetchAll(PDO::FETCH_OBJ);
+											$totalComplete=$query3->rowCount();
+										?>
+                                            <span class="fw-bold"> <i class="bi bi-file-earmark-pdf-fill"></i>
+                                                <?php echo htmlentities($totalComplete);?></span>
+                                        </li>
+                                    </ol>
+                                    <div class="card-body">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Mechanic name</th>
+                                                    <th scope="col">Vehicle owner</th>
+                                                    <th scope="col">Service needed</th>
+                                                    <th scope="col">Type of service</th>
+                                                </tr>
+                                            </thead>
+                                            <?php  
+                                            $sql="SELECT *from request where status='Complete' ";
+                                            $query = $dbh->prepare($sql);
+                                            $query->execute();
+                                            $results=$query->fetchAll(PDO::FETCH_OBJ);
+                                            $cnt=1;
+                                            if($query->rowCount()>0){
+                                                foreach($results as $result){
+                                            ?>
 
+                                            <tbody>
+                                                <tr>
+                                                    <td><?php echo htmlentities($result->mechName);?></td>
+                                                    <td><?php echo htmlentities($result->vOwnerName);?></td>
+                                                    <td><?php echo htmlentities($result->serviceNeeded);?></td>
+                                                    <td><?php echo htmlentities($result->serviceType);?></td>
+                                                </tr>
+                                            </tbody>
+                                            <?php $cnt=$cnt+1;}}?>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-5 col-md-12 col-sm-12 " data-aos="fade-right"
+                                data-aos-easing="ease-out-cubic" data-aos-duration="1000">
+                                <div class="card p-0 overflow-auto" style="height: 500px;">
+                                    <ol class="list-group border-bottom-0">
+                                        <li
+                                            class="list-group-item d-flex justify-content-between align-items-start bg-info">
+                                            <div class="fw-bold">Mechanic registered</div>
+                                            <?php 
+											$sql3 ="SELECT mechID from mechanic";
+											$query3 = $dbh -> prepare($sql3);
+											$query3->execute();
+											$results3=$query3->fetchAll(PDO::FETCH_OBJ);
+											$totalmech=$query3->rowCount();
+										?>
+                                            <span class="fw-bold"> <i class="bi bi-file-earmark-pdf-fill"></i>
+                                                <?php echo htmlentities($totalmech);?></span>
+                                        </li>
+                                    </ol>
+                                    <div class="card-body">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Profile image</th>
+                                                    <th scope="col">Firstname</th>
+                                                    <th scope="col">Lastname</th>
+                                                    <th scope="col">Email address</th>
+                                                    <th scope="col">Contact number</th>
+                                                </tr>
+                                            </thead>
+                                            <?php  
+                                            $sql="SELECT *from mechanic";
+                                            $query = $dbh->prepare($sql);
+                                            $query->execute();
+                                            $results=$query->fetchAll(PDO::FETCH_OBJ);
+                                            $cnt=1;
+                                            if($query->rowCount()>0){
+                                                foreach($results as $result1){
+                                            ?>
+
+                                            <tbody>
+                                                <tr>
+                                                    <td><img src="../uploads/<?=$result1->profile_url ?>"
+                                                            onerror="this.src='../img/mech.jpg';"
+                                                            class="img-fluid rounded-pill w-50 h-50"></td>
+                                                    <td><?php echo htmlentities($result1->mechFirstname);?></td>
+                                                    <td><?php echo htmlentities($result1->mechLastname);?></td>
+                                                    <td><?php echo htmlentities($result1->mechEmail);?></td>
+                                                    <td><?php echo htmlentities($result1->mechCnumber);?></td>
+                                                </tr>
+                                            </tbody>
+                                            <?php $cnt=$cnt+1;}}?>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-5 col-md-12 col-sm-12 " data-aos="fade-left"
+                                data-aos-easing="ease-out-cubic" data-aos-duration="1000">
+                                <div class="card p-0 overflow-auto" style="height: 500px;">
+                                    <ol class="list-group border-bottom-0">
+                                        <li
+                                            class="list-group-item d-flex justify-content-between align-items-start bg-info">
+                                            <div class="fw-bold">Vehicle owner registered</div>
+                                            <span class=""> <i class="bi bi-file-earmark-pdf-fill"></i> 14</span>
+                                        </li>
+                                    </ol>
+                                    <div class="card-body">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">#</th>
+                                                    <th scope="col">First</th>
+                                                    <th scope="col">Last</th>
+                                                    <th scope="col">Handle</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <th scope="row">1</th>
+                                                    <td>Mark</td>
+                                                    <td>Otto</td>
+                                                    <td>@mdo</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </section>
                 </div>
-            </main>
+
         </div>
     </div>
+    </main>
     <!-- bootstrap js -->
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
         integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous">
@@ -125,4 +266,4 @@ include('../config.php');
     <?php include('footer.php');?>
 </body>
 
-</html>v
+</html>

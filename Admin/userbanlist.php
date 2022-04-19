@@ -137,9 +137,12 @@ include('../config.php');
  											foreach($results as $result){
 											?>
                                                     <tr>
-                                                        <td>
-                                                            <img src="img/avatar.png" alt="avatar" width="35"
-                                                                class="img-thumbnail">
+                                                    <td>
+                                                            <img src="../uploads/<?=$result->profile_url ?>"
+                                                                onerror="this.src='../img/mech.jpg';"
+                                                                class="imagenajud pimage rounded-circle px-5"
+                                                                style="min-width: 20%; max-width: 140px;" alt="">
+
                                                         </td>
                                                         <td><?php echo htmlentities($result->custFirstname);?>
                                                         </td>

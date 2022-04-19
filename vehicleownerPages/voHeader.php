@@ -38,7 +38,7 @@
                         </a>
 
                         <?php
-                        $sql="SELECT * from request WHERE custID=$custID1 and status='Accepted' or status='verify' or status='Complete' or status='Unaccepted'";
+                        $sql="SELECT * from request WHERE custID=$custID1 and status='Accepted' or status='verify' or status='Complete' or status='Unaccepted' order by resID desc";
                         $query=$dbh->prepare($sql);
                         $query->execute();
                         $results=$query->fetchALL(PDO::FETCH_OBJ);

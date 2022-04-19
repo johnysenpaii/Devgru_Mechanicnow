@@ -1,4 +1,7 @@
 <?php
+
+use LDAP\Result;
+
 session_start();
 include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
 $regeditid=$_SESSION["mechID"];
@@ -168,16 +171,10 @@ if(isset($_POST['total1'])){
               $results=$query->fetchALL(PDO::FETCH_OBJ);
 
               if($query->rowCount()>0){
-                foreach ($results as $result){
-            ?>
+                foreach ($results as $result){ ?>
             <div class="row text-dark pt-2 justify-content-evenly">
                 <div class="row note justify-content-center">
-                    <div class="col-6 text-end pb-2">
-                        <i class="fa-solid fa-circle-exclamation"></i>
-                    </div>
-                    <div class="col-6 text-start">
-                        <p>Please setup your account so that the vehicle owners can find you.</p>
-                    </div>
+
                 </div>
                 <div
                     class="col-sm-12 col-md-5 col-lg-5 with-image bg-white rounded-3 pb-2 p-3 mr-sm-0 mr-md-1 mb-5 mb-md-0 mb-lg-0 shadow-lg text-center">
@@ -188,6 +185,7 @@ if(isset($_POST['total1'])){
                         if (mysqli_num_rows ($res) > 0) {
                         while ($images = mysqli_fetch_assoc ($res)){ 
                             if($regeditid == $regeditid ){
+
                     ?>
                         <img src="../uploads/<?=$images['profile_url']?>" onerror="this.src='../img/mech.jpg';"
                             class="imagenajud pimage rounded-circle px-5" style="min-width: 20%; max-width: 250px;"
@@ -210,8 +208,11 @@ if(isset($_POST['total1'])){
                         $cnt=1;       
                         if( $query->rowCount()>0){   
                             foreach($results as $result1){
-                            ?> 
-                            <input type="hidden" class="id" name="mechID" value="<?php echo $regeditid;?>">
+                            ?>
+                            <input type="hidden" id="starss" name="total1"
+                                value="<?php echo number_format($result1->total,1);?>">
+                            <span type="text" id="stars"
+                                name="total"><?php echo number_format($result1->total,1);?></span>
                             <?php $cnt=$cnt+1;}}?>
                             <p hidden><i>No Ratings Yet</i></p>
                         </div>
@@ -220,7 +221,7 @@ if(isset($_POST['total1'])){
                     <p class="pt-3" name="mechEmail"><?php echo htmlentities($result->mechEmail);?></p>
                     <p name="mechCnumber"><?php echo htmlentities($result->mechCnumber);?></p>
                     <p name="mechAddress"><?php echo htmlentities($result->mechAddress);?></p>
-                    <p id="autoSave"></p>  
+                    <p id="autoSave"></p>
                     <div class="d-grid p-3 pt-5">
                         <button class="btn btn-primary rounded-pill shadow" type="button" class="btn btn-warning px-3"
                             data-bs-toggle="modal" data-bs-target="#edit-modal">Edit Profile</button>
@@ -234,24 +235,31 @@ if(isset($_POST['total1'])){
                     </div>
                     <div class="row pt-3">
                         <h5 class="pt-2">Specialization:</h5>
-                        <!-- value="<?php echo htmlentities($result->Specialization);?>" -->
-                        <p style="text-indent:5%;" name="Specialization">Lorem, ipsum, dolor.</p>
+
+                        <p style="text-indent:5%;" name="Specialization">
+                            <?php echo htmlentities($result->Specialization);?></p>
                         <div class="row pt-5">
                             <h6>Feedbacks:</h6>
                             <div class="col-12">
                                 <p class="p-3 text-center" hidden>Theres no feedback yet.</p>
                             </div>
-                            <div class="col-sm-12 col-md-4 pt-3"><i>"Lorem ipsum dolor sit amet consectetur adipisicing
-                                    elit. Facere sint quibusdam dignissimos distinctio, quidem culpa!"</i></div>
-                            <div class="col-sm-12 col-md-4 pt-3"><i>"Lorem ipsum dolor sit amet consectetur adipisicing
-                                    elit. Facere sint quibusdam dignissimos distinctio, quidem culpa!"</i></div>
-                            <div class="col-sm-12 col-md-4 pt-3"><i>"Lorem ipsum dolor sit amet consectetur adipisicing
-                                    elit. Facere sint quibusdam dignissimos distinctio, quidem culpa!"</i></div>
+                            <?php $mechID=$_SESSION['mechID'];
+						$sql="SELECT * from ratingandfeedback where mechID = '$mechID'";
+						$query = $dbh->prepare($sql);
+						$query->execute();
+						$results=$query->fetchAll(PDO::FETCH_OBJ);
+                        $cnt=1;       
+                        if( $query->rowCount()>0){   
+                            foreach($results as $result6){ ?>
+                            <div class="col-sm-12 col-md-4 pt-3"><i><?php echo htmlentities($result6-> feedback)?></i>
+                            </div>
+                            <?php }}?>
                         </div>
                     </div>
                 </div>
             </div>
             <?php }}?>
+           
             <!-- Vertically centered modal -->
             <div class="modal fade" id="edit-modal" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -261,70 +269,72 @@ if(isset($_POST['total1'])){
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body form">
-                                <div class="row line-segment seg">
-                                    <div class="col-sm-3 with-image">
-                                        <?php
+                            <div class="row line-segment seg">
+                                <div class="col-sm-3 with-image">
+                                    <?php
                                         $sql = "SELECT * FROM mechanic where mechID = $regeditid";
                                         $res = mysqli_query($conn, $sql);
                                         if (mysqli_num_rows ($res) > 0) {
                                         while ($images = mysqli_fetch_assoc ($res)){ 
                                             if($regeditid == $regeditid ){
                                     ?>
-                                    <img src="../uploads/<?=$images['profile_url']?>" class="rounded-circle imagenajud float-end" alt="">
+                                    <img src="../uploads/<?=$images['profile_url']?>"
+                                        class="rounded-circle imagenajud float-end" alt="">
                                     <?php }} }?>
-                                </div>                 
+                                </div>
                                 <div class="col-sm-12 d-flex align-items-center pt-3">
                                     <div class="row g-2">
                                         <div class="col-sm-12 col-md-6">
                                             <input type="file" name="profile_url" class="form-control">
                                         </div>
                                         <div class="field col-md-6">
-                                            <input type="submit" name="submit" class="btn btn-primary rounded-pill shadow" value="Upload">
+                                            <input type="submit" name="submit"
+                                                class="btn btn-primary rounded-pill shadow" value="Upload">
                                         </div>
-                                         <input type="hidden" name="id" value="<?php echo htmlentities($result->mechID);?>" required="required">
-                                            <label>Personal Details</label>
-                                            <div class="col-md-6">
-                                                <input class="form-control" type="text" name="mechFirstname"
-                                                    value="<?php echo htmlentities($result->mechFirstname);?>"
-                                                    placeholder="Firstname" aria-label="default input example">
-                                            </div>
-                                            <div class="col-md-6">
-                                                <input class="form-control" type="text" name="mechLastname"
-                                                    value="<?php echo htmlentities($result->mechLastname);?>"
-                                                    placeholder="Lastname" aria-label="default input example">
-                                            </div>
-                                            <div class="col-md-6">
-                                                <input class="form-control" type="Email" name="mechEmail"
-                                                    value="<?php echo htmlentities($result->mechEmail);?>"
-                                                    placeholder="Email" aria-label="default input example">
-                                            </div>
-                                            <div class="col-md-6">
-                                                <input class="form-control" type="text" name="mechCnumber"
-                                                    value="<?php echo htmlentities($result->mechCnumber);?>"
-                                                    pattern="((^(\+)(\d){12}$)|(^\d{11}$))" placeholder="Contact Number"
-                                                    aria-label="default input example">
-                                            </div>
-                                            <div class="col-md-12">
-                                                <input class="form-control" type="text" name="mechAddress"
-                                                    value="<?php echo htmlentities($result->mechAddress);?>"
-                                                    placeholder="Baranggay, City, Province"
-                                                    aria-label="default input example">
-                                            </div>
-                                            <label>Account Information</label>
-                                            <div class="col-md-12">
-                                                <input class="form-control" type="text" name="Username"
-                                                    value="<?php echo htmlentities($result->Username);?>"
-                                                    placeholder="Username" aria-label="default input example">
-                                                    <a class="btn btn-primary mt-2 rounded-pill shadow"  data-bs-toggle="modal" data-bs-target="#exampleModalToggle2" data-bs-dismiss="modal">Change Password</a>
-                                            </div>
+                                        <input type="hidden" name="id"
+                                            value="<?php echo htmlentities($result->mechID);?>" required="required">
+                                        <label>Personal Details</label>
+                                        <div class="col-md-6">
+                                            <input class="form-control" type="text" name="mechFirstname"
+                                                value="<?php echo htmlentities($result->mechFirstname);?>"
+                                                placeholder="Firstname" aria-label="default input example">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input class="form-control" type="text" name="mechLastname"
+                                                value="<?php echo htmlentities($result->mechLastname);?>"
+                                                placeholder="Lastname" aria-label="default input example">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input class="form-control" type="Email" name="mechEmail"
+                                                value="<?php echo htmlentities($result->mechEmail);?>"
+                                                placeholder="Email" aria-label="default input example">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input class="form-control" type="text" name="mechCnumber"
+                                                value="<?php echo htmlentities($result->mechCnumber);?>"
+                                                pattern="((^(\+)(\d){12}$)|(^\d{11}$))" placeholder="Contact Number"
+                                                aria-label="default input example">
+                                        </div>
+                                        <div class="col-md-12">
+                                            <input class="form-control" type="text" name="mechAddress"
+                                                value="<?php echo htmlentities($result->mechAddress);?>"
+                                                placeholder="Baranggay, City, Province"
+                                                aria-label="default input example">
+                                        </div>
+                                        <label>Account Information</label>
+                                        <div class="col-md-12">
+                                            <input class="form-control" type="text" name="Username"
+                                                value="<?php echo htmlentities($result->Username);?>"
+                                                placeholder="Username" aria-label="default input example">
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row pt-3">
-                                    <div class="col-md-6">
-                                        <h6 class="pb-2">Mechanic Type :</h6>
-                                        <div class="form-check">
-                                            <?php
+                            </div>
+                            <div class="row pt-3">
+                                <div class="col-md-6">
+                                    <h6 class="pb-2">Mechanic Type :</h6>
+                                    <div class="form-check">
+                                        <?php
                                                 $divide = explode(",",$result->vehicleType); //return Bicycle
                                                 // var_dump($divide);
                                                 $specialization1 = array("Car Mechanic","Motorcycle Mechanic","Bicycle Mechanic"); //have 3 values 
@@ -333,63 +343,60 @@ if(isset($_POST['total1'])){
                                                     if(strcmp($result2, $divide[0] ?? null) && strcmp($result2, $divide[1] ?? null) && strcmp($result2, $divide[2] ?? null)){ //compare bicycle to car motorcycle and bicycle
                                                     //first it compares bicycle to car, then fail so go to else
                                                     ?>
-                                            <input class="form-check-input '.$result2.'" type="checkbox"
-                                                value="<?php echo $result2;?>" name="vehicleType[]"
-                                                id="flexCheckDefault">
-                                            <label class="form-check-label"
-                                                for="flexCheckDefault"><?php echo $result2;?></label>
-                                            <br>
-                                            <?php
+                                        <input class="form-check-input" type="checkbox" value="<?php echo $result2;?>"
+                                            name="vehicleType[]" id="flexCheckDefault">
+                                        <label class="form-check-label"
+                                            for="flexCheckDefault"><?php echo $result2;?></label>
+                                        <br>
+                                        <?php
                                                     }else{
                                                     ?>
-                                            <input class="form-check-input" type="checkbox"
-                                                value="<?php echo $result2;?>" name="vehicleType[]"
-                                                id="flexCheckDefault" checked="checked">
-                                            <label class="form-check-label"
-                                                for="flexCheckDefault"><?php echo $result2;?></label>
-                                            <br>
-                                            <?php
+                                        <input class="form-check-input" type="checkbox" value="<?php echo $result2;?>"
+                                            name="vehicleType[]" id="flexCheckDefault" checked="checked">
+                                        <label class="form-check-label"
+                                            for="flexCheckDefault"><?php echo $result2;?></label>
+                                        <br>
+                                        <?php
                                                     }
                                                 }
                                                 ?>
-                                        </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <h6 class="pb-2">Specialization: </h6>
-                                        <div class="form-check">
-                                            <?php
+                                </div>
+                                <div class="col-md-6">
+                                    <h6 class="pb-2">Specialization: </h6>
+                                    <div class="form-check">
+                                        <?php
                                                 $divide=explode(",",$result->Specialization);
                                                 //var_dump($divide);
                                                 $specialization1 = array("Tire Repair","Break Repair" ,"Chain Loosening Repair","Engine Overheat Repair" ,"Dead Battery Repair","Dead Light Repair");
                                                 foreach($specialization1 as $result2){
                                                     if(strcmp($result2, $divide[0] ?? null) && strcmp($result2, $divide[1] ?? null) && strcmp($result2, $divide[2] ?? null) && strcmp($result2, $divide[3] ?? null) && strcmp($result2, $divide[4] ?? null) && strcmp($result2, $divide[5] ?? null) && strcmp($result2, $divide[6] ?? null) && strcmp($result2, $divide[7] ?? null) && strcmp($result2, $divide[8] ?? null) && strcmp($result2, $divide[9] ?? null)){
                                                     ?>
-                                            <input class="form-check-input" type="checkbox"
-                                                value="<?php echo $result2;?>" name="Specialization[]"
-                                                id="flexCheckDefault">
-                                            <label class="form-check-label"
-                                                for="flexCheckDefault"><?php echo $result2;?></label>
-                                            <br>
-                                            <?php
+                                        <input class="form-check-input" type="checkbox" value="<?php echo $result2;?>"
+                                            name="Specialization[]" id="flexCheckDefault">
+                                        <label class="form-check-label"
+                                            for="flexCheckDefault"><?php echo $result2;?></label>
+                                        <br>
+                                        <?php
                                                     }else{
                                                     ?>
-                                            <input class="form-check-input" type="checkbox"
-                                                value="<?php echo $result2;?>" name="Specialization[]"
-                                                id="flexCheckDefault" checked>
-                                            <label class="form-check-label"
-                                                for="flexCheckDefault"><?php echo $result2;?></label>
-                                            <br>
-                                            <?php
+                                        <input class="form-check-input" type="checkbox" value="<?php echo $result2;?>"
+                                            name="Specialization[]" id="flexCheckDefault" checked>
+                                        <label class="form-check-label"
+                                            for="flexCheckDefault"><?php echo $result2;?></label>
+                                        <br>
+                                        <?php
                                                     }
                                                 }
                                                 ?>
-                                        </div>
                                     </div>
                                 </div>
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <!-- <button type="button" class="btn btn-primary rounded-pill px-4 shadow" name="edit">Save Changes</button> -->
-                            <button class="btn btn-primary rounded-pill px-4 shadow" type="submit" name="edit">Save Changes</button>
+                            <button class="btn btn-primary rounded-pill px-4 shadow" type="submit" name="edit">Save
+                                Changes</button>
                         </div>
 
                     </div>
@@ -461,67 +468,24 @@ if(isset($_POST['total1'])){
         var star = $('#starss').val();
         if (star != '') {
             $.ajax({
-                    url: 'mechProfile.php',
-                    type: 'POST',
-                    data: {
-                        mechID: id,
-                        average: starss
-                    },
-                    success: function(response) {
-                        if (data != '') {
-                            $('#id1').val(data);
-                        }
-                        $('#autoSave').text("Post save as draft");
-                        setInterval(function() {
-                            $('#autoSave').text('');
-                        }, 5000);
+                url: 'mechProfile.php',
+                type: 'POST',
+                data: {
+                    mechID: id,
+                    average: starss
+                },
+                success: function(response) {
+                    if (data != '') {
+                        $('#id1').val(data);
                     }
+                    $('#autoSave').text("Post save as draft");
+                    setInterval(function() {
+                        $('#autoSave').text('');
+                    }, 5000);
                 }
-            }
-        }
-        filterSelection("all")
-        function filterSelection(c) {
-        var x, i;
-        x = document.getElementsByClassName("filterDiv");
-        if (c == "all") c = "";
-            for (i = 0; i < x.length; i++) {
-                w3RemoveClass(x[i], "show");
-                if (x[i].className.indexOf(c) > -1) w3AddClass(x[i], "show");
-            }
-        }
-
-        function w3AddClass(element, name) {
-            var i, arr1, arr2;
-            arr1 = element.className.split(" ");
-            arr2 = name.split(" ");
-            for (i = 0; i < arr2.length; i++) {
-                if (arr1.indexOf(arr2[i]) == -1) {element.className += " " + arr2[i];}
-            }
-        }
-
-        function w3RemoveClass(element, name) {
-            var i, arr1, arr2;
-            arr1 = element.className.split(" ");
-            arr2 = name.split(" ");
-            for (i = 0; i < arr2.length; i++) {
-                while (arr1.indexOf(arr2[i]) > -1) {
-                arr1.splice(arr1.indexOf(arr2[i]), 1);     
-                }
-            }
-            element.className = arr1.join(" ");
-        }
-
-        // Add active class to the current button (highlight it)
-        var btnContainer = document.getElementById("myBtnContainer");
-        var btns = btnContainer.getElementsByClassName("btn");
-        for (var i = 0; i < btns.length; i++) {
-            btns[i].addEventListener("click", function(){
-                var current = document.getElementsByClassName("active");
-                current[0].className = current[0].className.replace(" active", "");
-                this.className += " active";
             });
         }
-
+    }
     </script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"></script>
