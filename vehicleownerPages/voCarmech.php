@@ -54,18 +54,15 @@ include('../config.php');
                     $results=$query->fetchALL(PDO::FETCH_OBJ);
                     $cnt=1;       
                     if( $query->rowCount()>0){   
-                        foreach($results as $result){
-                            
-                        ?>  
-                            <tr class="d-flex align-items-center justify-content-around mt-2">
+                        foreach($results as $result){?> 
+                        <tr class="d-flex align-items-center justify-content-around mt-2">
                             <td><?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?></td>
                             <td><?php echo htmlentities($result->Specialization);?></td>
                             <td>k.m <?php echo number_format($result->distance,1);?> </td>
                             <td><a class="btn btn-warning px-3" href="voCarmechRequest.php?regeditid=<?php echo htmlentities($result->mechID)?>">Details</a></td>
                         </tr>
                         <?php $cnt=$cnt+1;}}     
-                            else {     
-                        ?> 
+                            else{?>    
                             <div class="emptyrequest mt-1 pt-4" >
                             <div class="emptydiv"><img src="../img/empty.png" alt=""></div>
                             <h6>No mechanic nearby. . .</h6>
