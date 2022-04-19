@@ -1,4 +1,4 @@
-<footer>
+<footer class="bg-dark">
 <div class="footer-header">
     <div class="footer-logo"><img src="img/footerlogo.png" alt=""></div>
     <h3 class="mechanicnowtitle">Mechanic Now</h3>

@@ -52,9 +52,10 @@ include('../config.php');
                                     <li><a href="userAdmin.php" class="dropdown-item pl-4 p-2 active"><i
                                                 class="bi bi-person-circle"></i> Clients</a></li>
                                     <li><a href="mechAdmin.php" class="dropdown-item pl-4 p-2 "><i
-                                                class="bi bi-tools"></i> Mechanics</a></li>  
-                                                <li><a href="banlist.php" class="dropdown-item pl-4 p-2"><i class="bi bi-exclamation-circle-fill"></i> Banned Mechanics</a></li>
-                                                <li><a href="userbanlist.php" class="dropdown-item pl-4 p-2"><i
+                                                class="bi bi-tools"></i> Mechanics</a></li>
+                                    <li><a href="banlist.php" class="dropdown-item pl-4 p-2"><i
+                                                class="bi bi-exclamation-circle-fill"></i> Banned Mechanics</a></li>
+                                    <li><a href="userbanlist.php" class="dropdown-item pl-4 p-2"><i
                                                 class="bi bi-exclamation-circle-fill"></i> Banned Clients</a></li>
                                 </ul>
                             </li>
@@ -67,10 +68,10 @@ include('../config.php');
                                                 class="bi bi-person-circle"></i> Clients</a></li>
                                     <li><a href="mechfeedbacks.php" class="dropdown-item pl-4 p-2"><i
                                                 class="bi bi-tools"></i> Mechanics</a></li>
-                                              
+
 
                                 </ul>
-    
+
                             </li>
                             <li class="nav-item">
                                 <a href="pending.php" class="nav-link"><i class="bi bi-list-columns"></i> Reports</a>
@@ -78,7 +79,8 @@ include('../config.php');
                             <br>
                             <hr class="text-light m-1">
                             <li class="nav-item w-100">
-                                <a onclick="myconfirm()" href="#" class="nav-link text-danger"><i class="bi bi-door-closed"></i>
+                                <a onclick="myconfirm()" href="#" class="nav-link text-danger"><i
+                                        class="bi bi-door-closed"></i>
                                     Logout</a>
                             </li>
                         </ul>
@@ -91,7 +93,7 @@ include('../config.php');
                         <div class="display-6 my-2">Vehicle Owner</div>
                         <hr class="text-dark m-2">
                         <form method="POST">
-                        <?php
+                            <?php
                                             
                                             
                                             $search_keyword = '';
@@ -107,8 +109,9 @@ include('../config.php');
                             <div class="col-lg-4 col-md-4">
                                 <div class="input-group my-3">
                                     <span class="input-group-text" id="basic-addon1"><i class="bi bi-search"></i></span>
-                                    <input type="text" class="form-control"  id="keyword" name="search[keyword]" value="<?php echo $search_keyword; ?>" placeholder="Search" aria-label="Username"
-                                        aria-describedby="basic-addon1">
+                                    <input type="text" class="form-control" id="keyword" name="search[keyword]"
+                                        value="<?php echo $search_keyword; ?>" placeholder="Search"
+                                        aria-label="Username" aria-describedby="basic-addon1">
                                 </div>
                             </div>
                             <div class="col-xl-12 col-lg-12 col-md-6 col-sm-12 col-12" data-aos="fade-up">
@@ -139,8 +142,11 @@ include('../config.php');
                                                    ?>
                                                     <tr>
                                                         <td>
-                                                            <img src="img/avatar.png" alt="avatar" width="35"
-                                                                class="img-thumbnail">
+                                                            <img src="../uploads/<?=$result->profile_url ?>"
+                                                                onerror="this.src='../img/mech.jpg';"
+                                                                class="imagenajud pimage rounded-circle px-5"
+                                                                style="min-width: 20%; max-width: 140px;" alt="">
+
                                                         </td>
                                                         <td><?php echo htmlentities($result->custFirstname);?>
                                                         </td>

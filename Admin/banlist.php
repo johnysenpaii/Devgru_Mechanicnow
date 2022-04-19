@@ -139,8 +139,8 @@ include('../config.php');
 											?>
                                                     <tr>
                                                         <td>
-                                                            <img src="img/avatar.png" alt="avatar" width="35"
-                                                                class="img-thumbnail">
+                                                           <?php echo '<img src="data:image' .base64_encode($result -> profile_url).'alt="avatar" width="35"
+                                                                class="img-thumbnail"">'?>
                                                         </td>
                                                         <td><?php echo htmlentities($result->mechFirstname);?>
                                                         </td>
