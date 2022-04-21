@@ -467,3 +467,6 @@ form .name-details .field:last-child{
 /* vo monitor mechanic services */
 /* star style */
 /* bottom-nav */
+.position-relative .badge-pos{
+    width: 80px;
+}

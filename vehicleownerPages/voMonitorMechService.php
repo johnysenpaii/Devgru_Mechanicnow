@@ -103,37 +103,29 @@ if(isset($_POST["confirm"]) || isset($_POST['comment'])){
 						if($query->rowCount()>0){
     						foreach($results as $result){
 					?>
-
-            <div class="row container-fluid py-3 text-dark">
-                <div class="col-sm-12 col-md-6">
+            <!-- py-3 container-fluid text-dark row mx-0-->
+            <div class="row mx-0 mx-md-3 py-3 text-dark ">
+                <div class="col-12 col-md-6">
                     <div id="google-maps">
-                        <iframe
-                            src="https://maps.google.com/maps?q=<?php echo htmlentities($result->latitude);?>,<?php echo htmlentities($result->longitude);?>&<?php echo htmlentities($_SESSION['latitude']);?>,<?php echo htmlentities($_SESSION['longitude']);?>&output=embed"
-                            frameborder="0" width="100%" height="540">
-                        </iframe>
+                        <iframe src="https://maps.google.com/maps?q=<?php echo htmlentities($result->latitude);?>,<?php echo htmlentities($result->longitude);?>&<?php echo htmlentities($_SESSION['latitude']);?>,<?php echo htmlentities($_SESSION['longitude']);?>&output=embed" frameborder="0" width="100%" height="540"></iframe>
                     </div>
                 </div>
-                
-                <div class="col-sm-12 col-md-6 bg-white p-3 rounded-3 shadow">
-                    <h5 class="text-start">Monitor Mechanic Services</h6>
-                        <input type="hidden" name="mechID" value="<?php echo htmlentities($result->mechID);?>">
-                        <input type="text"  style="display: none;" name="status" id="status" value="<?php echo htmlentities($result->status);?>">
-                        <p><?php echo htmlentities($result->mechName);?></p>
-                        <h5 class="text-start mt-2">Request Information</h5>
-                        <h1 id="bar" class="text-end pl-5"><?php echo htmlentities($result->progressBar);?> %</h1>
-                        <p><i>Service Needed:</i> <?php echo htmlentities($result->serviceNeeded);?></p>
-                        <p><i>Date:</i> <?php echo htmlentities($result->date);?></p>
-                        <p><i>Time:</i> <?php echo htmlentities($result->time) < 12 ? 'AM' : 'PM';?>
-                            <?php echo htmlentities($result->time);?></p>
-                        <p class="pb-1 "><i>Vehicle Problem:</i> <?php echo htmlentities($result->mechRepair);?></p>
-                        <h5>Noted Message</h5>
-                        <p class="line-segment"><?php echo htmlentities($result->specMessage);?></p>
+                <div class="col-12 col-md-6 bg-white p-3 px-4 rounded-3 shadow">
+                    <h2 class="text-center" style="font-weight: 600;">Monitor Mechanic Services</h2>
+                    <input type="hidden" name="mechID" value="<?php echo htmlentities($result->mechID);?>">
+                    <input type="text"  style="display: none;" name="status" id="status" value="<?php echo htmlentities($result->status);?>">
+                    <h6 class="pt-5 py-1"><small><strong><?php echo htmlentities($result->mechName);?></strong></small></h6>
+                    <h1 id="bar" class="float-end pl-5"><?php echo htmlentities($result->progressBar);?> %</h1>
+                    <p class="py-1"><small><strong>Service Request:</strong> <?php echo htmlentities($result->serviceNeeded);?></small></p>
+                    <p class="py-1"><small><strong>Date:</strong> <?php echo htmlentities($result->date);?></small></p>                        <p class="py-1"><small><strong>Time:</strong> <?php echo htmlentities($result->time) < 12 ? 'AM' : 'PM';?>
+                    <?php echo htmlentities($result->time);?></small></p>
+                    <p class="pb-1 "><small><strong>Vehicle Problem:</strong> <?php echo htmlentities($result->mechRepair);?></small></p>
+                        <!-- <h5>Noted Message</h5>
+                        <p class="line-segment"><small><?php echo htmlentities($result->specMessage);?></small></p> -->
 
-                        <p class="py-3">Please Update the progress bar so that your client know the status of his/her
-                            request.</p>
-                            <a class="btn btn-primary col-md-4 rounded" id="btnm" style="display: none;" data-bs-toggle="modal" href="#exampleModalToggle" role="button">End service</a>
-                        </div>
-                    </div> 
+                    <p class="py-3">Please Update the progress bar so that your client know the status of his/her request.</p>
+                    <a class="btn btn-primary col-md-4 rounded" id="btnm" style="display: none;" data-bs-toggle="modal" href="#exampleModalToggle" role="button">End service</a>
+                 
                 </div>
             </div>
             <?php $cnt=$cnt+1;}}?>
@@ -147,11 +139,8 @@ if(isset($_POST["confirm"]) || isset($_POST['comment'])){
                        <i class="fa-solid fa-triangle-exclamation text-danger"></i> Check the vehicle if it is 100% fixed. <br>
                        <a class="btn btn-primary rounded-pill shadow-none mt-3" type="submit"  data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" onclick="modalShow()" data-bs-dismiss="modal">Continue</a>
                        <button type="button" class="btn btn-secondary rounded-pill shadow-none mt-3" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
-                       <!-- <a class="btn btn-secondary rounded-pill shadow-none mt-3" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal">Cancel</a> -->
+             
                     </div>
-                    <!-- <div class="modal-footer">
-                        <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal">Continue</button>
-                    </div> -->
                     </div>
                 </div>
                 </div>
@@ -163,7 +152,6 @@ if(isset($_POST["confirm"]) || isset($_POST['comment'])){
                         <button type="submit" name="confirm" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body star">
-                        <!-- rate -->
                         <div class="container">
                             <span id="rateMe1"></span>
                         </div>
@@ -182,9 +170,6 @@ if(isset($_POST["confirm"]) || isset($_POST['comment'])){
                         </div>
                         <button class="btn btn-primary my-1" name="comment" type="sumbit">Comment</button>
                     </div>
-                    <!-- <div class="modal-footer">
-                        <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-dismiss="modal">Back to first</button>
-                    </div> -->
                     </div>
                 </div>
             </div>

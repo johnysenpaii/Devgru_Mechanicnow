@@ -77,7 +77,7 @@ if(isset($_POST['update'])){
             overflow: hidden;
             white-space: nowrap;
             color: #302D32;
-            font-size: 10px;
+            font-size: 6px;
             color: var(--clr-primary-800);
             text-decoration: none;
             -webkit-tap-highlight-color: transparent;

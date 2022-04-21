@@ -39,15 +39,32 @@
 </section> -->
 <section class="botsec">
     <div class="bot-nav">
-        <a href="" class="nav-links">
+        <a href="./vomapShops.php" class="nav-links">
             <i class="fa-solid fa-shop"></i>
             <span>Mechanic Shops</span>
         </a>
-        <a href="" class="nav-links">
-            <i class="fa-solid fa-clock-rotate-left"></i>
+        <a href="./voActivityLog.php" class="nav-links">
+            <i class="fa-solid fa-clock-rotate-left position-relative">
+                <span id="hide" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                    <?php 
+                        $custID1=$_SESSION['custID'];
+						$sql3 ="SELECT * from request where custID=$custID1 and status='Accepted' || status='verify'  ";
+						$query3 = $dbh -> prepare($sql3);
+						$query3->execute();
+						$results3=$query3->fetchAll(PDO::FETCH_OBJ);
+						$reqAccepted=$query3->rowCount();
+                        if($reqAccepted == 0){
+                            echo "<script type='text/javascript'>document.getElementById('hide').style.display = 'none';
+                                </script>";
+                        }
+						?>
+                    <?php echo htmlentities($reqAccepted);?>
+                    <span class="visually-hidden">unread messages</span>
+                </span>
+            </i>
             <span>Activity Log</span>
         </a>
-        <a href="" class="nav-links">
+        <a href="./voTransaction.php" class="nav-links">
             <i class="fa-solid fa-handshake-simple"></i>
             <span>transaction history</span>
         </a>
