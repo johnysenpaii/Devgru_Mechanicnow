@@ -1,11 +1,18 @@
 <?php
-
-use LDAP\Result;
-
 session_start();
 include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
 $regeditid=$_SESSION["mechID"];
-
+if(isset($_POST['total1'])){
+    $total1=floatval($_POST['total1']);
+    $id1=intval($_SESSION['mechID']);
+    if($id1 != ''){
+    $sql="UPDATE mechanic set average=:total1 where mechID=:id1";
+    $query=$dbh->prepare($sql);
+    $query->bindParam(':total1',$total1,PDO::PARAM_STR);
+    $query->bindParam(':id1',$id1,PDO::PARAM_STR);
+    $query->execute(); 
+    }  
+}
  $sname = "localhost";
  $uname = "root";
  $password = "";
@@ -97,17 +104,6 @@ if(isset($_POST['edit']) && isset($_FILES['profile_url']))
         }
     }
 }
-if(isset($_POST['total1'])){
-    $total1=floatval($_POST['total1']);
-    $id1=intval($_POST['id1']);
-    if($id1 != ''){
-    $sql="UPDATE mechanic set average=:total1 where mechID=:id1";
-    $query=$dbh->prepare($sql);
-    $query->bindParam(':total1',$total1,PDO::PARAM_STR);
-    $query->bindParam(':id1',$id1,PDO::PARAM_STR);
-    $query->execute(); 
-    }  
-}
 
 ?>
 <!DOCTYPE html>
@@ -184,15 +180,15 @@ if(isset($_POST['total1'])){
                         if( $query->rowCount()>0){   
                             foreach($results as $result1){
                             ?>
-                            <input type="hidden" id="starss" name="total1"
-                                value="<?php echo number_format($result1->total,1);?>">
+                            <input type="hidden" id="starss" name="total1" value="<?php echo number_format($result1->total,1);?>">
+                                
                             <span type="text" id="stars"
                                 name="total"><?php echo number_format($result1->total,1);?></span>
                             <?php $cnt=$cnt+1;}}?>
                             <p hidden><i>No Ratings Yet</i></p>
                         </div>
                     </div>
-                    <input type="hidden" name="id1" id="id1" value="<?php echo htmlentities($result1 -> mechID);?>">
+                    <input type="hidden" name="id1" id="id1" value="<?php echo htmlentities($_SESSION['mechID']);?>">
                     <p class="pt-3" name="mechEmail"><?php echo htmlentities($result->mechEmail);?></p>
                     <p name="mechCnumber"><?php echo htmlentities($result->mechCnumber);?></p>
                     <p name="mechAddress"><?php echo htmlentities($result->mechAddress);?></p>
@@ -406,7 +402,7 @@ if(isset($_POST['total1'])){
         return output.join('');
     }
 
-    setInterval(saveData, 5000);
+    setInterval(saveData, 500);
 
     function saveData() {
         var id = $('#id1').val();
@@ -417,7 +413,7 @@ if(isset($_POST['total1'])){
                 type: 'POST',
                 data: {
                     mechID: id,
-                    average: starss
+                    average: starss,
                 },
                 success: function(response) {
                     if (data != '') {
@@ -426,7 +422,7 @@ if(isset($_POST['total1'])){
                     $('#autoSave').text("Post save as draft");
                     setInterval(function() {
                         $('#autoSave').text('');
-                    }, 5000);
+                    }, 500);
                 }
             });
         }
