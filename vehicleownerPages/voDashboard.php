@@ -191,7 +191,7 @@ if(isset($_POST['update'])){
                                         <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <input type="text" name="resID" value="<?php echo htmlentities($result->resID);?>" >
+                                        <input type="hidden" name="resID" value="<?php echo htmlentities($result->resID);?>" >
                                         <h5><?php echo htmlentities($result->serviceNeeded);?> Request</h5>
                                         <p><?php echo htmlentities($result->mechName);?></p>
                                         <p><?php echo htmlentities($result->mechRepair);?></p>
