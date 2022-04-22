@@ -54,13 +54,18 @@
                                 if($custID1==$custID1){ 
                                     if($result->status == 'Complete' || $result->status == 'Accepted' || $result->status == 'Unaccepted'){
                                     ?>
-                            <li class="p-0 " style="font-size: small; width: 215px; height: auto;">
+                                    <li class="p-1" style="font-size: small; width: 215px; height: auto;">
+                                        <a href="">
+                                            <p><small>Your Request is <?php echo htmlentities($result->status);?></small></p>
+                                        </a>
+                                    </li>
+                            <!-- <li class="p-0 " style="font-size: small; width: 215px; height: auto;">
                                 <div class="card border-0">
                                     <div class="card-body fw-bold">
                                         <p class="card-text">Your request is <?php echo htmlentities($result->status);?></p>
                                     </div>
                                 </div>
-                            </li>
+                            </li> -->
                             <?php $cnt=$cnt+1;} else if($result->status == 'verify' ){?>
                                 <li class="p-0 " style="font-size: small; width: 215px; height: auto;">
                                 <div class="card border-0">
