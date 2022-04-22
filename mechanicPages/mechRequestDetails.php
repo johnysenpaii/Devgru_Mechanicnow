@@ -11,13 +11,17 @@ if(isset($_POST['Accept']))
 
     $custID = $_POST['custID'];
     $mechID = $_POST['mechID'];
+    $custName = $_POST['custName'];
+    $mechName = $_POST['mechName'];
     $specMessage = $_POST['specMessage'];
     $role = $_POST['role'];
 
-    $sql2 = "INSERT INTO chat(custID, mechID, message, role) VALUES(:custID, :mechID, :specMessage, :role)";
+    $sql2 = "INSERT INTO chat(custID, mechID, custName, mechName, message, role) VALUES(:custID, :mechID, :custName, :mechName, :specMessage, :role)";
     $query2 = $dbh->prepare($sql2);
     $query2->bindParam(':custID',$custID,PDO::PARAM_STR);
     $query2->bindParam(':mechID',$mechID,PDO::PARAM_STR);
+    $query2->bindParam(':custName',$custName,PDO::PARAM_STR);
+    $query2->bindParam(':mechName',$mechName,PDO::PARAM_STR);
     $query2->bindParam(':specMessage',$specMessage,PDO::PARAM_STR);
     $query2->bindParam(':role',$role,PDO::PARAM_STR);
     $query2->execute();
@@ -70,12 +74,8 @@ $mechID1=$_SESSION['mechID'];
                     <div class="row text-dark">
                         <h3 class="pb-4">Request Details</h3>
                         <div class="col-sm-12 col-md-6 pb-5 justify-content-center">
-                            
                             <div class="with-image"><img src="../img/avatar.jpg.jpg" class="rounded-circle imagenajud float-end" alt=""></div>
                             <div class="row py-0 pt-0" >
-                                
-                                <!-- <input type="text" class="border-0 text-center" name="mechName" value="<?php echo htmlentities($result->vOwnerName);?>">
-                                <input type="text" class="border-0 text-center" name="Specialization" value="<?php echo htmlentities($result->custAddress);?>"> -->
                                 <iframe src="https://maps.google.com/maps?q=<?php echo htmlentities($result->latitude);?>,<?php echo htmlentities($result->longitude);?>&<?php echo htmlentities($_SESSION['latitude']);?>,<?php echo htmlentities($_SESSION['longitude']);?>&output=embed" frameborder="0" width="700" height="400">
                                 </iframe>
                             </div>                       
@@ -83,6 +83,8 @@ $mechID1=$_SESSION['mechID'];
                         <div class="col-sm-12 col-md-6 text-start">
                                 <h5 class="text-start">Vehicle Owner Information</h6>
                                 <p><?php echo htmlentities($result->vOwnerName);?></p>
+                                <input type="text" name="custName" value="<?php echo htmlentities($result->vOwnerName);?>" hidden> 
+                                <input type="text" name="mechName" value="<?php echo htmlentities($result->mechName);?>" hidden> 
                                 <h5 class="text-start mt-2">Request Information</h5>
                                 <input disabled class="border-0 bg-white py-2" type="text" id="need" value="<?php echo htmlentities($result->serviceNeeded);?>">
                               
@@ -111,7 +113,6 @@ $mechID1=$_SESSION['mechID'];
             </div>
             <?php }}?>
         </form>
-
     </section>
     
     <!-- <div class="master-container">

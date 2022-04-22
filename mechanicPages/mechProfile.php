@@ -104,6 +104,42 @@ if(isset($_POST['edit']) && isset($_FILES['profile_url']))
         }
     }
 }
+if(isset($_POST['confirmPassword'])){
+    $CPassword = $_POST['CPassword'];
+    $NPassword = $_POST['NPassword'];
+    $confirmPassword = $_POST['confirmPassword'];
+    $hashedPassword = $_POST['hashedPassword'];
+    //check if password inputed is matched with the password inside the database
+    if(password_verify($CPassword, $hashedPassword) == 1){
+        //check if new password and old password match
+        if ( $NPassword != $confirmPassword){
+            echo "<script>alert('Current Password is incorrect')</script>";
+        }else{
+            $hashedPwd = password_hash($NPassword, PASSWORD_DEFAULT);
+            $sql="UPDATE mechanic set Password=:hashedPwd WHERE mechID=:regeditid"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
+            $query=$dbh->prepare($sql);
+            $query->bindParam(':hashedPwd',$hashedPwd,PDO::PARAM_STR);
+            $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
+            $query->execute(); 
+            echo "<script>alert('Password changed successfully')</script>";
+            echo "<script type='text/javascript'>document.location='./mechProfile.php';</script>";
+        }
+    }else{
+        echo "<script>alert('Current Password is incorrect')</script>";
+    }
+    
+}
+if(isset($_POST['total1'])){
+    $total1=floatval($_POST['total1']);
+    $id1=intval($_POST['id1']);
+    if($id1 != ''){
+    $sql="UPDATE mechanic set average=:total1 where mechID=:id1";
+    $query=$dbh->prepare($sql);
+    $query->bindParam(':total1',$total1,PDO::PARAM_STR);
+    $query->bindParam(':id1',$id1,PDO::PARAM_STR);
+    $query->execute(); 
+    }  
+}
 
 ?>
 <!DOCTYPE html>
@@ -198,8 +234,7 @@ if(isset($_POST['edit']) && isset($_FILES['profile_url']))
                             data-bs-toggle="modal" data-bs-target="#edit-modal">Edit Profile</button>
                     </div>
                 </div>
-                <div
-                    class="col-sm-12 col-md-7 col-lg-6 bg-white p-4 ml-sm-0 ml-md-1 mt-sm-1 mt-md-0 shadow-lg rounded-3">
+                <div class="col-sm-12 col-md-7 col-lg-6 bg-white p-4 ml-sm-0 ml-md-1 mt-sm-1 mt-md-0 shadow-lg rounded-3">
                     <div class="row">
                         <p><i>"Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum, laboriosam aperiam
                                 atque perferendis adipisci molestiae praesentium quo blanditiis ab voluptatem, sint
@@ -312,7 +347,6 @@ if(isset($_POST['edit']) && isset($_FILES['profile_url']))
                                                 $specialization1 = array("Car Mechanic","Motorcycle Mechanic","Bicycle Mechanic"); //have 3 values 
                                                 // var_dump($specialization1);
                                                 foreach($specialization1 as $result2){ //travel each index in an array
-                                                            //car       bicycle = false
                                                     if(strcmp($result2, $divide[0] ?? null) && strcmp($result2, $divide[1] ?? null) && strcmp($result2, $divide[2] ?? null)){ //compare bicycle to car motorcycle and bicycle
                                                     //first it compares bicycle to car, then fail so go to else
                                                     ?>
@@ -373,13 +407,54 @@ if(isset($_POST['edit']) && isset($_FILES['profile_url']))
                         </div>
 
                     </div>
+                            </form>                                                    
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content text-dark">
+                <form method="POST">
+                <?php //select transaction
+                    $regeditid=$_SESSION["mechID"];
+                    $sql="SELECT * from mechanic WHERE mechID=:regeditid";
+                    $query=$dbh->prepare($sql);
+                    $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
+                    $query->execute();
+                    $results=$query->fetchALL(PDO::FETCH_OBJ);
+
+                    if($query->rowCount()>0){
+                        foreach ($results as $result){
+                ?>
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalToggleLabel2">Change Password</h5>
+                    <button type="button" class="btn-close shadow-none border-none" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="col-md-12">
+                        <input class="form-control shadow-none my-2" type="Password" name="CPassword" placeholder="Enter Current Password" aria-label="default input example">
+                    </div>
+                    <input class="form-control" type="text" name="hashedPassword" value="<?php echo htmlentities($result->Password);?>" placeholder="Username" aria-label="default input example" hidden>
+                     <div class="col-md-12">
+                        <input class="form-control shadow-none my-2" type="Password" name="NPassword" placeholder="Enter New Password" aria-label="default input example">
+                    </div>
+                     <div class="col-md-12">
+                        <input class="form-control shadow-none my-2" type="Password" name="confirmPassword" placeholder="Confirm Password" aria-label="default input example">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary shadow" name="changePassword">Save Changes</button>
+                </div>
+                <?php }}?>
+                </form>
                 </div>
             </div>
         </form>
     </section>
     <div class="row d-block d-lg-none"><?php include('mechBottom-nav.php');?></div>
+
     <script>
-    var starss = document.getElementById("starss").value
+    var starss = document.getElementById("starss").value;
     document.getElementById("stars").innerHTML = getStars(starss);
 
     function getStars(rating) {
@@ -428,16 +503,9 @@ if(isset($_POST['edit']) && isset($_FILES['profile_url']))
         }
     }
     </script>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
-    </script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"></script>
     <script src="../js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>

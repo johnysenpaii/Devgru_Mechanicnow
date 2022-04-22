@@ -2,26 +2,27 @@
     <div class="row">
         <!-- d-flex justify-content-evenly -->
         <div class="d-flex justify-content-center pt-3">
-            <a href="vomapShops.php" class="py-1 px-5 mx-1 bg-white text-dark rounded-pill btn position-relative">Find
+            <a href="vomapShops.php" class="py-1 px-5 mx-1 bg-white text-dark rounded-pill btn position-relative shadow-sm">Find
                 Mechanic Shops</a>
-            <a href="voActivityLog.php" class="py-1 px-5 mx-1 bg-white text-dark rounded-pill btn position-relative">
+            <a href="voActivityLog.php" class="py-1 px-5 mx-1 bg-white text-dark rounded-pill btn position-relative shadow-sm">
                 <span id="hide" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                     <?php 
-                                            $custID1=$_SESSION['custID'];
-											$sql3 ="SELECT * from request where custID=$custID1 and status='Accepted' || status='verify'  ";
-											$query3 = $dbh -> prepare($sql3);
-											$query3->execute();
-											$results3=$query3->fetchAll(PDO::FETCH_OBJ);
-											$reqAccepted=$query3->rowCount();
-                                            if($reqAccepted == 0){
-                                                echo "<script type='text/javascript'>document.getElementById('hide').style.display = 'none';
-                                                </script>";
-                                            }
-										?>
+                        $custID1=$_SESSION['custID'];
+						$sql3 ="SELECT * from request where custID=$custID1 and status='Accepted' || status='verify'  ";
+						$query3 = $dbh -> prepare($sql3);
+						$query3->execute();
+						$results3=$query3->fetchAll(PDO::FETCH_OBJ);
+						$reqAccepted=$query3->rowCount();
+                        if($reqAccepted == 0){
+                            echo "<script type='text/javascript'>document.getElementById('hide').style.display = 'none';
+                                </script>";
+                        }
+						?>
                     <?php echo htmlentities($reqAccepted);?>
                     <span class="visually-hidden">unread messages</span>
-                </span>Activity Log</a>
-            <a href="voTransaction.php" class="py-1 px-5 mx-1 bg-white text-dark rounded-pill btn position-relative">
+                </span>
+                Activity Log</a>
+            <a href="voTransaction.php" class="py-1 px-5 mx-1 bg-white text-dark rounded-pill btn position-relative shadow-sm">
                 <span id="hide1" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                     <?php 
                                             $custID=$_SESSION['custID'];
