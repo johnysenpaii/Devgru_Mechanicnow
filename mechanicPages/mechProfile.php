@@ -1,11 +1,18 @@
 <?php
-
-use LDAP\Result;
-
 session_start();
 include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
 $regeditid=$_SESSION["mechID"];
-
+if(isset($_POST['total1'])){
+    $total1=floatval($_POST['total1']);
+    $id1=intval($_SESSION['mechID']);
+    if($id1 != ''){
+    $sql="UPDATE mechanic set average=:total1 where mechID=:id1";
+    $query=$dbh->prepare($sql);
+    $query->bindParam(':total1',$total1,PDO::PARAM_STR);
+    $query->bindParam(':id1',$id1,PDO::PARAM_STR);
+    $query->execute(); 
+    }  
+}
  $sname = "localhost";
  $uname = "root";
  $password = "";
@@ -97,18 +104,6 @@ if(isset($_POST['edit']) && isset($_FILES['profile_url']))
         }
     }
 }
-if(isset($_POST['total1'])){
-    $total1=floatval($_POST['total1']);
-    $id1=intval($_POST['id1']);
-    if($id1 != ''){
-    $sql="UPDATE mechanic set average=:total1 where mechID=:id1";
-    $query=$dbh->prepare($sql);
-    $query->bindParam(':total1',$total1,PDO::PARAM_STR);
-    $query->bindParam(':id1',$id1,PDO::PARAM_STR);
-    $query->execute(); 
-    }  
-}
-
 if(isset($_POST['confirmPassword'])){
     $CPassword = $_POST['CPassword'];
     $NPassword = $_POST['NPassword'];
@@ -134,6 +129,18 @@ if(isset($_POST['confirmPassword'])){
     }
     
 }
+if(isset($_POST['total1'])){
+    $total1=floatval($_POST['total1']);
+    $id1=intval($_POST['id1']);
+    if($id1 != ''){
+    $sql="UPDATE mechanic set average=:total1 where mechID=:id1";
+    $query=$dbh->prepare($sql);
+    $query->bindParam(':total1',$total1,PDO::PARAM_STR);
+    $query->bindParam(':id1',$id1,PDO::PARAM_STR);
+    $query->execute(); 
+    }  
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -209,15 +216,15 @@ if(isset($_POST['confirmPassword'])){
                         if( $query->rowCount()>0){   
                             foreach($results as $result1){
                             ?>
-                            <input type="hidden" id="starss" name="total1"
-                                value="<?php echo number_format($result1->total,1);?>">
+                            <input type="hidden" id="starss" name="total1" value="<?php echo number_format($result1->total,1);?>">
+                                
                             <span type="text" id="stars"
                                 name="total"><?php echo number_format($result1->total,1);?></span>
                             <?php $cnt=$cnt+1;}}?>
                             <p hidden><i>No Ratings Yet</i></p>
                         </div>
                     </div>
-                    <input type="hidden" name="id1" id="id1" value="<?php echo htmlentities($result1 -> mechID);?>">
+                    <input type="hidden" name="id1" id="id1" value="<?php echo htmlentities($_SESSION['mechID']);?>">
                     <p class="pt-3" name="mechEmail"><?php echo htmlentities($result->mechEmail);?></p>
                     <p name="mechCnumber"><?php echo htmlentities($result->mechCnumber);?></p>
                     <p name="mechAddress"><?php echo htmlentities($result->mechAddress);?></p>
@@ -227,8 +234,7 @@ if(isset($_POST['confirmPassword'])){
                             data-bs-toggle="modal" data-bs-target="#edit-modal">Edit Profile</button>
                     </div>
                 </div>
-                <div
-                    class="col-sm-12 col-md-7 col-lg-6 bg-white p-4 ml-sm-0 ml-md-1 mt-sm-1 mt-md-0 shadow-lg rounded-3">
+                <div class="col-sm-12 col-md-7 col-lg-6 bg-white p-4 ml-sm-0 ml-md-1 mt-sm-1 mt-md-0 shadow-lg rounded-3">
                     <div class="row">
                         <p><i>"Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum, laboriosam aperiam
                                 atque perferendis adipisci molestiae praesentium quo blanditiis ab voluptatem, sint
@@ -341,7 +347,6 @@ if(isset($_POST['confirmPassword'])){
                                                 $specialization1 = array("Car Mechanic","Motorcycle Mechanic","Bicycle Mechanic"); //have 3 values 
                                                 // var_dump($specialization1);
                                                 foreach($specialization1 as $result2){ //travel each index in an array
-                                                            //car       bicycle = false
                                                     if(strcmp($result2, $divide[0] ?? null) && strcmp($result2, $divide[1] ?? null) && strcmp($result2, $divide[2] ?? null)){ //compare bicycle to car motorcycle and bicycle
                                                     //first it compares bicycle to car, then fail so go to else
                                                     ?>
@@ -401,7 +406,8 @@ if(isset($_POST['confirmPassword'])){
                                 Changes</button>
                         </div>
 
-                    </div>                                                 
+                    </div>
+                            </form>                                                    
                 </div>
             </div>
         </div>
@@ -446,8 +452,9 @@ if(isset($_POST['confirmPassword'])){
         </form>
     </section>
     <div class="row d-block d-lg-none"><?php include('mechBottom-nav.php');?></div>
+
     <script>
-    var starss = document.getElementById("starss").value
+    var starss = document.getElementById("starss").value;
     document.getElementById("stars").innerHTML = getStars(starss);
 
     function getStars(rating) {
@@ -470,7 +477,7 @@ if(isset($_POST['confirmPassword'])){
         return output.join('');
     }
 
-    setInterval(saveData, 5000);
+    setInterval(saveData, 500);
 
     function saveData() {
         var id = $('#id1').val();
@@ -481,7 +488,7 @@ if(isset($_POST['confirmPassword'])){
                 type: 'POST',
                 data: {
                     mechID: id,
-                    average: starss
+                    average: starss,
                 },
                 success: function(response) {
                     if (data != '') {
@@ -490,22 +497,15 @@ if(isset($_POST['confirmPassword'])){
                     $('#autoSave').text("Post save as draft");
                     setInterval(function() {
                         $('#autoSave').text('');
-                    }, 5000);
+                    }, 500);
                 }
             });
         }
     }
     </script>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
-    </script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"></script>
     <script src="../js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>

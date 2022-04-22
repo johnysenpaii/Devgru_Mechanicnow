@@ -55,7 +55,7 @@
                                     if($result->status == 'Complete' || $result->status == 'Accepted' || $result->status == 'Unaccepted'){
                                     ?>
                                     <li class="p-1" style="font-size: small; width: 215px; height: auto;">
-                                        <a href="">
+                                        <a href="" class="">
                                             <p><small>Your Request is <?php echo htmlentities($result->status);?></small></p>
                                         </a>
                                     </li>

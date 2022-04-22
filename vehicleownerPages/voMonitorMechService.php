@@ -103,14 +103,11 @@ if(isset($_POST["confirm"]) || isset($_POST['comment'])){
 						if($query->rowCount()>0){
     						foreach($results as $result){
 					?>
-
-            <div class="row container-fluid py-3 text-dark">
-                <div class="col-sm-12 col-md-6">
+            <!-- py-3 container-fluid text-dark row mx-0-->
+            <div class="row mx-0 mx-md-3 py-3 text-dark ">
+                <div class="col-12 col-md-6">
                     <div id="google-maps">
-                        <iframe
-                            src="https://maps.google.com/maps?q=<?php echo htmlentities($result->latitude);?>,<?php echo htmlentities($result->longitude);?>&<?php echo htmlentities($_SESSION['latitude']);?>,<?php echo htmlentities($_SESSION['longitude']);?>&output=embed"
-                            frameborder="0" width="100%" height="540">
-                        </iframe>
+                        <iframe src="https://maps.google.com/maps?q=<?php echo htmlentities($result->latitude);?>,<?php echo htmlentities($result->longitude);?>&<?php echo htmlentities($_SESSION['latitude']);?>,<?php echo htmlentities($_SESSION['longitude']);?>&output=embed" frameborder="0" width="100%" height="540"></iframe>
                     </div>
                 </div>
                 
@@ -144,11 +141,8 @@ if(isset($_POST["confirm"]) || isset($_POST['comment'])){
                        <i class="fa-solid fa-triangle-exclamation text-danger"></i> Check the vehicle if it is 100% fixed. <br>
                        <a class="btn btn-primary rounded-pill shadow-none mt-3" type="submit"  data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" onclick="modalShow()" data-bs-dismiss="modal">Continue</a>
                        <button type="button" class="btn btn-secondary rounded-pill shadow-none mt-3" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
-                       <!-- <a class="btn btn-secondary rounded-pill shadow-none mt-3" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal">Cancel</a> -->
+             
                     </div>
-                    <!-- <div class="modal-footer">
-                        <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal">Continue</button>
-                    </div> -->
                     </div>
                 </div>
                 </div>
@@ -160,7 +154,6 @@ if(isset($_POST["confirm"]) || isset($_POST['comment'])){
                         <button type="submit" name="confirm" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body star">
-                        <!-- rate -->
                         <div class="container">
                             <span id="rateMe1"></span>
                         </div>
@@ -179,9 +172,6 @@ if(isset($_POST["confirm"]) || isset($_POST['comment'])){
                         </div>
                         <button class="btn btn-primary my-1" name="comment" type="sumbit">Comment</button>
                     </div>
-                    <!-- <div class="modal-footer">
-                        <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-dismiss="modal">Back to first</button>
-                    </div> -->
                     </div>
                 </div>
             </div>

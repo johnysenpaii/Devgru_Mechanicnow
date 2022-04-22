@@ -31,9 +31,9 @@ $cID = $_SESSION['custID'];
     </style>
 </head>
 <body style="background: #f8f8f8">
-    <?php include('voHeader.php');?>
-    <section class="chatsection mt-3">
-        <div class="container">
+    <?php include('./voHeader.php');?>
+    <section class="chatsection">
+        <div class="container-fluid">
             <div class="row no-glutters">
                 <!-- chat list column -->
                 <div class="col-md-4 text-light" style="background: #302D32">
