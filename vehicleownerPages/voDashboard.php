@@ -163,7 +163,7 @@ if(isset($_POST['update'])){
                     <div class="act-content">
                         <h5 class="py-4 pb-2 text-center line-segment">Recent Activities</h5>
                         <?php
-                            $sql="SELECT * from request WHERE custID=$custID1 and status='Unaccepted' order by resID DESC";
+                            $sql="SELECT *, DATE_FORMAT(Sdate, '%d-%m-%Y %H:%i:%s %p') as timedate from request WHERE custID=$custID1 and status='Unaccepted' order by resID DESC";
                             $query=$dbh->prepare($sql);
                             $query->execute();
                             $results=$query->fetchALL(PDO::FETCH_OBJ);
@@ -191,10 +191,12 @@ if(isset($_POST['update'])){
                                         <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <input type="text" name="resID" value="<?php echo htmlentities($result->resID);?>" >
+                                        <input type="hidden" name="resID" value="<?php echo htmlentities($result->resID);?>" >
                                         <h5><?php echo htmlentities($result->serviceNeeded);?> Request</h5>
                                         <p><?php echo htmlentities($result->mechName);?></p>
                                         <p><?php echo htmlentities($result->mechRepair);?></p>
+                                        <p><?php echo htmlentities($result->timedate);?></p>
+
                                     </div>
                                     <div class="modal-footer">
                                         <button type="submit" name="update" class="btn btn-primary rounded-pill shadow-none">Cancel Request</button>

@@ -34,6 +34,7 @@ if(isset($_POST['send'])){
     $serv="";
     $date1="";
     $time1="";
+    $date4="";
 
     // $currentL="";
     foreach($mechRepair as $chk1){  
@@ -47,14 +48,13 @@ if(isset($_POST['send'])){
     $serv .= $service;
     $date1 .= $date;
     $time1 .= $time;
-   
-    // $currentL.=$currentlocation;
+
 
     $in_ch=mysqli_query($con,"INSERT INTO request(mechName, vOwnerName, specMessage, mechRepair, serviceType, serviceNeeded, mechID, custID, latitude, longitude, date, time) values ('$mechN', '$vON' , '$spec', '$chk', '$Specl', '$serv', '$mID', '$custID1', '$latitude', '$longitude', '$date1', '$time1')");//,'$latitude','$longitude','$currentL',
     if($in_ch==1)  
     {  
         echo'<script>alert("Request Sent Successfully, Wait for Mechanic to Confirm!")</script>';  
-        echo"<script>location.replace('voDashboard.php');</script>";  
+        echo"<script>location.replace('voDashboard.php');</script>";    
     }  
     else  
     {  
