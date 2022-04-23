@@ -470,3 +470,38 @@ form .name-details .field:last-child{
 .position-relative .badge-pos{
     width: 80px;
 }
+.notif-class::-webkit-scrollbar {
+    width: 0px;
+}
+.notif-class .notif-content{
+    padding-block: 10px;
+}
+.notif-content a{
+    text-decoration: none;
+}
+.notif-content:hover{
+    background-color: var(--clr-primary-300);
+}
+.notif-content{
+    margin: 5px;
+    border-radius: 5px;
+}
+.notif-content a:hover {
+    color: #fff;
+}
+.s-button{
+    border:0;
+    background-color: #fff;
+    font-size: 20px;
+}
+.filter{
+    font-size: 20px;
+}
+@media only screen and (max-width: 425px) {
+    .t-content{
+        font-size: 12px;
+    }
+    .t-content a{
+        font-size: 12px;
+    }
+}

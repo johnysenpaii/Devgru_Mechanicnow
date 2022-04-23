@@ -1,3 +1,6 @@
+<style>
+    <?php include '../css/style.css';?>
+</style>
 <section id="nav-bar">
     <nav class="navbar navbar-expand-lg navbar-light container-fluid">
         <div class="container-fluid">
@@ -46,7 +49,7 @@
 
 
 
-                        <ul class="dropdown-menu p-0" aria-labelledby="navbarDropdownMenuLink">
+                        <ul class="dropdown-menu p-0 notif-class" style="font-size: small; width: 340px; max-height: 90vh; overflow-y: auto;" aria-labelledby="navbarDropdownMenuLink">
                             <?php  
                             $cnt=1;
                         if($query->rowCount()>0){
@@ -54,13 +57,18 @@
                                 if($custID1==$custID1){ 
                                     if($result->status == 'Complete' || $result->status == 'Accepted' || $result->status == 'Unaccepted'){
                                     ?>
-                            <li class="p-0 " style="font-size: small; width: 215px; height: auto;">
+                                    <li class="notif-content">
+                                        <a href="">
+                                            Your request is <?php echo htmlentities($result->status);?>
+                                        </a>
+                                    </li>
+                            <!-- <li class="p-0 " style="font-size: small; width: 215px; height: auto;">
                                 <div class="card border-0">
                                     <div class="card-body fw-bold">
                                         <p class="card-text">Your request is <?php echo htmlentities($result->status);?></p>
                                     </div>
                                 </div>
-                            </li>
+                            </li> -->
                             <?php $cnt=$cnt+1;} else if($result->status == 'verify' ){?>
                                 <li class="p-0 " style="font-size: small; width: 215px; height: auto;">
                                 <div class="card border-0">
