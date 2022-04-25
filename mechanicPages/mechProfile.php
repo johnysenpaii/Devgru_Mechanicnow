@@ -183,8 +183,7 @@ if(isset($_POST['total1'])){
                 <div class="row note justify-content-center">
 
                 </div>
-                <div
-                    class="col-sm-12 col-md-5 col-lg-5 with-image bg-white rounded-3 pb-2 p-3 mr-sm-0 mr-md-1 mb-5 mb-md-0 mb-lg-0 shadow-lg text-center">
+                <div class="col-sm-12 col-md-5 col-lg-5 with-image bg-white rounded-3 pb-2 p-3 mr-sm-0 mr-md-1 mb-5 mb-md-0 mb-lg-0 shadow-lg text-center">
                     <div class="cont-image text-center">
                         <?php
                         $sql = "SELECT * FROM mechanic where mechID = $regeditid";
