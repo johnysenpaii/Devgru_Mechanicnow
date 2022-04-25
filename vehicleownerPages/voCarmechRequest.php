@@ -24,6 +24,14 @@ if(isset($_POST['send'])){
     $mechID=$_POST['mechID'];
     $date=$_POST['date'];
     $time=$_POST['time'];
+    $custID=$_SESSION['custID'];
+    
+    $sql7 = "INSERT INTO notification(custID, mechID) VALUES(:custID, :mechID)";
+    $query7 = $dbh->prepare($sql7);
+    $query7->bindParam(':custID',$custID,PDO::PARAM_STR);
+    $query7->bindParam(':mechID',$mechID,PDO::PARAM_STR);
+    $query7->execute();
+    
     // $currentlocation=$_POST['currentlocation'];
     $chk=""; 
     $spec="";
@@ -75,7 +83,6 @@ if(isset($_POST['send'])){
             $query2->bindParam(':specMessage',$specMessage,PDO::PARAM_STR);
             $query2->bindParam(':role',$role,PDO::PARAM_STR);
             $query2->execute();
-            
     } 
 
 ?>

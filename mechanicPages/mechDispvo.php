@@ -46,7 +46,7 @@
                     if($row['custID'] === $custID){ 
                         $output .= '<h5>'. $row['custFirstname'] .' '. $row['custLastname'] .'</h5>';
                     }else{
-                        $output .= '<h5>select from chat list</h5>'
+                        $output .= '<h5>select from chat list</h5>';
                     }
                 }
                 $id = $row['custID'];
@@ -84,7 +84,7 @@
                     if($row['custID'] === $custID){ 
                         $output .= '<h5>'. $row['custFirstname'] .' '. $row['custLastname'] .'</h5>';
                     }else{
-                        $output .= '<h5>select from chat list</h5>'
+                        $output .= '<h5>select from chat list</h5>';
                     }
                 }
                 $id = $row['custID'];
