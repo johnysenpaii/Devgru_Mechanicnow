@@ -84,7 +84,7 @@ if(isset($_POST["unreadVerify"])){
                             </span> Notification
                         </a>
                         <?php
-                        $sql="SELECT *, DATE_FORMAT(timess, '%d-%m-%Y %H:%i:%s %p') as timess from vonotification WHERE custID=$custID and status='Accepted' or status='verify' or status='Complete' or status='Unaccepted' or status='Decline' order by notifID desc";
+                        $sql="SELECT *, DATE_FORMAT(timess, '%b/%d/%Y %H:%i %p') as timess from vonotification WHERE custID=$custID and status='Accepted' or status='verify' or status='Complete' or status='Unaccepted' or status='Decline' order by notifID desc";
                         $query=$dbh->prepare($sql);
                         $query->execute();
                         $results=$query->fetchALL(PDO::FETCH_OBJ);
@@ -105,10 +105,12 @@ if(isset($_POST["unreadVerify"])){
                                     ?>
                             <li>  
                                 <button  type="submit" name="unreadAccept" class="alert-success notif-content row text-center border-0 w-100 mx-0">
+                                <p class="text-end text-small fw-light"><?php echo htmlentities($result->timess)?></p>
                                 <div class="col-md-2 p-1 text-end" style="font-size: 30px;">
                                     <i class="fa-solid fa-circle-check"></i>
                                 </div>
                                 <div class="col-md-10 py-3 text-start fw-bold">
+                                    <p class="text-top"><?php echo htmlentities($result->timess)?></p>
                                         Your request is <?php echo htmlentities($result->status);?>
                                         <input type="hidden" name="notifID" value="<?php echo  htmlentities($result->notifID);?>">
                                 </div>
@@ -120,10 +122,12 @@ if(isset($_POST["unreadVerify"])){
                             <?php } else{?>
                                 <li>  
                                 <button  class="alert-primary notif-content row text-center border-0 w-100 mx-0">
+                                <p class="text-end text-small fw-light"><?php echo htmlentities($result->timess)?></p>
                                 <div class="col-md-2 p-1 text-end" style="font-size: 30px;">
                                     <i class="fa-solid fa-circle-check"></i>
                                 </div>
                                 <div class="col-md-10 py-3 text-start fw-light">
+                         
                                         Your request is <?php echo htmlentities($result->status);?>
                                 </div>
                             </button>
@@ -134,6 +138,7 @@ if(isset($_POST["unreadVerify"])){
 
                             <li>  
                                 <button   type="submit" name="unreadDecline" class="alert-warning notif-content row text-center border-0 w-100 mx-0">
+                                <p class="text-end text-small fw-light"><?php echo htmlentities($result->timess)?></p>
                                 <div class="col-md-2 py-4 p-1 text-end" style="font-size: 30px;">
                                     <i class="fa-solid fa-circle-check"></i>
                                 </div>
@@ -147,6 +152,7 @@ if(isset($_POST["unreadVerify"])){
                             <?php } else{?>
                                <li>  
                                 <button  class="alert-warning notif-content row text-center border-0 w-100 mx-0">
+                                <p class="text-end text-small fw-light"><?php echo htmlentities($result->timess)?></p>
                                 <div class="col-md-2 p-1 py-4 text-end" style="font-size: 30px;">
                                     <i class="fa-solid fa-face-sad-cry"></i>
                                 </div>
@@ -161,6 +167,7 @@ if(isset($_POST["unreadVerify"])){
                         if($result->notifStatus == 'Unread'){?>
                            <li>  
                                 <button   type="submit" name="unreadProgress" class="alert-info notif-content row text-center border-0 w-100 mx-0">
+                                <p class="text-end text-small fw-light"><?php echo htmlentities($result->timess)?></p>
                                 <div class="col-md-2 pl-2 text-end fw-bold" style="font-size: 30px;">
                                 <?php echo htmlentities($result->progressbarStatus);?>%
                                 </div>
@@ -175,6 +182,7 @@ if(isset($_POST["unreadVerify"])){
                             <?php } else{?>
                                 <li>  
                                 <button  class="alert-info notif-content row text-center border-0 w-100 mx-0">
+                                <p class="text-end text-small fw-light"><?php echo htmlentities($result->timess)?></p>
                                 <div class="col-md-2 pl-2 text-end fw-light" style="font-size: 30px;">
                                 <?php echo htmlentities($result->progressbarStatus);?>%
                                 </div>
@@ -189,6 +197,7 @@ if(isset($_POST["unreadVerify"])){
                                if($result->notifStatus == 'Unread'){?>
                                 <li>  
                                 <button   type="submit" name="unreadVerify" class="alert-warning notif-content row text-center border-0 w-100 mx-0">
+                                <p class="text-end text-small fw-light"><?php echo htmlentities($result->timess)?></p>
                                 <div class="col-md-2 pl-2 text-end fw-bold" style="font-size: 30px;">
                                 <i class="fa-solid fa-envelope-circle-check"></i>
                                 </div>
@@ -202,6 +211,7 @@ if(isset($_POST["unreadVerify"])){
                         <?php } else { ?>
                             <li>  
                                 <button  class="alert-primary notif-content row text-center border-0 w-100 mx-0">
+                                <p class="text-end text-small fw-light"><?php echo htmlentities($result->timess)?></p>
                                 <div class="col-md-2 pl-2 text-end fw-light" style="font-size: 30px;">
                                 <i class="fa-solid fa-envelope-circle-check"></i>
                                 </div>
