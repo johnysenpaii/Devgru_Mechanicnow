@@ -92,7 +92,7 @@ if(isset($_POST["readAll"])){
                            
                                 <li>  
                                 <button  type="submit" name="unreadRequest" class="alert-success notif-content row text-center border-0 w-100 mx-0">
-                                <p class="text-end text-small fw-light"><?php echo htmlentities($result->timess)?></p>
+                                <p class="text-end text-small fw-light" style="font-size: smaller;"><?php echo htmlentities($result->timess)?></p>
                                 <div class="col-md-2 p-1 text-end" style="font-size: 30px;">
                                 <i class="fa-solid fa-face-smile-beam"></i>
                                 </div>
@@ -110,7 +110,7 @@ if(isset($_POST["readAll"])){
 
                                 <li>  
                                 <button  type="submit" name="" class="alert-primary notif-content row text-center border-0 w-100 mx-0">
-                                <p class="text-end text-small fw-light"><?php echo htmlentities($result->timess)?></p>
+                                <p class="text-end text-small fw-light" style="font-size: smaller;"><?php echo htmlentities($result->timess)?></p>
                                 <div class="col-md-2 p-1 text-end" style="font-size: 30px;">
                                 <i class="fa-solid fa-face-smile-beam"></i>
                                 </div>
@@ -127,7 +127,7 @@ if(isset($_POST["readAll"])){
                                     
                                     <li>  
                                 <button  type="submit" name="unreadComplete" class="alert-success notif-content row text-center border-0 w-100 mx-0">
-                                <p class="text-end text-small fw-light"><?php echo htmlentities($result->timess)?></p>
+                                <p class="text-end text-small fw-light" style="font-size: smaller;"><?php echo htmlentities($result->timess)?></p>
                                 <div class="col-md-2 p-1 py-3 text-end" style="font-size: 30px;">
                                 </i> <i class="fa-solid fa-face-smile-beam"></i>
                                 </div>
@@ -145,7 +145,7 @@ if(isset($_POST["readAll"])){
                                 <?php } else {?>
                                     <li>  
                                 <button  type="submit" name="" class="alert-primary notif-content row text-center border-0 w-100 mx-0">
-                                <p class="text-end text-small fw-light"><?php echo htmlentities($result->timess)?></p>
+                                <p class="text-end text-small fw-light" style="font-size: smaller;"><?php echo htmlentities($result->timess)?></p>
                                 <div class="col-md-2 p-1 py-3 text-end" style="font-size: 30px;">
                                 </i> <i class="fa-solid fa-face-smile-beam"></i>
                                 </div>
