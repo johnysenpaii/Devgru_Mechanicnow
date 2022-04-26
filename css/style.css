@@ -426,11 +426,13 @@ form .name-details .field:last-child{
 }
 /* mechanic dashboard modal */
 .with-image{
-    width: auto;
+    width: 100px;
+    padding: 5px;
 }
 .with-image .imagenajud{
-    min-width: 20%;
-    max-width: 74px;
+    max-width: 100%;
+    height: 90px;
+    object-fit: cover;
 }
 .col-lg-6 p,
 .col-lg-3 p{
@@ -504,4 +506,59 @@ form .name-details .field:last-child{
     .t-content a{
         font-size: 12px;
     }
+}
+.m-info,
+.no-shadow:focus {
+    box-shadow: none;
+    border: none;
+    outline: none;
+}
+.no-shadow{
+    font-weight: 600;
+    color: var(--clr-primary-800); 
+    padding-bottom: 1em;
+}
+.divider{
+    color: #302D32;
+    margin-top: 2em;
+    padding-top: 2px;
+    border-radius: 5px;
+}
+.row .fa-solid{
+    color: var(--clr-primary-500);
+    padding-left: 20px;
+    padding-top: 8px;
+}
+.note-alert{
+    font-size: 13px;
+    padding: 5px;
+}
+.alert-primary{
+    background-color: var(--clr-primary-300);
+    border-color: rgb(228, 228, 228);
+    font-weight: 600;
+}
+.alert-primary p{
+    color: var(--clr-primary-500);
+}
+.request-content{
+    font-size: 14px;
+    padding-inline: 2em;
+    padding-block: 1em;
+}
+.sub-title{
+    font-size: 14px;
+    font-weight: 600;
+}
+.repair-list{
+    padding-top: 1em;
+}
+.mech-inforeq{
+    font-size: 14px;
+}
+.request-buttons button{
+    font-size: 14px;
+}
+.request-buttons {
+    margin-inline: 1em;
 }

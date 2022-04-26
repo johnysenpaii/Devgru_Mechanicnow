@@ -102,9 +102,9 @@ if(isset($_POST['send'])){
     <link rel="shortcut icon" type="x-icon" href="../img/mechanicnowlogo.svg">
 </head>
 
-<body id="contbody" style="background-color: #f8f8f8; margin-top: 10px;" onload="GetAddress();">
+<body id="contbody" style="background-color: #f8f8f8;" onload="GetAddress();">
 
-    <section class="mechRequest" class="container-fluid">
+    <section id="mechRequest">
         <form method="POST">
             <?php
                 $regeditid=intval($_GET['regeditid']);
@@ -119,103 +119,128 @@ if(isset($_POST['send'])){
                 foreach ($results as $result) 
                 {
             ?>
-            <div class="row py-3 px-sm-0 px-md-3 text-center table-responsive justify-content-center pb-5">
-                <div class="col-md-8 bg-white p-4 rounded-3 shadow-lg">
-                    <div class="row text-dark">
-                        <h3 class="pb-4">Request Form</h3>
-                        <div class="col-sm-12 col-md-6 pb-5 justify-content-center">
-                            <h5 class="text-start">
-                                <center><strong>Mechanic Information</center></strong>
-                            </h5>
-                            <div class="with-image"><img src="../img/vo.jpg"
-                                    class="rounded-circle imagenajud float-center mt-2" alt=""></div>
-                            <div class="row py-2">
-                                <input readonly type="text" class="border-0 text-center" name="mechName"
-                                    value="<?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?>">
-                                <td><input type="hidden" id="starss"
-                                        value="<?php echo htmlentities($result->average);?>"> </td>
-                                <td><span type="text" id="stars" onload="getStars()" name="total"></span></span> </td>
-                                <h6 class="border-0 text-center mt-2"><i>Mechanic Type</i></h6>
-                                <input readonly type="text" class="border-0 text-center" name="vehicleType"
-                                    value="<?php echo htmlentities($result->vehicleType);?>">
-                                <h6 class="border-0 text-center"><i>Specialization</i></h6>
-                                <input readonly type="text" class="border-0 text-center" name="Specialization"
-                                    value="<?php echo htmlentities($result->Specialization);?>">
-                                <input hidden type="text" name="voName"
-                                    value="<?php echo htmlentities($_SESSION["custFirstname"]); ?> <?php echo htmlentities($_SESSION["custLastname"]); ?>">
-                                <input hidden type="text" name="mechID"
-                                    value="<?php echo htmlentities($result->mechID);?>">
-                                <input id="address" name='latitude'
-                                    value="<?php echo htmlentities($_SESSION["latitude"]); ?>" hidden>
-                                <input id="address" name='longitude'
-                                    value="<?php echo htmlentities($_SESSION["longitude"]); ?>" hidden>
-                                <input type="hidden" name="role" value="sender">
-                                <iframe class="pt-4"
-                                    src="https://maps.google.com/maps?q=<?php echo htmlentities($result->latitude);?>,<?php echo htmlentities($result->longitude);?>&<?php echo htmlentities($_SESSION['latitude']);?>,<?php echo htmlentities($_SESSION['longitude']);?>&output=embed"
-                                    frameborder="0" width="400" height="250">
-                                </iframe>
+            <div class="container-fluid p-0">
+                <div class="row m-0 p-0">
+                    <iframe class="col-12 col-md-8" src="https://maps.google.com/maps?q=<?php echo htmlentities($result->latitude);?>,<?php echo htmlentities($result->longitude);?>&<?php echo htmlentities($_SESSION['latitude']);?>,<?php echo htmlentities($_SESSION['longitude']);?>&output=embed" frameborder="0" style="height: 100vh;padding: 0px"></iframe>
+                    <div class="col-12 col-sm-4 m-0 info-panel shadow-lg p-3" style="background-color: #fff">
+                        <div class="row align-items-center">
+                            <div class="col-3 mx-3 with-image" style="width: 100px; padding: 5px;">
+                                <img src="../img/vo.jpg" class="float-center imagenajud" alt="" style="max-width: 100%; height: 90px; border-radius: 100px; object-fit: cover;">
+                            </div>
+                            <div class="mech-inforeq col-7">
+                                <h4><input readonly type="text" class="border-0 no-shadow shadow-none mt-2" name="mechName" value="<?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?>"></h4>
+                                <input type="hidden" id="starss" value="<?php echo htmlentities($result->average);?>">
+                                <span type="text" id="stars" onload="getStars()" name="total"></span><br>
+                                <input readonly type="text" class="border-0 m-info " size="30" name="vehicleType" value="<?php echo htmlentities($result->vehicleType);?>"><br>
+                                <input readonly type="text" class="border-0 m-info" size="30" name="Specialization" value="<?php echo htmlentities($result->Specialization);?>">
                             </div>
                         </div>
-                        <div class="col-sm-12 col-md-6 mt-3 text-start">
-                            <p>If you want a long term service, select Home Service. Select Emergency service if you are
-                                on-road.</p>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" value="Home Service" name="service"
-                                    id="exampleRadios1">
-                                <label class="form-check-label" for="exampleRadios1">
-                                    Home Service
-                                </label>
+                        
+                        <input hidden type="text" name="voName" value="<?php echo htmlentities($_SESSION["custFirstname"]); ?> <?php echo htmlentities($_SESSION["custLastname"]); ?>">
+                        <input hidden type="text" name="mechID" value="<?php echo htmlentities($result->mechID);?>">
+                        <input id="address" name='latitude' value="<?php echo htmlentities($_SESSION["latitude"]); ?>" hidden>
+                        <input id="address" name='longitude' value="<?php echo htmlentities($_SESSION["longitude"]); ?>" hidden>
+                        <input type="hidden" name="role" value="sender">
+                        <hr class="divider">
+                        <div class="request-form" style="color: #302D32">
+                            <div class="alert alert-primary text-start py-0 pb-1 mb-0 note-alert shadow-sm">
+                                <div class="row">
+                                    <i class="fa-solid fa-circle-exclamation col-1"></i>
+                                    <p class="col-10 col-sm-11 py-1">
+                                        If you want a long term service, select Home Service. Select Emergency service if you are
+                                        on-road.
+                                    </p>
+                                </div>
                             </div>
-                            <div id="textboxes" style="display: none">
-                                Date: <input onfocus="this.value=''" name="date" type="date" />
-                                Time: <input onfocus="this.value=''" name="time" type="time" />
+                            <div class="request-content text-start">
+                                <div class="form-check">
+                                    <input class="form-check-input mt-2" type="radio" value="Home Service" name="service"
+                                        id="exampleRadios1">
+                                    <label class="form-check-label mt-1" for="exampleRadios1">
+                                        Home Service
+                                    </label>
+                                </div>
+                                <div id="textboxes" style="display: none">
+                                    Date: <input onfocus="this.value=''" name="date" type="date" />
+                                    Time: <input onfocus="this.value=''" name="time" type="time" />
+                                </div>
+                                <div class="form-check pb-2">
+                                    <input class="form-check-input" type="radio" value="Emergency Service" name="service"
+                                        id="exampleRadios2">
+                                    <label class="form-check-label" for="exampleRadios2">
+                                        Emergency Service
+                                    </label>
+                                </div>
+                                <span class="sub-title">Please select and/or specify mechanical problem below.</span>
+                                <div class="repair-list" id="repairbox">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="flexCheckDefault"
+                                            name="mechRepair[]" value="Tire Repair">
+                                        <label class="form-check-label" for="flexCheckDefault">Tire Repair</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="flexCheckDefault"
+                                            name="mechRepair[]" value="Engine Overheat Repair">
+                                        <label class="form-check-label" for="flexCheckDefault">Engine Overheat Repair</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="flexCheckDefault"
+                                            name="mechRepair[]" value="Dead Battery Repair">
+                                        <label class="form-check-label" for="flexCheckDefault">Dead Battery Repair</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="flexCheckDefault"
+                                            name="mechRepair[]" value="Break Repair">
+                                        <label class="form-check-label" for="flexCheckDefault">Break Repair</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="flexCheckDefault"
+                                            name="mechRepair[]" value="Dead Light Repair">
+                                        <label class="form-check-label" for="flexCheckDefault">Dead Light Repair</label>
+                                    </div>
+                                    <div class="mt-2">
+                                        <label for="">Leave a Message</label>
+                                        <textarea class="form-control shadow-none" id="exampleFormControlTextarea1"
+                                            placeholder="Please specify..." rows="3" name="specMessage"
+                                            value="specMessage"></textarea>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="form-check pb-2">
-                                <input class="form-check-input" type="radio" value="Emergency Service" name="service"
-                                    id="exampleRadios2">
-                                <label class="form-check-label" for="exampleRadios2">
-                                    Emergency Service
-                                </label>
-                            </div>
-                            <h6><i>Please select and/or specify mechanical problem below.</i></h6>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="flexCheckDefault"
-                                    name="mechRepair[]" value="Tire Repair">
-                                <label class="form-check-label" for="flexCheckDefault">Tire Repair</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="flexCheckDefault"
-                                    name="mechRepair[]" value="Engine Overheat Repair">
-                                <label class="form-check-label" for="flexCheckDefault">Engine Overheat Repair</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="flexCheckDefault"
-                                    name="mechRepair[]" value="Dead Battery Repair">
-                                <label class="form-check-label" for="flexCheckDefault">Dead Battery Repair</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="flexCheckDefault"
-                                    name="mechRepair[]" value="Break Repair">
-                                <label class="form-check-label" for="flexCheckDefault">Break Repair</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="flexCheckDefault"
-                                    name="mechRepair[]" value="Dead Light Repair">
-                                <label class="form-check-label" for="flexCheckDefault">Dead Light Repair</label>
-                            </div>
-                            <div class="mt-2">
-                                <label for="">Leave a Message</label>
-                                <textarea class="form-control shadow-none" id="exampleFormControlTextarea1"
-                                    placeholder="Please specify..." rows="3" name="specMessage"
-                                    value="specMessage"></textarea>
-                            </div>
+                        </div>
+                        <div class="row request-buttons">
+                            <div class="col-md-6 d-grid "><button type="button" class="btn btn-primary rounded-pill shadow border-0" id="trap" onclick="trappings()">Request</button></div>
+                            <div class="col-md-6 d-grid "> <button class="btn btn-secondary rounded-pill shadow border-0" type="button"><a href="./voCarmech.php">Back</a></button></div>
                         </div>
                     </div>
-                    <div class="row pt-1">
-                        <div class="col-md-6 d-grid pb-1"><button class="btn btn-primary rounded-pill" name="send"
-                                value="send">Request</button></div>
-                        <div class="col-md-6 d-grid pb-1"> <button class="btn btn-secondary rounded-pill"
-                                type="button"><a href="./voCarmech.php">Back</a></button></div>
+                </div>
+            </div>
+            <!-- modal for confirmation -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content text-dark">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Confirmation</h5>
+                        <button type="button" class="btn-close border-0" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <?php
+                            $regeditid=intval($_GET['regeditid']);
+                            $sql="SELECT * from mechanic WHERE mechID=:regeditid";
+                            $query=$dbh->prepare($sql);
+                            $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
+                            $query->execute();
+                            $results=$query->fetchALL(PDO::FETCH_OBJ);
+
+                            if($query->rowCount()>0){
+                                foreach ($results as $result){
+                        ?>
+                        Are you sure to send a request to <?php echo htmlentities($result->mechFirstname." ".$result->mechLastname)?>?
+                        <?php }}?>
+                        <div class="pt-5">
+                            <button type="submit" class="btn btn-primary rounded-pill shadow" name="send" value="send">Submit Request</button>
+                            <button type="button" class="btn btn-secondary rounded-pill shadow" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
                     </div>
                 </div>
             </div>
@@ -226,8 +251,52 @@ if(isset($_POST['send'])){
                 value=" <?php echo htmlentities($_SESSION["longitude"]); ?>">
         </form>
     </section>
-    <div class="row d-block d-lg-none"><?php include('voBottom-nav.php');?></div>
+   
     <script>
+    //trappings
+    function trappings(){
+        var trap = document.getElementById("trap");
+        var service = document.getElementsByName("service");
+        var repairbox = document.getElementById("repairbox");
+        var chkbox = repairbox.getElementsByTagName("INPUT");
+        var checked = 0;
+        var rd = 0;
+
+        for (var i = 0; i < chkbox.length; i++) {
+            if (chkbox[i].checked) {
+                checked++;
+            }
+        }
+        
+        if (checked > 0) {
+            for (var i = 0, len = service.length; i < len; i++) {
+                if (service[i].checked) {
+                    rd++;
+                }
+            }
+            if(rd > 0){
+                setAttribute(trap, {"data-bs-target":"#exampleModal", "data-bs-toggle":"modal"});
+                // trap.setAttribute("data-bs-target", "#exampleModal"); 
+                // trap.setAttribute("data-bs-toggle", "modal"); 
+                
+            }else{
+                alert("You must choose what service you want.");
+                return false;
+            }
+        } else {
+            alert("You must choose what mechanical problems you have.");
+            return false;
+        }
+
+    }
+    function setAttributes(el,var attrs){
+        for(var key in attrs){
+            trap.setAttribute(key, attrs[key]);
+        }
+    }
+    
+
+    //another function
     $(function() {
         $('input[name="service"]').on('click', function() {
             if ($(this).val() == 'Home Service') {
