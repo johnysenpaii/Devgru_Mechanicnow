@@ -2,11 +2,9 @@
 session_start();
 include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
 $mechID1=$_SESSION['mechID'];
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -27,7 +25,6 @@ $mechID1=$_SESSION['mechID'];
     <?php include('mechHeader.php');?>
     <section id="nav-top" class="d-none d-md-block top-navigation container-fluid">
         <div class="row">
-            <!-- d-flex justify-content-evenly -->
             <div class="d-flex justify-content-center pt-3">
                 <a href="mechActivityLog.php" class="py-1 px-5 mx-1 bg-white text-dark rounded-pill btn">Activity
                     Log</a>
