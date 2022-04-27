@@ -9,6 +9,15 @@ if(isset($_POST["confirm"]) || isset($_POST['comment'])){
      $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
      $query->execute(); 
      echo "<script type='text/javascript'>document.location='voActivityLog.php';</script>";
+     
+     $mechID=$_POST['mechID'];
+     $custID=$_SESSION['custID'];
+     $sql4 = "INSERT INTO notification(custID, mechID, status) VALUES(:custID, :mechID, 'Complete')";
+     $query4 = $dbh->prepare($sql4);
+     $query4->bindParam(':custID',$custID,PDO::PARAM_STR);
+     $query4->bindParam(':mechID',$mechID,PDO::PARAM_STR);
+     $query4->execute();
+
    }
    if(isset($_POST["comment"])){
     $custID=$_SESSION['custID'];

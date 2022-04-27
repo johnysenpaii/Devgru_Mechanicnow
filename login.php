@@ -5,14 +5,14 @@ $error=" ";
 if(isset($_POST['Login']))
 {
     $regeditid = $_SESSION['mechID'];
-    $regeditid = $_SESSION['custID'];
+    $regeditid1 = $_SESSION['custID'];
     $latitude = $_POST['latitude'];
     $longitude = $_POST['longitude'];
-    $sql="UPDATE customer set latitude=:latitude,longitude=:longitude WHERE custID=:regeditid"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
+    $sql="UPDATE customer set latitude=:latitude,longitude=:longitude WHERE custID=:regeditid1"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
     $query=$dbh->prepare($sql);
     $query->bindParam(':latitude',$latitude,PDO::PARAM_STR);
     $query->bindParam(':longitude',$longitude,PDO::PARAM_STR);
-    $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
+    $query->bindParam(':regeditid1',$regeditid1,PDO::PARAM_STR);
     $query->execute(); 
     $Username=$_POST['Username'];
     

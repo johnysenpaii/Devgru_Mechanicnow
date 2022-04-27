@@ -71,45 +71,117 @@ include('../config.php');
         <div class="row py-3 px-sm-0 px-md-3 text-center table-responsive justify-content-center pb-5"> 
             <div class="col-lg-8 bg-white py-4 rounded-3">
                 <h4 class="text-dark pb-4">Available Car Mechanics</h4>
-                <div class="row d-flex justify-content-end align-items-center px-sm-0 px-md-4">                   
-                    <div class="col-9 col-md-6 searchlogo input-group-sm">
-                        <input class="form-control rounded-pill shadow-none" type="text" placeholder="  Filter Search">
-                    </div>
-                    <div class="col-3 col-md-1 searchlogo justify-content-center align-items-center">
-                        <i class="fa-solid fa-filter fa-2x" data-bs-toggle="modal" data-bs-target="#Filter-modal"></i>
-                    </div>
-                </div>
+                <!-- <div class="row d-flex px-sm-0 px-md-4">                    -->
+                    <form method="GET">
+                        <div class="row m-0 m-md-3 col-12 searchlogo align-items-center">
+                            <div class="input-group-sm col-9">
+                                <input class="form-control rounded-pill shadow-none" autocomplete="off" name="searchs" type="text" placeholder="  Filter Search">
+                            </div>
+                            <button class="fa-solid fa-magnifying-glass s-button col-1 px-0" name="sea" type="submit"></button>
+                            <i class="fa-solid fa-filter fa-2x filter col-1" data-bs-toggle="modal" data-bs-target="#Filter-modal"></i>
+                        </div>
+                        <!-- <div class="col-3 col-md-1 searchlogo justify-content-center align-items-center">
+                            <button class="fa-solid fa-magnifying-glass s-button" name="sea" type="submit"></button>
+                            <i class="fa-solid fa-filter fa-2x filter" data-bs-toggle="modal" data-bs-target="#Filter-modal"></i>
+                        </div> -->
+                    </form>
+                <!-- </div> -->
                 
                 <table class="table table-borderless table-curved pt-1 px-sm-0 px-md-4">
                     <thead>
                     </thead>
                     <tbody>
                         <?php
+                        $searchcont = $_GET['searchs'] ?? null;
                     $sql="SELECT mechID,mechFirstname,mechLastname,Specialization,average,
                     (3959 * acos(cos(radians($v1)) *cos(radians(latitude))* cos(radians(longitude)-radians($v2))+sin(radians($v1))
                     *sin(radians(latitude)))) as distance  from  mechanic WHERE 
                     vehicleType like '%Car Mechanic%' and status='approve' having distance < 3 order by distance limit 0, 20 ";
-                    $query=$dbh->prepare($sql);
-                    $query->execute();
-                    $results=$query->fetchALL(PDO::FETCH_OBJ);
-                    $cnt=1;       
-                    if( $query->rowCount()>0){   
-                        foreach($results as $result){?> 
-                        <tr class="d-flex align-items-center justify-content-around mt-2">
-                            <td><?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?></td>
-                            <td><?php echo htmlentities($result->Specialization);?></td>
-                            <td>k.m <?php echo number_format($result->distance,1);?> </td>
-                            <td><a class="btn btn-warning px-3" href="voCarmechRequest.php?regeditid=<?php echo htmlentities($result->mechID)?>">Details</a></td>
-                        </tr>
-                        <?php $cnt=$cnt+1;}}     
-                            else{?>    
-                            <div class="emptyrequest mt-1 pt-4" >
-                            <div class="emptydiv"><img src="../img/empty.png" alt=""></div>
-                            <h6>No mechanic nearby. . .</h6>
-                            </div>
-                            <?php
-                            }
-                            ?>
+                    $sqlsearch="SELECT mechID, mechFirstname, mechLastname, Specialization, average, (3959 * acos(cos(radians($v1)) *cos(radians(latitude))* cos(radians(longitude)-radians($v2))+sin(radians($v1))
+                    *sin(radians(latitude)))) as distance  from  mechanic WHERE 
+                    vehicleType like '%Car Mechanic%' and status='approve' and Specialization like '%{$searchcont}%' having distance < 3 order by distance limit 0, 20 ";
+                    if(isset($_GET['sea'])){
+                        $query=$dbh->prepare($sqlsearch);
+                        $query->execute();
+                        $results=$query->fetchALL(PDO::FETCH_OBJ);
+                        $cnt=1;       
+                        if( $query->rowCount()>0){   
+                            foreach($results as $result){?> 
+                            <tr class="d-flex align-items-center justify-content-around mt-2 shadow">
+                                <td class="t-content"><?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?></td>
+                                <td class="t-content"><?php echo htmlentities($result->Specialization);?></td>
+                                <td class="t-content">k.m <?php echo number_format($result->distance,1);?> </td>
+                                <td class="t-content"><a class="btn btn-warning px-3 shadow-none" href="voCarmechRequest.php?regeditid=<?php echo htmlentities($result->mechID)?>">Details</a></td>
+                            </tr>
+                            <?php $cnt=$cnt+1;}}     
+                                else{?>    
+                                <div class="emptyrequest mt-1 pt-4" >
+                                <div class="emptydiv"><img src="../img/empty.png" alt=""></div>
+                                <h6 class="t-content">"<?php echo $searchcont ?>" Search not found. . .</h6>
+                                </div>
+                                <?php
+                                }         
+                    }elseif(isset($_GET['filt'])){
+                        $filtarr=implode(",",$_GET["filter"] ?? null);
+                        //var_dump($filtarr);
+                        $divide=explode(",",$filtarr);
+                        var_dump($divide);
+                        // $finalFilter = $divide;
+                        
+                        
+                        $sqlfilt ="SELECT mechID,mechFirstname,mechLastname,Specialization,average,
+                        (3959 * acos(cos(radians($v1)) *cos(radians(latitude))* cos(radians(longitude)-radians($v2))+sin(radians($v1))
+                        *sin(radians(latitude)))) as distance  from  mechanic WHERE 
+                        vehicleType like '%Car Mechanic%' and status='approve' and Specialization like '%{$divide[0]}%' having distance < 3 order by distance limit 0, 20 ";
+                        $query=$dbh->prepare($sqlfilt);
+                        $query->execute();
+                        $results=$query->fetchALL(PDO::FETCH_OBJ);
+                        $cnt=1;       
+                        if( $query->rowCount()>0){   
+                            foreach($results as $result){?> 
+                            <tr class="d-flex align-items-center justify-content-around mt-2 shadow">
+                                <td class="t-content"><?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?></td>
+                                <td class="t-content"><?php echo htmlentities($result->Specialization);?></td>
+                                <td class="t-content">k.m <?php echo number_format($result->distance,1);?> </td>
+                                <td class="t-content"><a class="btn btn-warning px-3 shadow-none" href="voCarmechRequest.php?regeditid=<?php echo htmlentities($result->mechID)?>">Details</a></td>
+                            </tr>
+                            <?php $cnt=$cnt+1;}}     
+                                else{?>    
+                                <div class="emptyrequest mt-1 pt-4" >
+                                <div class="emptydiv"><img src="../img/empty.png" alt=""></div>
+                                <h6>No mechanic nearby. . .</h6>
+                                </div>
+                                <?php
+                                }        
+                    }else{
+                        $query=$dbh->prepare($sql);
+                        $query->execute();
+                        $results=$query->fetchALL(PDO::FETCH_OBJ);
+                        $cnt=1;       
+                        if( $query->rowCount()>0){   
+                            foreach($results as $result){?> 
+                            <tr class="d-flex align-items-center justify-content-around mt-2 shadow">
+                                <td class="t-content"><?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?></td>
+                                <td class="t-content"><?php echo htmlentities($result->Specialization);?></td>
+                                <td class="t-content">k.m <?php echo number_format($result->distance,1);?> </td>
+                                <td class="t-content"><a class="btn btn-warning px-3 shadow-none" href="voCarmechRequest.php?regeditid=<?php echo htmlentities($result->mechID)?>">Details</a></td>
+                            </tr>
+                            <?php $cnt=$cnt+1;}}     
+                                else{?>    
+                                <div class="emptyrequest mt-1 pt-4" >
+                                <div class="emptydiv"><img src="../img/empty.png" alt=""></div>
+                                <h6>No mechanic nearby. . .</h6>
+                                </div>
+                                <?php
+                                }        
+                    }
+                    ?>
+                    
+                    
+                    
+                    
+                    
+                   
                     </tbody>
                 </table>
             </div>
@@ -122,32 +194,34 @@ include('../config.php');
                     <h5 class="modal-title" id="modal-title">Filter Search</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
-                <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                        <label class="form-check-label" for="flexCheckDefault">Tire Repair</label>
+                <form method="GET">
+                    <div class="modal-body">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="Tire Repair" name="filter[]" id="flexCheckDefault">
+                            <label class="form-check-label" for="flexCheckDefault">Tire Repair</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="Break Repair" name="filter[]" id="flexCheckDefault">
+                            <label class="form-check-label" for="flexCheckDefault">Break Repair</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="Engine Overheat Repair" name="filter[]" id="flexCheckDefault">
+                            <label class="form-check-label" for="flexCheckDefault">Engine Overheat Repair</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="Dead Battery Repair" name="filter[]" id="flexCheckDefault">
+                            <label class="form-check-label" for="flexCheckDefault">Dead Battery Repair</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="Dead Light Repair" name="filter[]" id="flexCheckDefault">
+                            <label class="form-check-label" for="flexCheckDefault">Dead Light Repair</label>
+                        </div>
                     </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                        <label class="form-check-label" for="flexCheckDefault">Break Repair</label>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary rounded-pill px-4" name="filt">Apply Search</button>
                     </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                        <label class="form-check-label" for="flexCheckDefault">Engine Overheat Repair</label>
                     </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                        <label class="form-check-label" for="flexCheckDefault">Dead Battery Repair</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                        <label class="form-check-label" for="flexCheckDefault">Dead Light Repair</label>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary rounded-pill px-4" data-bs-dismiss="modal">Apply Search</button>
-                </div>
-                </div>
+                </form>
             </div>
         </div>
     

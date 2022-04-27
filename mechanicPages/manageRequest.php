@@ -6,7 +6,17 @@ $mechID1=$_SESSION['mechID'];
 
 if(isset($_POST['UpdateMe']))
 {
-    $tb = $_POST['output'];
+    $tb = $_POST['output'];  
+    $mechID=$_SESSION['mechID']; 
+    $custID=$_POST['custID'];
+
+    $sql414 = "INSERT INTO vonotification(custID, mechID, Status, progressbarStatus) VALUES(:custID, :mechID, 'verify', :tb)";
+    $query414= $dbh->prepare($sql414);
+    $query414->bindParam(':custID',$custID,PDO::PARAM_STR);
+    $query414->bindParam(':mechID',$mechID,PDO::PARAM_STR);
+    $query414->bindParam(':tb',$tb,PDO::PARAM_STR);
+    $query414->execute();
+
     $regeditid=intval($_GET['regeditid']);
     $sql="UPDATE request set progressBar=:tb where resID=:regeditid";
     $query=$dbh->prepare($sql); 
@@ -15,16 +25,25 @@ if(isset($_POST['UpdateMe']))
     $query->execute();
 
     echo "<script type='text/javascript'>confirm('Are you sure you want to update progress bar ?');</script>";
+  
 }
 
 if(isset($_POST["verify"])){
-    $regeditid=intval($_GET['regeditid']);
+  $regeditid=intval($_GET['regeditid']);
   $sql1="UPDATE request set status='verify' WHERE resID=:regeditid"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
   $query=$dbh->prepare($sql1);
   $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR); 
   $query->execute(); 
   echo '<script>alert("please wait vehicle onwer to approve")</script>';
   echo "<script type='text/javascript'>document.location='mechActivityLog.php';</script>";
+  
+  $mechID=$_SESSION['mechID']; 
+  $custID=$_POST['custID'];
+  $sql41 = "INSERT INTO vonotification(custID, mechID, status) VALUES(:custID, :mechID, 'verify')";
+  $query41= $dbh->prepare($sql41);
+  $query41->bindParam(':custID',$custID,PDO::PARAM_STR);
+  $query41->bindParam(':mechID',$mechID,PDO::PARAM_STR);
+  $query41->execute();
 
 
 
@@ -91,6 +110,7 @@ if(isset($_POST["verify"])){
                         <p><?php echo htmlentities($result->vOwnerName);?><p>
                         <h5 class="text-start mt-2">Request Information</h5>
                         <label for="need">Service Needed: </label>
+                        <input  name='custID' type="hidden" value="<?php echo htmlentities($result->custID);?>">
                         <input disabled class="border-0 bg-white py-2" type="text" id="need" value="<?php echo htmlentities($result->serviceNeeded);?>">
                         <div id="needs" style="display: none;">
                         <p><i>Date:</i> <?php echo htmlentities($result->date);?></p>

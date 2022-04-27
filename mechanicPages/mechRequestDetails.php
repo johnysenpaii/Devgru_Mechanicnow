@@ -16,6 +16,12 @@ if(isset($_POST['Accept']))
     $specMessage = $_POST['specMessage'];
     $role = $_POST['role'];
 
+    $sql4 = "INSERT INTO vonotification(custID, mechID, status) VALUES(:custID, :mechID, 'Accepted')";
+    $query4 = $dbh->prepare($sql4);
+    $query4->bindParam(':custID',$custID,PDO::PARAM_STR);
+    $query4->bindParam(':mechID',$mechID,PDO::PARAM_STR);
+    $query4->execute();
+
     $sql2 = "INSERT INTO chat(custID, mechID, custName, mechName, message, role) VALUES(:custID, :mechID, :custName, :mechName, :specMessage, :role)";
     $query2 = $dbh->prepare($sql2);
     $query2->bindParam(':custID',$custID,PDO::PARAM_STR);
@@ -27,6 +33,27 @@ if(isset($_POST['Accept']))
     $query2->execute();
     echo"<script type='text/javascript'>alert('Accepted Successfully!');</script>";
     echo"<script>location.replace('./mechDashboard.php');</script>";
+
+   
+
+}
+if(isset($_POST['Decline']))
+{
+    $regeditid=intval($_GET['regeditid']);
+    $sql="UPDATE request set status='Decline' where resID=:regeditid";
+    $query=$dbh->prepare($sql); 
+    $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR); 
+    $query->execute();
+
+    $custID = $_POST['custID'];
+    $mechID = $_POST['mechID'];
+
+
+    $sql0 = "INSERT INTO vonotification(custID, mechID, status) VALUES(:custID, :mechID, 'Decline')";
+    $query0 = $dbh->prepare($sql0);
+    $query0->bindParam(':custID',$custID,PDO::PARAM_STR);
+    $query0->bindParam(':mechID',$mechID,PDO::PARAM_STR);
+    $query0->execute();
 }
 $mechID1=$_SESSION['mechID'];
 ?>
@@ -107,7 +134,7 @@ $mechID1=$_SESSION['mechID'];
                     </div>
                     <div class="row pt-3">
                         <div class="col-md-6 d-grid pb-2"><button class="btn btn-primary rounded-pill" name="Accept" value="Accept">Accept</button></div>
-                        <div class="col-md-6 d-grid pb-2"> <button class="btn btn-secondary rounded-pill boton" type="button"><a href="./voCarmech.php">Decline</a></button></div>
+                        <div class="col-md-6 d-grid pb-2"> <button class="btn btn-secondary rounded-pill boton" type="submit" name="Decline">Decline</button></div>
                     </div>
                 </div>
             </div>
