@@ -236,9 +236,7 @@ if(isset($_POST['total1'])){
                 </div>
                 <div class="col-sm-12 col-md-7 col-lg-6 bg-white p-4 ml-sm-0 ml-md-1 mt-sm-1 mt-md-0 shadow-lg rounded-3">
                     <div class="row">
-                        <p><i>"Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum, laboriosam aperiam
-                                atque perferendis adipisci molestiae praesentium quo blanditiis ab voluptatem, sint
-                                rerum earum. Cumque, facere?"</i></p>
+                     
                     </div>
                     <div class="row pt-3">
                         <h5 class="pt-2">Specialization:</h5>

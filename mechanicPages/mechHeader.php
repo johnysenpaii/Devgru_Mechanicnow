@@ -75,7 +75,7 @@ if(isset($_POST["readAll"])){
                         $results=$query101->fetchALL(PDO::FETCH_OBJ);
                         ?>
                             <ul class="dropdown-menu p-0 notif-class"
-                                style="font-size: small; width: 340px; max-height: 90vh; overflow-y: auto;"
+                                style="font-size: small; width: 340px; max-height: 60vh; overflow-y: auto;"
                                 aria-labelledby="navbarDropdownMenuLink">
                                 <li class="notif-content alert-primary row g-0 text-center sticky-top p-0">
                                 <button type="submit" class="rounded alert-primary border-0 fw-bold py-1" name="readAll">Mark all as read</button>

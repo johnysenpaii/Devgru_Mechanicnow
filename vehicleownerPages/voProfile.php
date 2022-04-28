@@ -161,10 +161,7 @@ if(isset($_POST['edit']) && isset($_FILES['profile_url']))
                 <input type="hidden" name="id" value="<?php echo htmlentities($result->custID);?>" required="required">
                 <div class="row pt-4 text-center">
                     <div class="col-12"><h4><?php echo htmlentities($result->custFirstname." ".$result->custLastname);?></h4></div>
-                    <div class="col-12">
-                        <p hidden><i>No Ratings Yet</i></p>
-                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i>
-                    </div>
+                    
                 </div>
                 <p class="pt-3" name="custEmail"><?php echo htmlentities($result->custEmail);?></p>
                 <p name="custCnumber"><?php echo htmlentities($result->custCnumber);?></p>
@@ -175,18 +172,22 @@ if(isset($_POST['edit']) && isset($_FILES['profile_url']))
                 </div>
             </div>
             <div class="col-sm-12 col-md-7 col-lg-6 bg-white p-4 ml-sm-0 ml-md-1 mt-sm-1 mt-md-0 shadow-lg rounded-3">
-                <div class="row">
-                    <p><i>"Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum, laboriosam aperiam atque perferendis adipisci molestiae praesentium quo blanditiis ab voluptatem, sint rerum earum. Cumque, facere?"</i></p>
+            <div class="row pt-3">
+                    <h5 class="pt-2">Personal information:</h5>
+                    <!-- value="<?php echo htmlentities($result->Specialization);?>" -->
+                    <p name="custCnumber"><?php echo htmlentities($result->custCnumber);?></p>
+                <p name="custAddress"><?php echo htmlentities($result->custAddress);?></p>
+                <p name="vehicleType"><?php echo htmlentities($result->vehicleType);?></p>
+                    <div class="row pt-5">
+                        
+                    </div>
                 </div>
                 <div class="row pt-3">
-                    <h5 class="pt-2">Specialization:</h5>
+                    <h5 class="pt-2">Tell me about your self:</h5>
                     <!-- value="<?php echo htmlentities($result->Specialization);?>" -->
-                    <p style="text-indent:5%;" name="Specialization">Lorem, ipsum, dolor.</p>
+                    <p style="text-indent:5%;" name="Specialization">I am gamer</p>
                     <div class="row pt-5">
-                        <h6>Feedbacks:</h6>
-                        <div class="col-sm-12 col-md-4 pt-3"><i>"Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere sint quibusdam dignissimos distinctio, quidem culpa!"</i></div>
-                        <div class="col-sm-12 col-md-4 pt-3"><i>"Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere sint quibusdam dignissimos distinctio, quidem culpa!"</i></div>
-                        <div class="col-sm-12 col-md-4 pt-3"><i>"Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere sint quibusdam dignissimos distinctio, quidem culpa!"</i></div> 
+                        
                     </div>
                 </div>
             </div>

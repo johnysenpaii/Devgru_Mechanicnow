@@ -33,6 +33,14 @@ if(isset($_POST['update'])){
         $query=$dbh->prepare($sql);
         $query->bindParam(':resID',$resID,PDO::PARAM_STR);
         $query->execute();
+        
+        $mechID=$_POST['mechID'];
+        $custID1=$_SESSION['custID']; 
+        $sql7 = "INSERT INTO notification(custID, mechID, status) VALUES(:custID1, :mechID, 'cancelled')";
+        $query7 = $dbh->prepare($sql7);
+        $query7->bindParam(':custID1',$custID1,PDO::PARAM_STR);
+        $query7->bindParam(':mechID',$mechID,PDO::PARAM_STR);
+        $query7->execute();
     }
 ?>
 <!DOCTYPE html>
@@ -192,6 +200,8 @@ if(isset($_POST['update'])){
                                     </div>
                                     <div class="modal-body">
                                         <input type="hidden" name="resID" value="<?php echo htmlentities($result->resID);?>" >
+                                        <input type="hidden" name="mechID" value="<?php echo htmlentities($result->mechID);?>" >
+
                                         <h5><?php echo htmlentities($result->serviceNeeded);?> Request</h5>
                                         <p><?php echo htmlentities($result->mechName);?></p>
                                         <p><?php echo htmlentities($result->mechRepair);?></p>

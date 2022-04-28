@@ -206,7 +206,7 @@ if(isset($_POST['ban'])){
                                         value="approve"><i class="bi bi-exclamation-circle"></i> Banned</button>
                                 </div>
                             </div>
-                            <?php }}?>
+                            <?php $cnt=$cnt+1; }}?>
                         </form>
                     </section>
                 </div>

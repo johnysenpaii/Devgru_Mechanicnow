@@ -32,7 +32,12 @@ if(isset($_POST["confirm"]) || isset($_POST['comment'])){
     $query->bindParam(':value',$value,PDO::PARAM_STR);
     $query->execute();
 
-
+    $regeditid=intval($_GET['regeditid']);
+    $sql1="UPDATE request set ratePercentage=:value WHERE resID=:regeditid"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
+    $query=$dbh->prepare($sql1);
+    $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
+    $query->bindParam(':value',$value,PDO::PARAM_STR);
+    $query->execute();
     
    }
 
