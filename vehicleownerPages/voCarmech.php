@@ -75,7 +75,7 @@ include('../config.php');
                     <form method="GET">
                         <div class="row m-0 m-md-3 col-12 searchlogo align-items-center">
                             <div class="input-group-sm col-9">
-                                <input class="form-control rounded-pill shadow-none" name="searchs" type="text" placeholder="  Filter Search">
+                                <input class="form-control rounded-pill shadow-none" autocomplete="off" name="searchs" type="text" placeholder="  Filter Search">
                             </div>
                             <button class="fa-solid fa-magnifying-glass s-button col-1 px-0" name="sea" type="submit"></button>
                             <i class="fa-solid fa-filter fa-2x filter col-1" data-bs-toggle="modal" data-bs-target="#Filter-modal"></i>
@@ -117,21 +117,22 @@ include('../config.php');
                                 else{?>    
                                 <div class="emptyrequest mt-1 pt-4" >
                                 <div class="emptydiv"><img src="../img/empty.png" alt=""></div>
-                                <h6>No mechanic nearby. . .</h6>
+                                <h6 class="t-content">"<?php echo $searchcont ?>" Search not found. . .</h6>
                                 </div>
                                 <?php
                                 }         
                     }elseif(isset($_GET['filt'])){
                         $filtarr=implode(",",$_GET["filter"] ?? null);
-                        var_dump($filtarr);
+                        //var_dump($filtarr);
                         $divide=explode(",",$filtarr);
                         var_dump($divide);
-                        $finalFilter = $divide;
+                        // $finalFilter = $divide;
+                        
                         
                         $sqlfilt ="SELECT mechID,mechFirstname,mechLastname,Specialization,average,
                         (3959 * acos(cos(radians($v1)) *cos(radians(latitude))* cos(radians(longitude)-radians($v2))+sin(radians($v1))
                         *sin(radians(latitude)))) as distance  from  mechanic WHERE 
-                        vehicleType like '%Car Mechanic%' and status='approve' and Specialization like '%{$filtarr}%' having distance < 3 order by distance limit 0, 20 ";
+                        vehicleType like '%Car Mechanic%' and status='approve' and Specialization like '%{$divide[0]}%' having distance < 3 order by distance limit 0, 20 ";
                         $query=$dbh->prepare($sqlfilt);
                         $query->execute();
                         $results=$query->fetchALL(PDO::FETCH_OBJ);
@@ -139,10 +140,10 @@ include('../config.php');
                         if( $query->rowCount()>0){   
                             foreach($results as $result){?> 
                             <tr class="d-flex align-items-center justify-content-around mt-2 shadow">
-                                <td><?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?></td>
-                                <td><?php echo htmlentities($result->Specialization);?></td>
-                                <td>k.m <?php echo number_format($result->distance,1);?> </td>
-                                <td><a class="btn btn-warning px-3 shadow-none" href="voCarmechRequest.php?regeditid=<?php echo htmlentities($result->mechID)?>">Details</a></td>
+                                <td class="t-content"><?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?></td>
+                                <td class="t-content"><?php echo htmlentities($result->Specialization);?></td>
+                                <td class="t-content">k.m <?php echo number_format($result->distance,1);?> </td>
+                                <td class="t-content"><a class="btn btn-warning px-3 shadow-none" href="voCarmechRequest.php?regeditid=<?php echo htmlentities($result->mechID)?>">Details</a></td>
                             </tr>
                             <?php $cnt=$cnt+1;}}     
                                 else{?>    
@@ -160,10 +161,10 @@ include('../config.php');
                         if( $query->rowCount()>0){   
                             foreach($results as $result){?> 
                             <tr class="d-flex align-items-center justify-content-around mt-2 shadow">
-                                <td><?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?></td>
-                                <td><?php echo htmlentities($result->Specialization);?></td>
-                                <td>k.m <?php echo number_format($result->distance,1);?> </td>
-                                <td><a class="btn btn-warning px-3 shadow-none" href="voCarmechRequest.php?regeditid=<?php echo htmlentities($result->mechID)?>">Details</a></td>
+                                <td class="t-content"><?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?></td>
+                                <td class="t-content"><?php echo htmlentities($result->Specialization);?></td>
+                                <td class="t-content">k.m <?php echo number_format($result->distance,1);?> </td>
+                                <td class="t-content"><a class="btn btn-warning px-3 shadow-none" href="voCarmechRequest.php?regeditid=<?php echo htmlentities($result->mechID)?>">Details</a></td>
                             </tr>
                             <?php $cnt=$cnt+1;}}     
                                 else{?>    

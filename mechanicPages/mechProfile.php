@@ -449,7 +449,6 @@ if(isset($_POST['total1'])){
             </div>
         </form>
     </section>
-    <div class="row d-block d-lg-none"><?php include('mechBottom-nav.php');?></div>
 
     <script>
     var starss = document.getElementById("starss").value;
