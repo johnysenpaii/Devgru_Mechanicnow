@@ -107,7 +107,7 @@ if(isset($_POST['comment'])){
 
                     <?php
                     $regeditid=intval($_GET['regeditid']);
-                    $sql="SELECT *, DATE_FORMAT(Sdate, '%M-%d-%Y at %H:%i %p') as timess from request WHERE status='complete' and resID=:regeditid";
+                    $sql="SELECT *, DATE_FORMAT(Sdate, '%a %M-%d-%Y at %H:%i %p') as timess, DATE_FORMAT(Edate, '%a %M-%d-%Y at %H:%i %p') as Endtime  from request WHERE status='complete' and resID=:regeditid";
                     $query=$dbh->prepare($sql);
                     $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
                     $query->execute();
@@ -151,7 +151,7 @@ if(isset($_POST['comment'])){
                             </p>
                             <p class="card-text fw-bold text-dark  rounded" style="font-size: 12px;"><i
                                     class="fa-solid fa-calendar-check"></i> Service end:
-                                <?php echo htmlentities($result->timess);?>
+                                <?php echo htmlentities($result->Endtime);?>
                             </p>
                             <input type="hidden" id="starss" name="total1"
                                 value="<?php echo number_format($result->ratePercentage,1);?>">

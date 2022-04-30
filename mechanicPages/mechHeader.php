@@ -1,23 +1,23 @@
 <style>
 <?php include '../css/style.css';
 if(isset($_POST["readAll"])){
-    $sql1="UPDATE notification set notifStatus='Read' WHERE notifID"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
-    $query=$dbh->prepare($sql1);
-    $query->execute();
+    $sql12="UPDATE notification set notifStatus='Read' WHERE notifID"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
+    $query12=$dbh->prepare($sql12);
+    $query12->execute();
     }
     if(isset($_POST["unreadRequest"])){
         $notifID = $_POST['notifID'];
-        $sql1="UPDATE notification set notifStatus='Read' WHERE notifID=:notifID"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
-        $query=$dbh->prepare($sql1);
-        $query->bindParam(':notifID',$notifID,PDO::PARAM_STR);
-        $query->execute();
+        $sql123="UPDATE notification set notifStatus='Read' WHERE notifID=:notifID"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
+        $query123=$dbh->prepare($sql123);
+        $query123->bindParam(':notifID',$notifID,PDO::PARAM_STR);
+        $query123->execute();
     }
     if(isset($_POST["unreadComplete"])){
         $notifID = $_POST['notifID'];
-        $sql1="UPDATE notification set notifStatus='Read' WHERE notifID=:notifID"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
-        $query=$dbh->prepare($sql1);
-        $query->bindParam(':notifID',$notifID,PDO::PARAM_STR);
-        $query->execute();
+        $sql1234="UPDATE notification set notifStatus='Read' WHERE notifID=:notifID"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
+        $query1234=$dbh->prepare($sql1234);
+        $query1234->bindParam(':notifID',$notifID,PDO::PARAM_STR);
+        $query1234->execute();
     }
 ?>
 </style>
@@ -69,7 +69,7 @@ if(isset($_POST["readAll"])){
                             </a>
 
                             <?php
-                        $sql101="SELECT *, DATE_FORMAT(time, '%b/%d/%Y %H:%i %p') as timess from notification WHERE mechID = $mechID  order by notifID desc";
+                        $sql101="SELECT *, DATE_FORMAT(time, '%a %b/%d/%Y %H:%i %p') as timess from notification WHERE mechID order by notifID desc";
                         $query101=$dbh->prepare($sql101);
                         $query101->execute();
                         $results=$query101->fetchALL(PDO::FETCH_OBJ);
@@ -117,8 +117,7 @@ if(isset($_POST["readAll"])){
                                 <div class="col-md-10 py-3 text-start fw-light">
                                 Hey! <?php echo htmlentities($_SESSION['mechFirstname']);?> you have a new
                                             request.
-                                        <input type="hidden" name="notifID" value="<?php echo  htmlentities($result->notifID);?>">
-                                </div>
+                                      
                             </button>
 
                             </li>
@@ -152,7 +151,7 @@ if(isset($_POST["readAll"])){
                                 <div class="col-md-10 py-3 text-start fw-light">
                                 Good job!! You completed your request today.
                                             request.
-                                        <input type="hidden" name="notifID" value="<?php echo  htmlentities($result->notifID);?>">
+                                      
                                 </div>
                             </button>
 

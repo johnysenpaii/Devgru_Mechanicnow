@@ -1,12 +1,12 @@
 <?php
 session_start();
 include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
-if(isset($_POST['register']) && isset($_FILES['mechValidID']))
+if(isset($_POST['register']) && isset($_FILES['mechValidID']) && isset($_FILES['profil_url']))
 {
-    $img_name = $_FILES[ 'mechValidID']['name'];
-    $img_size = $_FILES['mechValidID']['size'];
-    $tmp_name = $_FILES['mechValidID']['tmp_name'];
-    $error = $_FILES[ 'mechValidID']['error']; 
+    $img_name = $_FILES['profil_url']['name'];
+    $img_size = $_FILES['profil_url']['size'];
+    $tmp_name = $_FILES['profil_url']['tmp_name'];
+    $error = $_FILES['profil_url']['error']; 
 
 
     if ($error === 0) {
@@ -32,6 +32,36 @@ if(isset($_POST['register']) && isset($_FILES['mechValidID']))
     }else{
         $em = "unknown error occurred!";
         header ("Location: mechanicSignup.php?error=$em");
+    }
+
+    $file_name = $_FILES['mechValidID']['name'];
+    $file_size = $_FILES['mechValidID']['size'];
+    $tmp_filename = $_FILES['mechValidID']['tmp_filename'];
+    $error1 = $_FILES[ 'mechValidID']['error1']; 
+
+    if ($error1 === 0) {
+        if ($file_size > 1000000) {
+        $em1 = "Sorry, your file is too big!.";
+        header ("Location: mechanicSignup.php?error=$em1");
+        }
+        else{
+            $file_ex = pathinfo($file_name, PATHINFO_EXTENSION); 
+            $file_ex_lc = strtolower($file_ex);
+                    
+            $allowed_exs1 = array("pdf", "doc");
+
+            if (in_array($file_ex_lc, $allowed_exs1)) {
+                $new_file_name = uniqid("PDF-", true).'.'.$file_ex_lc;
+                $file_upload_path = '../pdf_uploads/'.$new_file_name;
+                move_uploaded_file($tmp_filename, $file_upload_path);
+            }else {
+                $em1 = "You can't upload files of this type";
+                header ("Location: mechanicSignup.php?error=$em1");
+            }
+        }
+    }else{
+        $em1 = "unknown error occurred!";
+        header ("Location: mechanicSignup.php?error=$em1");
     }
 
     $mechFirstname=$_POST['mechFirstname'];
@@ -83,14 +113,15 @@ if(isset($_POST['register']) && isset($_FILES['mechValidID']))
                 {
                 echo "<script type='text/javascript'>document.location='../login.php';</script>";
                 }else{
-                                $sql="INSERT INTO mechanic(mechFirstname, mechLastname, mechAddress, mechEmail, mechCnumber, mechValidID, Username, Password, role,latitude,longitude)VALUES(:mechFirstname, :mechLastname, :mechAddress, :mechEmail, :mechCnumber, :mechValidID, :Username, :hashedPwd, :role, :latitude,:longitude )"; //specialization
+                                $sql="INSERT INTO mechanic(profil_url, mechFirstname, mechLastname, mechAddress, mechEmail, mechCnumber, mechValidID, Username, Password, role,latitude,longitude)VALUES(:new_img_name, :mechFirstname, :mechLastname, :mechAddress, :mechEmail, :mechCnumber, :mechValidID, :Username, :hashedPwd, :role, :latitude,:longitude )"; //specialization
                                 $query=$dbh->prepare($sql);
+                                $query->bindParam(':new_img_name',$new_img_name,PDO::PARAM_STR);
                                 $query->bindParam(':mechFirstname',$mechFirstname,PDO::PARAM_STR);
                                 $query->bindParam(':mechLastname',$mechLastname,PDO::PARAM_STR);
                                 $query->bindParam(':mechAddress',$mechAddress,PDO::PARAM_STR);
                                 $query->bindParam(':mechEmail',$mechEmail,PDO::PARAM_STR);
                                 $query->bindParam(':mechCnumber',$mechCnumber,PDO::PARAM_STR);
-                                $query->bindParam(':mechValidID',$new_img_name,PDO::PARAM_STR);
+                                $query->bindParam(':mechValidID',$new_file_name,PDO::PARAM_STR);
                                 $query->bindParam(':Username',$Username,PDO::PARAM_STR);
                                 $query->bindParam(':hashedPwd',$hashedPwd,PDO::PARAM_STR);
                                 $query->bindParam(':role',$role,PDO::PARAM_STR);
@@ -139,6 +170,11 @@ if(isset($_POST['register']) && isset($_FILES['mechValidID']))
                   
                     <div class="err-txt" hidden>This is an error message</div>
                     <label>Personal details</label>
+                    <div class="my-2">
+                        <label>Upload profile</label>
+                        <input class="form-control" name="profil_url" type="file" 
+                            placeholder="Attach Valid ID" multiple required>
+                    </div>
                     <div class="name-details">
                         <div class="field input">
                             <input type="text" placeholder="Firstname" name="mechFirstname" required>

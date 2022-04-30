@@ -171,9 +171,11 @@ if(isset($_POST['deny'])){
 						if($query->rowCount()>0){
     						foreach($results as $result){
 						?>
+
                             <div class="row d-flex justify-content-start px-4 ">
                                 <div class="col-lg-10 col-md-12 col-sm-12 d-flex justify-content-center">
-                                    <img src="../uploads/<?=$result->profile_url ?>" class="img-fluid" width="20%" height="20%" alt="...">
+                                                                                       <iframe src="../uploads/<?= $result->profile_url ?>" width="90%" height="500px">
+</iframe>
                                 </div>
                                 <div class="col-sm-12 col-md-4 col-xl-4 mb-2">
                                     <label for="mechFirstname" style="color: rgb(61, 138, 247);">First Name</label>

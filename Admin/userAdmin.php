@@ -142,7 +142,7 @@ include('../config.php');
                                                    ?>
                                                     <tr>
                                                         <td>
-                                                            <img src="../uploads/<?=$result->profile_url ?>"
+                                                            <img src="<?=$result->profile_url ?>"
                                                                 onerror="this.src='../img/mech.jpg';"
                                                                 class="imagenajud pimage rounded-circle px-5"
                                                                 style="min-width: 20%; max-width: 140px;" alt="">

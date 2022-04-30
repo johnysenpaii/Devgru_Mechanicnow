@@ -146,7 +146,7 @@ if(isset($_POST['edit']) && isset($_FILES['profile_url']))
               {
             ?>
         <div class="row text-dark mt-4 justify-content-evenly">
-            <div class="col-sm-12 col-md-5 col-lg-5 with-image bg-white rounded-3 pb-2 p-3 mr-sm-0 mr-md-1 mb-5 mb-md-0 mb-lg-0 shadow-lg text-center">
+            <div class=" card col-sm-12 col-md-5 col-lg-6 with-image bg-white rounded-3 pb-2 p-3 mr-sm-0 mr-md-1 mb-5 mb-md-0 mb-lg-0 shadow-lg text-center">
                 <div class="cont-image text-center">
                 <?php
                         $sql = "SELECT * FROM customer where custID = $regeditid";

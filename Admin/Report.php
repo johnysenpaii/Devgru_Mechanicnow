@@ -144,6 +144,69 @@ include('../config.php');
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-lg-10 col-md-12 col-sm-12 " data-aos="zoom-in"
+                                data-aos-easing="ease-out-cubic" data-aos-duration="1000">
+                                <div class="card p-0 overflow-auto" style="height: 500px;">
+                                    <ol class="list-group border-bottom-0">
+                                        <li
+                                            class="list-group-item d-flex justify-content-between align-items-start bg-info">
+                                            <div class="fw-bold">Transaction completed</div>
+                                            <?php 
+											$sql312 ="SELECT resID from request where status='Decline' || status='cancelled'";
+											$query312 = $dbh -> prepare($sql312);
+											$query312->execute();
+											$results312=$query312->fetchAll(PDO::FETCH_OBJ);
+											$totalDC=$query312->rowCount();
+										?>
+                                            <span class="fw-bold"> <i class="bi bi-file-earmark-pdf-fill"></i>
+                                                <?php echo htmlentities($totalDC);?></span>
+                                        </li>
+                                    </ol>
+                                    <div class="card-body">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">User</th>
+                                                    <th scope="col">Service needed</th>
+                                                    <th scope="col">Type of service</th>
+                                                    <th scope="col">Status</th>
+                                                </tr>
+                                            </thead>
+                                            <?php  
+                                            $sql43="SELECT *from request where status";
+                                            $query43 = $dbh->prepare($sql43);
+                                            $query->execute();
+                                            $results=$query43->fetchAll(PDO::FETCH_OBJ);
+                                            $cnt=1;
+                                            if($query43->rowCount()>0){
+                                                foreach($results as $result43){
+                                                    if($result43-> status="cancelled"){
+                                            ?>
+
+                                            <tbody>
+                                                <tr class="alert alert-danger">
+                                                
+                                                    <td><?php echo htmlentities($result43->vOwnerName);?></td>
+                                                    <td><?php echo htmlentities($result43->serviceNeeded);?></td>
+                                                    <td><?php echo htmlentities($result43->serviceType);?></td>
+                                                    <td><?php echo htmlentities($result43->status);?></td>
+                                                </tr>
+                                            </tbody>
+                                            <?php } else if($result43-> status="Decline"){?>
+                                                <tbody>
+                                                <tr class="alert alert-warning">
+                                                    <td><?php echo htmlentities($result43->mechName);?></td>
+                                                    <td><?php echo htmlentities($result43->serviceNeeded);?></td>
+                                                    <td><?php echo htmlentities($result43->serviceType);?></td>
+                                                    <td><?php echo htmlentities($result43->status);?></td>
+                                                </tr>
+                                            </tbody>
+
+                                        <?php }}} $cnt=$cnt+1;?>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="col-lg-5 col-md-12 col-sm-12 " data-aos="fade-right"
                                 data-aos-easing="ease-out-cubic" data-aos-duration="1000">
                                 <div class="card p-0 overflow-auto" style="height: 500px;">
@@ -206,27 +269,48 @@ include('../config.php');
                                         <li
                                             class="list-group-item d-flex justify-content-between align-items-start bg-info">
                                             <div class="fw-bold">Vehicle owner registered</div>
-                                            <span class=""> <i class="bi bi-file-earmark-pdf-fill"></i> 14</span>
+                                            <?php 
+											$sql31 ="SELECT mechID from mechanic";
+											$query31 = $dbh -> prepare($sql31);
+											$query31->execute();
+											$results31=$query31->fetchAll(PDO::FETCH_OBJ);
+											$totalcust=$query31->rowCount();
+										?>
+                                            <span class="fw-bold"> <i class="bi bi-file-earmark-pdf-fill"></i>  <?php echo htmlentities($totalcust);?></span>
                                         </li>
                                     </ol>
                                     <div class="card-body">
                                         <table class="table">
                                             <thead>
                                                 <tr>
-                                                    <th scope="col">#</th>
-                                                    <th scope="col">First</th>
-                                                    <th scope="col">Last</th>
-                                                    <th scope="col">Handle</th>
+                                                <th scope="col">Profile image</th>
+                                                    <th scope="col">Firstname</th>
+                                                    <th scope="col">Lastname</th>
+                                                    <th scope="col">Email address</th>
+                                                    <th scope="col">Contact number</th>
                                                 </tr>
                                             </thead>
+                                            <?php  
+                                            $sql="SELECT *from customer";
+                                            $query = $dbh->prepare($sql);
+                                            $query->execute();
+                                            $results=$query->fetchAll(PDO::FETCH_OBJ);
+                                            $cnt=1;
+                                            if($query->rowCount()>0){
+                                                foreach($results as $result12){
+                                            ?>
                                             <tbody>
                                                 <tr>
-                                                    <th scope="row">1</th>
-                                                    <td>Mark</td>
-                                                    <td>Otto</td>
-                                                    <td>@mdo</td>
+                                                <td><img src="../uploads/<?=$result12->profile_url ?>"
+                                                            onerror="this.src='../img/mech.jpg';"
+                                                            class="img-fluid rounded-pill w-50 h-50"></td>
+                                                    <td><?php echo htmlentities($result12->custFirstname);?></td>
+                                                    <td><?php echo htmlentities($result12->custLastname);?></td>
+                                                    <td><?php echo htmlentities($result12->custEmail);?></td>
+                                                    <td><?php echo htmlentities($result12->custCnumber);?></td>
                                                 </tr>
                                             </tbody>
+                                            <?php $cnt=$cnt+1;}}?>
                                         </table>
                                     </div>
                                 </div>

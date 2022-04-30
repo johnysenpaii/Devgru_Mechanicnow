@@ -4,7 +4,7 @@ include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
 $custID1=$_SESSION['custID'];
 if(isset($_POST["confirm"]) || isset($_POST['comment'])){
     $regeditid=intval($_GET['regeditid']);
-     $sql1="UPDATE request set status='Complete' WHERE resID=:regeditid"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
+     $sql1="UPDATE request set status='Complete',Edate=CURRENT_TIMESTAMP() WHERE resID=:regeditid"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
      $query=$dbh->prepare($sql1);
      $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
      $query->execute(); 

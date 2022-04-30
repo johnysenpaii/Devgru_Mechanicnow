@@ -141,6 +141,8 @@ include('../config.php');
                                                      {
                                                    ?>
                                                     <tr>
+                                                    <iframe src="../uploads/<?= $result->profile_url ?>" width="90%" height="500px">
+</iframe>
                                                           <td><img src="../uploads/<?=$result->profile_url ?>"
                                                                 onerror="this.src='../img/mech.jpg';"
                                                                 class="imagenajud pimage rounded-circle px-5"

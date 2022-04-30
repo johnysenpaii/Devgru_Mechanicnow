@@ -84,7 +84,7 @@ if(isset($_POST["unreadVerify"])){
                             </span> Notification
                         </a>
                         <?php
-                        $sql="SELECT *, DATE_FORMAT(timess, '%b/%d/%Y %H:%i %p') as timess from vonotification WHERE custID=$custID and status='Accepted' or status='verify' or status='Complete' or status='Unaccepted' or status='Decline' order by notifID desc";
+                        $sql="SELECT *, DATE_FORMAT(timess, '%a %b/%d/%Y %H:%i %p') as timess from vonotification WHERE custID=$custID and status='Accepted' or status='verify' or status='Complete' or status='Unaccepted' or status='Decline' order by notifID desc";
                         $query=$dbh->prepare($sql);
                         $query->execute();
                         $results=$query->fetchALL(PDO::FETCH_OBJ);
@@ -171,7 +171,7 @@ if(isset($_POST["unreadVerify"])){
                                 <?php echo htmlentities($result->progressbarStatus);?>%
                                 </div>
                                 <div class="col-md-10 text-start fw-bold">
-                                The current progess of your request updated by your the Mechanic.
+                                This is the current progess of your request updated by your the Mechanic.
                                 <input type="hidden" name="notifID" value="<?php echo  htmlentities($result->notifID);?>">
                                 </div>
                             </button>
@@ -180,7 +180,7 @@ if(isset($_POST["unreadVerify"])){
                           
                             <?php } else{?>
                                 <li>  
-                                <button  class="alert-info notif-content row text-center border-0 w-100 mx-0">
+                                <button  class="alert-primary notif-content row text-center border-0 w-100 mx-0">
                                 <p class="text-end text-small fw-light" style="font-size: smaller;"><?php echo htmlentities($result->timess)?></p>
                                 <div class="col-md-2 pl-2 text-end fw-light" style="font-size: 30px;">
                                 <?php echo htmlentities($result->progressbarStatus);?>%
@@ -192,7 +192,7 @@ if(isset($_POST["unreadVerify"])){
 
                             </li>
                             
-                            <?php }}else if($result->progressbarStatus=='100' && $result->status == 'verify'){
+                            <?php }}else if($result->progressbarStatus=='100' || $result->status == 'verify'){
                                if($result->notifStatus == 'Unread'){?>
                                 <li>  
                                 <button   type="submit" name="unreadVerify" class="alert-warning notif-content row text-center border-0 w-100 mx-0">

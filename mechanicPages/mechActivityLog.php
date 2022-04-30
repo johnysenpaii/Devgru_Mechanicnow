@@ -56,14 +56,14 @@ $mechID1=$_SESSION['mechID'];
             <div class="col-lg-8">
                 <?php
 
-                    $sql="SELECT * from request WHERE mechID=$mechID1 and status='Accepted' || status='verify' order by resID DESC";
+                    $sql="SELECT * from request WHERE mechID and status='Accepted' || status='verify' order by resID DESC";
                     $query=$dbh->prepare($sql);
                     $query->execute();
                     $results=$query->fetchALL(PDO::FETCH_OBJ);
                     $cnt=1;
                     if($query->rowCount()>0){
                         foreach ($results as $result){                           
-                            if($mechID1==$mechID1){
+                            if($result->mechID == $mechID1 && $result->status == 'Accepted'){
                 ?>
                 <div class="card text-dark mb-2">
                     <!-- <div class="card-header">
@@ -83,8 +83,24 @@ $mechID1=$_SESSION['mechID'];
                     </div>
                   
                 </div>
-                <?php $cnt=$cnt+1;}}} 
-                    else {  
+                <?php } else if($result->mechID == $mechID1 && $result->status == 'verify'){?>
+                    <div class="card text-dark mb-2">
+
+                <div class="card-body">
+                        <input type="text" hidden name="resID" value="<?php echo htmlentities($result->resID);?>">
+                        <input type="hidden" name="status" id="status" value="<?php echo htmlentities($result->status);?>">
+                        <h5 class="card-title"><?php echo htmlentities($result->vOwnerName);?></h5>
+                        <p class="card-text"><?php echo htmlentities($result->mechRepair);?></p>
+                        <h6 class="pt-2">Note:</h6>
+                        <p class="card-text"><?php echo htmlentities($result->specMessage);?></p>
+
+                        <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+                        <a href="manageRequest.php?regeditid=<?php echo htmlentities($result->resID)?>" id="btnn" class="btn btn-primary">Pending</a>
+                        <!-- <button class="btn btn-primary btn-lg" type="submit" id="verify" value="verify">Manage Request</button> -->
+                    </div>
+                    </div>
+            
+                <?php }}}  else {  
                     ?>
                 <div class="emptyrequest mt-5 pt-5">
                     <div class="emptydiv"><img src="../img/empty.png" alt=""></div>
@@ -92,7 +108,7 @@ $mechID1=$_SESSION['mechID'];
                 </div>
                 <?php
                     }
-                    ?>
+                    $cnt=$cnt+1;?>
             </div>
         </div>
         </form>

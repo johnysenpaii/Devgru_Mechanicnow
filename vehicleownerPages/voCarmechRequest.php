@@ -136,8 +136,24 @@ if(isset($_POST['send'])){
                             </div>
                             <div class="mech-inforeq col-7">
                                 <h4><input readonly type="text" class="border-0 no-shadow shadow-none mt-2" name="mechName" value="<?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?>"></h4>
-                                <input type="hidden" id="starss" value="<?php echo htmlentities($result->average);?>">
+                                <?php
+
+                $sql21="SELECT *, AVG(ratePercentage) as average from ratingandfeedback WHERE mechID=:regeditid";
+                $query21=$dbh->prepare($sql21);
+                $query21->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
+                $query21->execute();
+                $results=$query21->fetchALL(PDO::FETCH_OBJ);
+
+                if($query21->rowCount()>0)
+                {
+                foreach ($results as $result21) 
+                {
+            ?>
+                                <input type="hidden" id="starss" value="<?php echo htmlentities($result21->average);?>">
+                               
+
                                 <span type="text" id="stars" onload="getStars()" name="total"></span><br>
+                                <?php }};?>
                                 <input readonly type="text" class="border-0 m-info " size="30" name="vehicleType" value="<?php echo htmlentities($result->vehicleType);?>"><br>
                                 <input readonly type="text" class="border-0 m-info" size="30" name="Specialization" value="<?php echo htmlentities($result->Specialization);?>">
                             </div>
@@ -215,7 +231,7 @@ if(isset($_POST['send'])){
                             </div>
                         </div>
                         <div class="row request-buttons">
-                            <div class="col-md-6 d-grid "><button type="button" class="btn btn-primary rounded-pill shadow border-0" id="trap" onclick="trappings()">Request</button></div>
+                            <div class="col-md-6 d-grid "><button type="submit" name="send" class="btn btn-primary rounded-pill shadow border-0" id="trap" onclick="trappings()">Request</button></div>
                             <div class="col-md-6 d-grid "> <button class="btn btn-secondary rounded-pill shadow border-0" type="button"><a href="./voCarmech.php">Back</a></button></div>
                         </div>
                     </div>

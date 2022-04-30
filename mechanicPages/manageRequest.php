@@ -104,7 +104,8 @@ if(isset($_POST["verify"])){
                         </iframe>
                     </div>
                 </div>
-
+                <iframe src="<?php echo $path.$pdf; ?>" width="90%" height="500px">
+</iframe>
                 <div class="col-sm-12 col-md-6 bg-white p-3 rounded-3 shadow">
                     <h5 class="text-start pt-2">Vehicle Owner Information</h6>
                         <p><?php echo htmlentities($result->vOwnerName);?><p>
@@ -123,7 +124,7 @@ if(isset($_POST["verify"])){
 
                         <p class="py-2"><em>Click the progress bar and update to let your client know the status of his/her
                                 request.</em></p>
-                        <progress id="file" style="height:50px; width: 620px;" value="<?php echo htmlentities($result->progressBar);?>" max="100" onclick="prog();"></progress>
+                        <progress id="file" style="height:50px; width: 620px;" value="<?php echo htmlentities($result->progressBar);?>" max="100"></progress>
                         <button type="sumbit" class="my-2 btn btn-primary rounded-pill" value="UpdateMe" name="UpdateMe" id="UpdateMe">Update me <i class="bi bi-arrow-counterclockwise"></i></button>
                         <input  type="text" name="output" class="border-0"  value="<?php echo htmlentities($result->progressBar);?>" id="output">
 

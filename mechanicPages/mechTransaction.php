@@ -31,13 +31,13 @@ $mechID1=$_SESSION['mechID'];
             </div>
             <div class="col-lg-8  py-4  ">
                 <?php
-                    $sql="SELECT * from request WHERE mechID=$mechID1 and status='complete' order by resID DESC";
+                    $sql="SELECT * from request WHERE mechID and status='complete' order by resID DESC";
                     $query=$dbh->prepare($sql);
                     $query->execute();
                     $results=$query->fetchALL(PDO::FETCH_OBJ);
                     if($query->rowCount()>0){
                         foreach ($results as $result){
-                            if($mechID1==$mechID1){
+                            if($result->mechID == $mechID1){
                 ?>
                 <div class="card text-dark mb-2">
                     <!-- <div class="card-header">
