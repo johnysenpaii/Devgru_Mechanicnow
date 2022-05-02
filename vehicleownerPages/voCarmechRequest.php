@@ -132,7 +132,7 @@ if(isset($_POST['send'])){
                     <div class="col-12 col-sm-4 m-0 info-panel shadow-lg p-3" style="background-color: #fff">
                         <div class="row align-items-center">
                             <div class="col-3 mx-3 with-image" style="width: 100px; padding: 5px;">
-                                <img src="../img/vo.jpg" class="float-center imagenajud" alt="" style="max-width: 100%; height: 90px; border-radius: 100px; object-fit: cover;">
+                                <img src="../img/vo.jpg" class="float-center imagenajud" alt="" style="max-width: 100%; height: 90px; border-radius: 50%; object-fit: cover;">
                             </div>
                             <div class="mech-inforeq col-7">
                                 <h4><input readonly type="text" class="border-0 no-shadow shadow-none mt-2" name="mechName" value="<?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?>"></h4>

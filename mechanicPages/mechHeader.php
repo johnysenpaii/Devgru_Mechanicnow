@@ -69,7 +69,7 @@ if(isset($_POST["readAll"])){
                             </a>
 
                             <?php
-                        $sql101="SELECT *, DATE_FORMAT(time, '%b/%d/%Y %H:%i %p') as timess from notification WHERE mechID = $mechID  order by notifID desc";
+                        $sql101="SELECT *, DATE_FORMAT(timess, '%b/%d/%Y %H:%i %p') as timess from notification WHERE mechID = $mechID  order by notifID desc";
                         $query101=$dbh->prepare($sql101);
                         $query101->execute();
                         $results=$query101->fetchALL(PDO::FETCH_OBJ);

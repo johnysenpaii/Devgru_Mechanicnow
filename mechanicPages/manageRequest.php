@@ -81,7 +81,7 @@ if(isset($_POST["verify"])){
 <body id="contbody" style="background-color: #f8f8f8" onload="loadss()">
     <?php include('mechHeader.php');?>
     <!-- <?php include('mechTopnav.php');?> -->
-    <section id="manageRequest">
+    <!-- <section id="manageRequest"> -->
         <form action="" method="POST">
             <?php
                         $regeditid=intval($_GET['regeditid']);
@@ -94,8 +94,62 @@ if(isset($_POST["verify"])){
 						if($query->rowCount()>0){
     						foreach($results as $result){
 						?>
+            
+                <div class="row m-0 text-dark">
+                    <div class="container text-dark col-12 col-md-6">
+                        <div class="col-12 col-md-10 bg-white shadow p-3 mt-5 voinfo-div">
+                            <h5 class="text-start title-request">Vehicle Owner Information</h6>
+                            <p class="pt-2"><?php echo htmlentities($result->vOwnerName);?><p>
+                        </div>
+                        <div class="col-12 col-md-10 bg-white shadow p-3 mt-3 voinfo-div">
+                            <h5 class="text-start mt-2 title-request">Request Information</h5>
+                                    <!-- <label for="need">Service Needed: </label> -->
+                            <input  name='custID' type="hidden" value="<?php echo htmlentities($result->custID);?>">
+                            <input disabled class="border-0 bg-title py-2" type="text" id="need" value="<?php echo htmlentities($result->serviceNeeded);?>">
+                            <div id="needs" style="display: none;">
+                                <p><i>Date:</i> <?php echo htmlentities($result->date);?></p>
+                                <p><i>Time:</i> <?php echo htmlentities($result->time) < 12 ? 'AM' : 'PM';?>
+                                <?php echo htmlentities($result->time);?></p>
+                            </div>
+                            <div class="col-10">
+                                <div class="alert alert-primary text-start py-0 pb-1 mb-0 note-alert note-vehicle shadow-sm">
+                                    <div class="row noted-vehicle">
+                                                    <!-- <i class="fa-solid fa-circle-exclamation col-1"></i> -->
+                                        <p class="pt-1">Vehicle  Problem:</p>
+                                        <p class="col-10 col-sm-11 py-1">
+                                            <?php echo htmlentities($result->mechRepair);?>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                                <!-- <p class="pb-1 ">Vehicle Problem: <?php echo htmlentities($result->mechRepair);?></p> -->
+                                <!-- <h5>Noted Message</h5>-->
+                                <!-- <p class="line-segment"><?php echo htmlentities($result->specMessage);?></p>  -->
+                        </div>
+                                <!-- <p class="py-2"><em>Click the progress bar and update to let your client know the status of his/her
+                                        request.</em></p> -->
+                                <!-- <progress id="file" style="height:50px; width: 620px;" value="<?php echo htmlentities($result->progressBar);?>" max="100" onclick="prog();"></progress> -->
+                                <!-- <button type="button" class="my-2 btn btn-primary rounded-pill" data-bs-toggle="modal" data-bs-target="#exampleModal">Update me <i class="bi bi-arrow-counterclockwise"></i></button> -->
+                                <!-- <input  type="text" name="output" class="border-0"  value="<?php echo htmlentities($result->progressBar);?>" id="output"> -->
+                    </div>
+                    <div class="visualProgress col-12 col-md-6">
+                        <div class="circular-progress" id="circular-progress">
+                            <div class="value-container">
+                                0%
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-primary rounded-pill button-progress" data-bs-toggle="modal" data-bs-target="#exampleModal">Update Progress</button>
+                        <input  type="hidden" class="border-0"  value="<?php echo htmlentities($result->progressBar);?>" id="output">
+                    </div>
 
-            <div class="row container-fluid py-3 text-dark">
+                    <h5 class="text-center pt-2">Remarks</h5>
+                        <div class="row pt-5 d-flex align-self-end justify-content-end">
+                            <button type="submit" name="verify" style="display: none;" id="hide" class="btn btn-primary col-md-4 rounded-pill">Request Complete</button>
+                        </div>
+                </div>
+                
+            
+            <!-- <div class="row container-fluid py-3 text-dark">
                 <div class="col-sm-12 col-md-6">
                     <div id="google-maps">
                         <iframe
@@ -124,23 +178,50 @@ if(isset($_POST["verify"])){
                         <p class="py-2"><em>Click the progress bar and update to let your client know the status of his/her
                                 request.</em></p>
                         <progress id="file" style="height:50px; width: 620px;" value="<?php echo htmlentities($result->progressBar);?>" max="100" onclick="prog();"></progress>
-                        <button type="sumbit" class="my-2 btn btn-primary rounded-pill" value="UpdateMe" name="UpdateMe" id="UpdateMe">Update me <i class="bi bi-arrow-counterclockwise"></i></button>
+                        <button type="button" class="my-2 btn btn-primary rounded-pill" data-bs-toggle="modal" data-bs-target="#exampleModal">Update me <i class="bi bi-arrow-counterclockwise"></i></button>
                         <input  type="text" name="output" class="border-0"  value="<?php echo htmlentities($result->progressBar);?>" id="output">
-
-                        <!-- <div class="progress" style="height: 25px;" onclick="increase()">
-                        <div class="progress-bar progress-bar-striped progress-bar-animated" id="progress"
-                            role="progressbar"><?php echo htmlentities($result->progressBar);?>%</div>
-                </div> -->
-                        <!-- <button value="UpdateMe" name="UpdateMe" type="submit" class="my-4 btn btn-primary rounded-pill">Update me <i class="bi bi-arrow-counterclockwise"></i></button> -->
-                        <!-- <input name="tb" value="<?php echo htmlentities($result->progressBar);?>" type="text" id="tb">  -->
+                        <h5 class="text-center">Remarks</h5>
                         <div class="row pt-5 d-flex align-self-end justify-content-end">
                             <button type="submit" name="verify" style="display: none;" id="hide" class="btn btn-primary col-md-4 rounded-pill">Request Complete</button>
                         </div>
                 </div>
+            </div> -->
+
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content text-dark">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Confirmation</h5>
+                            <button type="button" class="btn-close border-0" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+
+                            <div class="row">
+                                <!-- for retreival -->
+                                <div class="col-12">
+                                    <p><?php echo htmlentities($result->mechRepair);?></p>
+                                    <label for="">Please input progress by percentage</label>
+                                    <input class="form-control" type="text" id="percent" name="output" value="<?php echo htmlentities($result->progressBar);?>" placeholder="Please input Progress by percentage">
+                                </div>
+                                <hr class="divider">
+                                <!-- for the inputs -->
+                                <div class="col-12">
+                                    <textarea class="form-control shadow-none" id="exampleFormControlTextarea1" placeholder="Enter Remarks..." rows="3" name="specMessage" value="specMessage"></textarea>
+                                    <button type="sumbit" class="my-2 btn btn-primary rounded-pill" value="UpdateMe" name="UpdateMe" id="UpdateMe">Update me <i class="bi bi-arrow-counterclockwise"></i></button>
+                                    <!-- <button>Confirm Progress</button> -->
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div> -->
+                    </div>
+                </div>
             </div>
             <?php $cnt=$cnt+1;}}?>
         </form>
-    </section>
+    <!-- </section> -->
     <script language=JavaScript>
     function prog() {
         var outs = document.getElementById("output");
@@ -148,50 +229,38 @@ if(isset($_POST["verify"])){
         document.getElementById("file").value = ins + 20;
         outs.value = document.getElementById("file").value;
     }
-function loadss(){
-    var t = document.getElementById("output").value;
- if( t == 100 ){
-	document.getElementById("hide").style.display = "block";
-    reload();
- }
-}
+    function loadss(){
+        var t = document.getElementById("output").value;
+        if( t == 100 ){
+            document.getElementById("hide").style.display = "block";
+            reload();
+        }
+    }
 
-
-
-    // var value = 0, 
-    // tb = document.getElementById("tb"),
-    // progress = document.getElementById("progress"); 
-    // function increase(){ 
-    //     value = value + 20;
-    //     if(value>=100){ 
-    //     tb.value = value; 
-    //     progress.style.width = value + "%";
-    //     progress.innerHTML = value  + "%";
-    //     }
-    // }
-
-    // $('body').on('click', '.progress', function(event) {
-    // var w_tar = $(this).find('.progress-bar'),
-    //     w_cur = w_tar.data('width'),
-    //     w_new = w_cur += 20;
-
-    // if (w_cur > 100) {
-    //     w_new = 20;
-    // }
-    // $('#tb').val(w_new);
-    // w_tar
-    //     .css('width', w_new + "%")
-    //     .data('width', w_new)
-    //     .text(w_new + "%");
-    // });
-
-
-    // $('.progress').trigger('click');
     var t = document.getElementById("need").value;
-        if(t == "Home Service")
-        {
+        if(t == "Home Service"){
             document.getElementById("needs").style.display = "block";
         }
+    //for circular progress bar
+    let progressBar = document.getElementById("circular-progress");
+    let valueContainer = document.querySelector(".value-container");
+    let dynamicValue = document.getElementById("output").value;
+
+    let progressValue = 0;
+    let progressEndValue = 100;
+    let speed = 20;
+
+    let progress = setInterval(() => {
+        progressValue++;
+        valueContainer.textContent = `${progressValue}%`;
+        progressBar.style.background = `conic-gradient(
+            #9132da ${progressValue * 3.6}deg, 
+            #b68bd6 ${progressValue * 3.6}deg
+        )`;
+        if (progressValue == dynamicValue) {
+            clearInterval(progress);
+        }
+    }, speed);
     </script>
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
