@@ -139,8 +139,10 @@ include('../config.php');
 											?>
                                                     <tr>
                                                         <td>
-                                                           <?php echo '<img src="data:image' .base64_encode($result -> profile_url).'alt="avatar" width="35"
-                                                                class="img-thumbnail"">'?>
+                                                        <td><img src="../uploads/<?=$result->profile_url ?>"
+                                                                onerror="this.src='../img/mech.jpg';"
+                                                                class="imagenajud pimage rounded-circle px-5"
+                                                                style="min-width: 25%; max-width: 140px;" alt=""> 
                                                         </td>
                                                         <td><?php echo htmlentities($result->mechFirstname);?>
                                                         </td>

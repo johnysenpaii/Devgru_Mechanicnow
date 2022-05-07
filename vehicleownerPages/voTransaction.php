@@ -92,9 +92,18 @@ $custID1=$_SESSION['custID'];
         <form action="" method="POST">
             <div class="row py-3 px-sm-0 px-md-3 table-responsive justify-content-center pb-5">
                 <div class="col-lg-7  py-4  ">
-                    <button class="my-3 p-1 rounded btn fw-bold mb-1 text-info border-0" type="submit" name="readall" style="font-size: 13px;"><i class="fa-solid fa-square-check"></i> Mark all as read</button>
+               
+                    <button class="my-3 p-1 rounded btn fw-bold mb-1 text-info border-0" id="tago" type="submit" name="readall" style="font-size: 13px;"><i class="fa-solid fa-square-check"></i> Mark all as read</button>
+ <?php 
+											$sql3 ="SELECT  * from request where custID = $custID1 and status= 'Complete'";
+											$query3 = $dbh -> prepare($sql3);
+											$query3->execute();
+											$results3=$query3->fetchAll(PDO::FETCH_OBJ);
+											$transac=$query3->rowCount();
+                                            if($transac == 0){
+                                               echo "<script> document.getElementById('tago').style.display = 'none';</script>";
+                                            }
 
-                    <?php
                     $sql="SELECT *, DATE_FORMAT(Sdate, '%a %M-%d-%Y at %H:%i %p') as timess, DATE_FORMAT(Edate, '%a %M-%d-%Y at %H:%i %p') as Endtime from request WHERE status='complete' order by resID DESC";
                     $query=$dbh->prepare($sql);
                     $query->execute();

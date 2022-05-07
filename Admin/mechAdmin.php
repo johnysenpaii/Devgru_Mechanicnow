@@ -125,8 +125,7 @@ include('../config.php');
                                                         <th class="border-0 Phead">Last Name</th>
                                                         <th class="border-0 Phead">Address</th>
                                                         <th class="border-0 Phead">Email</th>
-                                                        <th class="border-0 Phead">Contact Number</th>
-                                                        <th class="border-0 Phead">Valid ID</th>
+                                                        <th class="border-0 Phead">Contact Number</th>          
                                                         <th class="border-0 Phead">Specialization</th>
                                                         <th class="border-0 Phead">Username</th>
                                                         <th class="border-0 Phead">Action</th>
@@ -141,9 +140,9 @@ include('../config.php');
                                                      {
                                                    ?>
                                                     <tr>
-                                                    <iframe src="../uploads/<?= $result->profile_url ?>" width="90%" height="500px">
-</iframe>
-                                                          <td><img src="../uploads/<?=$result->profile_url ?>"
+
+                                                          <td>
+                                                              <img src="../uploads/<?=$result->profile_url ?>"
                                                                 onerror="this.src='../img/mech.jpg';"
                                                                 class="imagenajud pimage rounded-circle px-5"
                                                                 style="min-width: 25%; max-width: 140px;" alt=""> 
@@ -156,9 +155,7 @@ include('../config.php');
                                                         </td>
                                                         <td><?php echo htmlentities($result->mechEmail);?></td>
                                                         <td><?php echo htmlentities($result->mechCnumber);?>
-                                                        </td>
-                                                        <td><?php echo htmlentities($result->mechValidID);?>
-                                                        </td>
+                                                        </td>                                                 
                                                         <td><?php echo htmlentities($result->Specialization);?>
                                                         </td>
                                                         <td><?php echo htmlentities($result->Username);?></td>

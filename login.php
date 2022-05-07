@@ -52,7 +52,7 @@ if(isset($_POST['Login']))
         $regeditid = $_SESSION['mechID'];
         $latitude = $_POST['latitude'];
         $longitude = $_POST['longitude'];
-        $sql="UPDATE mechanic set latitude=:latitude,longitude=:longitude WHERE mechID=:regeditid"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
+        $sql="UPDATE mechanic set latitude=:latitude,longitude=:longitude,statActiveNotActive='Active' WHERE mechID=:regeditid"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
         $query=$dbh->prepare($sql);
         $query->bindParam(':latitude',$latitude,PDO::PARAM_STR);
         $query->bindParam(':longitude',$longitude,PDO::PARAM_STR);
@@ -74,7 +74,8 @@ if(isset($_POST['Login']))
             $hashedPwdM=$results1['Password'];
             $latitude=$results1['latitude'];
             $longitude=$results1['longitude'];
-        
+            $status=$results1['status'];
+            $statActiveNotActive=$results1['statActiveNotActive'];
             $Password1=$_POST['Password'];
             if(password_verify($Password1, $hashedPwdM) == 1){
                 session_regenerate_id();
@@ -86,6 +87,8 @@ if(isset($_POST['Login']))
                 $_SESSION['mechAddress']=$mechAddress;
                 $_SESSION['Username']=$attemptedMUsername;
                 $_SESSION['Password']=$hashedPwdM;
+                $_SESSION['status']=$status;
+                $_SESSION['statActiveNotActive']=$statActiveNotActive;
                 echo "<script type='text/javascript'>document.location='./mechanicPages/mechDashboard.php';</script>";
                 header( "refresh:5;url=./mechanicPages/mechDashboard.php" );
             }else{
@@ -152,8 +155,8 @@ if(isset($_POST['Login']))
                     <img src="img/navlogo.png" alt="">
                 </div>
                 <form method="POST">
-                    <input hidden type="text" id="latitude" name="latitude" value="">
-                    <input hidden type="text" id="longitude" name="longitude" value="">
+                    <input  type="text" id="latitude" name="latitude" value="">
+                    <input  type="text" id="longitude" name="longitude" value="">
 
                     <p>
                        <?php echo $error; ?>

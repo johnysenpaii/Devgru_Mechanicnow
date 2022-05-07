@@ -3,13 +3,13 @@ session_start();
 include('../config.php');
 $mechID1=$_SESSION['mechID']; 
 
-
 if(isset($_POST['UpdateMe']))
 {
     $tb = $_POST['output'];  
     $mechID=$_SESSION['mechID']; 
     $custID=$_POST['custID'];
-
+    $demo = $_POST['demo'];
+ 
     $sql414 = "INSERT INTO vonotification(custID, mechID, Status, progressbarStatus) VALUES(:custID, :mechID, 'verify', :tb)";
     $query414= $dbh->prepare($sql414);
     $query414->bindParam(':custID',$custID,PDO::PARAM_STR);
@@ -25,9 +25,21 @@ if(isset($_POST['UpdateMe']))
     $query->execute();
 
     echo "<script type='text/javascript'>confirm('Are you sure you want to update progress bar ?');</script>";
-  
-}
+ 
 
+ 
+
+
+$sql12="INSERT INTO progressremarks(mechID, custID, remarks) 
+values (:mechID1, :custID , :demo)";
+$query12=$dbh->prepare($sql12);
+$query12->bindParam(':mechID1',$mechID1,PDO::PARAM_STR);
+$query12->bindParam(':custID',$custID,PDO::PARAM_STR);
+$query12->bindParam(':demo',$demo,PDO::PARAM_STR);
+$query12->execute();
+
+
+}
 if(isset($_POST["verify"])){
   $regeditid=intval($_GET['regeditid']);
   $sql1="UPDATE request set status='verify' WHERE resID=:regeditid"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
@@ -104,9 +116,7 @@ if(isset($_POST["verify"])){
                         </iframe>
                     </div>
                 </div>
-                <iframe src="<?php echo $path.$pdf; ?>" width="90%" height="500px">
-</iframe>
-                <div class="col-sm-12 col-md-6 bg-white p-3 rounded-3 shadow">
+                        <div class="col-sm-12 col-md-6 bg-white p-3 rounded-3 shadow">
                     <h5 class="text-start pt-2">Vehicle Owner Information</h6>
                         <p><?php echo htmlentities($result->vOwnerName);?><p>
                         <h5 class="text-start mt-2">Request Information</h5>
@@ -118,7 +128,18 @@ if(isset($_POST["verify"])){
                         <p><i>Time:</i> <?php echo htmlentities($result->time) < 12 ? 'AM' : 'PM';?> 
                             <?php echo htmlentities($result->time);?></p>
                         </div>
-                        <p class="pb-1 "><i>Vehicle Problem:</i> <?php echo htmlentities($result->mechRepair);?></p>
+                        <p class="fw-bold" style="font-size: 20px;">Vehicle Problem:</p>   
+
+                          
+                        <?php
+                        
+                        foreach(explode(',', $result->mechRepair) as $ing) { 
+                          
+                                ?>
+                           <input class="<?php echo htmlentities($ing)?>" onclick="totalIt()" type="checkbox" id="box" name="lenghtCheckbox" value="" <?php echo ($ing == $ing ? 'checked' : '');?>> <label for="box"><?php echo htmlentities($ing)?></label> <br>
+                        <?php  }?>
+                    <input class="display-6 fw-bold" name="demo" id="demo" value="0"></input>
+                    <div id="msg"></div>
                         <h5>Noted Message</h5>
                         <p class="line-segment"><?php echo htmlentities($result->specMessage);?></p>
 
@@ -157,44 +178,40 @@ function loadss(){
  }
 }
 
+var totalLenghtCheckbox = document.getElementsByName("lenghtCheckbox").length;
+var dividelenghtCheckbox= 100 / totalLenghtCheckbox;
+for (let i = 0; i < totalLenghtCheckbox; i++)
+{
+	document.getElementsByName("lenghtCheckbox")[i].value = dividelenghtCheckbox;
+}
 
-
-    // var value = 0, 
-    // tb = document.getElementById("tb"),
-    // progress = document.getElementById("progress"); 
-    // function increase(){ 
-    //     value = value + 20;
-    //     if(value>=100){ 
-    //     tb.value = value; 
-    //     progress.style.width = value + "%";
-    //     progress.innerHTML = value  + "%";
-    //     }
-    // }
-
-    // $('body').on('click', '.progress', function(event) {
-    // var w_tar = $(this).find('.progress-bar'),
-    //     w_cur = w_tar.data('width'),
-    //     w_new = w_cur += 20;
-
-    // if (w_cur > 100) {
-    //     w_new = 20;
-    // }
-    // $('#tb').val(w_new);
-    // w_tar
-    //     .css('width', w_new + "%")
-    //     .data('width', w_new)
-    //     .text(w_new + "%");
-    // });
-
-
-    // $('.progress').trigger('click');
+function totalIt() {
+  var input = document.getElementsByName("lenghtCheckbox");
+  var total = 0;
+  for (var i = 0; i < input.length; i++) {
+    if (input[i].checked) {
+      total += parseFloat(input[i].value);
+    }
+  }
+document.getElementById("demo").value = total.toFixed(2) + " %";
+}
     var t = document.getElementById("need").value;
         if(t == "Home Service")
         {
             document.getElementById("needs").style.display = "block";
         }
-    </script>
+     
+// const list = document.getElementById("box").value;
 
+// for (const checkbox of document.querySelectorAll("#box[name=lenghtCheckbox]")) {
+//   if (list.includes(String(checkbox.value))) {
+//     checkbox.checked = true;
+//   }
+// }  
+    </script>
+ <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+
+<script src="http://code.jquery.com/jquery-migrate-1.1.0.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
     </script>

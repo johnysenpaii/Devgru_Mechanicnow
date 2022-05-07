@@ -150,7 +150,7 @@ include('../config.php');
                                     <ol class="list-group border-bottom-0">
                                         <li
                                             class="list-group-item d-flex justify-content-between align-items-start bg-info">
-                                            <div class="fw-bold">Transaction completed</div>
+                                            <div class="fw-bold">Decline or cancelled</div>
                                             <?php 
 											$sql312 ="SELECT resID from request where status='Decline' || status='cancelled'";
 											$query312 = $dbh -> prepare($sql312);

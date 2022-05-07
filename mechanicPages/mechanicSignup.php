@@ -1,12 +1,12 @@
 <?php
 session_start();
 include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
-if(isset($_POST['register']) && isset($_FILES['mechValidID']) && isset($_FILES['profil_url']))
+if(isset($_POST['register']) && isset($_FILES['mechValidID']) && isset($_FILES['profile_url']) && isset($_FILES['mechCertificate']))
 {
-    $img_name = $_FILES['profil_url']['name'];
-    $img_size = $_FILES['profil_url']['size'];
-    $tmp_name = $_FILES['profil_url']['tmp_name'];
-    $error = $_FILES['profil_url']['error']; 
+    $img_name = $_FILES['profile_url']['name'];
+    $img_size = $_FILES['profile_url']['size'];
+    $tmp_name = $_FILES['profile_url']['tmp_name'];
+    $error = $_FILES['profile_url']['error']; 
 
 
     if ($error === 0) {
@@ -36,8 +36,8 @@ if(isset($_POST['register']) && isset($_FILES['mechValidID']) && isset($_FILES['
 
     $file_name = $_FILES['mechValidID']['name'];
     $file_size = $_FILES['mechValidID']['size'];
-    $tmp_filename = $_FILES['mechValidID']['tmp_filename'];
-    $error1 = $_FILES[ 'mechValidID']['error1']; 
+    $tmp_filename = $_FILES['mechValidID']['tmp_name'];
+    $error1 = $_FILES['mechValidID']['error']; 
 
     if ($error1 === 0) {
         if ($file_size > 1000000) {
@@ -48,11 +48,11 @@ if(isset($_POST['register']) && isset($_FILES['mechValidID']) && isset($_FILES['
             $file_ex = pathinfo($file_name, PATHINFO_EXTENSION); 
             $file_ex_lc = strtolower($file_ex);
                     
-            $allowed_exs1 = array("pdf", "doc");
+            $allowed_exs1 = array("jpg", "jpeg", "png");
 
             if (in_array($file_ex_lc, $allowed_exs1)) {
-                $new_file_name = uniqid("PDF-", true).'.'.$file_ex_lc;
-                $file_upload_path = '../pdf_uploads/'.$new_file_name;
+                $new_file_name = uniqid("IMG-", true).'.'.$file_ex_lc;
+                $file_upload_path = '../validIDs_uploads/'.$new_file_name;
                 move_uploaded_file($tmp_filename, $file_upload_path);
             }else {
                 $em1 = "You can't upload files of this type";
@@ -62,6 +62,36 @@ if(isset($_POST['register']) && isset($_FILES['mechValidID']) && isset($_FILES['
     }else{
         $em1 = "unknown error occurred!";
         header ("Location: mechanicSignup.php?error=$em1");
+    }
+    
+    $files_name = $_FILES['mechCertificate']['name'];
+    $files_size = $_FILES['mechCertificate']['size'];
+    $tmp_filenames = $_FILES['mechCertificate']['tmp_name'];
+    $error1s = $_FILES['mechCertificate']['error']; 
+
+    if ($error1s === 0) {
+        if ($files_size > 1000000) {
+        $em1s = "Sorry, your file is too big!.";
+        header ("Location: mechanicSignup.php?error=$em1s");
+        }
+        else{
+            $files_ex = pathinfo($files_name, PATHINFO_EXTENSION); 
+            $files_ex_lc = strtolower($files_ex);
+                    
+            $allowed_exs1s = array("pdf", "doc");
+
+            if (in_array($files_ex_lc, $allowed_exs1s)) {
+                $new_files_name = uniqid("PDF-", true).'.'.$files_ex_lc;
+                $files_upload_path = '../pdf_uploads/'.$new_files_name;
+                move_uploaded_file($tmp_filenames, $files_upload_path);
+            }else {
+                $em1s = "You can't upload files of this type";
+                header ("Location: mechanicSignup.php?error=$em1s");
+            }
+        }
+    }else{
+        $em1s = "unknown error occurred!";
+        header ("Location: mechanicSignup.php?error=$em1s");
     }
 
     $mechFirstname=$_POST['mechFirstname'];
@@ -113,7 +143,7 @@ if(isset($_POST['register']) && isset($_FILES['mechValidID']) && isset($_FILES['
                 {
                 echo "<script type='text/javascript'>document.location='../login.php';</script>";
                 }else{
-                                $sql="INSERT INTO mechanic(profil_url, mechFirstname, mechLastname, mechAddress, mechEmail, mechCnumber, mechValidID, Username, Password, role,latitude,longitude)VALUES(:new_img_name, :mechFirstname, :mechLastname, :mechAddress, :mechEmail, :mechCnumber, :mechValidID, :Username, :hashedPwd, :role, :latitude,:longitude )"; //specialization
+                                $sql="INSERT INTO mechanic(profile_url, mechFirstname, mechLastname, mechAddress, mechEmail, mechCnumber, mechValidID, Username, Password, role,latitude,longitude, mechCertificate)VALUES(:new_img_name, :mechFirstname, :mechLastname, :mechAddress, :mechEmail, :mechCnumber, :new_file_name, :Username, :hashedPwd, :role, :latitude,:longitude,:new_files_name )"; //specialization
                                 $query=$dbh->prepare($sql);
                                 $query->bindParam(':new_img_name',$new_img_name,PDO::PARAM_STR);
                                 $query->bindParam(':mechFirstname',$mechFirstname,PDO::PARAM_STR);
@@ -121,12 +151,13 @@ if(isset($_POST['register']) && isset($_FILES['mechValidID']) && isset($_FILES['
                                 $query->bindParam(':mechAddress',$mechAddress,PDO::PARAM_STR);
                                 $query->bindParam(':mechEmail',$mechEmail,PDO::PARAM_STR);
                                 $query->bindParam(':mechCnumber',$mechCnumber,PDO::PARAM_STR);
-                                $query->bindParam(':mechValidID',$new_file_name,PDO::PARAM_STR);
+                                $query->bindParam(':new_file_name',$new_file_name,PDO::PARAM_STR);
                                 $query->bindParam(':Username',$Username,PDO::PARAM_STR);
                                 $query->bindParam(':hashedPwd',$hashedPwd,PDO::PARAM_STR);
                                 $query->bindParam(':role',$role,PDO::PARAM_STR);
                                 $query->bindParam(':latitude',$latitude,PDO::PARAM_STR);
                                 $query->bindParam(':longitude',$longitude,PDO::PARAM_STR);
+                                $query->bindParam(':new_files_name',$new_files_name,PDO::PARAM_STR);
                                 $query->execute();
                                 session_regenerate_id();
                                 echo "<script type='text/javascript'>document.location='../login.php';</script>";
@@ -172,8 +203,8 @@ if(isset($_POST['register']) && isset($_FILES['mechValidID']) && isset($_FILES['
                     <label>Personal details</label>
                     <div class="my-2">
                         <label>Upload profile</label>
-                        <input class="form-control" name="profil_url" type="file" 
-                            placeholder="Attach Valid ID" multiple required>
+                        <input class="form-control" name="profile_url" type="file" 
+                            placeholder="Upload profile" multiple required>
                     </div>
                     <div class="name-details">
                         <div class="field input">
@@ -197,9 +228,13 @@ if(isset($_POST['register']) && isset($_FILES['mechValidID']) && isset($_FILES['
                         <input type="text" placeholder="Baranggay, City, Province" name="mechAddress" required>
                     </div>
                     <div class="">
-                        <label>Please attach Valid ID or Certificate</label>
+                        <label>Please attach files:</label><br>
+                        <label for="formFileMultiple">Valid ID</label>    
                         <input class="form-control" name="mechValidID" type="file" id="formFileMultiple"
                             placeholder="Attach Valid ID" multiple required>
+                            <label for="formFileMultiples">Certificate</label> 
+                        <input class="form-control" name="mechCertificate" type="file" id="formFileMultiples"
+                            placeholder="Attach certificate" multiple required>
                     </div>
                     <label>Account Information</label>
                     <div class="name-details">

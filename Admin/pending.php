@@ -125,8 +125,7 @@ include('../config.php');
                                                         <th class="border-0 Phead">Last Name</th>
                                                         <th class="border-0 Phead">Address</th>
                                                         <th class="border-0 Phead">Email</th>
-                                                        <th class="border-0 Phead">Contact Number</th>
-                                                        <th class="border-0 Phead">Valid Papers</th>
+                                                        <th class="border-0 Phead">Contact Number</th>               
                                                         <th class="border-0 Phead">Specialization</th>
                                                         <th class="border-0 Phead">Username</th>
                                                         <th class="border-0 Phead">Check Applicants</th>
@@ -152,9 +151,6 @@ include('../config.php');
                                                         </td>
                                                         <td><?php echo htmlentities($result->mechEmail);?></td>
                                                         <td><?php echo htmlentities($result->mechCnumber);?>
-                                                        </td>
-
-                                                        <td><?php echo htmlentities($result->mechValidID);?>
                                                         </td>
                                                         <td><?php echo htmlentities($result->Specialization);?>
                                                         </td>

@@ -171,7 +171,7 @@ if(isset($_POST['update'])){
                     <div class="act-content">
                         <h5 class="py-4 pb-2 text-center line-segment">Recent Activities</h5>
                         <?php
-                            $sql="SELECT *, DATE_FORMAT(Sdate, '%d-%m-%Y %H:%i:%s %p') as timedate from request WHERE custID=$custID1 and status='Unaccepted' order by resID DESC";
+                            $sql="SELECT *, DATE_FORMAT(Sdate, '%a %M-%d-%Y at %H:%i %p') as timedate from request WHERE custID=$custID1 and status='Unaccepted' order by resID DESC";
                             $query=$dbh->prepare($sql);
                             $query->execute();
                             $results=$query->fetchALL(PDO::FETCH_OBJ);

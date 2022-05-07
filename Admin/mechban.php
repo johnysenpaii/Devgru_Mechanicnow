@@ -161,33 +161,35 @@ if(isset($_POST['ban'])){
 						if($query->rowCount()>0){
     						foreach($results as $result){
 						?>
+                                
                      
-                            <div class="row d-flex justify-content-start px-4 ">
+                            <div class="row d-flex justify-content-start px-4 "> 
+                                <div class="col-lg-4">
                                 <div class="col-lg-10 col-md-12 col-sm-12 d-flex justify-content-center">
                                     <img src="../uploads/<?=$result->profile_url ?>" class="img-fluid" width="20%" height="20%" alt="...">
                                 </div>
-                                <div class="col-sm-12 col-md-4 col-xl-4 mb-2">
+                                <div class="col-sm-12 col-md-12 col-xl-12 mb-2">
                                     <label for="mechFirstname" style="color: rgb(61, 138, 247);">First Name</label>
                                     <input type="text" name="mechFirstname" id="mechFirstname"
                                         value="<?php echo htmlentities($result->mechFirstname);?>" class="form-control">
                                 </div>
-                                <div class="col-sm-12 col-md-4 col-xl-4 mb-2">
+                                <div class="col-sm-12 col-md-12 col-xl-12 mb-2">
                                     <label for="lname" style="color: rgb(61, 138, 247);">Last Name</label>
                                     <input type="text" name="lname" id="lname"
                                         value="<?php echo htmlentities($result->mechLastname);?>" class="form-control"
                                         required="required" autocomplete="on">
                                 </div>
-                                <div class="col-sm-12 col-md-4 col-xl-4 mb-2">
+                                <div class="col-sm-12 col-md-12 col-xl-12 mb-2">
                                     <label for="mechCnumber" style="color: rgb(61, 138, 247);">Contact Number</label>
                                     <input type="number" name="mechCnumber" id="mechCnumber"
                                         value="<?php echo htmlentities($result->mechCnumber);?>" class="form-control">
                                 </div>
-                                <div class="col-sm-12 col-md-4 col-xl-4 mb-2 ">
+                                <div class="col-sm-12 col-md-12 col-xl-12 mb-2 ">
                                     <label for="mechEmail" style="color: rgb(61, 138, 247);">Email Address</label>
                                     <input type="text" name="mechEmail" id="mechEmail"
                                         value="<?php echo htmlentities($result->mechEmail);?>" class="form-control">
                                 </div>
-                                <div class="col-sm-12 col-md-4 col-xl-4 mb-2">
+                                <div class="col-sm-12 col-md-12 col-xl-12 mb-2">
                                     <label for="Address" style="color: rgb(61, 138, 247);">Address</label>
                                     <input type="text" name="Address" id="Address"
                                         value="<?php echo htmlentities($result->mechAddress);?>" class="form-control">
@@ -214,6 +216,15 @@ if(isset($_POST['ban'])){
                                         value="banned"><i class="bi bi-exclamation-circle"></i> Banned</button>
                                 </div>
                             </div>
+                            <div class="col-lg-8">
+                                     
+                            <label for="Documents" style="color: rgb(61, 138, 247);">Valid ID</label>
+                                    <iframe src="../validIDs_uploads/<?=$result->mechValidID?>" width="100%" height="300px"></iframe>
+                                    <label for="Documents" style="color: rgb(61, 138, 247);">Certificates</label>
+                                    <iframe src="../pdf_uploads/<?=$result->mechCertificate?>" width="100%" height="300px"></iframe>
+                                  </div>
+                                 </div>
+
                             <?php }}?>
                         </form>
                     </section>

@@ -5,15 +5,9 @@ $custID1=$_SESSION['custID'];
 $latitude=$_SESSION['latitude'];
 $longitude=$_SESSION['longitude'];
 
-
 if(isset($_POST['send'])){  
-    $host="localhost";
-    $username="root"; 
-    $word="";
-    $db_name="mechanicnowdb"; 
-    $tbl_name="request"; 
-    $con=mysqli_connect("$host", "$username", "$word","$db_name")or die("cannot connect");//connection string  
-
+    $latitude=$_SESSION['latitude'];
+    $longitude=$_SESSION['longitude'];
     $mechName=$_POST['mechName'];
     $voName=$_POST['voName'];
     $Specialization=$_POST['Specialization'];
@@ -33,56 +27,60 @@ if(isset($_POST['send'])){
     $query7->execute();
     
     // $currentlocation=$_POST['currentlocation'];
-    $chk=""; 
-    $spec="";
-    $mechN="";
-    $vON="";
-    $mID="";
-    $Specl="";
-    $serv="";
-    $date1="";
-    $time1="";
-    $date4="";
-
-    // $currentL="";
-    foreach($mechRepair as $chk1){  
-        $chk .= $chk1.", ";
-    } 
-    $spec .= $specMessage;  
-    $mechN .= $mechName;
-    $vON .= $voName;
-    $mID .= $mechID;
-    $Specl .= $Specialization;
-    $serv .= $service;
-    $date1 .= $date;
-    $time1 .= $time;
+    if(isset($_POST["mechRepair"])){
+        $mechRepairInsert = implode(',', $_POST['mechRepair']);
+    }
+    if(empty($mechRepairInsert)){
+         echo "<script>alert('Please select vehicle problem')</script>";
+    }else{
+        try{
+            if(!isset($errorMsg)){
 
 
-    $in_ch=mysqli_query($con,"INSERT INTO request(mechName, vOwnerName, specMessage, mechRepair, serviceType, serviceNeeded, mechID, custID, latitude, longitude, date, time) values ('$mechN', '$vON' , '$spec', '$chk', '$Specl', '$serv', '$mID', '$custID1', '$latitude', '$longitude', '$date1', '$time1')");//,'$latitude','$longitude','$currentL',
-    if($in_ch==1)  
-    {  
-        echo'<script>alert("Request Sent Successfully, Wait for Mechanic to Confirm!")</script>';  
-        echo"<script>location.replace('voDashboard.php');</script>";    
-    }  
-    else  
-    {  
-        echo'<script>alert("Failed to Send Request")</script>';  
-    } 
+  $sql12="INSERT INTO request(mechName, vOwnerName, specMessage, mechRepair, serviceType, serviceNeeded, mechID, custID, latitude, longitude, date, timess) 
+  values (:mechName, :voName , :specMessage, :mechRepairInsert, :Specialization, :service,:mechID ,:custID ,:latitude , :longitude, :date, :time)";
+  $query12=$dbh->prepare($sql12);
+  $query12->bindParam(':mechName',$mechName,PDO::PARAM_STR);
+  $query12->bindParam(':voName',$voName,PDO::PARAM_STR);
+  $query12->bindParam(':specMessage',$specMessage,PDO::PARAM_STR);
+  $query12->bindParam(':mechRepairInsert',$mechRepairInsert,PDO::PARAM_STR);
+  $query12->bindParam(':Specialization',$Specialization,PDO::PARAM_STR);
+  $query12->bindParam(':service',$service,PDO::PARAM_STR);
+  $query12->bindParam(':latitude',$latitude,PDO::PARAM_STR);
+  $query12->bindParam(':longitude',$longitude,PDO::PARAM_STR);
+  $query12->bindParam(':custID',$custID,PDO::PARAM_STR);
+  $query12->bindParam(':mechID',$mechID,PDO::PARAM_STR);
+  $query12->bindParam(':date',$date,PDO::PARAM_STR);
+  $query12->bindParam(':time',$time,PDO::PARAM_STR);
+  $query12->execute();
+  $msg='Request success!!';
+  header("Location: voDashboard.php?/requestForm= $msg");
+}
+else{
+    $msgFailed = 'Request Failed!!';
+    header("Location: voDashboard.php?/requestForm=$msgFailed");
+}
+}
+catch(PDOException $e){
+    echo $e->getMessage();
+}
+}
 
-            $role = $_POST['role']; 
-            $custID = $_SESSION['custID']; 
-            $custName = $_POST['custName'];
+    
+            // $role = $_POST['role']; 
+            // $custID = $_SESSION['custID']; 
+            // $custName = $_POST['custName'];
            
 
-            $sql2 = "INSERT INTO chat(custID, mechID, custName, mechName, message, role) VALUES(:custID, :mechID, :custName, :mechName, :specMessage, :role)";
-            $query2 = $dbh->prepare($sql2);
-            $query2->bindParam(':custID',$custID,PDO::PARAM_STR);
-            $query2->bindParam(':mechID',$mechID,PDO::PARAM_STR);
-            $query2->bindParam(':custName',$custName,PDO::PARAM_STR);
-            $query2->bindParam(':mechName',$mechName,PDO::PARAM_STR);
-            $query2->bindParam(':specMessage',$specMessage,PDO::PARAM_STR);
-            $query2->bindParam(':role',$role,PDO::PARAM_STR);
-            $query2->execute();
+            // $sql2 = "INSERT INTO chat(custID, mechID, custName, mechName, message, role) VALUES(:custID, :mechID, :custName, :mechName, :specMessage, :role)";
+            // $query2 = $dbh->prepare($sql2);
+            // $query2->bindParam(':custID',$custID,PDO::PARAM_STR);
+            // $query2->bindParam(':mechID',$mechID,PDO::PARAM_STR);
+            // $query2->bindParam(':custName',$custName,PDO::PARAM_STR);
+            // $query2->bindParam(':mechName',$mechName,PDO::PARAM_STR);
+            // $query2->bindParam(':specMessage',$specMessage,PDO::PARAM_STR);
+            // $query2->bindParam(':role',$role,PDO::PARAM_STR);
+            // $query2->execute();
     } 
 
 ?>
@@ -113,6 +111,7 @@ if(isset($_POST['send'])){
 
     <section id="mechRequest">
         <form method="POST">
+ 
             <?php
                 $regeditid=intval($_GET['regeditid']);
                 $sql="SELECT * from mechanic WHERE mechID=:regeditid";
@@ -128,14 +127,20 @@ if(isset($_POST['send'])){
             ?>
             <div class="container-fluid p-0">
                 <div class="row m-0 p-0">
-                    <iframe class="col-12 col-md-8" src="https://maps.google.com/maps?q=<?php echo htmlentities($result->latitude);?>,<?php echo htmlentities($result->longitude);?>&<?php echo htmlentities($_SESSION['latitude']);?>,<?php echo htmlentities($_SESSION['longitude']);?>&output=embed" frameborder="0" style="height: 100vh;padding: 0px"></iframe>
+                    <iframe class="col-12 col-md-8"
+                        src="https://maps.google.com/maps?q=<?php echo htmlentities($result->latitude);?>,<?php echo htmlentities($result->longitude);?>&<?php echo htmlentities($_SESSION['latitude']);?>,<?php echo htmlentities($_SESSION['longitude']);?>&output=embed"
+                        frameborder="0" style="height: 100vh;padding: 0px"></iframe>
                     <div class="col-12 col-sm-4 m-0 info-panel shadow-lg p-3" style="background-color: #fff">
                         <div class="row align-items-center">
                             <div class="col-3 mx-3 with-image" style="width: 100px; padding: 5px;">
-                                <img src="../img/vo.jpg" class="float-center imagenajud" alt="" style="max-width: 100%; height: 90px; border-radius: 100px; object-fit: cover;">
+                                <img src="../img/vo.jpg" class="float-center imagenajud" alt=""
+                                    style="max-width: 100%; height: 90px; border-radius: 100px; object-fit: cover;">
                             </div>
                             <div class="mech-inforeq col-7">
-                                <h4><input readonly type="text" class="border-0 no-shadow shadow-none mt-2" name="mechName" value="<?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?>"></h4>
+                                <h4><input readonly type="text" class="border-0 no-shadow shadow-none mt-2"
+                                        name="mechName"
+                                        value="<?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?>">
+                                </h4>
                                 <?php
 
                 $sql21="SELECT *, AVG(ratePercentage) as average from ratingandfeedback WHERE mechID=:regeditid";
@@ -150,19 +155,24 @@ if(isset($_POST['send'])){
                 {
             ?>
                                 <input type="hidden" id="starss" value="<?php echo htmlentities($result21->average);?>">
-                               
+
 
                                 <span type="text" id="stars" onload="getStars()" name="total"></span><br>
                                 <?php }};?>
-                                <input readonly type="text" class="border-0 m-info " size="30" name="vehicleType" value="<?php echo htmlentities($result->vehicleType);?>"><br>
-                                <input readonly type="text" class="border-0 m-info" size="30" name="Specialization" value="<?php echo htmlentities($result->Specialization);?>">
+                                <input readonly type="text" class="border-0 m-info " size="30" name="vehicleType"
+                                    value="<?php echo htmlentities($result->vehicleType);?>"><br>
+                                <input readonly type="text" class="border-0 m-info" size="30" name="Specialization"
+                                    value="<?php echo htmlentities($result->Specialization);?>">
                             </div>
                         </div>
-                        
-                        <input hidden type="text" name="voName" value="<?php echo htmlentities($_SESSION["custFirstname"]); ?> <?php echo htmlentities($_SESSION["custLastname"]); ?>">
+
+                        <input hidden type="text" name="voName"
+                            value="<?php echo htmlentities($_SESSION["custFirstname"]); ?> <?php echo htmlentities($_SESSION["custLastname"]); ?>">
                         <input hidden type="text" name="mechID" value="<?php echo htmlentities($result->mechID);?>">
-                        <input id="address" name='latitude' value="<?php echo htmlentities($_SESSION["latitude"]); ?>" hidden>
-                        <input id="address" name='longitude' value="<?php echo htmlentities($_SESSION["longitude"]); ?>" hidden>
+                        <input id="address" name='latitude' value="<?php echo htmlentities($_SESSION["latitude"]); ?>"
+                            hidden>
+                        <input id="address" name='longitude' value="<?php echo htmlentities($_SESSION["longitude"]); ?>"
+                            hidden>
                         <input type="hidden" name="role" value="sender">
                         <hr class="divider">
                         <div class="request-form" style="color: #302D32">
@@ -170,15 +180,16 @@ if(isset($_POST['send'])){
                                 <div class="row">
                                     <i class="fa-solid fa-circle-exclamation col-1"></i>
                                     <p class="col-10 col-sm-11 py-1">
-                                        If you want a long term service, select Home Service. Select Emergency service if you are
+                                        If you want a long term service, select Home Service. Select Emergency service
+                                        if you are
                                         on-road.
                                     </p>
                                 </div>
                             </div>
                             <div class="request-content text-start">
                                 <div class="form-check">
-                                    <input class="form-check-input mt-2" type="radio" value="Home Service" name="service"
-                                        id="exampleRadios1">
+                                    <input class="form-check-input mt-2" type="radio" value="Home Service"
+                                        name="service" id="exampleRadios1">
                                     <label class="form-check-label mt-1" for="exampleRadios1">
                                         Home Service
                                     </label>
@@ -188,8 +199,8 @@ if(isset($_POST['send'])){
                                     Time: <input onfocus="this.value=''" name="time" type="time" />
                                 </div>
                                 <div class="form-check pb-2">
-                                    <input class="form-check-input" type="radio" value="Emergency Service" name="service"
-                                        id="exampleRadios2">
+                                    <input class="form-check-input" type="radio" value="Emergency Service"
+                                        name="service" id="exampleRadios2">
                                     <label class="form-check-label" for="exampleRadios2">
                                         Emergency Service
                                     </label>
@@ -204,12 +215,14 @@ if(isset($_POST['send'])){
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" id="flexCheckDefault"
                                             name="mechRepair[]" value="Engine Overheat Repair">
-                                        <label class="form-check-label" for="flexCheckDefault">Engine Overheat Repair</label>
+                                        <label class="form-check-label" for="flexCheckDefault">Engine Overheat
+                                            Repair</label>
                                     </div>
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" id="flexCheckDefault"
                                             name="mechRepair[]" value="Dead Battery Repair">
-                                        <label class="form-check-label" for="flexCheckDefault">Dead Battery Repair</label>
+                                        <label class="form-check-label" for="flexCheckDefault">Dead Battery
+                                            Repair</label>
                                     </div>
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" id="flexCheckDefault"
@@ -231,22 +244,28 @@ if(isset($_POST['send'])){
                             </div>
                         </div>
                         <div class="row request-buttons">
-                            <div class="col-md-6 d-grid "><button type="submit" name="send" class="btn btn-primary rounded-pill shadow border-0" id="trap" onclick="trappings()">Request</button></div>
-                            <div class="col-md-6 d-grid "> <button class="btn btn-secondary rounded-pill shadow border-0" type="button"><a href="./voCarmech.php">Back</a></button></div>
+                            <div class="col-md-6 d-grid "><a
+                                    class="btn btn-primary rounded-pill shadow border-0" id="trap"
+                                    onclick="trappings()">Request</a></div>
+                            <div class="col-md-6 d-grid "> <button
+                                    class="btn btn-secondary rounded-pill shadow border-0" type="button"><a
+                                        href="./voCarmech.php">Back</a></button></div>
                         </div>
                     </div>
                 </div>
             </div>
             <!-- modal for confirmation -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content text-dark">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Confirmation</h5>
-                        <button type="button" class="btn-close border-0" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body text-center">
-                        <?php
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Confirmation</h5>
+                            <button type="button" class="btn-close border-0" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body text-center">
+                            <?php
                             $regeditid=intval($_GET['regeditid']);
                             $sql="SELECT * from mechanic WHERE mechID=:regeditid";
                             $query=$dbh->prepare($sql);
@@ -257,13 +276,17 @@ if(isset($_POST['send'])){
                             if($query->rowCount()>0){
                                 foreach ($results as $result){
                         ?>
-                        Are you sure to send a request to <?php echo htmlentities($result->mechFirstname." ".$result->mechLastname)?>?
-                        <?php }}?>
-                        <div class="pt-5">
-                            <button type="submit" class="btn btn-primary rounded-pill shadow" name="send" value="send">Submit Request</button>
-                            <button type="button" class="btn btn-secondary rounded-pill shadow" data-bs-dismiss="modal">Close</button>
+                            Are you sure to send a request to
+           
+                            <?php echo htmlentities($result->mechFirstname." ".$result->mechLastname)?>
+                            <?php }}?>
+                            <div class="pt-5">
+                                <button type="submit" class="btn btn-primary rounded-pill shadow" name="send"
+                                    value="send">Submit Request</button>
+                                <button type="button" class="btn btn-secondary rounded-pill shadow"
+                                    data-bs-dismiss="modal">Close</button>
+                            </div>
                         </div>
-                    </div>
                     </div>
                 </div>
             </div>
@@ -274,10 +297,10 @@ if(isset($_POST['send'])){
                 value=" <?php echo htmlentities($_SESSION["longitude"]); ?>">
         </form>
     </section>
-   
+
     <script>
     //trappings
-    function trappings(){
+    function trappings() {
         var trap = document.getElementById("trap");
         var service = document.getElementsByName("service");
         var repairbox = document.getElementById("repairbox");
@@ -290,19 +313,22 @@ if(isset($_POST['send'])){
                 checked++;
             }
         }
-        
+
         if (checked > 0) {
             for (var i = 0, len = service.length; i < len; i++) {
                 if (service[i].checked) {
                     rd++;
                 }
             }
-            if(rd > 0){
-                setAttribute(trap, {"data-bs-target":"#exampleModal", "data-bs-toggle":"modal"});
-                // trap.setAttribute("data-bs-target", "#exampleModal"); 
-                // trap.setAttribute("data-bs-toggle", "modal"); 
-                
-            }else{
+            if (rd > 0) {
+                // setAttribute(trap, {
+                //     "data-bs-target": "#exampleModal",
+                //     "data-bs-toggle": "modal"
+                // });
+                trap.setAttribute("data-bs-target", "#exampleModal"); 
+                trap.setAttribute("data-bs-toggle", "modal"); 
+
+            } else {
                 alert("You must choose what service you want.");
                 return false;
             }
@@ -312,12 +338,14 @@ if(isset($_POST['send'])){
         }
 
     }
-    function setAttributes(el,var attrs){
-        for(var key in attrs){
-            trap.setAttribute(key, attrs[key]);
-        }
-    }
-    
+
+    // function setAttributes(el,
+    //     var attrs) {
+    //     for (var key in attrs) {
+    //         trap.setAttribute(key, attrs[key]);
+    //     }
+    // }
+
 
     //another function
     $(function() {
@@ -380,6 +408,8 @@ if(isset($_POST['send'])){
 
         return output.join('');
     }
+
+
     </script>
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"

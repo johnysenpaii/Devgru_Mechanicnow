@@ -131,8 +131,8 @@ if(isset($_POST["confirm"]) || isset($_POST['comment'])){
                     <h6 class="pt-5 py-1"><small><strong><?php echo htmlentities($result->mechName);?></strong></small></h6>
                     <h1 id="bar" class="float-end pl-5"><?php echo htmlentities($result->progressBar);?> %</h1>
                     <p class="py-1"><small><strong>Service Request:</strong> <?php echo htmlentities($result->serviceNeeded);?></small></p>
-                    <p class="py-1"><small><strong>Date:</strong> <?php echo htmlentities($result->date);?></small></p>                        <p class="py-1"><small><strong>Time:</strong> <?php echo htmlentities($result->time) < 12 ? 'AM' : 'PM';?>
-                    <?php echo htmlentities($result->time);?></small></p>
+                    <p class="py-1"><small><strong>Date:</strong> <?php echo htmlentities($result->date);?></small></p>                        <p class="py-1"><small><strong>Time:</strong> <?php echo htmlentities($result->timess) < 12 ? 'AM' : 'PM';?>
+                    <?php echo htmlentities($result->timess);?></small></p>
                     <p class="pb-1 "><small><strong>Vehicle Problem:</strong> <?php echo htmlentities($result->mechRepair);?></small></p>
                         <!-- <h5>Noted Message</h5>
                         <p class="line-segment"><small><?php echo htmlentities($result->specMessage);?></small></p> -->

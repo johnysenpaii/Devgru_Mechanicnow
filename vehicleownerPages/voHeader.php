@@ -6,12 +6,13 @@ $query=$dbh->prepare($sql1);
 $query->execute();
 }
 if(isset($_POST["unreadAccept"])){
- 
+    $notification='fsljfklsafpowefsdlfms.,f';
     $notifID = $_POST['notifID'];
     $sql1="UPDATE vonotification set notifStatus='Read' WHERE notifID=:notifID"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
     $query=$dbh->prepare($sql1);
     $query->bindParam(':notifID',$notifID,PDO::PARAM_STR);
     $query->execute();
+  
 }
 if(isset($_POST["unreadDecline"])){
     $notifID = $_POST['notifID'];
@@ -19,15 +20,16 @@ if(isset($_POST["unreadDecline"])){
     $query=$dbh->prepare($sql1);
     $query->bindParam(':notifID',$notifID,PDO::PARAM_STR);
     $query->execute();
-    echo"<script>location.replace('voActivityLog.php');</script>";  
+ 
 }
 if(isset($_POST["unreadProgress"])){
+    $notification='fsljfklsafpowefsdlfms.,f';
     $notifID = $_POST['notifID'];
     $sql1="UPDATE vonotification set notifStatus='Read' WHERE notifID=:notifID"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
     $query=$dbh->prepare($sql1);
     $query->bindParam(':notifID',$notifID,PDO::PARAM_STR);
     $query->execute();
-    echo"<script>location.replace('voActivityLog.php');</script>"; 
+
 }
 if(isset($_POST["unreadVerify"])){
     $notifID = $_POST['notifID'];
@@ -35,7 +37,7 @@ if(isset($_POST["unreadVerify"])){
     $query=$dbh->prepare($sql1);
     $query->bindParam(':notifID',$notifID,PDO::PARAM_STR);
     $query->execute();
-    echo"<script>location.replace('voActivityLog.php');</script>";  
+ 
 }
 
 ?>
@@ -92,10 +94,27 @@ if(isset($_POST["unreadVerify"])){
                         <ul class="dropdown-menu p-0 notif-class overflow-auto"
                             style="font-size: small; width: 340px; max-height: 60vh; overflow-y: auto;"
                             aria-labelledby="navbarDropdownMenuLink">
-                            <li class="notif-content alert-primary row g-0 text-center sticky-top p-0">
-                                <button type="submit" class="rounded alert-primary border-0 fw-bold py-1" name="readAll">Mark all as read</button>
+                           
+                            <?php 
+                             $custID=$_SESSION['custID'];
+                             $sql9011 ="SELECT * from vonotification where custID = $custID order by notifID";
+                             $query9011 = $dbh -> prepare($sql9011);
+                             $query9011->execute();
+                             $results9011=$query9011->fetchAll(PDO::FETCH_OBJ);
+                             $ban1234=$query9011->rowCount();
+                                  if($ban1234 == 0){ ?>
+                                     <li class="notif-content alert-primary row g-0 text-center sticky-top p-0">
+                                <button type="submit" id="mark" class="rounded alert-primary border-0 fw-bold py-1"> <i class="fa-solid fa-face-frown-open"></i> No notification yet!!</button>
                             </li>
-                            <?php  
+
+                            <?php  }else{ ?>
+                                
+                                <li class="notif-content alert-primary row g-0 text-center sticky-top p-0">
+                                <button type="submit" id="mark" class="rounded alert-primary border-0 fw-bold py-1" name="readAll">Mark all as read</button>
+                            </li>
+
+<?php };
+                            
                             $cnt=1;
                         if($query->rowCount()>0){
                             foreach ($results as $result){
@@ -113,14 +132,15 @@ if(isset($_POST["unreadVerify"])){
                                         Your request is <?php echo htmlentities($result->status);?>
                                         <input type="hidden" name="notifID" value="<?php echo  htmlentities($result->notifID);?>">
                                 </div>
+                                <a class="text-center fw-bold" style="font-size: 12px;" href="voActivityLog.php"><i class="fa-solid fa-eye"> visit</i> </a>
                             </button>
 
                             </li>
                           
                             
                             <?php } else{?>
-                                <li>  
-                                <button class="alert-primary notif-content row text-center border-0 w-100 mx-0">
+                                <li>   
+                                <button name="unreadAccept" class="alert-primary notif-content row text-center border-0 w-100 mx-0">
                                 <p class="text-end text-small fw-light" style="font-size: smaller;"><?php echo htmlentities($result->timess)?></p>
                                 <div class="col-md-2 p-1 text-end" style="font-size: 30px;">
                                     <i class="fa-solid fa-circle-check"></i>
@@ -129,6 +149,7 @@ if(isset($_POST["unreadVerify"])){
                          
                                         Your request is <?php echo htmlentities($result->status);?>
                                 </div>
+                              <a class="text-center fw-bold" style="font-size: 12px;" href="voActivityLog.php"><i class="fa-solid fa-eye"></i> visit</a>
                             </button>
 
                             </li>
@@ -145,6 +166,7 @@ if(isset($_POST["unreadVerify"])){
                                     Sorry, your request is decline by the Mechanic. Please find another Mechanic.
                                     <input type="hidden" name="notifID" value="<?php echo  htmlentities($result->notifID);?>">
                                 </div>
+                                <a class="text-center" href="voActivityLog.php"><i class="fa-solid fa-eye"></i>visit </a>
                             </button>
 
                             </li>
@@ -158,6 +180,7 @@ if(isset($_POST["unreadVerify"])){
                                 <div class="col-md-10 py-3 text-start fw-light">
                                     Sorry, your request is decline by the Mechanic. Please find another Mechanic.
                                 </div>
+                                <a class="text-center" href="voActivityLog.php"><i class="fa-solid fa-eye"></i> visit</a>
                             </button>
 
                             </li>
@@ -174,6 +197,7 @@ if(isset($_POST["unreadVerify"])){
                                 This is the current progess of your request updated by your the Mechanic.
                                 <input type="hidden" name="notifID" value="<?php echo  htmlentities($result->notifID);?>">
                                 </div>
+                                <a class="text-center" href="voActivityLog.php"><i class="fa-solid fa-eye"></i> visit</a>
                             </button>
 
                             </li>
@@ -188,6 +212,7 @@ if(isset($_POST["unreadVerify"])){
                                 <div class="col-md-10 text-start fw-light">
                                 The current progess of your request updated by your the Mechanic.
                                 </div>
+                                <a class="text-center" href="voActivityLog.php"><i class="fa-solid fa-eye"></i> visit </a>
                             </button>
 
                             </li>
@@ -204,6 +229,7 @@ if(isset($_POST["unreadVerify"])){
                                 Your Mechanic sent a "Request complete" message. Please check your vehicle before accepting.
                                 <input type="hidden" name="notifID" value="<?php echo  htmlentities($result->notifID);?>">
                                 </div>
+                                <a class="text-center" href="voActivityLog.php"><i class="fa-solid fa-eye"></i> visit</a>
                             </button>
 
                             </li>
@@ -217,6 +243,7 @@ if(isset($_POST["unreadVerify"])){
                                 <div class="col-md-10 text-start fw-light">
                                 Your Mechanic sent a "Request complete" message. Please check your vehicle before accepting.
                                 </div>
+                                <a class="text-center" href="voActivityLog.php"><i class="fa-solid fa-eye"></i> visit</a>
                             </button>
 
                             </li>
