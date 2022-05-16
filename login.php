@@ -44,15 +44,19 @@ if(isset($_POST['Login']))
             $_SESSION['custAddress']=$custAddress;
             $_SESSION['Username']=$attemptedUsername;
             $_SESSION['Password']=$hashedPwd;
-            echo "<script type='text/javascript'>document.location='./vehicleownerPages/voDashboard.php';</script>";
+            header("Location:./vehicleownerPages/voDashboard.php?/Mechanicidentafication=$custID"); 
+            // echo "<script type='text/javascript'>document.location='./vehicleownerPages/voDashboard.php';</script>";
         }else{
+            $msg='Username and password mismatch!';
+            header("Location:./login.php?/error=$msg"); 
             $error="<div class='alert alert-danger text-center fw-bold' role='alert'>Username and password mismatch!</div>";
+            session_destroy();
         }
     }else{
         $regeditid = $_SESSION['mechID'];
         $latitude = $_POST['latitude'];
         $longitude = $_POST['longitude'];
-        $sql="UPDATE mechanic set latitude=:latitude,longitude=:longitude WHERE mechID=:regeditid"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
+        $sql="UPDATE mechanic set latitude=:latitude,longitude=:longitude, stats='Active' WHERE mechID=:regeditid"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
         $query=$dbh->prepare($sql);
         $query->bindParam(':latitude',$latitude,PDO::PARAM_STR);
         $query->bindParam(':longitude',$longitude,PDO::PARAM_STR);
@@ -74,6 +78,7 @@ if(isset($_POST['Login']))
             $hashedPwdM=$results1['Password'];
             $latitude=$results1['latitude'];
             $longitude=$results1['longitude'];
+            $stats =$results1['stats'];
         
             $Password1=$_POST['Password'];
             if(password_verify($Password1, $hashedPwdM) == 1){
@@ -86,10 +91,13 @@ if(isset($_POST['Login']))
                 $_SESSION['mechAddress']=$mechAddress;
                 $_SESSION['Username']=$attemptedMUsername;
                 $_SESSION['Password']=$hashedPwdM;
-                echo "<script type='text/javascript'>document.location='./mechanicPages/mechDashboard.php';</script>";
-                header( "refresh:5;url=./mechanicPages/mechDashboard.php" );
+                $_SESSION['stats'] = $stats;
+                header("Location:./mechanicPages/mechDashboard.php?/Mechanicidentafication=$mechID&MechanicStatus=$stats"); 
             }else{
+                $msg='Username and password mismatch!';
+                header("Location:./login.php?/error=$msg"); 
                 $error="<div class='alert alert-danger text-center fw-bold' role='alert'>Username and password mismatch!</div>";
+                session_destroy();
             }
         }else{
             //echo '<script>alert("User not found!")</script>';
@@ -105,11 +113,13 @@ if(isset($_POST['Login']))
             session_regenerate_id();
             $_SESSION['Username']=$results['Username'];
             $_SESSION['Password']=$results['Password'];
-           echo "<script type='text/javascript'>alert('Welcome Admin!');</script>";
-           echo "<script type='text/javascript'>document.location='./Admin/adminSide.php';</script>";
+            header("Location:./Admin/adminSide.php?/Mechanicidentafication=$results"); 
             }
             else{
-               $error="<div class='alert alert-danger text-center fw-bold' role='alert'>User not found!</div>";
+                $msg='Username and password mismatch!';
+                header("Location:./login.php?/error=$msg"); 
+                $error="<div class='alert alert-danger text-center fw-bold' role='alert'>Username and password mismatch!</div>";
+                session_destroy();
             }
         }
     }
@@ -158,7 +168,6 @@ if(isset($_POST['Login']))
                     <p>
                        <?php echo $error; ?>
                     </p>
-                    <div class="err-txt" hidden>This is an error message</div>
                     <div class="field input">
                         <label>Username</label>
                         <input type="text" placeholder="Enter Username" name="Username">

@@ -7,13 +7,8 @@ $longitude=$_SESSION['longitude'];
 
 
 if(isset($_POST['send'])){  
-    $host="localhost";
-    $username="root"; 
-    $word="";
-    $db_name="mechanicnowdb"; 
-    $tbl_name="request"; 
-    $con=mysqli_connect("$host", "$username", "$word","$db_name")or die("cannot connect");//connection string  
-
+    $latitude=$_SESSION['latitude'];
+    $longitude=$_SESSION['longitude'];
     $mechName=$_POST['mechName'];
     $voName=$_POST['voName'];
     $Specialization=$_POST['Specialization'];
@@ -33,57 +28,41 @@ if(isset($_POST['send'])){
     $query7->execute();
     
     // $currentlocation=$_POST['currentlocation'];
-    $chk=""; 
-    $spec="";
-    $mechN="";
-    $vON="";
-    $mID="";
-    $Specl="";
-    $serv="";
-    $date1="";
-    $time1="";
-    $date4="";
-
-    // $currentL="";
-    foreach($mechRepair as $chk1){  
-        $chk .= $chk1.", ";
-    } 
-    $spec .= $specMessage;  
-    $mechN .= $mechName;
-    $vON .= $voName;
-    $mID .= $mechID;
-    $Specl .= $Specialization;
-    $serv .= $service;
-    $date1 .= $date;
-    $time1 .= $time;
-
-
-    $in_ch=mysqli_query($con,"INSERT INTO request(mechName, vOwnerName, specMessage, mechRepair, serviceType, serviceNeeded, mechID, custID, latitude, longitude, date, time) values ('$mechN', '$vON' , '$spec', '$chk', '$Specl', '$serv', '$mID', '$custID1', '$latitude', '$longitude', '$date1', '$time1')");//,'$latitude','$longitude','$currentL',
-    if($in_ch==1)  
-    {  
-        echo'<script>alert("Request Sent Successfully, Wait for Mechanic to Confirm!")</script>';  
-        echo"<script>location.replace('voDashboard.php');</script>";    
-    }  
-    else  
-    {  
-        echo'<script>alert("Failed to Send Request")</script>';  
-    } 
-
-            $role = $_POST['role']; 
-            $custID = $_SESSION['custID']; 
-            $custName = $_POST['custName'];
-           
-
-            $sql2 = "INSERT INTO chat(custID, mechID, custName, mechName, message, role) VALUES(:custID, :mechID, :custName, :mechName, :specMessage, :role)";
-            $query2 = $dbh->prepare($sql2);
-            $query2->bindParam(':custID',$custID,PDO::PARAM_STR);
-            $query2->bindParam(':mechID',$mechID,PDO::PARAM_STR);
-            $query2->bindParam(':custName',$custName,PDO::PARAM_STR);
-            $query2->bindParam(':mechName',$mechName,PDO::PARAM_STR);
-            $query2->bindParam(':specMessage',$specMessage,PDO::PARAM_STR);
-            $query2->bindParam(':role',$role,PDO::PARAM_STR);
-            $query2->execute();
-    } 
+    if(isset($_POST["mechRepair"])){
+        $mechRepairInsert = implode(',', $_POST['mechRepair']);
+    }
+    if(empty($mechRepairInsert)){
+         echo "<script>alert('Please select vehicle problem')</script>";
+    }else{
+        try{
+            if(!isset($errorMsg)){
+                $sql12="INSERT INTO request(mechName, vOwnerName, specMessage, mechRepair, serviceType, serviceNeeded, mechID, custID, latitude, longitude, date, timess) 
+                values (:mechName, :voName , :specMessage, :mechRepairInsert, :Specialization, :service,:mechID ,:custID ,:latitude , :longitude, :date, :time)";
+                $query12=$dbh->prepare($sql12);
+                $query12->bindParam(':mechName',$mechName,PDO::PARAM_STR);
+                $query12->bindParam(':voName',$voName,PDO::PARAM_STR);
+                $query12->bindParam(':specMessage',$specMessage,PDO::PARAM_STR);
+                $query12->bindParam(':mechRepairInsert',$mechRepairInsert,PDO::PARAM_STR);
+                $query12->bindParam(':Specialization',$Specialization,PDO::PARAM_STR);
+                $query12->bindParam(':service',$service,PDO::PARAM_STR);
+                $query12->bindParam(':latitude',$latitude,PDO::PARAM_STR);
+                $query12->bindParam(':longitude',$longitude,PDO::PARAM_STR);
+                $query12->bindParam(':custID',$custID,PDO::PARAM_STR);
+                $query12->bindParam(':mechID',$mechID,PDO::PARAM_STR);
+                $query12->bindParam(':date',$date,PDO::PARAM_STR);
+                $query12->bindParam(':time',$time,PDO::PARAM_STR);
+                $query12->execute();
+                 $msg='Request success!!';
+                header("Location:voActivityLog.php?/requestForm=$msg");
+            }else{
+                $msgFailed = 'Request Failed!!';
+                header("Location:voCarMechRequest.php?/requestForm=$msgFailed");
+            }
+        }catch(PDOException $e){
+            echo $e->getMessage();
+        }
+    }
+}
 
 ?>
 <!DOCTYPE html>
@@ -121,10 +100,8 @@ if(isset($_POST['send'])){
                 $query->execute();
                 $results=$query->fetchALL(PDO::FETCH_OBJ);
 
-                if($query->rowCount()>0)
-                {
-                foreach ($results as $result) 
-                {
+                if($query->rowCount()>0){
+                    foreach ($results as $result) {
             ?>
             <div class="container-fluid p-0">
                 <div class="row m-0 p-0">
@@ -152,7 +129,7 @@ if(isset($_POST['send'])){
                         <div class="request-form" style="color: #302D32">
                             <div class="alert alert-primary text-start py-0 pb-1 mb-0 note-alert shadow-sm">
                                 <div class="row">
-                                    <i class="fa-solid fa-circle-exclamation col-1"></i>
+                                    <i class="fa-solid fa-circle-exclamation col-1"></i> 
                                     <p class="col-10 col-sm-11 py-1">
                                         If you want a long term service, select Home Service. Select Emergency service if you are
                                         on-road.
@@ -215,7 +192,7 @@ if(isset($_POST['send'])){
                             </div>
                         </div>
                         <div class="row request-buttons">
-                            <div class="col-md-6 d-grid "><button type="button" class="btn btn-primary rounded-pill shadow border-0" id="trap" onclick="trappings()">Request</button></div>
+                            <div class="col-md-6 d-grid "><a type="button" class="btn btn-primary rounded-pill shadow border-0" id="trap" onclick="trappings()">Request</a></div>
                             <div class="col-md-6 d-grid "> <button class="btn btn-secondary rounded-pill shadow border-0" type="button"><a href="./voCarmech.php">Back</a></button></div>
                         </div>
                     </div>
@@ -259,13 +236,25 @@ if(isset($_POST['send'])){
         </form>
     </section>
    
-    <script>
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+    </script>
+    <script src="../js/bootstrap.bundle.min.js"></script>
+        <script>
     //trappings
     function trappings(){
-        var trap = document.getElementById("trap");
         var service = document.getElementsByName("service");
         var repairbox = document.getElementById("repairbox");
         var chkbox = repairbox.getElementsByTagName("INPUT");
+        var trap = document.getElementById("trap");
         var checked = 0;
         var rd = 0;
 
@@ -282,9 +271,9 @@ if(isset($_POST['send'])){
                 }
             }
             if(rd > 0){
-                setAttribute(trap, {"data-bs-target":"#exampleModal", "data-bs-toggle":"modal"});
-                // trap.setAttribute("data-bs-target", "#exampleModal"); 
-                // trap.setAttribute("data-bs-toggle", "modal"); 
+                // setAttribute(trap, {"data-bs-target":"#exampleModal", "data-bs-toggle":"modal"});
+                trap.setAttribute("data-bs-target", "#exampleModal"); 
+                trap.setAttribute("data-bs-toggle", "modal"); 
                 
             }else{
                 alert("You must choose what service you want.");
@@ -296,11 +285,11 @@ if(isset($_POST['send'])){
         }
 
     }
-    function setAttributes(el,var attrs){
-        for(var key in attrs){
-            trap.setAttribute(key, attrs[key]);
-        }
-    }
+    // function setAttributes(el,var attrs){
+    //     for(var key in attrs){
+    //         trap.setAttribute(key, attrs[key]);
+    //     }
+    // }
     
 
     //another function
@@ -365,17 +354,6 @@ if(isset($_POST['send'])){
         return output.join('');
     }
     </script>
-
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
-    </script>
-    <script src="../js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

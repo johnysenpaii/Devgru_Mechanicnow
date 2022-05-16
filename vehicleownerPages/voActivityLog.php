@@ -82,13 +82,13 @@ if(isset($_POST["confirm"])){
             <div class="row py-3 px-sm-0 px-md-3 justify-content-center pb-5">
                 <div class="col-lg-8  py-4">
                     <?php
-                        $sql="SELECT * from request WHERE custID=$custID1 and status='Accepted' || status='verify' order by resID DESC";
+                        $sql="SELECT * from request WHERE custID = $custID1 and status = 'Accepted' || status = 'verify' order by resID DESC";
                         $query=$dbh->prepare($sql);
                         $query->execute();
                         $results=$query->fetchALL(PDO::FETCH_OBJ);
                         if($query->rowCount()>0){
                             foreach ($results as $result){
-                                if($custID1==$custID1){
+                                if($result-> status =="Accepted"){
                     ?>
                     <div class="card text-dark mb-2">
                         <div class="card-body">
@@ -103,10 +103,23 @@ if(isset($_POST["confirm"])){
                             <a class="btn btn-primary rounded-pill py-0 mt-1 shadow border-0" href="./voMonitorMechService.php?regeditid=<?php echo htmlentities($result->resID);?>"><small>Monitor Service</small></a>
                         </div>
                     </div>
-                    <?php }}} 
+                    <?php } else if($result-> status =="verify"){?>
+                        <div class="card text-dark mb-2">
+                        <div class="card-body">
+                            <input type="text" hidden name="resID" value="<?php echo htmlentities($result->resID);?>">
+                            <small class="card-text float-end pt-0" style="color: green;"><?php echo htmlentities($result->status);?></small>
+                            <h6 class="card-title"><?php echo htmlentities($result->mechName);?></h6>
+                            <small class="card-text t-6"><?php echo htmlentities($result->mechRepair);?></small>
+                            <div class='alert alert-primary text-start py-0 pb-1 mb-0 fw-bold'>
+                                <h6 class="pt-2"><small>Note:</small></h6>
+                                <small class="card-text"><?php echo htmlentities($result->specMessage);?></small>
+                            </div>
+                            <a class="btn btn-primary rounded-pill py-0 mt-1 shadow border-0" href="./voMonitorMechService.php?regeditid=<?php echo htmlentities($result->resID);?>"><small>Monitor Service</small></a>
+                        </div>
+                    </div>
                     
-                    else {
-                    ?>
+                   <?php }}} else { ?>
+                   
                     <div class="emptyrequest mt-5 pt-5">
                         <div class="emptydiv"><img src="../img/empty.png" alt=""></div>
                         <h6>No available activities. . .</h6>

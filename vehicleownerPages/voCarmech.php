@@ -71,21 +71,15 @@ include('../config.php');
         <div class="row py-3 px-sm-0 px-md-3 text-center table-responsive justify-content-center pb-5"> 
             <div class="col-lg-8 bg-white py-4 rounded-3">
                 <h4 class="text-dark pb-4">Available Car Mechanics</h4>
-                <!-- <div class="row d-flex px-sm-0 px-md-4">                    -->
                     <form method="GET">
                         <div class="row m-0 m-md-3 col-12 searchlogo align-items-center">
-                            <div class="input-group-sm col-9">
+                            <div class="input-group-sm col-10">
                                 <input class="form-control rounded-pill shadow-none" autocomplete="off" name="searchs" type="text" placeholder="  Filter Search">
                             </div>
                             <button class="fa-solid fa-magnifying-glass s-button col-1 px-0" name="sea" type="submit"></button>
-                            <i class="fa-solid fa-filter fa-2x filter col-1" data-bs-toggle="modal" data-bs-target="#Filter-modal"></i>
+                            <!-- <i class="fa-solid fa-filter fa-2x filter col-1" data-bs-toggle="modal" data-bs-target="#Filter-modal"></i> -->
                         </div>
-                        <!-- <div class="col-3 col-md-1 searchlogo justify-content-center align-items-center">
-                            <button class="fa-solid fa-magnifying-glass s-button" name="sea" type="submit"></button>
-                            <i class="fa-solid fa-filter fa-2x filter" data-bs-toggle="modal" data-bs-target="#Filter-modal"></i>
-                        </div> -->
                     </form>
-                <!-- </div> -->
                 
                 <table class="table table-borderless table-curved pt-1 px-sm-0 px-md-4">
                     <thead>
@@ -163,7 +157,7 @@ include('../config.php');
                             <tr class="d-flex align-items-center justify-content-around mt-2 shadow">
                                 <td class="t-content"><?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?></td>
                                 <td class="t-content"><?php echo htmlentities($result->Specialization);?></td>
-                                <td class="t-content">k.m <?php echo number_format($result->distance,1);?> </td>
+                                <td class="t-content"><?php echo number_format($result->distance,1);?> KM</td>
                                 <td class="t-content"><a class="btn btn-warning px-3 shadow-none" href="voCarmechRequest.php?regeditid=<?php echo htmlentities($result->mechID)?>">Details</a></td>
                             </tr>
                             <?php $cnt=$cnt+1;}}     
@@ -176,12 +170,6 @@ include('../config.php');
                                 }        
                     }
                     ?>
-                    
-                    
-                    
-                    
-                    
-                   
                     </tbody>
                 </table>
             </div>

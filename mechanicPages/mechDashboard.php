@@ -23,15 +23,7 @@ $mechID1=$_SESSION['mechID'];
 
 <body id="contbody" style="background-color: #f8f8f8" onload="GetAddress()">
     <?php include('mechHeader.php');?>
-    <section id="nav-top" class="d-none d-md-block top-navigation container-fluid">
-        <div class="row">
-            <div class="d-flex justify-content-center pt-3">
-                <a href="mechActivityLog.php" class="py-1 px-5 mx-1 bg-white text-dark rounded-pill btn">Activity
-                    Log</a>
-                <a href="mechTransaction.php" class="py-1 px-5 mx-1 bg-white text-dark rounded-pill btn">Transaction History</a>
-            </div>
-        </div>
-    </section>
+    <?php include('./mechTopnav.php');?>
     <section id="mechContent" class="mech-content container-fluid">
         <div class="row py-3 px-sm-0 px-md-3 text-center table-responsive justify-content-center pb-5">
             <div class="col-lg-8 bg-white py-4 rounded-3 shadow-lg">

@@ -22,13 +22,10 @@ $mechID1=$_SESSION['mechID'];
 </head>
 <body id="contbody" style="background-color: #f8f8f8">
     <?php include('mechHeader.php');?>
+    <?php include('./mechTopnav.php');?>
     
     <section id="activityLog">
         <div class="row py-0 px-sm-0 px-md-3 table-responsive justify-content-center pb-5">
-        <div class="d-flex justify-content-center pt-3">
-                <a href="mechActivityLog.php" class="py-1 px-5 mx-1 bg-white text-dark rounded-pill btn">Activity Log</a>
-                <a href="mechTransaction.php" class="py-1 px-5 mx-1 bg-white text-dark rounded-pill btn">Transaction History</a>
-            </div>
             <div class="col-lg-8  py-4  ">
                 <?php
                     $sql="SELECT * from request WHERE mechID=$mechID1 and status='complete' order by resID DESC";

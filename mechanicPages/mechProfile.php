@@ -179,7 +179,71 @@ if(isset($_POST['total1'])){
 
               if($query->rowCount()>0){
                 foreach ($results as $result){ ?>
-            <div class="row text-dark pt-2 justify-content-evenly">
+            <div class="row text-light m-0 user-infoPanel">
+                <?php
+                    $sql = "SELECT * FROM mechanic where mechID = $regeditid";
+                    $res = mysqli_query($conn, $sql);
+                    if (mysqli_num_rows ($res) > 0) {
+                    while ($images = mysqli_fetch_assoc ($res)){ 
+                        if($regeditid == $regeditid ){
+                    ?>
+                    <div class="profimage" style="width: 200px; height: 200px; padding: 2em;">
+                        <img src="../uploads/<?=$images['profile_url']?>" onerror="this.src='../img/mech.jpg';" class="mainimage pimage" style=" max-width: 100%; border-radius: 50%; object-fit: cover;" alt="">
+                    </div>
+                    <?php }} }?>
+                    <div class="user-info-info column">
+                        <input type="hidden" name="id" value="<?php echo htmlentities($result->mechID);?>" required="required">
+                        <h4><?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?></h4>
+                        <div class="col-12">
+                            <p hidden><i>No Ratings Yet</i></p>
+                            <p name="vehicleType"><?php echo htmlentities($result->vehicleType);?></p>
+                             <?php
+                                $mechID=$_SESSION['mechID'];
+                                $sql="SELECT mechID,AVG(ratePercentage) as total from ratingandfeedback where mechID = '$mechID'";
+                                $query = $dbh->prepare($sql);
+                                $query->execute();
+                                $results=$query->fetchAll(PDO::FETCH_OBJ);
+                                $cnt=1;       
+                                if( $query->rowCount()>0){   
+                                    foreach($results as $result1){
+                            ?>
+                            <input type="hidden" id="starss" name="total1" value="<?php echo number_format($result1->total,1);?>">
+                                
+                            <span type="text" id="stars"
+                                name="total"><?php echo number_format($result1->total,1);?></span>
+                            <?php $cnt=$cnt+1;}}?>
+                            <!-- <i class="fa-solid fa-star "></i><i class="fa-solid fa-star "></i><i class="fa-solid fa-star "></i><i class="fa-solid fa-star "></i><i class="fa-regular fa-star "></i> -->
+                        </div>
+                        <div class="d-grid p-2 mx-5">
+                            <button class="btn btn-light rounded-pill shadow" type="button" class="btn btn-warning px-3" data-bs-toggle="modal" data-bs-target="#exampleModalTogglel">Edit Profile</button>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="text-start">
+                            <p class="pt-3" name="custEmail"><?php echo htmlentities($result->mechEmail);?></p>
+                            <p name="custCnumber"><?php echo htmlentities($result->mechCnumber);?></p>
+                            <p name="custAddress"><?php echo htmlentities($result->mechAddress);?></p>
+                        </div>    
+                    </div>
+            </div>
+            <h5 class="text-center text-dark py-4">FEEDBACKS</h5>
+            <div class="row text-dark feedback-container text-center m-0">
+                <?php
+                    $sql004 = "SELECT * from ratingandfeedback where mechID = :regeditid order by ratingID DESC limit 0,3 ";
+                    $query5 = $dbh->prepare($sql004);
+                    $query5->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
+                    $query5->execute();
+                    $results=$query5->fetchAll(PDO::FETCH_OBJ);
+                    $cnt=1;
+                        if($query5->rowCount()>0){
+                            foreach($results as $res){
+                ?>
+                <div class="col-sm-12 col-md-4 col-lg-4 pt-3"><i>"<?php echo htmlentities($res->feedback); ?>"</i></div>
+                <!-- <div class="col-sm-12 col-md-4 pt-3"><i>"The best, honest, straight foward, flawless and you can rely on. Always makes time for the customer. We have been going to him for years even though we had to drive there an hour and back!"</i></div>
+                <div class="col-sm-12 col-md-4 pt-3"><i>"Quality friendly service! Took my work van over there last week with a turbo problem and nothing is to hard for them to fix. Thanks again"</i></div>  -->
+                    <?php }}?>
+            </div>
+            <!-- <div class="row text-dark pt-2 justify-content-evenly">
                 <div class="row note justify-content-center">
 
                 </div>
@@ -264,11 +328,11 @@ if(isset($_POST['total1'])){
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
             <?php }}?>
            
             <!-- Vertically centered modal -->
-            <div class="modal fade" id="edit-modal" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
+            <div class="modal fade" id="exampleModalTogglel" tabindex="-1" aria-labelledby="exampleModalToggleLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-lg">
                     <div class="modal-content text-dark">
                         <div class="modal-header">
@@ -334,6 +398,9 @@ if(isset($_POST['total1'])){
                                                 value="<?php echo htmlentities($result->Username);?>"
                                                 placeholder="Username" aria-label="default input example">
                                         </div>
+                                        <div class="my-2">
+                                            <button class="btn btn-primary rounded-pill shadow" type="button" class="btn btn-warning px-3" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal" aria-label="Close">Edit Password</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -373,26 +440,24 @@ if(isset($_POST['total1'])){
                                     <h6 class="pb-2">Specialization: </h6>
                                     <div class="form-check">
                                         <?php
-                                                $divide=explode(",",$result->Specialization);
-                                                //var_dump($divide);
-                                                $specialization1 = array("Tire Repair","Break Repair" ,"Chain Loosening Repair","Engine Overheat Repair" ,"Dead Battery Repair","Dead Light Repair");
-                                                foreach($specialization1 as $result2){
-                                                    if(strcmp($result2, $divide[0] ?? null) && strcmp($result2, $divide[1] ?? null) && strcmp($result2, $divide[2] ?? null) && strcmp($result2, $divide[3] ?? null) && strcmp($result2, $divide[4] ?? null) && strcmp($result2, $divide[5] ?? null) && strcmp($result2, $divide[6] ?? null) && strcmp($result2, $divide[7] ?? null) && strcmp($result2, $divide[8] ?? null) && strcmp($result2, $divide[9] ?? null)){
-                                                    ?>
-                                        <input class="form-check-input" type="checkbox" value="<?php echo $result2;?>"
-                                            name="Specialization[]" id="flexCheckDefault">
-                                        <label class="form-check-label"
-                                            for="flexCheckDefault"><?php echo $result2;?></label>
-                                        <br>
-                                        <?php
-                                                    }else{
-                                                    ?>
-                                        <input class="form-check-input" type="checkbox" value="<?php echo $result2;?>"
-                                            name="Specialization[]" id="flexCheckDefault" checked>
-                                        <label class="form-check-label"
-                                            for="flexCheckDefault"><?php echo $result2;?></label>
-                                        <br>
-                                        <?php
+                                            //selected repairs
+                                            $divide=explode(",",$result->Specialization);
+                                            //var_dump($divide);
+                                            //overall repairs
+                                            $specialization1 = array("Tire Repair","Break Repair" ,"Chain Loosening Repair","Engine Overheat Repair" ,"Dead Battery Repair","Dead Light Repair");
+                                            foreach($specialization1 as $result2){
+                                                if(strcmp($result2, $divide[0] ?? null) && strcmp($result2, $divide[1] ?? null) && strcmp($result2, $divide[2] ?? null) && strcmp($result2, $divide[3] ?? null) && strcmp($result2, $divide[4] ?? null) && strcmp($result2, $divide[5] ?? null) && strcmp($result2, $divide[6] ?? null) && strcmp($result2, $divide[7] ?? null) && strcmp($result2, $divide[8] ?? null) && strcmp($result2, $divide[9] ?? null)){
+                                        ?>
+                                                    <input class="form-check-input" type="checkbox" value="<?php echo $result2;?>" name="Specialization[]" id="flexCheckDefault">
+                                                    <label class="form-check-label" for="flexCheckDefault"><?php echo $result2;?></label>
+                                                    <br>
+                                                <?php
+                                                }else{
+                                                ?>
+                                                    <input class="form-check-input" type="checkbox" value="<?php echo $result2;?>" name="Specialization[]" id="flexCheckDefault" checked>
+                                                    <label class="form-check-label" for="flexCheckDefault"><?php echo $result2;?></label>
+                                                    <br>
+                                                 <?php
                                                     }
                                                 }
                                                 ?>
@@ -464,14 +529,14 @@ if(isset($_POST['total1'])){
 
         // Append all the filled whole stars
         for (var i = rating; i >= 1; i--)
-            output.push('<i class="fa fa-star" aria-hidden="true" style="color: #9132DA;"></i>&nbsp;');
+            output.push('<i class="fa fa-star" aria-hidden="true" style="color: #302d32;"></i>&nbsp;');
 
         // If there is a half a star, append it
-        if (i == .5) output.push('<i class="fa fa-star-half-o" aria-hidden="true" style="color: #9132DA;"></i>&nbsp;');
+        if (i == .5) output.push('<i class="fa fa-star-half-o" aria-hidden="true" style="color: #302d32;"></i>&nbsp;');
 
         // Fill the empty stars
         for (let i = (5 - rating); i >= 1; i--)
-            output.push('<i class="fa fa-star-o" aria-hidden="true" style="color: #9132DA;"></i>&nbsp;');
+            output.push('<i class="fa fa-star-o" aria-hidden="true" style="color: #302d32;"></i>&nbsp;');
 
         return output.join('');
     }
