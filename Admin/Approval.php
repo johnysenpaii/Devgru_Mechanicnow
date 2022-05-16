@@ -134,10 +134,11 @@ if(isset($_POST['deny'])){
                                     data-toggle="dropdown" aria-expanded="false"><i class="bi bi-star-fill"></i>
                                     Feedbacks</a>
                                 <ul class="dropdown-menu w-100" aria-labelledby="navbarDropdown">
+                                <ul class="dropdown-menu w-100" aria-labelledby="navbarDropdown">
                                     <li><a href="feedbacks.php" class="dropdown-item pl-4 p-2"><i
-                                                class="bi bi-person-circle"></i> Clients</a></li>
-                                    <li><a href="mechfeedbacks.php" class="dropdown-item pl-4 p-2"><i
                                                 class="bi bi-tools"></i> Mechanics</a></li>
+                                   
+                                </ul>
                                 </ul>
 
                             </li>

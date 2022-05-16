@@ -65,9 +65,7 @@ include('../config.php');
                                     data-toggle="dropdown" aria-expanded="false"><i class="bi bi-star-fill"></i>
                                     Feedbacks</a>
                                 <ul class="dropdown-menu w-100" aria-labelledby="navbarDropdown">
-                                    <li><a href="feedbacks.php" class="dropdown-item pl-4 p-2"><i
-                                                class="bi bi-person-circle"></i> Clients</a></li>
-                                    <li><a href="mechfeedbacks.php" class="dropdown-item pl-4 p-2"><i
+                                <li><a href="feedbacks.php" class="dropdown-item pl-4 p-2"><i
                                                 class="bi bi-tools"></i> Mechanics</a></li>
                                 </ul>
 
@@ -107,8 +105,8 @@ include('../config.php');
 											$results3=$query3->fetchAll(PDO::FETCH_OBJ);
 											$totalComplete=$query3->rowCount();
 										?>
-                                            <span class="fw-bold"> <i class="bi bi-file-earmark-pdf-fill"></i>
-                                                <?php echo htmlentities($totalComplete);?></span>
+                                            <a href="pdfFile.php" class="fw-bold"> <i class="bi bi-file-earmark-pdf-fill"></i>
+                                                <?php echo htmlentities($totalComplete);?></a>
                                         </li>
                                     </ol>
                                     <div class="card-body">
@@ -158,8 +156,8 @@ include('../config.php');
 											$results312=$query312->fetchAll(PDO::FETCH_OBJ);
 											$totalDC=$query312->rowCount();
 										?>
-                                            <span class="fw-bold"> <i class="bi bi-file-earmark-pdf-fill"></i>
-                                                <?php echo htmlentities($totalDC);?></span>
+                                            <a href="cancelledpdf.php" class="fw-bold"> <i class="bi bi-file-earmark-pdf-fill"></i>
+                                                <?php echo htmlentities($totalDC);?></a>
                                         </li>
                                     </ol>
                                     <div class="card-body">
@@ -213,16 +211,16 @@ include('../config.php');
                                     <ol class="list-group border-bottom-0">
                                         <li
                                             class="list-group-item d-flex justify-content-between align-items-start bg-info">
-                                            <div class="fw-bold">Mechanic registered</div>
+                                            <div class="fw-bold">Mechanic registered with ratings</div>
                                             <?php 
-											$sql3 ="SELECT mechID from mechanic";
+											$sql3 ="SELECT mechID from mechanic  where status='approve'";
 											$query3 = $dbh -> prepare($sql3);
 											$query3->execute();
 											$results3=$query3->fetchAll(PDO::FETCH_OBJ);
 											$totalmech=$query3->rowCount();
 										?>
-                                            <span class="fw-bold"> <i class="bi bi-file-earmark-pdf-fill"></i>
-                                                <?php echo htmlentities($totalmech);?></span>
+                                            <a href="Mechanicpdf.php" class="fw-bold"> <i class="bi bi-file-earmark-pdf-fill"></i>
+                                                <?php echo htmlentities($totalmech);?></a>
                                         </li>
                                     </ol>
                                     <div class="card-body">
@@ -234,10 +232,11 @@ include('../config.php');
                                                     <th scope="col">Lastname</th>
                                                     <th scope="col">Email address</th>
                                                     <th scope="col">Contact number</th>
+                                                    <th scope="col">Ratings</th>
                                                 </tr>
                                             </thead>
                                             <?php  
-                                            $sql="SELECT *from mechanic";
+                                            $sql="SELECT *from mechanic where status='approve'";
                                             $query = $dbh->prepare($sql);
                                             $query->execute();
                                             $results=$query->fetchAll(PDO::FETCH_OBJ);
@@ -255,6 +254,7 @@ include('../config.php');
                                                     <td><?php echo htmlentities($result1->mechLastname);?></td>
                                                     <td><?php echo htmlentities($result1->mechEmail);?></td>
                                                     <td><?php echo htmlentities($result1->mechCnumber);?></td>
+                                                    <td><?php echo htmlentities($result1->average);?></td>
                                                 </tr>
                                             </tbody>
                                             <?php $cnt=$cnt+1;}}?>
@@ -270,13 +270,13 @@ include('../config.php');
                                             class="list-group-item d-flex justify-content-between align-items-start bg-info">
                                             <div class="fw-bold">Vehicle owner registered</div>
                                             <?php 
-											$sql31 ="SELECT mechID from mechanic";
+											$sql31 ="SELECT custID from customer";
 											$query31 = $dbh -> prepare($sql31);
 											$query31->execute();
 											$results31=$query31->fetchAll(PDO::FETCH_OBJ);
 											$totalcust=$query31->rowCount();
 										?>
-                                            <span class="fw-bold"> <i class="bi bi-file-earmark-pdf-fill"></i>  <?php echo htmlentities($totalcust);?></span>
+                                            <a href="customerpdf.php" class="fw-bold"> <i class="bi bi-file-earmark-pdf-fill"></i>  <?php echo htmlentities($totalcust);?></a>
                                         </li>
                                     </ol>
                                     <div class="card-body">

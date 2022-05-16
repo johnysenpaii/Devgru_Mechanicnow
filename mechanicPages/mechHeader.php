@@ -64,27 +64,15 @@ if(isset($_POST["unreadComplete"])) {
                         <?php }?>
 
 
-                        <?php if($_SESSION["statActiveNotActive"] == 'Active'){?>
+                       
 
                         <li class="nav-item ">
                             <a class="nav-link position-relative" href="./mechProfile.php"><i class="fa-regular fa-user"></i>
                                 <?php echo htmlentities($_SESSION["mechFirstname"]); ?>
-                                <span class="position-absolute top-0 start-100 translate-middle p-2 bg-success border border-light rounded-circle">
-    <span class="visually-hidden">New alerts</span>
-  </span>
-                            </a>
-                        </li>
-                        <?php }else if($_SESSION["statActiveNotActive"] == 'Not active'){?>
-                            <li class="nav-item ">
-                            <a class="nav-link position-relative" href="./mechProfile.php"><i class="fa-regular fa-user"></i>
-                                <?php echo htmlentities($_SESSION["mechFirstname"]); ?>
-                                <span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
-    <span class="visually-hidden">New alerts</span>
-  </span>
-                            </a>
-                        </li>
 
-                        <?php }?>
+                            </a>
+                        </li>
+                      
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown position-relative" href="#" id="navbarDropdownMenuLink"
                                 role="button" data-bs-toggle="dropdown" aria-expanded="false">
