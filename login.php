@@ -3,6 +3,20 @@ session_start();
 include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
 if(isset($_POST['Login']))
 {
+<<<<<<< Updated upstream
+=======
+ 
+    
+    $regeditid1 = $_SESSION['custID'];
+    $latitude = $_POST['latitude'];
+    $longitude = $_POST['longitude'];
+    $sql="UPDATE customer set latitude=:latitude,longitude=:longitude WHERE custID=:regeditid1"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
+    $query=$dbh->prepare($sql);
+    $query->bindParam(':latitude',$latitude,PDO::PARAM_STR);
+    $query->bindParam(':longitude',$longitude,PDO::PARAM_STR);
+    $query->bindParam(':regeditid1',$regeditid1,PDO::PARAM_STR);
+    $query->execute(); 
+>>>>>>> Stashed changes
     $Username=$_POST['Username'];
     
     //$valid = password_verify($input, $Password); //1 or 0
@@ -29,11 +43,24 @@ if(isset($_POST['Login']))
             $_SESSION['custAddress']=$custAddress;
             $_SESSION['Username']=$attemptedUsername;
             $_SESSION['Password']=$hashedPwd;
+<<<<<<< Updated upstream
             echo "<script type='text/javascript'>document.location='./vehicleownerPages/voDashboard.php';</script>";
         }else{
            echo '<script>alert("Oops! Username and Password mismatch!")</script>';
         }
     }else{
+=======
+            header("Location:./vehicleownerPages/voDashboard.php?/Customeridentafication=$custID"); 
+            // echo "<script type='text/javascript'>document.location='./vehicleownerPages/voDashboard.php';</script>";
+        }else{    
+            $msg='Username and password mismatch!';
+            header("Location:./login.php?/error=$msg"); 
+            $error="<div class='alert alert-danger text-center fw-bold' role='alert'>Username and password mismatch!</div>";
+            session_destroy();
+        }
+    }else{
+      
+>>>>>>> Stashed changes
         //echo '<script>alert("User not found!")</script>';
         $sql="SELECT * FROM mechanic WHERE Username=:Username AND role='MECHANIC'";
         $query1=$dbh->prepare($sql);
@@ -48,7 +75,14 @@ if(isset($_POST['Login']))
             $attemptedMUsername=$results1['Username'];
             $mechAddress=$results1['mechAddress'];
             $hashedPwdM=$results1['Password'];
+<<<<<<< Updated upstream
         
+=======
+            $latitude=$results1['latitude'];
+            $longitude=$results1['longitude'];
+            $status=$results1['status'];
+            $stats=$results1['stats'];
+>>>>>>> Stashed changes
             $Password1=$_POST['Password'];
             if(password_verify($Password1, $hashedPwdM) == 1){
                 session_regenerate_id();
@@ -58,10 +92,39 @@ if(isset($_POST['Login']))
                 $_SESSION['mechAddress']=$mechAddress;
                 $_SESSION['Username']=$attemptedMUsername;
                 $_SESSION['Password']=$hashedPwdM;
+<<<<<<< Updated upstream
                 echo "<script type='text/javascript'>document.location='./mechanicPages/mechDashboard.php';</script>";
             }else{
             echo '<script>alert("Oops! Username and Password mismatch!")</script>';
+=======
+                $_SESSION['status']=$status;
+                $_SESSION['stats']=$stats;
+                // echo "<script type='text/javascript'>document.location='./mechanicPages/mechDashboard.php';</script>";
+                // header("Location:voBikemech.php?/lat=$l1&long=$l2"); 
+                $regeditid = $_SESSION['mechID'];
+        $latitude = $_POST['latitude'];
+        $longitude = $_POST['longitude'];
+        $sql="UPDATE mechanic set stats ='Active',latitude=:latitude,longitude=:longitude WHERE mechID=:regeditid"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
+        $query=$dbh->prepare($sql);
+        $query->bindParam(':latitude',$latitude,PDO::PARAM_STR);
+        $query->bindParam(':longitude',$longitude,PDO::PARAM_STR);
+        $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
+        $query->execute(); 
+        header("Location:./mechanicPages/mechDashboard.php?/Mechanicidentafication=$mechID&MechanicStatus=$stats"); 
+
+
+
+
+
+            }else{ 
+                $error="<div class='alert alert-danger text-center fw-bold' role='alert'>Username and password mismatch!</div>";
+                $msg='Username and password mismatch!';
+                header("Location:./login.php?/error=$error"); 
+                session_destroy();
+               
+>>>>>>> Stashed changes
             }
+
         }else{
             //echo '<script>alert("User not found!")</script>';
             $Password=$_POST['Password'];
@@ -80,9 +143,16 @@ if(isset($_POST['Login']))
             echo "<script type='text/javascript'>document.location='./adminPages';</script>";
             }
             else{
+<<<<<<< Updated upstream
                 echo "<script type='text/javascript'>alert('User not Found!');</script>";
+=======
+                $msg='Username and password mismatch!';
+                header("Location:./login.php?/error= $msg"); 
+                session_destroy(); 
+>>>>>>> Stashed changes
             }
         }
+       
     }
 } 
 ?>
@@ -125,6 +195,7 @@ if(isset($_POST['Login']))
                     <div class="field button">
                         <input type="submit" name="Login" value="Login">
                     </div>
+<<<<<<< Updated upstream
                     <div class="link">Doesn't have an account yet? <a href="#" data-bs-toggle="modal" data-bs-target="#reg-modal">Signup</a></div>
             </form>
         </section>
@@ -146,6 +217,38 @@ if(isset($_POST['Login']))
                             <i class="fa-solid fa-screwdriver-wrench"></i>
                             <p>Mechanic</p>
                         </a>
+=======
+                    <div class="link">Doesn't have an account yet? <a href="#" data-bs-toggle="modal"
+                            data-bs-target="#reg-modal">Signup</a></div>
+                            <?php if (isset($_GET['error'])): ?>
+                        <p>dfsdfdsfdsf<?php echo $_GET['error']; ?></p>
+                        <?php endif ?>
+                </form>
+            </section>
+            <!-- Vertically centered modal -->
+            <div class="modal fade" id="reg-modal" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modal-title">Choose Account type</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row g-2 justify-content-around">
+                                <a href="./vehicleownerPages/vehicleOwnerSignup.php" class="col-sm-5 text-center ms1">
+                                    <i class="fa-solid fa-car"></i>
+                                    <p>Vehicle Owner</p>
+                                </a>
+                                <a href="./mechanicPages/mechanicSignup.php" class="col-sm-5 text-center">
+                                    <i class="fa-solid fa-screwdriver-wrench"></i>
+                                    <p>Mechanic</p>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <p>Do you have an account? <a href="login.php">Login</a></p>
+                        </div>
+>>>>>>> Stashed changes
                     </div>
                 </div>
                 <div class="modal-footer">

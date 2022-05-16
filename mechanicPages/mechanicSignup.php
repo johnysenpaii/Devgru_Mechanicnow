@@ -34,6 +34,69 @@ if(isset($_POST['register']) && isset($_FILES['mechValidID']))
         header ("Location: mechanicSignup.php?error=$em");
     }
 
+<<<<<<< Updated upstream
+=======
+    $file_name = $_FILES['mechValidID']['name'];
+    $file_size = $_FILES['mechValidID']['size'];
+    $tmp_filename = $_FILES['mechValidID']['tmp_name'];
+    $error1 = $_FILES['mechValidID']['error']; 
+
+    if ($error1 === 0) {
+        if ($file_size > 1000000) {
+        $em1 = "Sorry, your file is too big!.";
+        header ("Location: mechanicSignup.php?error=$em1");
+        }
+        else{
+            $file_ex = pathinfo($file_name, PATHINFO_EXTENSION); 
+            $file_ex_lc = strtolower($file_ex);
+                    
+            $allowed_exs1 = array("jpg", "jpeg", "png");
+
+            if (in_array($file_ex_lc, $allowed_exs1)) {
+                $new_file_name = uniqid("IMG-", true).'.'.$file_ex_lc;
+                $file_upload_path = '../validIDs_uploads/'.$new_file_name;
+                move_uploaded_file($tmp_filename, $file_upload_path);
+            }else {
+                $em1 = "You can't upload files of this type";
+                header ("Location: mechanicSignup.php?error=$em1");
+            }
+        }
+    }else{
+        $em1 = "unknown error occurred!";
+        header ("Location: mechanicSignup.php?error=$em1");
+    }
+    
+    $files_name = $_FILES['mechCertificate']['name'];
+    $files_size = $_FILES['mechCertificate']['size'];
+    $tmp_filenames = $_FILES['mechCertificate']['tmp_name'];
+    $error1s = $_FILES['mechCertificate']['error']; 
+
+    if ($error1s === 0) {
+        if ($files_size > 1000000) {
+        $em1s = "Sorry, your file is too big!.";
+        header ("Location: mechanicSignup.php?error=$em1s");
+        }
+        else{
+            $files_ex = pathinfo($files_name, PATHINFO_EXTENSION); 
+            $files_ex_lc = strtolower($files_ex);
+                    
+            $allowed_exs1s = array("pdf", "doc");
+
+            if (in_array($files_ex_lc, $allowed_exs1s)) {
+                $new_files_name = uniqid("PDF-", true).'.'.$files_ex_lc;
+                $files_upload_path = '../pdf_uploads/'.$new_files_name;
+                move_uploaded_file($tmp_filenames, $files_upload_path);
+            }else {
+                $em1s = "You can't upload files of this type";
+                header ("Location:mechanicSignup.php?error=$em1s");
+            }
+        }
+    }else{
+        $em1s = "unknown error occurred!";
+        header ("Location: mechanicSignup.php?error=$em1s");
+    }
+
+>>>>>>> Stashed changes
     $mechFirstname=$_POST['mechFirstname'];
     $mechLastname=$_POST['mechLastname'];
     $mechAddress=$_POST['mechAddress'];

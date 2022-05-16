@@ -1,7 +1,36 @@
 <?php
 session_start();
+<<<<<<< Updated upstream
 include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
 $mechID1=$_SESSION['mechID'];
+=======
+include('../config.php');
+if(isset($_POST['logout'])) {
+    $regeditid = $_SESSION['mechID'];
+    $sql="UPDATE mechanic set stats='Not active' WHERE mechID=:regeditid"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
+    $query=$dbh->prepare($sql);
+    $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
+    $query->execute(); 
+    session_destroy();
+    unset($_SESSION['mechID']);
+    header('location:http://localhost/Devgru_Mechanicnow/login.php');
+} 
+$mechID1=$_SESSION['mechID']; 
+
+// if(isset($_POST["verify"])){
+//  $resID=intval($_POST['resID']);
+//   $sql1="UPDATE request set status='verify' WHERE resID=:resID"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
+//   $query=$dbh->prepare($sql1);
+//   $query->bindParam(':resID',$resID,PDO::PARAM_STR);
+//   $query->execute(); 
+//   echo '<script>alert("please wait vehicle onwer to approve")</script>';
+
+
+// }
+
+
+
+>>>>>>> Stashed changes
 ?>
 <!DOCTYPE html>
 <html lang="en">

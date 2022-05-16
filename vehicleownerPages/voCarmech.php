@@ -46,6 +46,7 @@ $custAddress1=$_SESSION['custAddress'];
                     </thead>
                     <tbody>
                         <?php
+<<<<<<< Updated upstream
                            $sql="SELECT * from mechanic WHERE mechAddress='$custAddress1' and Specialization='Car Mechanic'";
                            $query=$dbh->prepare($sql);
 
@@ -64,6 +65,102 @@ $custAddress1=$_SESSION['custAddress'];
                             <td><?php echo htmlentities($result->Specialization);?></td>
                             <td><a class="btn btn-warning px-3" href="voCarmechRequest.php?regeditid=<?php echo htmlentities($result->mechID)?>">Details</a></td>
                         </tr>
+=======
+                        $searchcont = $_GET['searchs'] ?? null;
+                    $sql="SELECT *,
+                    (3959 * acos(cos(radians($v1)) *cos(radians(latitude))* cos(radians(longitude)-radians($v2))+sin(radians($v1))
+                    *sin(radians(latitude)))) as distance  from  mechanic WHERE 
+                    vehicleType like '%Car Mechanic%' and status='approve' and stats = 'Active' having distance < 3 order by distance limit 0, 20 ";
+                    
+                    $sqlsearch="SELECT *,(3959 * acos(cos(radians($v1)) *cos(radians(latitude))* cos(radians(longitude)-radians($v2))+sin(radians($v1))
+                    *sin(radians(latitude)))) as distance  from  mechanic WHERE 
+                    vehicleType like '%Car Mechanic%' and status='approve' and stats = 'Active' and Specialization like '%{$searchcont}%' having distance < 3 order by distance limit 0, 20 ";
+                    if(isset($_GET['sea'])){
+                        $query=$dbh->prepare($sqlsearch);
+                        $query->execute();
+                        $results=$query->fetchALL(PDO::FETCH_OBJ);
+                        $cnt=1;       
+                        if( $query->rowCount()>0){   
+                            foreach($results as $result){
+                               ?> 
+                               
+                               
+                            <tr class="d-flex align-items-center justify-content-around mt-2 shadow">
+                                <td class="t-content"><?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?></td>
+                                <td class="t-content"><?php echo htmlentities($result->Specialization);?></td>
+                                <td class="t-content">k.m <?php echo number_format($result->distance,1);?> </td>
+                                <td class="t-content"><a class="btn btn-warning px-3 shadow-none" href="voCarmechRequest.php?regeditid=<?php echo htmlentities($result->mechID)?>">Details</a></td>
+                            </tr>
+                            <?php $cnt=$cnt+1;}}     
+                                else{?>    
+                                <div class="emptyrequest mt-1 pt-4" >
+                                <div class="emptydiv"><img src="../img/empty.png" alt=""></div>
+                                <h6 class="t-content">"<?php echo $searchcont ?>" Search not found. . .</h6>
+                                </div>
+                                <?php
+                                }         
+                    }elseif(isset($_GET['filt'])){
+                        $filtarr=implode(",",$_GET["filter"] ?? null);
+                        //var_dump($filtarr);
+                        $divide=explode(",",$filtarr);
+                        var_dump($divide);
+                        // $finalFilter = $divide;
+                        
+                        
+                        $sqlfilt ="SELECT *,
+                        (3959 * acos(cos(radians($v1)) *cos(radians(latitude))* cos(radians(longitude)-radians($v2))+sin(radians($v1))
+                        *sin(radians(latitude)))) as distance  from  mechanic WHERE 
+                        vehicleType like '%Car Mechanic%' and status='approve' and stats = 'Active' and Specialization like '%{$divide[0]}%' having distance < 3 order by distance limit 0, 20 ";
+                        $query=$dbh->prepare($sqlfilt);
+                        $query->execute();
+                        $results=$query->fetchALL(PDO::FETCH_OBJ);
+                        $cnt=1;       
+                        if( $query->rowCount()>0){   
+                            foreach($results as $result){?> 
+                            <tr class="d-flex align-items-center justify-content-around mt-2 shadow">
+                                <td class="t-content"><?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?></td>
+                                <td class="t-content"><?php echo htmlentities($result->Specialization);?></td>
+                                <td class="t-content">k.m <?php echo number_format($result->distance,1);?> </td>
+                                <td class="t-content"><a class="btn btn-warning px-3 shadow-none" href="voCarmechRequest.php?regeditid=<?php echo htmlentities($result->mechID)?>">Details</a></td>
+                            </tr>
+                            <?php $cnt=$cnt+1;}}     
+                                else{?>    
+                                <div class="emptyrequest mt-1 pt-4" >
+                                <div class="emptydiv"><img src="../img/empty.png" alt=""></div>
+                                <h6>No mechanic nearby. . .</h6>
+                                </div>
+                                <?php
+                                }        
+                    }else{
+                        $query=$dbh->prepare($sql);
+                        $query->execute();
+                        $results=$query->fetchALL(PDO::FETCH_OBJ);
+                        $cnt=1;       
+                        if( $query->rowCount()>0){   
+                            foreach($results as $result){?> 
+                            <tr class="d-flex align-items-center justify-content-around mt-2 shadow">
+                                <td class="t-content"><?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?></td>
+                                <td class="t-content"><?php echo htmlentities($result->Specialization);?></td>
+                                <td class="t-content">k.m <?php echo number_format($result->distance,1);?> </td>
+                                <td class="t-content"><a class="btn btn-warning px-3 shadow-none" href="voCarmechRequest.php?regeditid=<?php echo htmlentities($result->mechID)?>">Details</a></td>
+                            </tr>
+                            <?php $cnt=$cnt+1;}}     
+                                else{?>    
+                                <div class="emptyrequest mt-1 pt-4" >
+                                <div class="emptydiv"><img src="../img/empty.png" alt=""></div>
+                                <h6>No mechanic nearby. . .</h6>
+                                </div>
+                                <?php
+                                }        
+                    }
+                    ?>
+                    
+                    
+                    
+                    
+                    
+                   
+>>>>>>> Stashed changes
                     </tbody>
                     <?php }}}?>
                 </table>

@@ -20,6 +20,7 @@ if(isset($_POST['send'])){
     $vOwnerName=$_POST['vOwnerName'];
     $service=$_POST['service'];
     $mechID=$_POST['mechID'];
+<<<<<<< Updated upstream
     $chk=""; 
     $spec="";
     $mechN="";
@@ -31,6 +32,73 @@ if(isset($_POST['send'])){
     $serv="";
     foreach($checkbox1 as $chk1){  
         $chk .= $chk1.", ";
+=======
+    $date=$_POST['date'];
+    $time=$_POST['time'];
+    $custID=$_SESSION['custID'];
+    
+    $sql7 = "INSERT INTO notification(custID, mechID) VALUES(:custID, :mechID)";
+    $query7 = $dbh->prepare($sql7);
+    $query7->bindParam(':custID',$custID,PDO::PARAM_STR);
+    $query7->bindParam(':mechID',$mechID,PDO::PARAM_STR);
+    $query7->execute();
+    
+    // $currentlocation=$_POST['currentlocation'];
+    if(isset($_POST["mechRepair"])){
+        $mechRepairInsert = implode(',', $_POST['mechRepair']);
+    }
+    if(empty($mechRepairInsert)){
+         echo "<script>alert('Please select vehicle problem')</script>";
+    }else{
+        try{
+            if(!isset($errorMsg)){
+
+
+  $sql12="INSERT INTO request(mechName, vOwnerName, specMessage, mechRepair, serviceType, serviceNeeded, mechID, custID, latitude, longitude, date, timess) 
+  values (:mechName, :voName, :specMessage, :mechRepairInsert, :Specialization, :service,:mechID ,:custID ,:latitude , :longitude, :date, :time)";
+  $query12=$dbh->prepare($sql12);
+  $query12->bindParam(':mechName',$mechName,PDO::PARAM_STR);
+  $query12->bindParam(':voName',$voName,PDO::PARAM_STR);
+  $query12->bindParam(':specMessage',$specMessage,PDO::PARAM_STR);
+  $query12->bindParam(':mechRepairInsert',$mechRepairInsert,PDO::PARAM_STR);
+  $query12->bindParam(':Specialization',$Specialization,PDO::PARAM_STR);
+  $query12->bindParam(':service',$service,PDO::PARAM_STR);
+  $query12->bindParam(':latitude',$latitude,PDO::PARAM_STR);
+  $query12->bindParam(':longitude',$longitude,PDO::PARAM_STR);
+  $query12->bindParam(':custID',$custID,PDO::PARAM_STR);
+  $query12->bindParam(':mechID',$mechID,PDO::PARAM_STR);
+  $query12->bindParam(':date',$date,PDO::PARAM_STR);
+  $query12->bindParam(':time',$time,PDO::PARAM_STR);
+  $query12->execute();
+  $msg='Request success!!';
+  header("Location:voActivityLog.php?/requestForm=$msg");
+}
+else{
+    $msgFailed = 'Request Failed!!';
+    header("Location:voCarMechRequest.php?/requestForm=$msgFailed");
+}
+}
+catch(PDOException $e){
+    echo $e->getMessage();
+}
+}
+
+    
+            // $role = $_POST['role']; 
+            // $custID = $_SESSION['custID']; 
+            // $custName = $_POST['custName'];
+           
+
+            // $sql2 = "INSERT INTO chat(custID, mechID, custName, mechName, message, role) VALUES(:custID, :mechID, :custName, :mechName, :specMessage, :role)";
+            // $query2 = $dbh->prepare($sql2);
+            // $query2->bindParam(':custID',$custID,PDO::PARAM_STR);
+            // $query2->bindParam(':mechID',$mechID,PDO::PARAM_STR);
+            // $query2->bindParam(':custName',$custName,PDO::PARAM_STR);
+            // $query2->bindParam(':mechName',$mechName,PDO::PARAM_STR);
+            // $query2->bindParam(':specMessage',$specMessage,PDO::PARAM_STR);
+            // $query2->bindParam(':role',$role,PDO::PARAM_STR);
+            // $query2->execute();
+>>>>>>> Stashed changes
     } 
     $spec .= $specMessage;  
     $mechN .= $mechName;
@@ -124,6 +192,7 @@ if(isset($_POST['send'])){
                                     Emergency Service
                                 </label>
                             </div>
+<<<<<<< Updated upstream
                             <h6><i>Please select and/or specify mechanical problem below.</i></h6>
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="flexCheckDefault" name="mechRepair[]" value="Tire Repair">
@@ -148,6 +217,51 @@ if(isset($_POST['send'])){
                              <div class="">
                                  <label for="">Others specify..</label>
                                 <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="Please specify" rows="3" name="specMessage" value="specMessage"></textarea>
+=======
+                        </div>
+                        <div class="row request-buttons">
+                            <div class="col-md-6 d-grid "><a
+                                    class="btn btn-primary rounded-pill shadow border-0" id="trap"
+                                    onclick="trappings()">Request</a></div>
+                            <div class="col-md-6 d-grid "> <button
+                                    class="btn btn-secondary rounded-pill shadow border-0" type="button"><a
+                                        href="./voCarmech.php">Back</a></button></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- modal for confirmation -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content text-dark">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Confirmation</h5>
+                            <button type="button" class="btn-close border-0" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body text-center">
+                            <?php
+                            $regeditid=intval($_GET['regeditid']);
+                            $sql="SELECT * from mechanic WHERE mechID=:regeditid";
+                            $query=$dbh->prepare($sql);
+                            $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
+                            $query->execute();
+                            $results=$query->fetchALL(PDO::FETCH_OBJ);
+
+                            if($query->rowCount()>0){
+                                foreach ($results as $result){
+                        ?>
+                            Are you sure to send a request to
+                                    
+                            <?php echo htmlentities($result->mechFirstname." ".$result->mechLastname)?>
+                            <?php }}?>
+                            <div class="pt-5">
+                                <button type="submit" class="btn btn-primary rounded-pill shadow" name="send"
+                                    value="send">Submit Request</button>
+                                <button type="button" class="btn btn-secondary rounded-pill shadow"
+                                    data-bs-dismiss="modal">Close</button>
+>>>>>>> Stashed changes
                             </div>
                         </div>
                     </div>

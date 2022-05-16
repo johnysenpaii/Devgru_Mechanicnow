@@ -3,7 +3,31 @@ session_start();
 include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
 
 $regeditid=$_SESSION["mechID"];
+<<<<<<< Updated upstream
 
+=======
+if(isset($_POST['logout'])) {
+    $regeditid = $_SESSION['mechID'];
+    $sql="UPDATE mechanic set stats='Not active' WHERE mechID=:regeditid"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
+    $query=$dbh->prepare($sql);
+    $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
+    $query->execute(); 
+    session_destroy();
+    unset($_SESSION['mechID']);
+    header('location:http://localhost/Devgru_Mechanicnow/login.php');
+} 
+if(isset($_POST['total1'])){
+    $total1=floatval($_POST['total1']);
+    $id1=intval($_SESSION['mechID']);
+    if($id1 != ''){
+    $sql="UPDATE mechanic set average=:total1 where mechID=:id1";
+    $query=$dbh->prepare($sql);
+    $query->bindParam(':total1',$total1,PDO::PARAM_STR);
+    $query->bindParam(':id1',$id1,PDO::PARAM_STR);
+    $query->execute(); 
+    }  
+}
+>>>>>>> Stashed changes
  $sname = "localhost";
  $uname = "root";
  $password = "";
@@ -81,7 +105,75 @@ if(isset($_POST['edit']) && isset($_FILES['profile_url']))
   $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
   $query->execute(); 
 
+<<<<<<< Updated upstream
   echo "<script type='text/javascript'>document.location='./mechProfile.php';</script>";
+=======
+    if(isset($_POST["vehicleType"]) && isset($_POST["Specialization"])){
+        $vehicleType_update=implode(",", $_POST["vehicleType"]);
+        $Specializations=implode(",", $_POST["Specialization"]);
+    }
+    if(empty($vehicleType_update) && empty($Specializations)){
+         echo "<script>alert('Please Select Vehicle Type')</script>";
+    }else{
+        try{
+            if(!isset($errorMsg)){
+                $sql="UPDATE mechanic set mechID=:id,mechFirstname=:mechFirstname,mechLastname=:mechLastname,mechEmail=:mechEmail,mechCnumber=:mechCnumber,mechAddress=:mechAddress,vehicleType=:vehicleType_update,Specialization=:Specializations,Username=:Username WHERE mechID=:regeditid"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
+                $query=$dbh->prepare($sql);
+                $query->bindParam(':id',$id,PDO::PARAM_STR);
+                $query->bindParam(':mechFirstname',$mechFirstname,PDO::PARAM_STR);
+                $query->bindParam(':mechLastname',$mechLastname,PDO::PARAM_STR);
+                $query->bindParam(':mechEmail',$mechEmail,PDO::PARAM_STR);
+                $query->bindParam(':mechCnumber',$mechCnumber,PDO::PARAM_STR);
+                $query->bindParam(':mechAddress',$mechAddress,PDO::PARAM_STR);
+                $query->bindParam(':vehicleType_update',$vehicleType_update,PDO::PARAM_STR);
+                $query->bindParam(':Specializations',$Specializations,PDO::PARAM_STR);
+                $query->bindParam(':Username',$Username,PDO::PARAM_STR);
+                $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
+                $query->execute(); 
+                echo "<script type='text/javascript'>document.location='./mechProfile.php';</script>";
+            }
+        }
+        catch(PDOException $e){
+            echo $e->getMessage();
+        }
+    }
+}
+if(isset($_POST['confirmPassword'])){
+    $CPassword = $_POST['CPassword'];
+    $NPassword = $_POST['NPassword'];
+    $confirmPassword = $_POST['confirmPassword'];
+    $hashedPassword = $_POST['hashedPassword'];
+    //check if password inputed is matched with the password inside the database
+    if(password_verify($CPassword, $hashedPassword) == 1){
+        //check if new password and old password match
+        if ( $NPassword != $confirmPassword){
+            echo "<script>alert('Current Password is incorrect')</script>";
+        }else{
+            $hashedPwd = password_hash($NPassword, PASSWORD_DEFAULT);
+            $sql="UPDATE mechanic set Password=:hashedPwd WHERE mechID=:regeditid"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
+            $query=$dbh->prepare($sql);
+            $query->bindParam(':hashedPwd',$hashedPwd,PDO::PARAM_STR);
+            $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
+            $query->execute(); 
+            echo "<script>alert('Password changed successfully')</script>";
+            echo "<script type='text/javascript'>document.location='./mechProfile.php';</script>";
+        }
+    }else{
+        echo "<script>alert('Current Password is incorrect')</script>";
+    }
+    
+}
+if(isset($_POST['total1'])){
+    $total1=floatval($_POST['total1']);
+    $id1=intval($_POST['id1']);
+    if($id1 != ''){
+    $sql="UPDATE mechanic set average=:total1 where mechID=:id1";
+    $query=$dbh->prepare($sql);
+    $query->bindParam(':total1',$total1,PDO::PARAM_STR);
+    $query->bindParam(':id1',$id1,PDO::PARAM_STR);
+    $query->execute(); 
+    }  
+>>>>>>> Stashed changes
 }
 ?>
 <!DOCTYPE html>
@@ -216,6 +308,7 @@ if(isset($_POST['edit']) && isset($_FILES['profile_url']))
                                 </div>
                             </div>
                             <div class="row pt-3">
+<<<<<<< Updated upstream
                                 <div class="col-sm-12 d-flex align-items-center pt-3">
                                     <div class="row g-2">
                                         <div class="col-md-6">
@@ -242,6 +335,62 @@ if(isset($_POST['edit']) && isset($_FILES['profile_url']))
                                             <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="Say something about yourself" rows="3"></textarea>
                                         </div>
                                     </div>    
+=======
+                                <div class="col-md-6">
+                                    <h6 class="pb-2">Mechanic Type :</h6>
+                                    <div class="form-check">
+                                        <?php
+                                                $divide = explode(",",$result->vehicleType); //return Bicycle
+                                                // var_dump($divide);
+                                                $specialization1 = array("Car Mechanic","Motorcycle Mechanic","Bicycle Mechanic"); //have 3 values 
+                                                // var_dump($specialization1);
+                                                foreach($specialization1 as $result2){ //travel each index in an array
+                                                    if(strcmp($result2, $divide[0] ?? null) && strcmp($result2, $divide[1] ?? null) && strcmp($result2, $divide[2] ?? null)){ //compare bicycle to car motorcycle and bicycle
+                                                    //first it compares bicycle to car, then fail so go to else
+                                                    ?>
+                                        <input class="form-check-input" type="checkbox" value="<?php echo $result2;?>"
+                                            name="vehicleType[]" id="flexCheckDefault">
+                                        <label class="form-check-label"
+                                            for="flexCheckDefault"><?php echo $result2;?></label>
+                                        <br>
+                                        <?php
+                                                    }else{
+                                                    ?>
+                                        <input class="form-check-input" type="checkbox" value="<?php echo $result2;?>"
+                                            name="vehicleType[]" id="flexCheckDefault" checked="checked">
+                                        <label class="form-check-label"
+                                            for="flexCheckDefault"><?php echo $result2;?></label>
+                                        <br>
+                                        <?php
+                                                    }
+                                                }
+                                                ?>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6 class="pb-2">Specialization: </h6>
+                                    <div class="form-check">
+                                        <?php
+                                                $divide=explode(",",$result->Specialization);
+                                                //var_dump($divide);
+                                                $specialization1 = array("Tire Repair","Break Repair" ,"Chain Loosening Repair","Engine Overheat Repair" ,"Dead Battery Repair","Dead Light Repair");
+                                                foreach($specialization1 as $result2){
+                                                    if(strcmp($result2, $divide[0] ?? null) && strcmp($result2, $divide[1] ?? null) && strcmp($result2, $divide[2] ?? null) && strcmp($result2, $divide[3] ?? null) && strcmp($result2, $divide[4] ?? null) && strcmp($result2, $divide[5] ?? null) && strcmp($result2, $divide[6] ?? null) && strcmp($result2, $divide[7] ?? null) && strcmp($result2, $divide[8] ?? null) && strcmp($result2, $divide[9] ?? null)){
+                                                    ?>
+                                        <input class="form-check-input" type="checkbox" value="<?php echo $result2;?>"
+                                            name="Specialization[]" id="flexCheckDefault">
+                                        <label class="form-check-label"
+                                            for="flexCheckDefault"><?php echo $result2;?></label>
+                                        <br>
+                                        <?php }else{ ?>
+                                        <input class="form-check-input" type="checkbox" value="<?php echo $result2;?>"
+                                            name="Specialization[]" id="flexCheckDefault" checked>
+                                        <label class="form-check-label"
+                                            for="flexCheckDefault"><?php echo $result2;?></label>
+                                        <br>
+                                        <?php }}?>
+                                    </div>
+>>>>>>> Stashed changes
                                 </div>
                             </div>
                         </div>
