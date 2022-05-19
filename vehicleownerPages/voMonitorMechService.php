@@ -161,7 +161,7 @@ if(isset($_POST["confirm"]) || isset($_POST['comment'])){
                             $cnt=1;
                                 if($query5->rowCount()>0){
                                     foreach($results as $res){
-                                        $remark = explode(",", $res->remarks);
+                                        $remark = explode("@", $res->remarks);
                                         foreach($remark as $res){
                                             if($res !== null){
                         ?>

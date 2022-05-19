@@ -3,6 +3,21 @@ session_start();
 include('../config.php');
 $mechID1=$_SESSION['mechID']; 
 
+if(empty($_SESSION['mechID'])){
+    header("Location:http://localhost/Devgru_Mechanicnow/login.php");
+    session_destroy(); 
+    unset($_SESSION['mechID']);
+      }
+      if(isset($_POST["logout"])) {
+        $mechID=$_SESSION['mechID'];
+        $sql12344="UPDATE mechanic set stats='Not active' WHERE mechID=:mechID"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
+        $query12344=$dbh->prepare($sql12344);
+        $query12344->bindParam(':mechID', $mechID, PDO::PARAM_STR);
+        $query12344->execute();
+        session_destroy(); 
+        unset($_SESSION['mechID']);
+        header("Location:http://localhost/Devgru_Mechanicnow/login.php");
+    }
 
 if(isset($_POST['UpdateMe']))
 {
@@ -165,38 +180,47 @@ if(isset($_POST["verify"])){
                                                 $Rid = $res->remarkID;
                                                 $currentProg = $res->remarks; //will retrieve the remarks
                                                 $latestProgress = $_POST["latestProg"] ?? null;
-                                                $divProgress = explode(",", $res->remarks);
+                                                $divProgress = explode("@", $res->remarks);
                                                 $divProgLength = count($divProgress);
                                                 $separator = ",";//the separator
-                                                $ff = $_POST["remarks[]"];
-                                                $dd = explode(",", $ff);
+                                                ?>
+                                                <input type="text" id="currentProg" value="<?php echo $currentProg?>">
+                                                <?php
+                                                // $ff = $_POST["remarks[]"];
+                                                // $dd = explode(",", $ff);
                                                 if (empty($currentProg)){
                                                     echo "this is empty";
-                                                    $latestProg = "";
-                                                    $finalInput = $latestProg;
-                                                }
-                                                // elseif($divProgress == 1){
-                                                //     echo "nanay sulod";
-                                                //     $separator = ",";
-                                                //     $okaynani = $currentProg." ".$separator;
-                                                // }
-                                                // $res->remarkID;
-                                                // $currentProg = $res->remarks;//the current remarks
-                                                // if(empty($currentProg)){
-                                                //     $latestProg ="";
-                                                // }
-                                                elseif($divProgress == 1){
-                                                    echo "isa ray sulod ani choy";
-                                                    $latestProg = $latestProg." ".$separator." ".$latestProgress;
-                                                    $finalInput = $latestProg;
-                                                }
-                                                else{
-                                                    echo "daghan sulod";
-                                                    // echo explode(",", $currentProg);
+                                                }else{
                                                     echo $currentProg;
-                                                    $latestProg = $currentProg." ".$separator." ".$latestProgress;//current ex. done tire + , = done tire,
-                                                    $finalInput = $latestProg;
+                                                    $finalInput = $currentProg;
                                                 }
+                                                // // elseif($divProgress == 1){
+                                                // //     echo "nanay sulod";
+                                                // //     $separator = ",";
+                                                // //     $okaynani = $currentProg." ".$separator;
+                                                // // }
+                                                // // $res->remarkID;
+                                                // // $currentProg = $res->remarks;//the current remarks
+                                                // // if(empty($currentProg)){
+                                                // //     $latestProg ="";
+                                                // // }
+                                                // elseif($divProgLength == 1){
+                                                //     echo "isa ray sulod ani choy";
+                                                //     echo $currentProg;
+                                                //     echo $separator;
+                                                //     echo $latestProgress;
+                                                //     $lp = $currentProg." ".$separator;
+                                                //     $latestProg = $lp." ".$latestProgress;
+                                                //     $finalInput = $latestProg;
+                                                // }
+                                                // else{
+                                                //     echo "daghan sulod";
+                                                //     // echo explode(",", $currentProg);
+                                                //     echo $currentProg;
+                                                //     $latestProg = $currentProg." ".$separator." ".$latestProgress;//current ex. done tire + , = done tire,
+                                                //     $finalInput = $latestProg;
+                                                // }
+
                                                 foreach($divProgress as $div){
                                                 ?>
                                                 <ul class="">
@@ -208,9 +232,9 @@ if(isset($_POST["verify"])){
                                             </div>
                                         </div>
                                 <?php
-                                    $diver = $res->remarks;
-                                    $diver2 = $diver ?? null;
-                                    $divProgressLength = count($divProgress);
+                                    // $diver = $res->remarks;
+                                    // $diver2 = $diver ?? null;
+                                    // $divProgressLength = count($divProgress);
                                     // for ($i = 0; $i < $divProgressLength; $i++){
                                     //     if($divProgressLength == 1){
 
@@ -227,7 +251,7 @@ if(isset($_POST["verify"])){
                                 0%
                             </div>
                         </div>
-                        <button type="button" class="btn btn-primary rounded-pill button-progress" data-bs-toggle="modal" data-bs-target="#exampleModal">Update Progress</button>
+                        <button type="button" id="kk" class="btn btn-primary rounded-pill button-progress" data-bs-toggle="modal" data-bs-target="#exampleModal">Update Progress</button>
                         <input  type="hidden" class="border-0"  value="<?php echo htmlentities($result->progressBar);?>" id="output">
                         <div class="row pt-3">
                             <button type="submit" name="verify" style="display: none;" id="hide" class="btn btn-success rounded-pill complete-button">Request Complete</button>
@@ -326,7 +350,7 @@ if(isset($_POST["verify"])){
                                     // }
                                     ?>
                                     <!-- <input type="text" name="remarks[]" id="finput" value="<?php //echo $diver2 ?>"> -->
-                                    <input type="text" name="remarks[]" id="finput" value="<?php echo $finalInput ?>">
+                                    <input type="text" name="remarks[]" id="finput" value="<?php echo $currentProg ?>" required>
                                     <!-- <input type="text" name="remarks" id="finput" value="<?php //echo $finalInput ?>"> -->
                                     <!-- <?php
                                     // echo $expINt = explode(",", $finalInput);
@@ -373,6 +397,7 @@ if(isset($_POST["verify"])){
         var t = document.getElementById("output").value;
         if( t == 100 ){
             document.getElementById("hide").style.display = "block";
+            document.getElementById("kk").style.display = "none";
             reload();
         }
     }
@@ -418,11 +443,19 @@ if(isset($_POST["verify"])){
     }
     var finp = document.getElementById("finput");
     var lprog = document.getElementById("lprog");
+    let currentProg = document.getElementById("currentProg");
+    var latestProg;
+    var separator = "@";
     function fill(){
-        if(finp.value == ""){
+        if(currentProg.value.length ==0){
+            alert("EMPTY PANI AH");
             finp.value = lprog.value;
             lprog.value = null;
-        }
+        }else{
+            alert("NANA NI SULOD");
+            latestProg = currentProg.value + separator + lprog.value;
+            finp.value = latestProg; 
+        } 
    }
     </script>
     
