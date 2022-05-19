@@ -20,6 +20,7 @@ if(isset($_POST["unreadDecline"])){
     $query=$dbh->prepare($sql1);
     $query->bindParam(':notifID',$notifID,PDO::PARAM_STR);
     $query->execute();
+
  
 }
 if(isset($_POST["unreadProgress"])){
@@ -37,7 +38,6 @@ if(isset($_POST["unreadVerify"])){
     $query=$dbh->prepare($sql1);
     $query->bindParam(':notifID',$notifID,PDO::PARAM_STR);
     $query->execute();
- 
 }
 
 ?>

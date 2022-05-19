@@ -21,11 +21,7 @@ if(isset($_POST['send'])){
     $time=$_POST['time'];
     $custID=$_SESSION['custID'];
     
-    $sql7 = "INSERT INTO notification(custID, mechID) VALUES(:custID, :mechID)";
-    $query7 = $dbh->prepare($sql7);
-    $query7->bindParam(':custID',$custID,PDO::PARAM_STR);
-    $query7->bindParam(':mechID',$mechID,PDO::PARAM_STR);
-    $query7->execute();
+
     
     // $currentlocation=$_POST['currentlocation'];
     if(isset($_POST["mechRepair"])){

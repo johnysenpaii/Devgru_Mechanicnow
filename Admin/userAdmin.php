@@ -65,11 +65,8 @@ include('../config.php');
                                     Feedbacks</a>
                                 <ul class="dropdown-menu w-100" aria-labelledby="navbarDropdown">
                                     <li><a href="feedbacks.php" class="dropdown-item pl-4 p-2"><i
-                                                class="bi bi-person-circle"></i> Clients</a></li>
-                                    <li><a href="mechfeedbacks.php" class="dropdown-item pl-4 p-2"><i
                                                 class="bi bi-tools"></i> Mechanics</a></li>
-
-
+                                   
                                 </ul>
 
                             </li>
@@ -142,7 +139,11 @@ include('../config.php');
                                                    ?>
                                                     <tr>
                                                         <td>
-                                                            <img src="../uploads/<?=$result->profile_url ?>"
+<<<<<<< HEAD
+=======
+
+>>>>>>> copyBranchTibay
+                                                            <img src="<?=$result->profile_url ?>"
                                                                 onerror="this.src='../img/mech.jpg';"
                                                                 class="imagenajud pimage rounded-circle px-5"
                                                                 style="min-width: 20%; max-width: 140px;" alt="">

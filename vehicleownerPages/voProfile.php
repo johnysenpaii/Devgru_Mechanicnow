@@ -196,10 +196,10 @@ if(isset($_POST['confirmPassword'])){
                     <h5 class="modal-title" id="modal-title">Edit Profile</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body form">
+                <div class="modal-body form pt-0">
                     <form method="POST" enctype="multipart/form-data">
                         <div class="row line-segment seg">
-                            <div class="col-sm-3 with-image">
+                            <div class="profimage profimage-vo"  style="width: 200px; height: 200px; padding: 2em;">
                                     <?php
                                         $sql = "SELECT * FROM customer where custID = $regeditid";
                                         $res = mysqli_query($conn, $sql);
@@ -207,7 +207,7 @@ if(isset($_POST['confirmPassword'])){
                                         while ($images = mysqli_fetch_assoc ($res)){ 
                                             if($regeditid == $regeditid ){
                                     ?>
-                                    <img src="../uploads/<?=$images['profile_url']?>" onerror="this.src='../img/mech.jpg';" class="imagenajud pimage rounded-circle px-5" style="min-width: 20%; max-width: 250px;" alt="">
+                                    <img src="../uploads/<?=$images['profile_url']?>" onerror="this.src='../img/mech.jpg';" class=" " style=" max-width: 100%; border-radius: 50%; object-fit: cover;" alt="">
                                     <?php }} }?>
                                 </div>                        
                             <div class="col-12 d-flex align-items-center pt-3">

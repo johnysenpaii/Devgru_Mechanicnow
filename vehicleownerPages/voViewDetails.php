@@ -7,6 +7,7 @@ if(isset($_POST['comment'])){
     $value=$_POST['value'];
     $specMessage=$_POST['specMessage'];
     $mechName=$_POST['mechName'];
+    
    
 
   
@@ -117,8 +118,7 @@ if(isset($_POST['comment'])){
                     $cnt=1;
                     if($query->rowCount()>0){
                         foreach ($results as $result){
-                        
-?>
+                    ?>
                     <input type="hidden" name="mechid" value="<?php echo htmlentities($result->mechID);?>">
                     <input type="hidden" name="mechName" value="<?php echo htmlentities($result->mechName);?>">
                     <div class="card text-dark">
@@ -172,12 +172,7 @@ if(isset($_POST['comment'])){
                                 </div>
                                <?php }?>
                             </div>
-
-
-
                         </div>
-
-
                     </div>
                     <div class="row">
                         <div class="col-md-6" >

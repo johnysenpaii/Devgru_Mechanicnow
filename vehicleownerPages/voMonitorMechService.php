@@ -4,9 +4,11 @@ include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
 $custID1=$_SESSION['custID'];
 if(isset($_POST["confirm"]) || isset($_POST['comment'])){
     $regeditid=intval($_GET['regeditid']);
-     $sql1="UPDATE request set status='Complete',Edate=CURRENT_TIMESTAMP() WHERE resID=:regeditid"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
+      $value=$_POST['value'];
+     $sql1="UPDATE request set status='Complete',ratePercentage=:value,Edate=CURRENT_TIMESTAMP() WHERE resID=:regeditid"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
      $query=$dbh->prepare($sql1);
      $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
+     $query->bindParam(':value',$value,PDO::PARAM_STR);
      $query->execute(); 
      echo "<script type='text/javascript'>document.location='voActivityLog.php';</script>";
      
@@ -198,9 +200,7 @@ if(isset($_POST["confirm"]) || isset($_POST['comment'])){
                         <button type="submit" name="confirm" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body star">
-                        <div class="container">
-                            <span id="rateMe1"></span>
-                        </div>
+                        
                         <div class="star-widget">
                             <input type="radio" name="rate" id="rate-5" value="5"><label for="rate-5" class="fas fa-star"></label>
                             <input type="radio" name="rate" id="rate-4" value="4"><label for="rate-4" class="fas fa-star"></label>
@@ -214,7 +214,10 @@ if(isset($_POST["confirm"]) || isset($_POST['comment'])){
                             <label for="">Leave a Feedback</label>
                             <textarea class="form-control shadow-none" id="exampleFormControlTextarea1" rows="3" name="specMessage" value="specMessage"></textarea>
                         </div>
-                        <button class="btn btn-primary my-1" name="comment" type="sumbit">Comment</button>
+                        <div class="btn-center">
+                            <button class="btn btn-primary my-1 text-center" name="comment" type="sumbit">Submit</button>
+                        </div>
+                    
                     </div>
                     </div>
                 </div>

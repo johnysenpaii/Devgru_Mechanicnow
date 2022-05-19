@@ -33,6 +33,14 @@ if(isset($_POST['update'])){
         $query=$dbh->prepare($sql);
         $query->bindParam(':resID',$resID,PDO::PARAM_STR);
         $query->execute();
+ 
+       $sql7 = "INSERT INTO notification(custID, mechID , status) VALUES(:custID, :mechID,'cancelled')";
+    $query7 = $dbh->prepare($sql7);
+    $query7->bindParam(':custID',$custID,PDO::PARAM_STR);
+    $query7->bindParam(':mechID',$mechID,PDO::PARAM_STR);
+    $query7->execute();
+
+
     }
 ?>
 <!DOCTYPE html>

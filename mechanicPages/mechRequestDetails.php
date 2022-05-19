@@ -1,12 +1,18 @@
 <?php
 session_start();
 include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
+$mechid = $_SESSION['mechID'];
 if(isset($_POST['Accept']))
 {
     $regeditid=intval($_GET['regeditid']);
     $sql="UPDATE request set status='Accepted' where resID=:regeditid";
     $query=$dbh->prepare($sql); 
     $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR); 
+    $query->execute();
+
+    $sql="UPDATE mechanic set status='busy' where mechID=:mechid";
+    $query=$dbh->prepare($sql); 
+    $query->bindParam(':mechid',$mechid,PDO::PARAM_STR); 
     $query->execute();
 
     $custID = $_POST['custID'];
