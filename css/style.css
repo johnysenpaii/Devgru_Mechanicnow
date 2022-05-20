@@ -363,24 +363,34 @@ form .name-details .field:last-child {
 .table {
 	border-collapse: separate;
 	border-spacing: 0px 10px;
-	color: var(--clr-primary-300);
+	color: var(--clr-primary-800);
+	table-layout: auto;
+	width: 100%;
 }
 .table {
 	border-radius: 6px;
+}
+.table tbody {
+	overflow: auto;
 }
 .table thead tr {
 	color: var(--clr-primary-800);
 }
 .table tbody tr {
 	position: relative;
-	border-radius: 16px;
+	border-radius: 5px;
 	border-collapse: separate;
-	background: var(--clr-primary-500);
+	background-color: var(--clr-neutral-100);
 	transition: background 0.1s;
+	/* box-shadow: 0 0 128px 0 rgba(0, 0, 0, 0.1),
+		0 32px 64px -48px rgba(0, 0, 0, 0.1); */
+}
+.t-content {
+	padding: 1em;
 }
 .table1 tbody tr {
 	position: relative;
-	border-radius: 16px;
+	border-radius: 5px;
 	border-collapse: separate;
 	background: var(--clr-neutral-100);
 	transition: background 0.1s;
@@ -389,16 +399,16 @@ form .name-details .field:last-child {
 	background: var(--clr-primary-800);
 	color: var(--clr-primary-300);
 	box-shadow: 0 0 128px 0 rgba(0, 0, 0, 0.1),
-		0 32px 64px -48px rgba(0, 0, 0, 0.5);
+		0 32px 64px -48px rgba(0, 0, 0, 0.1);
 }
 .table tbody tr {
-	border-radius: 16px;
+	border-radius: 5px;
 }
 .table tbody td:first-child {
-	border-radius: 16px 0px 0px 16px;
+	border-radius: 5px 0px 0px 5px;
 }
 .table tbody td:last-child {
-	border-radius: 0px 16px 16px 0px;
+	border-radius: 0px 5px 5px 0px;
 }
 .table tbody tr td a {
 	text-decoration: none;
@@ -415,6 +425,12 @@ form .name-details .field:last-child {
 	border-color: var(--clr-primary-800);
 	border-radius: 20px;
 	box-shadow: none;
+}
+.badge-design {
+	background-color: #e5c4fe;
+	color: var(--clr-primary-500);
+	box-shadow: 0 0 128px 0 rgba(0, 0, 0, 0.1),
+		0 32px 64px -48px rgba(0, 0, 0, 0.1);
 }
 .btn-warning:hover {
 	background-color: var(--clr-primary-500);
@@ -498,7 +514,7 @@ form .name-details .field:last-child {
 }
 .s-button {
 	border: 0;
-	background-color: #fff;
+	background-color: transparent;
 	font-size: 20px;
 }
 .filter {
@@ -811,4 +827,10 @@ form .name-details .field:last-child {
 	display: flex;
 	justify-content: center;
 	margin-top: 1em;
+}
+.countRecords {
+	font-size: 14px;
+	font-weight: 600;
+	text-align: start;
+	color: var(--clr-primary-800);
 }

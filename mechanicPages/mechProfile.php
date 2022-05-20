@@ -30,7 +30,7 @@ if(isset($_POST['total1'])){
   $error = $_FILES[ 'profile_url']['error']; 
   
   if ($error === 0) {
-    if ($img_size > 1000000) {
+    if ($img_size > 10000000) {
       $em = "Sorry, your file is too big!.";
       header ("Location: mechProfile.php?error=$em");
      }

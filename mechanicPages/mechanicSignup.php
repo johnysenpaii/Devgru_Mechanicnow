@@ -178,11 +178,6 @@ if(isset($_POST['register']) && isset($_FILES['mechValidID']) && isset($_FILES['
                     <div class="err-txt" hidden>This is an error message</div>
 
                     <label>Personal details</label>
-                    <div class="my-2">
-                        <label>Upload profile</label>
-                        <input class="form-control" name="profile_url" type="file" 
-                            placeholder="Upload profile" multiple required>
-                    </div>
                     <div class="name-details">
                         <div class="field input">
                             <input type="text" placeholder="Firstname" name="mechFirstname" required>

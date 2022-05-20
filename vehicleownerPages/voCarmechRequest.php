@@ -105,14 +105,26 @@ if(isset($_POST['send'])){
                     <div class="col-12 col-sm-4 m-0 info-panel shadow-lg p-3" style="background-color: #fff">
                         <div class="row align-items-center">
                             <div class="col-3 mx-3 with-image" style="width: 100px; padding: 5px;">
-                                <img src="../img/vo.jpg" class="float-center imagenajud" alt="" style="max-width: 100%; height: 90px; border-radius: 50%; object-fit: cover;">
+                                <img src="../uploads/<?=$result->profile_url ?>" onerror="this.src='../img/mech.jpg';" class="float-center imagenajud" alt="" style="max-width: 100%; height: 90px; border-radius: 50%; object-fit: cover;">
                             </div>
                             <div class="mech-inforeq col-7">
                                 <h4><input readonly type="text" class="border-0 no-shadow shadow-none mt-2" name="mechName" value="<?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?>"></h4>
                                 <input type="hidden" id="starss" value="<?php echo htmlentities($result->average);?>">
                                 <span type="text" id="stars" onload="getStars()" name="total"></span><br>
-                                <input readonly type="text" class="border-0 m-info " size="30" name="vehicleType" value="<?php echo htmlentities($result->vehicleType);?>"><br>
-                                <input readonly type="text" class="border-0 m-info" size="30" name="Specialization" value="<?php echo htmlentities($result->Specialization);?>">
+                                <input readonly type="text" class="border-0 m-info " size="20" name="vehicleType" value="<?php echo htmlentities($result->vehicleType);?>"><br>
+                                <input readonly type="hidden" class="border-0 m-info" size="30" name="Specialization" value="<?php echo htmlentities($result->Specialization);?>">
+                                <div class="spec-sec">
+                                <?php
+                                    $spec = explode(",", $result->Specialization);
+                                    foreach($spec as $specialize){
+                                        ?>
+                                            <span class="badge bg-success px-0" style="margin: 1px;">
+                                                <p class="px-1 " style="padding-inline: 2px;"><?php echo $specialize; ?></p>
+                                            </span>
+                                        <?php
+                                    }
+                                ?>
+                                </div>
                             </div>
                         </div>
                         
@@ -124,8 +136,8 @@ if(isset($_POST['send'])){
                         <hr class="divider">
                         <div class="request-form" style="color: #302D32">
                             <div class="alert alert-primary text-start py-0 pb-1 mb-0 note-alert shadow-sm">
-                                <div class="row">
-                                    <i class="fa-solid fa-circle-exclamation col-1"></i> 
+                                <div class="row warning-rani">
+                                    <i class="fa-solid fa-circle-exclamation col-1 text-end px-0" style="color: #9132da"></i> 
                                     <p class="col-10 col-sm-11 py-1">
                                         If you want a long term service, select Home Service. Select Emergency service if you are
                                         on-road.

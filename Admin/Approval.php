@@ -174,12 +174,9 @@ if(isset($_POST['deny'])){
 						?>
 
                             <div class="row d-flex justify-content-start px-4 ">
-                                 <div class="col-lg-4">
- <div class="col-lg-10 col-md-12 col-sm-12 d-flex justify-content-start">
-                                <img src="../uploads/<?=$result->profile_url ?>"
-                                                                onerror="this.src='../img/mech.jpg';"
-                                                                class="imagenajud pimage rounded-circle px-5"
-                                                                style="min-width: 25%; max-width: 140px;" alt=""> 
+                                <div class="col-lg-4">
+                                <div class="col-lg-10 col-md-12 col-sm-12 d-flex justify-content-start">
+                                <img src="../uploads/<?=$result->profile_url ?>" onerror="this.src='../img/mech.jpg';" class="imagenajud pimage rounded-circle px-5" style="min-width: 25%; max-width: 140px;" alt=""> 
                                 </div>
                                 <div class="col-sm-12 col-md-12 col-xl-12 mb-2">
                                     <label for="mechFirstname" style="color: rgb(61, 138, 247);">First Name</label>
