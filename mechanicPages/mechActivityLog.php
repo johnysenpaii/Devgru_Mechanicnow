@@ -1,6 +1,16 @@
 <?php
 session_start();
 include('../config.php');
+if(isset($_POST['logout'])) {
+    $regeditid = $_SESSION['mechID'];
+    $sql="UPDATE mechanic set stats='Not active' WHERE mechID=:regeditid"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
+    $query=$dbh->prepare($sql);
+    $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
+    $query->execute(); 
+    session_destroy();
+    unset($_SESSION['mechID']);
+    header('location:http://localhost/Devgru_Mechanicnow/login.php');
+} 
 $mechID1=$_SESSION['mechID']; 
 
 // if(isset($_POST["verify"])){
@@ -13,7 +23,21 @@ $mechID1=$_SESSION['mechID'];
 
 
 // }
-
+if(empty($_SESSION['mechID'])){
+    header("Location:http://localhost/Devgru_Mechanicnow/login.php");
+    session_destroy(); 
+    unset($_SESSION['mechID']);
+      }
+      if(isset($_POST["logout"])) {
+        $mechID=$_SESSION['mechID'];
+        $sql12344="UPDATE mechanic set stats='Not active' WHERE mechID=:mechID"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
+        $query12344=$dbh->prepare($sql12344);
+        $query12344->bindParam(':mechID', $mechID, PDO::PARAM_STR);
+        $query12344->execute();
+        session_destroy(); 
+        unset($_SESSION['mechID']);
+        header("Location:http://localhost/Devgru_Mechanicnow/login.php");
+    }
 
 
 ?>
@@ -41,29 +65,23 @@ $mechID1=$_SESSION['mechID'];
 
 <body id="contbody" style="background-color: #f8f8f8" onload="verify()">
     <?php include('mechHeader.php');?>
-    <!-- <?php include('mechTopnav.php');?> -->
+    <?php include('./mechTopnav.php');?>
 
     <section id="activityLog">
         <form action="" method="POST">
-        <div class="row">
-            <!-- d-flex justify-content-evenly -->
-            <div class="d-flex justify-content-center pt-3">
-                <a href="mechActivityLog.php" class="py-1 px-5 mx-1 bg-white text-dark rounded-pill btn">Activity Log</a>
-                <a href="mechTransaction.php" class="py-1 px-5 mx-1 bg-white text-dark rounded-pill btn">Transaction History</a>
-            </div>
-        </div>
+        
         <div class="row py-3 px-sm-0 px-md-3 table-responsive justify-content-center pb-5">
             <div class="col-lg-8">
                 <?php
 
-                    $sql="SELECT * from request WHERE mechID=$mechID1 and status='Accepted' || status='verify' order by resID DESC";
+                    $sql="SELECT * from request WHERE mechID and status='Accepted' || status='verify' order by resID DESC";
                     $query=$dbh->prepare($sql);
                     $query->execute();
                     $results=$query->fetchALL(PDO::FETCH_OBJ);
                     $cnt=1;
                     if($query->rowCount()>0){
                         foreach ($results as $result){                           
-                            if($mechID1==$mechID1){
+                            if($result->mechID == $mechID1 && $result->status == 'Accepted'){
                 ?>
                 <div class="card text-dark mb-2">
                     <!-- <div class="card-header">
@@ -83,8 +101,24 @@ $mechID1=$_SESSION['mechID'];
                     </div>
                   
                 </div>
-                <?php $cnt=$cnt+1;}}} 
-                    else {  
+                <?php } else if($result->mechID == $mechID1 && $result->status == 'verify'){?>
+                    <div class="card text-dark mb-2">
+
+                <div class="card-body">
+                        <input type="text" hidden name="resID" value="<?php echo htmlentities($result->resID);?>">
+                        <input type="hidden" name="status" id="status" value="<?php echo htmlentities($result->status);?>">
+                        <h5 class="card-title"><?php echo htmlentities($result->vOwnerName);?></h5>
+                        <p class="card-text"><?php echo htmlentities($result->mechRepair);?></p>
+                        <h6 class="pt-2">Note:</h6>
+                        <p class="card-text"><?php echo htmlentities($result->specMessage);?></p>
+
+                        <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+                        <a href="manageRequest.php?regeditid=<?php echo htmlentities($result->resID)?>" id="btnn" class="btn btn-primary">Pending</a>
+                        <!-- <button class="btn btn-primary btn-lg" type="submit" id="verify" value="verify">Manage Request</button> -->
+                    </div>
+                    </div>
+            
+                <?php }}}  else {  
                     ?>
                 <div class="emptyrequest mt-5 pt-5">
                     <div class="emptydiv"><img src="../img/empty.png" alt=""></div>
@@ -92,7 +126,7 @@ $mechID1=$_SESSION['mechID'];
                 </div>
                 <?php
                     }
-                    ?>
+                    $cnt=$cnt+1;?>
             </div>
         </div>
         </form>

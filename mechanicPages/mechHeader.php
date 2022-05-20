@@ -11,6 +11,8 @@ if(isset($_POST["readAll"])){
         $query=$dbh->prepare($sql1);
         $query->bindParam(':notifID',$notifID,PDO::PARAM_STR);
         $query->execute();
+        $m='hjgh';
+        header("Location:http://localhost/Devgru_Mechanicnow/mechanicPages/mechTransaction.php?/tt=$m");
     }
     if(isset($_POST["unreadComplete"])){
         $notifID = $_POST['notifID'];
@@ -18,6 +20,24 @@ if(isset($_POST["readAll"])){
         $query=$dbh->prepare($sql1);
         $query->bindParam(':notifID',$notifID,PDO::PARAM_STR);
         $query->execute();
+        header("Location:localhost\Devgru_Mechanicnow\mechanicPages\mechTransaction.php");
+    }
+        if(isset($_POST["cancel"])){
+        $notifID = $_POST['notifID'];
+        $sql1="UPDATE notification set notifStatus='Read' WHERE notifID=:notifID"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
+        $query=$dbh->prepare($sql1);
+        $query->bindParam(':notifID',$notifID,PDO::PARAM_STR);
+        $query->execute();
+    }
+     if(isset($_POST["logout"])) {
+        $mechID=$_SESSION['mechID'];
+        $sql12344="UPDATE mechanic set stats='Not active' WHERE mechID=:mechID"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
+        $query12344=$dbh->prepare($sql12344);
+        $query12344->bindParam(':mechID', $mechID, PDO::PARAM_STR);
+        $query12344->execute();
+        session_destroy(); 
+        unset($_SESSION['mechID']);
+        header("Location:http://localhost/Devgru_Mechanicnow/login.php");
     }
 ?>
 </style>
@@ -36,6 +56,25 @@ if(isset($_POST["readAll"])){
                         <li class="nav-item">
                             <a class="nav-link" href="#"></a>
                         </li>
+                        <?php 
+                        if($_SESSION["status"] == 'pending'){
+                        ?>
+                        <li class="nav-item">
+                            <div class="alert alert-danger p-2 fw-bold my-0" style="font-size: 12px;" role="alert">
+                                <i class="fa-solid fa-circle-exclamation"></i> Please wait for the Admin to approve your
+                                account and check your email for updates.
+                            </div>
+                        </li>
+                        <?php 
+                        }else if($_SESSION["status"] == 'ban'){
+                        ?>
+                        <li class="nav-item">
+                            <div class="alert alert-warning p-2 my-0 fw-bold" style="font-size: 12px;" role="alert">
+                                <i class="fa-solid fa-circle-exclamation"></i> Your account has <strong>BANNED</strong>
+                                becuase of unnecessary actions.
+                            </div>
+                        </li>
+                        <?php }?>
                         <li class="nav-item">
                             <a class="nav-link" href="./mechProfile.php"><i class="fa-regular fa-user"></i>
                                 <?php echo htmlentities($_SESSION["mechFirstname"]); ?></a>
@@ -109,7 +148,7 @@ if(isset($_POST["readAll"])){
                                 
 
                                 <li>  
-                                <button  type="submit" name="" class="alert-primary notif-content row text-center border-0 w-100 mx-0">
+                                <button  type="submit" name="unreadRequest" class="alert-primary notif-content row text-center border-0 w-100 mx-0">
                                 <p class="text-end text-small fw-light" style="font-size: smaller;"><?php echo htmlentities($result->timess)?></p>
                                 <div class="col-md-2 p-1 text-end" style="font-size: 30px;">
                                 <i class="fa-solid fa-face-smile-beam"></i>
@@ -158,7 +197,39 @@ if(isset($_POST["readAll"])){
 
                             </li>
 
-                            <?php }}}}} ?>
+                            <?php }}else if($result->status == 'cancelled' ){ if($result->notifStatus == 'Unread'){ ?>
+ <li>  
+                                <button  type="submit" name="cancel" class="alert-warning notif-content row text-center border-0 w-100 mx-0">
+                                <p class="text-end text-small fw-light" style="font-size: smaller;"><?php echo htmlentities($result->timess)?></p>
+                                <div class="col-md-2 p-1 py-3 text-end" style="font-size: 30px;">
+                                </i> <i class="fa-solid fa-face-smile-beam"></i>
+                                </div>
+                                <div class="col-md-10 py-3 text-start fw-light">
+                             The vehicle owner cancel the request.
+                                        <input type="hidden" name="notifID" value="<?php echo  htmlentities($result->notifID);?>">
+                                </div>
+                            </button>
+
+                            </li>
+
+                            <?php } else{?>
+ <li>  
+                                <button  type="submit" name="" class="alert-primary notif-content row text-center border-0 w-100 mx-0">
+                                <p class="text-end text-small fw-light" style="font-size: smaller;"><?php echo htmlentities($result->timess)?></p>
+                                <div class="col-md-2 p-1 py-3 text-end" style="font-size: 30px;">
+                                </i> <i class="fa-solid fa-face-smile-beam"></i>
+                                </div>
+                                <div class="col-md-10 py-3 text-start fw-light">
+                                 The vehicle owner cancel the request.
+                                            request.
+                                        <input type="hidden" name="notifID" value="<?php echo  htmlentities($result->notifID);?>">
+                                </div>
+                            </button>
+
+                            </li>
+                           
+                        
+                         <?php }}}}} ?>
                             </ul>
                         </li>
                         <li class="nav-item">
@@ -169,9 +240,7 @@ if(isset($_POST["readAll"])){
                                 role="button" data-bs-toggle="dropdown" aria-expanded="false"></a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
                                 <li><a class="dropdown-item fa-thin fa-gear" href="#"> Settings</a></li>
-                                <li><a class="dropdown-item fa-thin fa-right-from-bracket" href="#"
-                                        onclick="myconfirm()">
-                                        Logout</a></li>
+                                <li><button class="dropdown-item fa-thin fa-right-from-bracket" name="logout">Logout</button></li>
                         </li>
                     </ul>
                 </div>
@@ -179,14 +248,4 @@ if(isset($_POST["readAll"])){
         </nav>
     </form>
 </section>
-<script>
-function myconfirm() {
-    let text = "Are sure you want to leave?.";
-    if (confirm(text) == true) {
-        location.replace('../login.php')
-    } else {
-        location.reload();
-    }
-}
-</script>
 

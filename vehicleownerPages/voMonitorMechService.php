@@ -4,9 +4,11 @@ include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
 $custID1=$_SESSION['custID'];
 if(isset($_POST["confirm"]) || isset($_POST['comment'])){
     $regeditid=intval($_GET['regeditid']);
-     $sql1="UPDATE request set status='Complete' WHERE resID=:regeditid"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
+      $value=$_POST['value'];
+     $sql1="UPDATE request set status='Complete',ratePercentage=:value,Edate=CURRENT_TIMESTAMP() WHERE resID=:regeditid"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
      $query=$dbh->prepare($sql1);
      $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
+     $query->bindParam(':value',$value,PDO::PARAM_STR);
      $query->execute(); 
      echo "<script type='text/javascript'>document.location='voActivityLog.php';</script>";
      
@@ -112,31 +114,66 @@ if(isset($_POST["confirm"]) || isset($_POST['comment'])){
 						if($query->rowCount()>0){
     						foreach($results as $result){
 					?>
-            <!-- py-3 container-fluid text-dark row mx-0-->
-            <div class="row mx-0 mx-md-3 py-3 text-dark ">
-                <div class="col-12 col-md-6">
-                    <div id="google-maps">
-                        <iframe src="https://maps.google.com/maps?q=<?php echo htmlentities($result->latitude);?>,<?php echo htmlentities($result->longitude);?>&<?php echo htmlentities($_SESSION['latitude']);?>,<?php echo htmlentities($_SESSION['longitude']);?>&output=embed" frameborder="0" width="100%" height="540"></iframe>
+            <div class="row info-request">
+                <h2 style="color: #302d32">Monitor Mechanic Services</h2>
+                <div class="info-row col-12 col-md-6">
+                    <input type="hidden" name="mechID" value="<?php echo htmlentities($result->mechID);?>">
+                    <input type="hidden" name="status" id="status" value="<?php echo htmlentities($result->status);?>">
+                    <input type="hidden" value="<?php echo htmlentities($result->progressBar);?>">
+                    <p>Mechanic: <?php echo htmlentities($result->mechName);?></p>
+                    <p>Service Request: <?php echo htmlentities($result->serviceNeeded);?></p>
+                    <p>Vehicle Problem: <?php echo htmlentities($result->mechRepair);?></p>
+                    <p>Date: <?php echo htmlentities($result->date);?></p>
+                    <p>Time: <?php echo htmlentities($result->time) < 12 ? 'AM' : 'PM';?></p>
+                    <!-- <a class="btn btn-primary col-md-4 rounded" id="btnm" style="display: none;" data-bs-toggle="modal" href="#exampleModalToggle" role="button">End service</a> -->
+                    <div class="prog-wap col-12 mt-4">
+                    <h5 class="text-center">PROGRESS</h5>
+                    <div class="visualProgress visual-prog2 row">
+                        <div class="circular-progress col-12 col-md-8 col-lg-12" id="circular-progress">
+                           <div class="value-container">
+                                0%
+                            </div>
+                        </div>
+                        <div class="legendcolumn col-12 col-md-7 col-lg-6">
+                            <div class="legenddesc">
+                                <div class="legend-box1"></div>
+                                <p>On-going progress</p>
+                            </div>
+                            <a type="button" class="btn btn-primary rounded-pill button-progress" id="btnm" style="display: none;" data-bs-toggle="modal" href="#exampleModalToggle" role="button">Complete</a> 
+                            <input  type="hidden" class="border-0"  value="<?php echo htmlentities($result->progressBar);?>" id="output">
+                        </div>
                     </div>
                 </div>
+                </div>
                 
-                <div class="col-sm-12 col-md-6 bg-white p-3 rounded-3 shadow">
-                    <h5 class="text-start">Monitor Mechanic Services</h6>
-                        <input type="hidden" name="mechID" value="<?php echo htmlentities($result->mechID);?>">
-                        <input type="text"  style="display: none;" name="status" id="status" value="<?php echo htmlentities($result->status);?>">
-                        <p><?php echo htmlentities($result->mechName);?></p>
-                        <h5 class="text-start mt-2">Request Information</h5>
-                        <p><i>Service Needed:</i> <?php echo htmlentities($result->serviceNeeded);?></p>
-                        <p><i>Date:</i> <?php echo htmlentities($result->date);?></p>
-                        <p><i>Time:</i> <?php echo htmlentities($result->time) < 12 ? 'AM' : 'PM';?>
-                            <?php echo htmlentities($result->time);?></p>
-                        <p class="pb-1 "><i>Vehicle Problem:</i> <?php echo htmlentities($result->mechRepair);?></p>
-                        <h5>Noted Message</h5>
-                        <p class="line-segment"><?php echo htmlentities($result->specMessage);?></p>
-                        <h1 id="bar" class="text-center pl-5"><?php echo htmlentities($result->progressBar);?> % Fixed</h1>
-                            <a class="btn btn-primary col-md-4 rounded" id="btnm" style="display: none;" data-bs-toggle="modal" href="#exampleModalToggle" role="button">End service</a>
-                        </div>
-                    </div> 
+                <div class="remarks-wrap col-12 col-md-5">
+                    <h5 class="text-center py-3">REMARKS</h5>
+                    <div class="rwrap">
+                        <?php 
+                            $mechID = $result->mechID;
+                            $custID1;
+                            $sql4="SELECT * from progressremarks where mechID=:mechID AND custID=:custID1";
+                            $query5 = $dbh->prepare($sql4);
+                            $query5->bindParam(':mechID',$mechID,PDO::PARAM_STR);
+                            $query5->bindParam(':custID1',$custID1,PDO::PARAM_STR);
+                            $query5->execute();
+                            $results=$query5->fetchAll(PDO::FETCH_OBJ);
+                            $cnt=1;
+                                if($query5->rowCount()>0){
+                                    foreach($results as $res){
+                                        $remark = explode("@", $res->remarks);
+                                        foreach($remark as $res){
+                                            if($res !== null){
+                        ?>
+                        <hr>
+                        <p class="indiv-remark"><?php echo htmlentities($res)?></p>
+                        <?php
+                        }else{
+                        ?>
+                        <p class="text-center">Theres No Remarks Yet</p>
+                        <?php }}}}?>
+                        <hr>
+                    </div>
                 </div>
             </div>
             <?php $cnt=$cnt+1;}}?>
@@ -163,9 +200,7 @@ if(isset($_POST["confirm"]) || isset($_POST['comment'])){
                         <button type="submit" name="confirm" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body star">
-                        <div class="container">
-                            <span id="rateMe1"></span>
-                        </div>
+                        
                         <div class="star-widget">
                             <input type="radio" name="rate" id="rate-5" value="5"><label for="rate-5" class="fas fa-star"></label>
                             <input type="radio" name="rate" id="rate-4" value="4"><label for="rate-4" class="fas fa-star"></label>
@@ -179,7 +214,10 @@ if(isset($_POST["confirm"]) || isset($_POST['comment'])){
                             <label for="">Leave a Feedback</label>
                             <textarea class="form-control shadow-none" id="exampleFormControlTextarea1" rows="3" name="specMessage" value="specMessage"></textarea>
                         </div>
-                        <button class="btn btn-primary my-1" name="comment" type="sumbit">Comment</button>
+                        <div class="btn-center">
+                            <button class="btn btn-primary my-1 text-center" name="comment" type="sumbit">Submit</button>
+                        </div>
+                    
                     </div>
                     </div>
                 </div>
@@ -212,6 +250,26 @@ if(isset($_POST["confirm"]) || isset($_POST['comment'])){
         document.getElementById("exampleModalToggle2").style.display="block";
 
     }
+    //for circular progress bar
+    let progressBar = document.getElementById("circular-progress");
+    let valueContainer = document.querySelector(".value-container");
+    let dynamicValue = document.getElementById("output").value;
+
+    let progressValue = 0;
+    let progressEndValue = 100;
+    let speed = 20;
+
+    let progress = setInterval(() => {
+        progressValue++;
+        valueContainer.textContent = `${progressValue}%`;
+        progressBar.style.background = `conic-gradient(
+            #9132da ${progressValue * 3.6}deg, 
+            #b68bd6 ${progressValue * 3.6}deg
+        )`;
+        if (progressValue == dynamicValue) {
+            clearInterval(progress);
+        }
+    }, speed);
     </script>                           
     
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

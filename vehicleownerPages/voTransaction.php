@@ -2,19 +2,17 @@
 session_start();
 include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
 $custID1=$_SESSION['custID'];
-if(isset($_POST["comment"])){
-    $custID=$_SESSION['custID'];
-    $mechID=$_POST['mechID'];
-    $value=$_POST['value'];
-    $specMessage=$_POST['specMessage'];
-    $sql="INSERT INTO ratingandfeedback(custID,mechID,feedback,ratePercentage)VALUES(:custID, :mechID, :specMessage,:value)";
-    $query=$dbh->prepare($sql);
-    $query->bindParam(':custID',$custID,PDO::PARAM_STR);
-    $query->bindParam(':mechID',$mechID,PDO::PARAM_STR);
-    $query->bindParam(':specMessage',$specMessage,PDO::PARAM_STR);
-    $query->bindParam(':value',$value,PDO::PARAM_STR);
-    $query->execute();
+
+   if(isset($_POST["readall"])){
+    $resID=$_POST['resID'];
+    $sql1245="UPDATE request set historyStatus='Read' WHERE custID=:custID1"; 
+    $query1245=$dbh->prepare($sql1245);
+    $query1245->bindParam(':custID1',$custID1,PDO::PARAM_STR);
+    $query1245->execute();
    }
+
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -93,43 +91,103 @@ if(isset($_POST["comment"])){
     <section id="activityLog">
         <form action="" method="POST">
             <div class="row py-3 px-sm-0 px-md-3 table-responsive justify-content-center pb-5">
-                <div class="col-lg-8  py-4  ">
-                    <?php
-                    $sql="SELECT * from request WHERE custID=$custID1 and status='complete' order by resID DESC";
+                <div class="col-lg-7  py-4  ">
+               
+                    <button class="my-3 p-1 rounded btn fw-bold mb-1 text-info border-0" id="tago" type="submit" name="readall" style="font-size: 13px;"><i class="fa-solid fa-square-check"></i> Mark all as read</button>
+ <?php 
+											$sql3 ="SELECT  * from request where custID = $custID1 and status= 'Complete'";
+											$query3 = $dbh -> prepare($sql3);
+											$query3->execute();
+											$results3=$query3->fetchAll(PDO::FETCH_OBJ);
+											$transac=$query3->rowCount();
+                                            if($transac == 0){
+                                               echo "<script> document.getElementById('tago').style.display = 'none';</script>";
+                                            }
+
+                    $sql="SELECT *, DATE_FORMAT(Sdate, '%a %M-%d-%Y at %H:%i %p') as timess, DATE_FORMAT(Edate, '%a %M-%d-%Y at %H:%i %p') as Endtime from request WHERE status='complete' order by resID DESC";
                     $query=$dbh->prepare($sql);
                     $query->execute();
                     $results=$query->fetchALL(PDO::FETCH_OBJ);
                     if($query->rowCount()>0){
                         foreach ($results as $result){
-                            if($custID1==$custID1){
+                            if($result->custID == $custID1 && $result->historyStatus== 'Unread'){
+                                
                 ?>
-                    <div class="card text-dark mb-2">
-                        <!-- <div class="card-header">
-                        
-                    </div> -->
-                        <div class="card-body" onclick="hideone()">
-                            <input type="text" hidden name="mechID" value="<?php echo htmlentities($result->mechID);?>">
-                            <h5 class="card-title"><?php echo htmlentities($result->mechName);?></h5>
-                            <p class="card-text"><?php echo htmlentities($result->mechRepair);?></p>
-                            <h6 class="pt-2">Note:</h6>
-                            <p class="card-text"><?php echo htmlentities($result->specMessage);?></p>
-                            <a class="btn btn-primary rounded-pill shadow-none mt-3 float-end" type="submit"
-                                data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" onclick="modalShow()"
-                                data-bs-dismiss="modal" id="rateme">Please rate me</a>
 
-                            <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+                    <div class="card text-dark mb-3 p-2" type="submit" name="hide">
+                        <div class="row g-1">
+                            <div class="col-md-1 bg-light border border-1 rounded text-center fw-bold py-3">
+                                <p style="font-size: 20px;"><?php echo number_format($result->ratePercentage,1);?></p>
+                                <p class="fw-bold disabled text-muted" style="font-size: 13px;"><span
+                                        class="text-warning"><i class="fa-solid fa-star"></i></span> ratings</p>
+
+                            </div>
+
+                            <div class=" col-md-10 p-0">
+                                <div class="card-body text-center" onclick="hideone() ">
+                                    <input type="text" hidden name="mechID"
+                                        value="<?php echo htmlentities($result->mechID);?>">
+                                        <input type="hidden" name="resID"
+                                        value="<?php echo htmlentities($result->resID);?>">
+                                        <p class="fw-bold text-end text-warning rounded"
+                                    style="font-size: 12px;">  <i class="fa-solid fa-eye-slash"></i>
+                                    <?php echo htmlentities($result->historyStatus);?></p>
+                                    <h5 class="card-title fw-bold">Request:
+                                        <?php echo htmlentities($result->serviceNeeded);?></h5>
+                                    <p class="card-text fw-bold disabled text-muted" style="font-size: 13px;"> <i class="fa-solid fa-id-badge"></i> Transaction id: <?php echo htmlentities($result->resID);?>|<i
+                                            class="fa-solid fa-calendar-days"></i> Start date:
+                                        <?php echo htmlentities($result->timess);?>|<i
+                                            class="fa-solid fa-calendar-days"></i> End date:
+                                        <?php echo htmlentities($result->Endtime);?>|<i
+                                            class="fa-solid fa-toolbox"></i> Mechanic name:
+                                        <?php echo htmlentities($result->mechName);?>|<button type="submit" name="read" class="btn fw-bold mb-1" style="font-size: 13px;"><a href="voViewDetails.php?regeditid=<?php echo htmlentities($result->resID);?>" class="text-info"><i
+                                                class="fa-solid fa-eye"></i> view more</a></button></p>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <?php }}} 
-                    
-                    else {
-                    ?>
-                    <div class="emptyrequest mt-5 pt-5">
-                        <div class="emptydiv"><img src="../img/empty.png" alt=""></div>
-                        <h6>No transaction history at the moment. . .</h6>
+
+
+
+                    <?php } else  { ?>
+
+                        <div class="card text-dark mb-3 p-2 " type="submit" name="hide">
+                        <div class="row g-1">
+                            <div class="col-md-1 bg-light border border-1 rounded text-center fw-bold py-4">
+                                <p style="font-size: 20px;"><?php echo number_format($result->ratePercentage,1);?></p>
+                                <p class="fw-bold disabled text-muted" style="font-size: 13px;"><span
+                                        class="text-warning"><i class="fa-solid fa-star"></i></span> ratings</p>
+
+                            </div>
+
+                            <div class=" col-md-10 p-0 ">
+                                <div class="card-body text-center" onclick="hideone() ">
+                                    <input type="text" hidden name="mechID"
+                                        value="<?php echo htmlentities($result->mechID);?>">
+                                        <input type="hidden" name="resID"
+                                        value="<?php echo htmlentities($result->resID);?>">
+                                         <p class="fw-bold text-end text-warning rounded"
+                                    style="font-size: 12px;"><i class="fa-solid fa-eye"></i>
+                                    <?php echo htmlentities($result->historyStatus);?></p>
+                                    <h5 class="card-title fw-bold">Request:
+                                        <?php echo htmlentities($result->serviceNeeded);?></h5>
+                                    <p class="card-text fw-bold disabled text-muted" style="font-size: 13px;"> <i class="fa-solid fa-id-badge"></i> Transaction id: <?php echo htmlentities($result->resID);?>|<i
+                                            class="fa-solid fa-calendar-days"></i> Start date:
+                                        <?php echo htmlentities($result->timess);?>|<i
+                                            class="fa-solid fa-calendar-days"></i> End date:
+                                        <?php echo htmlentities($result->Endtime);?>|<i
+                                            class="fa-solid fa-toolbox"></i> Mechanic name:
+                                        <?php echo htmlentities($result->mechName);?>|<a href="voViewDetails.php?regeditid=<?php echo htmlentities($result->resID);?>" class="text-info"><i
+                                                class="fa-solid fa-eye"></i> view more</a></p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                    <?php }  ?>
+                    
+                   
                     <?php
-                    }
+                    } } 
                     ?>
                 </div>
             </div>
@@ -174,19 +232,7 @@ if(isset($_POST["comment"])){
                     </div>
                 </div>
             </div>
-           
 
-            <?php  
-                    $sql1="SELECT * from ratingandfeedback WHERE custID=$custID1";
-                    $query1=$dbh->prepare($sql1);
-                    $query1->execute();
-                    $results=$query1->fetchALL(PDO::FETCH_OBJ);
-                    if($query1->rowCount()>0){
-                        foreach ($results as $result1){
-                            ?>
-                    <input type="text" hidden name="ratePercentage" id="ratePercentage" value="<?php echo htmlentities($result1->ratePercentage);?>">
-
-          <?php }}?>
         </form>
     </section>
     <script>
@@ -208,17 +254,8 @@ if(isset($_POST["comment"])){
     window.onunload = function() {
         null
     };
-    function rating(){
-        var y = document.getElementById("ratePercentage").value;
-        if(y == 0){
-            document.getElementById("rateme").style.display = "block";
-        }
-        else
-        {
-            document.getElementById("rateme").style.display = "none";
-        }
-    }
-    function hideone(){
+
+    function hideone() {
         document.getElementById("hide1").style.display = "none";
     }
     </script>

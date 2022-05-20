@@ -64,11 +64,10 @@ include('../config.php');
                                 <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button"
                                     data-toggle="dropdown" aria-expanded="false"><i class="bi bi-star-fill"></i>
                                     Feedbacks</a>
-                                <ul class="dropdown-menu w-100" aria-labelledby="navbarDropdown">
+                                    <ul class="dropdown-menu w-100" aria-labelledby="navbarDropdown">
                                     <li><a href="feedbacks.php" class="dropdown-item pl-4 p-2"><i
-                                                class="bi bi-person-circle"></i> Clients</a></li>
-                                    <li><a href="mechfeedbacks.php" class="dropdown-item pl-4 p-2"><i
                                                 class="bi bi-tools"></i> Mechanics</a></li>
+                                   
                                 </ul>
 
                             </li>
@@ -125,8 +124,7 @@ include('../config.php');
                                                         <th class="border-0 Phead">Last Name</th>
                                                         <th class="border-0 Phead">Address</th>
                                                         <th class="border-0 Phead">Email</th>
-                                                        <th class="border-0 Phead">Contact Number</th>
-                                                        <th class="border-0 Phead">Valid ID</th>
+                                                        <th class="border-0 Phead">Contact Number</th>          
                                                         <th class="border-0 Phead">Specialization</th>
                                                         <th class="border-0 Phead">Username</th>
                                                         <th class="border-0 Phead">Action</th>
@@ -141,7 +139,9 @@ include('../config.php');
                                                      {
                                                    ?>
                                                     <tr>
-                                                          <td><img src="../uploads/<?=$result->profile_url ?>"
+
+                                                          <td>
+                                                              <img src="../uploads/<?=$result->profile_url ?>"
                                                                 onerror="this.src='../img/mech.jpg';"
                                                                 class="imagenajud pimage rounded-circle px-5"
                                                                 style="min-width: 25%; max-width: 140px;" alt=""> 
@@ -154,9 +154,7 @@ include('../config.php');
                                                         </td>
                                                         <td><?php echo htmlentities($result->mechEmail);?></td>
                                                         <td><?php echo htmlentities($result->mechCnumber);?>
-                                                        </td>
-                                                        <td><?php echo htmlentities($result->mechValidID);?>
-                                                        </td>
+                                                        </td>                                                 
                                                         <td><?php echo htmlentities($result->Specialization);?>
                                                         </td>
                                                         <td><?php echo htmlentities($result->Username);?></td>

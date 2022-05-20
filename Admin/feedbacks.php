@@ -65,11 +65,10 @@ include('../config.php');
                                 <a href="#" class="nav-link dropdown-toggle active" id="navbarDropdown" role="button"
                                     data-toggle="dropdown" aria-expanded="false"><i class="bi bi-star-fill"></i>
                                     Feedbacks</a>
-                                <ul class="dropdown-menu w-100" aria-labelledby="navbarDropdown">
+                                    <ul class="dropdown-menu w-100" aria-labelledby="navbarDropdown">
                                     <li><a href="feedbacks.php" class="dropdown-item pl-4 p-2 active"><i
-                                                class="bi bi-person-circle"></i> Clients</a></li>
-                                    <li><a href="mechfeedbacks.php" class="dropdown-item pl-4 p-2"><i
                                                 class="bi bi-tools"></i> Mechanics</a></li>
+                                   
                                 </ul>
 
                             </li>
@@ -88,47 +87,42 @@ include('../config.php');
             </aside>
             <main class="col px-0 flex-grow-1">
                 <div class="container py-3">
-                    <section class="my-container container-fluid">
-                        <div class="display-6 my-2">Feedbacks</div>
+                <section class="my-container">
+                        <div class="display-6 my-2">Feedbacks and Ratings</div>
                         <hr class="text-dark m-2">
-                        <div class="col-lg-12 col-md-12 col-sm-12">
+                        <form method="POST">
+                            <?php
+                                            
+                                        
+											$sql = "SELECT * from ratingandfeedback";
+											$query=$dbh->prepare($sql);
+											$query->execute();
+											$results=$query->fetchALL(PDO::FETCH_OBJ);
+											$cnt=1;
+                                                 if($query->rowCount()>0)
+                                                     {
+                                                     foreach ($results as $result) 
+                                                     {?>
+                          
+                                                        <div class="col-lg-12 col-md-12 col-sm-12">
                             <div class="card">
-                                <h5 class="card-header"><img src="img/avatar.png" alt="avatar" width="35"
-                                        class="img-thumbnail"> Jepriel Tibay <i class="bi bi-star-fill"></i><i
-                                        class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
-                                        class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></h5>
+                                <h5 class="card-header d-flex justify-content-between"> <?php echo htmlentities($result->mechName);?> <span class="fw-bold" style="font-size: 17px;"> <?php echo htmlentities($result->ratePercentage);?>.0 <i class="bi bi-star-fill"> </i>rating</span>  </h5>
                                 <div class="card-body">
-                                    <h5 class="card-title">Great!!</h5>
-                                    <p class="card-text">Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                                        Voluptatibus, ducimus dolores. Consequatur odio consectetur qui mollitia in
-                                        earum placeat neque nam maxime totam aut odit veritatis laboriosam facilis,
-                                        quaerat unde?</p>
-                                    <a href="#" class="btn btn-primary btn-sm">Reply <i
-                                            class="bi bi-reply-fill"></i></a> <i class="bi bi-hand-thumbs-up-fill"></i>
+                                <p class="card-text" style="font-size: 15px; font-weight:bolder;">feedback:</p>
+                                    <p class="card-text"><?php echo htmlentities($result->feedback);?></p>
 
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-12 col-md-12 col-sm-12 my-2">
-                            <div class="card">
-                                <h5 class="card-header"><img src="img/avatar.png" alt="avatar" width="35"
-                                        class="img-thumbnail"> John Jalosjos <i class="bi bi-star-fill"></i><i
-                                        class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
-                                        class="bi bi-star-fill"></i><i class="bi bi-star-half"></i></h5>
-                                <div class="card-body">
-                                    <h5 class="card-title">Nice!!</h5>
-                                    <p class="card-text">Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                                        Voluptatibus, ducimus dolores. Consequatur odio consectetur qui mollitia in
-                                        earum placeat neque nam maxime totam aut odit veritatis laboriosam facilis,
-                                        quaerat unde?</p>
-                                    <a href="#" class="btn btn-primary btn-sm">Reply <i
-                                            class="bi bi-reply-fill"></i></a> <i class="bi bi-hand-thumbs-up-fill"></i>
 
+                                                <?php }}?>
+                                            </table>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                </div>
-                </section>
+                        </form>
+                    </section>
         </div>
         </main>
     </div>

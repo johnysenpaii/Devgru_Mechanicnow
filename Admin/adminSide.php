@@ -88,10 +88,8 @@ include('../config.php');
             <main class="col flex-grow-1">
                 <div class="container py-2">
                     <div class="row d-flex justify-content-">
-                        <div class="col h5">Dashboard</div>
+                        <div class="col display-6">Dashboard</div>
                         <div class="col-1 h5 text-center text-dark">
-                        
-                            <i class="bi bi-bell-fill"></i>
                           </div>
                         <hr class="text-dark">
                     </div>

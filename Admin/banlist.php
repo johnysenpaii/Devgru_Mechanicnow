@@ -61,16 +61,17 @@ include('../config.php');
 
                                 </ul>
                             </li>
-                            <li class="nav-item dropdown w-100">
+                           
+                                 <li class="nav-item dropdown w-100">
                                 <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button"
                                     data-toggle="dropdown" aria-expanded="false"><i class="bi bi-star-fill"></i>
                                     Feedbacks</a>
-                                <ul class="dropdown-menu w-100" aria-labelledby="navbarDropdown">
+                                    <ul class="dropdown-menu w-100" aria-labelledby="navbarDropdown">
                                     <li><a href="feedbacks.php" class="dropdown-item pl-4 p-2"><i
-                                                class="bi bi-person-circle"></i> Clients</a></li>
-                                    <li><a href="mechfeedbacks.php" class="dropdown-item pl-4 p-2"><i
                                                 class="bi bi-tools"></i> Mechanics</a></li>
+                                   
                                 </ul>
+                          
 
                             </li>
                             <li class="nav-item">
@@ -139,8 +140,10 @@ include('../config.php');
 											?>
                                                     <tr>
                                                         <td>
-                                                           <?php echo '<img src="data:image' .base64_encode($result -> profile_url).'alt="avatar" width="35"
-                                                                class="img-thumbnail"">'?>
+                                                        <td><img src="../uploads/<?=$result->profile_url ?>"
+                                                                onerror="this.src='../img/mech.jpg';"
+                                                                class="imagenajud pimage rounded-circle px-5"
+                                                                style="min-width: 25%; max-width: 140px;" alt=""> 
                                                         </td>
                                                         <td><?php echo htmlentities($result->mechFirstname);?>
                                                         </td>

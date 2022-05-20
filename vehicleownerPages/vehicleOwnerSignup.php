@@ -1,8 +1,10 @@
-<?php
+<?php 
 session_start();
 include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
-if(isset($_POST['register']))
-{
+$success="";
+
+if(isset($_POST['register'])){
+unset($_SESSION['status']);
     $custFirstname=$_POST['custFirstname'];
     $custLastname=$_POST['custLastname'];
     $custAddress=$_POST['custAddress'];
@@ -19,13 +21,13 @@ if(isset($_POST['register']))
   if ($_POST['Password']!= $_POST['custconfirmpassword'])
   {
     echo '<script>alert("Oops! Password did not match! Please try again.")</script>';
-    echo "<script type='text/javascript'>document.location='./vehicleOwnerSignup.php';</script>";
+    //echo "<script type='text/javascript'>document.location='./vehicleOwnerSignup.php';</script>";
   }
   else{
     //hashed password
     $input = $_POST['Password'];
     $hashedPwd = password_hash($Password, PASSWORD_DEFAULT);
-    //check email
+    //check email   
     $sql="SELECT * FROM customer WHERE custEmail = ?";
     $query = $dbh->prepare($sql);
     $query->execute([$custEmail]);
@@ -33,7 +35,7 @@ if(isset($_POST['register']))
     if($result > 0){
         //$error="<span class='text-danger'>Email hac already Exist!!</span>";
         echo '<script>alert("Oops! Email has already Exist!.")</script>';
-        echo "<script type='text/javascript'>document.location='./vehicleOwnerSignup.php';</script>";
+        //echo "<script type='text/javascript'>document.location='./vehicleOwnerSignup.php';</script>";
     }else{
       //check Username
       $sql2="SELECT * FROM customer WHERE Username = ?";
@@ -43,7 +45,7 @@ if(isset($_POST['register']))
       if($result > 0){
           // $error="<span class='text-danger'>Username has already Exist!!</span>";
           echo '<script>alert("Oops! Username Already Exist!")</script>';
-          echo "<script type='text/javascript'>document.location='./vehicleOwnerSignup.php';</script>";
+          //echo "<script type='text/javascript'>document.location='./vehicleOwnerSignup.php';</script>";
       }else{
         $sql="SELECT * FROM customer WHERE Username=:Username";
         $query=$dbh->prepare($sql);
@@ -52,7 +54,7 @@ if(isset($_POST['register']))
         $results=$query->fetch(PDO::FETCH_ASSOC);
         if($query->rowCount()>0)
         {
-          echo "<script type='text/javascript'>document.location='../login.php';</script>";
+          //echo "<script type='text/javascript'>document.location='../login.php';</script>";
         }else{
           $sql="INSERT INTO customer(custFirstname, custLastname, custAddress, custEmail, custCnumber, vehicleType, Username, Password, role,latitude,longitude)VALUES(:custFirstname, :custLastname, :custAddress, :custEmail, :custCnumber, :vehicleType, :Username, :hashedPwd, :role,:latitude,:longitude)";
           $query=$dbh->prepare($sql);
@@ -71,7 +73,12 @@ if(isset($_POST['register']))
 
           session_regenerate_id();
         
-          echo "<script type='text/javascript'>document.location='../login.php';</script>";
+          $success ="<div class='d-flex justify-content-center my-3 '>
+          <div class='col-lg-12 d-flex justify-content-center alert alert-warning alert-dismissible fade show fw-bold' style='font-size: 13px;' role='alert'>
+             Welcome! You successfully registered, you may login right now.
+          </div>
+          </div>";
+          header("refresh:4;url=http://localhost/Devgru_Mechanicnow/login.php");
         }
       }
     }
@@ -81,6 +88,7 @@ if(isset($_POST['register']))
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -104,7 +112,9 @@ if(isset($_POST['register']))
                 <i class="fa-solid fa-car"></i>
             </div>
             <form method="POST">
+                    <?php echo $success;?>
                 <div class="err-txt" hidden>This is an error message</div>
+
                 <label>Personal details</label>
                 <div class="name-details">
                         <div class="field input">

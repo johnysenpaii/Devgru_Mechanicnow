@@ -4,16 +4,17 @@ include('./config.php');
 $error=" ";
 if(isset($_POST['Login']))
 {
-    $regeditid = $_SESSION['mechID'];
-    $regeditid1 = $_SESSION['custID'];
-    $latitude = $_POST['latitude'];
-    $longitude = $_POST['longitude'];
-    $sql="UPDATE customer set latitude=:latitude,longitude=:longitude WHERE custID=:regeditid1"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
-    $query=$dbh->prepare($sql);
-    $query->bindParam(':latitude',$latitude,PDO::PARAM_STR);
-    $query->bindParam(':longitude',$longitude,PDO::PARAM_STR);
-    $query->bindParam(':regeditid1',$regeditid1,PDO::PARAM_STR);
-    $query->execute(); 
+ 
+    
+    // $regeditid1 = $_SESSION['custID'];
+    // $latitude = $_POST['latitude'];
+    // $longitude = $_POST['longitude'];
+    // $sql="UPDATE customer set latitude=:latitude,longitude=:longitude WHERE custID=:regeditid1"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
+    // $query=$dbh->prepare($sql);
+    // $query->bindParam(':latitude',$latitude,PDO::PARAM_STR);
+    // $query->bindParam(':longitude',$longitude,PDO::PARAM_STR);
+    // $query->bindParam(':regeditid1',$regeditid1,PDO::PARAM_STR);
+    // $query->execute(); 
     $Username=$_POST['Username'];
     
     //$valid = password_verify($input, $Password); //1 or 0
@@ -44,20 +45,27 @@ if(isset($_POST['Login']))
             $_SESSION['custAddress']=$custAddress;
             $_SESSION['Username']=$attemptedUsername;
             $_SESSION['Password']=$hashedPwd;
-            echo "<script type='text/javascript'>document.location='./vehicleownerPages/voDashboard.php';</script>";
-        }else{
-            $error="<div class='alert alert-danger text-center fw-bold' role='alert'>Username and password mismatch!</div>";
+            $error="<div class='alert alert-warning text-center fw-bold' role='alert'>Welcome!</div>";
+            header("refresh:2;url=http://localhost/Devgru_Mechanicnow/vehicleownerPages/voDashboard.php?/Customeridentafication=$custID"); 
+            // echo "<script type='text/javascript'>document.location='./vehicleownerPages/voDashboard.php';</script>";
+        }else{   
+                $error1="Username and password mismatch!";
+                $error="<div class='alert alert-danger text-center fw-bold' role='alert'>Username and password mismatch!</div>";
+                header("refresh:1;url=http://localhost/Devgru_Mechanicnow/login.php?/error=$error1"); 
+                session_destroy(); 
         }
-    }else{
-        $regeditid = $_SESSION['mechID'];
         $latitude = $_POST['latitude'];
         $longitude = $_POST['longitude'];
-        $sql="UPDATE mechanic set latitude=:latitude,longitude=:longitude WHERE mechID=:regeditid"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
+        $sql="UPDATE customer set latitude=:latitude,longitude=:longitude WHERE custID=:custID"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
         $query=$dbh->prepare($sql);
         $query->bindParam(':latitude',$latitude,PDO::PARAM_STR);
         $query->bindParam(':longitude',$longitude,PDO::PARAM_STR);
-        $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
+        $query->bindParam(':custID',$custID,PDO::PARAM_STR);
         $query->execute(); 
+
+
+    }else{
+      
         //echo '<script>alert("User not found!")</script>';
         $sql="SELECT * FROM mechanic WHERE Username=:Username AND role='MECHANIC'";
         $query1=$dbh->prepare($sql);
@@ -74,7 +82,8 @@ if(isset($_POST['Login']))
             $hashedPwdM=$results1['Password'];
             $latitude=$results1['latitude'];
             $longitude=$results1['longitude'];
-        
+            $status=$results1['status'];
+            $stats=$results1['stats'];
             $Password1=$_POST['Password'];
             if(password_verify($Password1, $hashedPwdM) == 1){
                 session_regenerate_id();
@@ -86,11 +95,27 @@ if(isset($_POST['Login']))
                 $_SESSION['mechAddress']=$mechAddress;
                 $_SESSION['Username']=$attemptedMUsername;
                 $_SESSION['Password']=$hashedPwdM;
-                echo "<script type='text/javascript'>document.location='./mechanicPages/mechDashboard.php';</script>";
-                header( "refresh:5;url=./mechanicPages/mechDashboard.php" );
-            }else{
+                $_SESSION['status']=$status;
+                $_SESSION['stats']=$stats;
+                // echo "<script type='text/javascript'>document.location='./mechanicPages/mechDashboard.php';</script>";
+                // header("Location:voBikemech.php?/lat=$l1&long=$l2"); 
+        $latitude = $_POST['latitude'];
+        $longitude = $_POST['longitude'];
+        $sql="UPDATE mechanic set stats ='Active',latitude=:latitude,longitude=:longitude WHERE mechID=:mechID"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
+        $query=$dbh->prepare($sql);
+        $query->bindParam(':latitude',$latitude,PDO::PARAM_STR);
+        $query->bindParam(':longitude',$longitude,PDO::PARAM_STR);
+        $query->bindParam(':mechID',$mechID,PDO::PARAM_STR);
+        $query->execute(); 
+        $error="<div class='alert alert-warning text-center fw-bold' role='alert'>Welcome!</div>";
+        header("refresh:2;url=http://localhost/Devgru_Mechanicnow/mechanicPages/mechDashboard.php?/Mechanicidentafication=$mechID&MechanicStatus=$stats"); 
+            }else{ 
+                $error1="Username and password mismatch!";
                 $error="<div class='alert alert-danger text-center fw-bold' role='alert'>Username and password mismatch!</div>";
+                header("refresh:1;url=http://localhost/Devgru_Mechanicnow/login.php?/error=$error1"); 
+                session_destroy();           
             }
+
         }else{
             //echo '<script>alert("User not found!")</script>';
             $Password=$_POST['Password'];
@@ -109,15 +134,13 @@ if(isset($_POST['Login']))
            echo "<script type='text/javascript'>document.location='./Admin/adminSide.php';</script>";
             }
             else{
-               $error="<div class='alert alert-danger text-center fw-bold' role='alert'>User not found!</div>";
+                $error="<div class='alert alert-danger text-center fw-bold' role='alert'>User Not Found!</div>";
+                header("refresh:1;url=http://localhost/Devgru_Mechanicnow/login.php"); 
+                session_destroy(); 
             }
         }
+       
     }
-
-  
-  
-
-
 } 
 ?>
 <!DOCTYPE html>
@@ -152,8 +175,8 @@ if(isset($_POST['Login']))
                     <img src="img/navlogo.png" alt="">
                 </div>
                 <form method="POST">
-                    <input hidden type="text" id="latitude" name="latitude" value="">
-                    <input hidden type="text" id="longitude" name="longitude" value="">
+                    <input  type="hidden" id="latitude" name="latitude" value="">
+                    <input  type="hidden" id="longitude" name="longitude" value="">
 
                     <p>
                        <?php echo $error; ?>
@@ -173,6 +196,9 @@ if(isset($_POST['Login']))
                     </div>
                     <div class="link">Doesn't have an account yet? <a href="#" data-bs-toggle="modal"
                             data-bs-target="#reg-modal">Signup</a></div>
+                            <?php if (isset($_GET['login'])): ?>
+                        <p><?php echo $_GET['error']; ?></p>
+                        <?php endif ?>
                 </form>
             </section>
             <!-- Vertically centered modal -->
