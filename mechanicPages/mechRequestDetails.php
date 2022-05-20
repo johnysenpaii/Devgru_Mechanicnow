@@ -112,7 +112,7 @@ $mechID1=$_SESSION['mechID'];
                                 <p><?php echo htmlentities($result->vOwnerName);?></p>
                                 <input type="text" name="custName" value="<?php echo htmlentities($result->vOwnerName);?>" hidden> 
                                 <input type="text" name="mechName" value="<?php echo htmlentities($result->mechName);?>" hidden> 
-                                <h5 class="text-start mt-2">Request Information</h5>
+`                                <h5 class="text-start mt-2">Request Information</h5>
                                 <input disabled class="border-0 bg-white py-2" type="text" id="need" value="<?php echo htmlentities($result->serviceNeeded);?>">
                               
                                 <div id="needs" style="display: none;">
