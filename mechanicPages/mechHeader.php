@@ -71,7 +71,7 @@ if(isset($_POST["readAll"])){
                         <li class="nav-item">
                             <div class="alert alert-warning p-2 my-0 fw-bold" style="font-size: 12px;" role="alert">
                                 <i class="fa-solid fa-circle-exclamation"></i> Your account has <strong>BANNED</strong>
-                                becuase of unnecessary actions.
+                                because of unnecessary actions.
                             </div>
                         </li>
                         <?php }?>
