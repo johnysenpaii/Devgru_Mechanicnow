@@ -93,7 +93,7 @@ if(empty($_SESSION['custID'])){
                     </form>
                
                 <div class="overflow-auto">
-                <table class="table table-borderless table-curved table-responsive pt-1 px-sm-0 px-md-0">
+                <table class="table table-borderless table-curved pt-1 px-sm-0 px-md-4">
                     <thead>
                     </thead>
                     <tbody>
