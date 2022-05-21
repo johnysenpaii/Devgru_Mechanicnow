@@ -1,15 +1,9 @@
 <?php 
-    session_start();
-    include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
+session_start();
+include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
 $success="";
 
-
-
-if(isset($_POST['register']))
-{
-
-
-
+if(isset($_POST['register'])){
 unset($_SESSION['status']);
     $custFirstname=$_POST['custFirstname'];
     $custLastname=$_POST['custLastname'];

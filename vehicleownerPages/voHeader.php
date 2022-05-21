@@ -23,7 +23,7 @@ if(isset($_POST["unreadDecline"])){
  
 }
 if(isset($_POST["unreadProgress"])){
-    $notification='fsljfklsafpowefsdlfms.,f';
+
     $notifID = $_POST['notifID'];
     $sql1="UPDATE vonotification set notifStatus='Read' WHERE notifID=:notifID"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
     $query=$dbh->prepare($sql1);

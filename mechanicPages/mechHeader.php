@@ -191,7 +191,9 @@ if(isset($_POST["logout"])) {
 
                                 </li>
                                 <?php }
-                            }  else if($result->status == 'Complete' ){ if($result->notifStatus == 'Unread'){?>
+                            }  else if($result->status == 'Complete' ){ 
+                                
+                                if($result->notifStatus == 'Unread'){?>
 
                                 <li>
                                     <button type="submit" name="unreadComplete"
@@ -236,7 +238,33 @@ if(isset($_POST["logout"])) {
 
                                 </li>
 
-                                <?php }}}}} ?>
+                                <?php }} else if($result->status == 'Home service'){
+                                    if($result->notifStatus == 'Unread'){?>
+                              <li>
+                                    <button type="submit" name="unreadComplete"
+                                        class="alert-success notif-content row text-center border-0 w-100 mx-0">
+                                        <p class="text-end text-small fw-light" style="font-size: smaller;">
+                                            <?php echo htmlentities($result->timess)?></p>
+                                        <div class="col-md-2 p-1 py-3 text-end" style="font-size: 30px;">
+                                            </i> <i class="fa-solid fa-face-smile-beam"></i>
+                                        </div>
+                                        <div class="col-md-10 py-3 text-start fw-bold">
+                                            Good job!! You completed your request today.
+                                            request.
+                                            <input type="hidden" name="notifID"
+                                                value="<?php echo  htmlentities($result->notifID);?>">
+                                        </div>
+                                        <a class="text-center" href="mechTransaction.php"><i
+                                                class="fa-solid fa-eye"></i> visit</a>
+                                    </button>
+
+                                </li>
+                            
+                            
+                            <?php } else{?>
+
+
+                          <?php } }}}} ?>
                             </ul>
                         </li>
                         <li class="nav-item">

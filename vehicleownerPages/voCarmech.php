@@ -176,13 +176,7 @@ include('../config.php');
                                 <?php
                                 }        
                     }
-                    ?>
-                    
-                    
-                    
-                    
-                    
-                   
+                    ?>      
                     </tbody>
                 </table>
             </div>

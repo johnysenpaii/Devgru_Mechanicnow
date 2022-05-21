@@ -4,7 +4,7 @@ include('../config.php');
 if(empty($_SESSION['mechID'])){
     header("Location:http://localhost/Devgru_Mechanicnow/login.php");
     session_destroy(); 
-    unset($_SESSION['mechID']);
+    unset($_SESSION['mechID']); 
       }
       if(isset($_POST["logout"])) {
         $mechID=$_SESSION['mechID'];

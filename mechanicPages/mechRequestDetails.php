@@ -1,22 +1,7 @@
 <?php
 session_start();
 include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
-$mechID1=$_SESSION['mechID'];
-
-
-
-
-if(isset($_POST['logout'])) {
-    $regeditid = $_SESSION['mechID'];
-    $sql="UPDATE mechanic set stats='Not active' WHERE mechID=:regeditid"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
-    $query=$dbh->prepare($sql);
-    $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
-    $query->execute(); 
-    session_destroy();
-    unset($_SESSION['mechID']);
-    header('location:http://localhost/Devgru_Mechanicnow/login.php');
-} 
-
+$mechid = $_SESSION['mechID'];
 if(isset($_POST['Accept']))
 {
     $regeditid12 = $_SESSION['mechID'];
@@ -29,18 +14,30 @@ if(isset($_POST['Accept']))
 //     echo"<script>location.replace('mechActivityLog.php');</script>";
 // ======= 
 
+    $sql="UPDATE mechanic set status='busy' where mechID=:mechid";
+    $query=$dbh->prepare($sql); 
+    $query->bindParam(':mechid',$mechid,PDO::PARAM_STR); 
+    $query->execute();
+
     $custID = $_POST['custID'];
     $mechID = $_POST['mechID'];
     $custName = $_POST['custName'];
     $mechName = $_POST['mechName'];
     $specMessage = $_POST['specMessage'];
     $role = $_POST['role'];
+    // $vehicleProblem = $_POST['vehicleProblem'];
 
     $sql4 = "INSERT INTO vonotification(custID, mechID, status) VALUES(:custID, :mechID, 'Accepted')";
     $query4 = $dbh->prepare($sql4);
     $query4->bindParam(':custID',$custID,PDO::PARAM_STR);
     $query4->bindParam(':mechID',$mechID,PDO::PARAM_STR);
     $query4->execute();
+
+    $sql3 = "INSERT INTO progressremarks(custID, mechID)VALUES(:custID, :mechID)";
+    $query5 = $dbh->prepare($sql3);
+    $query5->bindParam(':custID',$custID,PDO::PARAM_STR);
+    $query5->bindParam(':mechID',$mechID,PDO::PARAM_STR);
+    $query5->execute();
 
     $sql2 = "INSERT INTO chat(custID, mechID, custName, mechName, message, role) VALUES(:custID, :mechID, :custName, :mechName, :specMessage, :role)";
     $query2 = $dbh->prepare($sql2);
@@ -53,11 +50,6 @@ if(isset($_POST['Accept']))
     $query2->execute();
     echo"<script type='text/javascript'>alert('Accepted Successfully!');</script>";
     echo"<script>location.replace('./mechDashboard.php');</script>";
-
-    $sql13="UPDATE mechanic set status='busy' where mechID=:regeditid12";
-    $query13=$dbh->prepare($sql13); 
-    $query13->bindParam(':regeditid12',$regeditid12,PDO::PARAM_STR); 
-    $query13->execute();
 
 }
 if(isset($_POST['Decline']))
@@ -76,7 +68,22 @@ if(isset($_POST['Decline']))
     $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR); 
     $query->execute();
 }
-
+$mechID1=$_SESSION['mechID'];
+if(empty($_SESSION['mechID'])){
+    header("Location:http://localhost/Devgru_Mechanicnow/login.php");
+    session_destroy(); 
+    unset($_SESSION['mechID']);
+      }
+      if(isset($_POST["logout"])) {
+        $mechID=$_SESSION['mechID'];
+        $sql12344="UPDATE mechanic set stats='Not active' WHERE mechID=:mechID"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
+        $query12344=$dbh->prepare($sql12344);
+        $query12344->bindParam(':mechID', $mechID, PDO::PARAM_STR);
+        $query12344->execute();
+        session_destroy(); 
+        unset($_SESSION['mechID']);
+        header("Location:http://localhost/Devgru_Mechanicnow/login.php");
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -92,86 +99,193 @@ if(isset($_POST['Decline']))
 </head>
 <body>
 
-    
-    <div class="master-container">
-        <section>
-        <form method= "POST">
-        <?php
-              $regeditid=intval($_GET['regeditid']);
-              $sql="SELECT * from request WHERE resID=:regeditid and status='Unaccepted'";
-              $query=$dbh->prepare($sql);
-              $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
-              $query->execute();
-              $results=$query->fetchALL(PDO::FETCH_OBJ);
+    <section class="mechRequest" class="container-fluid">
+         <div class="emptyrequest" hidden>
+            <div class="emptydiv"><img src="../img/empty.png" alt=""></div>
+            <h6>There is no mechanic nearby..</h6>
+        </div>
+        <form method="POST">
+            <?php
+                $regeditid=intval($_GET['regeditid']);
+                $sql="SELECT * from request WHERE resID=:regeditid and status='Unaccepted'";
+                $query=$dbh->prepare($sql);
+                $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
+                $query->execute();
+                $results=$query->fetchALL(PDO::FETCH_OBJ);
 
-              if($query->rowCount()>0)
-              {
-              foreach ($results as $result) 
-              {
-                $date = date("Y-m-d");
-                echo $date;
-                if($result->date == $date ){
-                
-                    $custID12= $_POST['custID'];
-                    $mechID12 = $_POST['mechID'];
-                    $sql41= "INSERT INTO vonotification(custID, mechID, status) VALUES(:custID12, :mechID12, 'Home service')";
-                    $query41= $dbh->prepare($sql41);
-                    $query41->bindParam(':custID12',$custID12,PDO::PARAM_STR);
-                    $query41->bindParam(':mechID12',$mechID12,PDO::PARAM_STR);
-                    $query41->execute();
-                
-                    $sql41= "INSERT INTO notification(custID, mechID, status) VALUES(:custID12, :mechID12, 'Home service')";
-                    $query41= $dbh->prepare($sql41);
-                    $query41->bindParam(':custID12',$custID12,PDO::PARAM_STR);
-                    $query41->bindParam(':mechID12',$mechID12,PDO::PARAM_STR);
-                    $query41->execute();
-                
-                
-                }
-        ?>
-        <div class="container">
-                <div class="request-table">
-                    <table class = "table-card">
-                        <tr class = "row-card">
-                            <td class= "data-card">
-                                <div class="td-card">
-                                    <h3><?php echo htmlentities($result->vOwnerName);?></h3>
-                                    <input type="text" name="custID" value="<?php echo htmlentities($result->custID);?>">
-                                    <input type="text" name="mechID" value="<?php echo htmlentities($result->mechID);?>">
-                                    <input type="text" name="date1" value="<?php echo htmlentities($result->date);?>">
-                                    <input type="text" name="timess" value="<?php echo htmlentities($result->timess);?>">
-                                    <p><strong>Service Type: </strong> <?php echo htmlentities($result->serviceType);?></p>
-
-                                    <!-- <p id="service"><strong>Service Needed: </strong><?php echo htmlentities($result->serviceNeeded);?></p> -->
-                                    <input id="service" type="text" value="<?php echo htmlentities($result->serviceNeeded);?>">
-                                    <p><strong>Vehicle Problem:</strong> <?php echo htmlentities($result->mechRepair);?></p>
-                                    <p><strong>Note:</strong> <?php echo htmlentities($result->specMessage);?></p>
-                                    <!-- <p><strong>Address:</strong> <?php echo htmlentities($result->custAddress);?></p> -->
-                                    <textarea placeholder="Specify here..." name="specMessage" value="specMessage" style="padding: 30px; font-size: 12px; font-family: var(--ff-primary);"></textarea>
-                                    <div class="card-btn">
-                                        <button type="submit" id="emer" class="accept" name="Accept">Accept</button>
-                                        <button type="submit" id="home"  class="accept" name="AcceptHomeservice">Accept121</button>
-
-                                        <button  type="submit" class="decline" name="Decline">Decline</button>
-                                    </div>
-
+                if($query->rowCount()>0){
+                    foreach ($results as $result){
+            ?>
+            <div class="container-fluid p-0">
+                <div class="row m-0 p-0">
+                    <iframe class="col-12 col-md-8" src="https://maps.google.com/maps?q=<?php echo htmlentities($result->latitude);?>,<?php echo htmlentities($result->longitude);?>&<?php echo htmlentities($_SESSION['latitude']);?>,<?php echo htmlentities($_SESSION['longitude']);?>&output=embed" frameborder="0" style="height: 90vh;padding: 0px"></iframe>
+                    <div class="col-12 col-sm-4 m-0 info-panel shadow-lg p-3" style="background-color: #fff">
+                        <div class="row align-items-center">
+                            <div class="col-3 mx-3 with-image" style="width: 100px; padding: 5px;">
+                                <img src="../img/vo.jpg" class="float-center imagenajud" alt="" style="max-width: 100%; height: 90px; border-radius: 50%; object-fit: cover;">
+                            </div>
+                            <div class="mech-inforeq col-7">
+                                <h4><input readonly type="text" class="border-0 no-shadow shadow-none mt-2" name="custName" value="<?php echo htmlentities($result->vOwnerName);?>"></h4>
+                                <!-- <input type="hidden" id="starss" value="<?php //echo htmlentities($result->average);?>">
+                                <span type="text" id="stars" onload="getStars()" name="total"></span><br> -->
+                                <!-- <input readonly type="text" class="border-0 m-info " size="30" name="vehicleType" value="<?php //echo htmlentities($result->vehicleType);?>"><br>
+                                <input readonly type="text" class="border-0 m-info" size="30" name="Specialization" value="<?php //echo htmlentities($result->Specialization);?>"> -->
+                            </div>
+                        </div>
+                        
+                        <input type="text" name="custName" value="<?php echo htmlentities($result->vOwnerName);?>" hidden> 
+                        <input type="text" name="mechName" value="<?php echo htmlentities($result->mechName);?>" hidden>
+                        <input id="address" name='latitude' value="<?php echo htmlentities($_SESSION["latitude"]); ?>" hidden>
+                        <input id="address" name='longitude' value="<?php echo htmlentities($_SESSION["longitude"]); ?>" hidden>
+                        <input type="hidden" name="role" value="sender">
+                        <hr class="divider divider2">
+                        <div class="request-form" style="color: #302D32">
+                            <div class="request-content text-start">
+                                <span class="sub-title">Requested Service from vehicle owner.</span>
+                                <div class="form-check text-start pt-1">
+                                    <input readonly type="text" class="border-0 m-info" size="30" name="service" value="<?php echo htmlentities($result->serviceNeeded);?>">
                                 </div>
-                            </td>
-                        </tr>
-                    </table>
+                                <div id="needs" style="display: none;">
+                                    <p class="px-4">Date: <?php echo htmlentities($result->date);?></p>
+                                    <p class="px-4">Time: <?php echo htmlentities($result->time) < 12 ? 'AM' : 'PM';?> <?php echo htmlentities($result->time);?></p>
+                                </div>
+                                <!-- <div id="needs">
+                                    <p class="px-4">Date: <?php //echo htmlentities($result->date);?></p>
+                                    <p class="px-4">Time: <?php //echo htmlentities($result->time) < 12 ? 'AM' : 'PM';?></p>
+                                </div> -->
+                                <div class="py-2">
+                                    <span class="sub-title">Vehicle owner problem.</span></br>
+                                    <div class="py-1"><?php echo htmlentities($result->mechRepair);?></div>
+                                </div>
+                                <div class="alert alert-primary text-start py-0 pb-1 mb-0 note-alert shadow-sm">
+                                    <div class="row">
+                                        <div class="iconlabel">
+                                            <i class="fa-solid fa-circle-exclamation col-1"></i>
+                                            <p>Noted Message</p>
+                                        </div>
+                                        <p class="col-10 col-sm-11 py-1 specmessage">
+                                            <?php echo htmlentities($result->specMessage);?>
+                                        </p>
+                                    </div>
+                                </div>
+                                <!-- <span class="sub-title">Noted Message</span>
+                                <p><?php echo htmlentities($result->specMessage);?></p> -->
+                                <input type="text" name="mechID" value="<?php echo htmlentities($result->mechID);?>" hidden>
+                                <input type="text" name="custID" value="<?php echo htmlentities($result->custID);?>" hidden>
+                                <div class="py-2">
+                                    <label for="">Leave a message</label>
+                                    <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="Leave a message before accepting. . ." rows="3" name="specMessage" value="specMessage" required></textarea>
+                                </div>
+                                <input type="hidden" name="role" value="receiver">
+                            </div>
+                        </div>
+                        <div class="row request-buttons">
+                            <div class="col-md-6 d-grid "><button type="submit" class="btn btn-primary rounded-pill shadow border-0" name="Accept" value="Accept">Accept</button></div>
+                            <div class="col-md-6 d-grid "> <button class="btn btn-secondary rounded-pill shadow border-0" type="submit" name="Decline">Decline</button></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- modal for confirmation -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content text-dark">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Confirmation</h5>
+                        <button type="button" class="btn-close border-0" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <?php
+                            $regeditid=intval($_GET['regeditid']);
+                            $sql="SELECT * from mechanic WHERE mechID=:regeditid";
+                            $query=$dbh->prepare($sql);
+                            $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
+                            $query->execute();
+                            $results=$query->fetchALL(PDO::FETCH_OBJ);
+
+                            if($query->rowCount()>0){
+                                foreach ($results as $result){
+                        ?>
+                        Are you sure to send a request to <?php echo htmlentities($result->mechFirstname." ".$result->mechLastname)?>?
+                        <?php }}?>
+                        <div class="pt-5">
+                            <button type="submit" class="btn btn-primary rounded-pill shadow" name="send" value="send">Submit Request</button>
+                            <button type="button" class="btn btn-secondary rounded-pill shadow" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                    </div>
                 </div>
             </div>
             <?php }}?>
-            </form>
-        </section>
-       
-    </div>
+            <input hidden type="text" id="latitude" name="latitude"
+                value="<?php echo htmlentities($_SESSION["latitude"]); ?> ">
+            <input hidden type="text" id="longitude" name="longitude"
+                value=" <?php echo htmlentities($_SESSION["longitude"]); ?>">
+        </form>
+        <!-- <form method="POST">
+            <?php
+                $regeditid=intval($_GET['regeditid']);
+                $sql="SELECT * from request WHERE resID=:regeditid and status='Unaccepted'";
+                $query=$dbh->prepare($sql);
+                $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
+                $query->execute();
+                $results=$query->fetchALL(PDO::FETCH_OBJ);
 
-    <script src="js/main.js">
-        var service = document.getElementById('service').value;
-        if(service == "Home Service"){
-             document.getElementById('emer').style.display="none";
-            document.getElementById('home').style.display="block";
+                if($query->rowCount()>0)
+                {
+                foreach ($results as $result) 
+                {
+            ?>
+            <div class="row py-3 px-sm-0 px-md-3 text-center table-responsive justify-content-center pb-5">
+                <div class="col-md-8 bg-white p-4 rounded-3 shadow-lg">
+                    <div class="row text-dark">
+                        <h3 class="pb-4">Request Details</h3>
+                        <div class="col-sm-12 col-md-6 pb-5 justify-content-center">
+                            <div class="with-image"><img src="../img/avatar.jpg.jpg" class="rounded-circle imagenajud float-end" alt=""></div>
+                            <div class="row py-0 pt-0" >
+                                <iframe src="https://maps.google.com/maps?q=<?php echo htmlentities($result->latitude);?>,<?php echo htmlentities($result->longitude);?>&<?php echo htmlentities($_SESSION['latitude']);?>,<?php echo htmlentities($_SESSION['longitude']);?>&output=embed" frameborder="0" width="700" height="400">
+                                </iframe>
+                            </div>                       
+                        </div>
+                        <div class="col-sm-12 col-md-6 text-start">
+                                <h5 class="text-start">Vehicle Owner Information</h6>
+                                <p><?php echo htmlentities($result->vOwnerName);?></p>
+                                <input type="text" name="custName" value="<?php echo htmlentities($result->vOwnerName);?>" hidden> 
+                                <input type="text" name="mechName" value="<?php echo htmlentities($result->mechName);?>" hidden> 
+                                <h5 class="text-start mt-2">Request Information</h5>
+                                <input disabled class="border-0 bg-white py-2" type="text" id="need" value="<?php echo htmlentities($result->serviceNeeded);?>">
+                              
+                                <div id="needs" style="display: none;">
+                                    <p><i>Date:</i> <?php echo htmlentities($result->date);?></p>
+                                    <p><i>Time:</i> <?php echo htmlentities($result->time) < 12 ? 'AM' : 'PM';?> <?php echo htmlentities($result->time);?></p>
+                                </div>
+                                <p class="pb-2"><i>Vehicle Problem:</i> <?php echo htmlentities($result->mechRepair);?></p>
+                                <h5>Noted Message</h5>
+                                <p><?php echo htmlentities($result->specMessage);?></p>
+                               
+                                <input type="text" name="mechID" value="<?php echo htmlentities($result->mechID);?>" hidden>
+                                <input type="text" name="custID" value="<?php echo htmlentities($result->custID);?>" hidden>
+                                <div class="py-2">
+                                    <label for="">Leave a message</label>
+                                    <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="Leave a message before accepting. . ." rows="3" name="specMessage" value="specMessage" required></textarea>
+                                </div>
+                                <input type="hidden" name="role" value="receiver">
+                        </div>
+                    </div>
+                    <div class="row pt-3">
+                        <div class="col-md-6 d-grid pb-2"><button class="btn btn-primary rounded-pill" name="Accept" value="Accept">Accept</button></div>
+                        <div class="col-md-6 d-grid pb-2"> <button class="btn btn-secondary rounded-pill boton" type="submit" name="Decline">Decline</button></div>
+                    </div>
+                </div>
+            </div>
+            <?php }}?>
+        </form> -->
+    </section>
+    <script>
+        var t = document.getElementById("need").value;
+        if(t == "Home Service")
+        {
+            document.getElementById("needs").style.display = "block";
         }
 
     </script>

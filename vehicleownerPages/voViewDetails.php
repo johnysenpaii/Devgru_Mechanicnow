@@ -6,15 +6,18 @@ if(isset($_POST['comment'])){
     $mechid=$_POST['mechid'];
     $value=$_POST['value'];
     $specMessage=$_POST['specMessage'];
+    $mechName=$_POST['mechName'];
+    
    
 
   
-        $sql="INSERT INTO ratingandfeedback(custID,mechID,feedback,ratePercentage)VALUES(:custid, :mechid, :specMessage,:value)";
+        $sql="INSERT INTO ratingandfeedback(custID,mechID,feedback,ratePercentage,mechName)VALUES(:custid, :mechid, :specMessage,:value,:mechName)";
         $query=$dbh->prepare($sql);
         $query->bindParam(':custid',$custid,PDO::PARAM_STR);
         $query->bindParam(':mechid',$mechid,PDO::PARAM_STR);
         $query->bindParam(':specMessage',$specMessage,PDO::PARAM_STR);
         $query->bindParam(':value',$value,PDO::PARAM_STR);
+        $query->bindParam(':mechName',$mechName,PDO::PARAM_STR);
         $query->execute();
 
   
@@ -115,10 +118,9 @@ if(isset($_POST['comment'])){
                     $cnt=1;
                     if($query->rowCount()>0){
                         foreach ($results as $result){
-                        
-?>
+                    ?>
                     <input type="hidden" name="mechid" value="<?php echo htmlentities($result->mechID);?>">
-
+                    <input type="hidden" name="mechName" value="<?php echo htmlentities($result->mechName);?>">
                     <div class="card text-dark">
                         <div class="card-header py-2 px-3 fw-bold " style="font-size: small;">
 
@@ -170,12 +172,7 @@ if(isset($_POST['comment'])){
                                 </div>
                                <?php }?>
                             </div>
-
-
-
                         </div>
-
-
                     </div>
                     <div class="row">
                         <div class="col-md-6" >
@@ -209,12 +206,7 @@ if(isset($_POST['comment'])){
 <div class="col-lg-8">
 <p class="card-title py-2 px-0 fw-bold " style="font-size: small;">Mechanic details</p>
                             </div>
-                            <div class="col-lg-4">
-                                <a href="voDashboard.php" class="card-title fw-bold text-center text-light  bg-info p-2 rounded"
-                                    style="font-size: 12px;"><i class="fa-solid fa-paper-plane"></i>
-                                   Send request</a>
-
-                            </div>
+                            
                            
                             
                             <p class="card-text fw-bold " style="font-size: small;"><i class="fa-solid fa-user"></i> Name:  <?php echo htmlentities($result0->mechFirstname);?> <?php echo htmlentities($result0->mechLastname);?></p>

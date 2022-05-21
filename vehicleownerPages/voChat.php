@@ -65,7 +65,7 @@ $cID = $_SESSION['custID'];
                                     <input type="hidden" name="mechID" value="<?php echo htmlentities($result->mechID)?>">
                                     <div class="col-md-10 text-start">
                                         <h6><?php echo htmlentities($result->mechName);?></h6> 
-                                        <p class="fs-6"><small>This is test message</small></p>
+                                        <p class="fs-6"><small>Active Now</small></p>
                                     </div>
                                 </div>
                             </button>

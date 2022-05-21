@@ -2,39 +2,8 @@
 session_start();
 include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
 $success='';
-if(isset($_POST['register']) && isset($_FILES['mechValidID']) && isset($_FILES['profile_url']) && isset($_FILES['mechCertificate']))
-{
-    $img_name = $_FILES['profile_url']['name'];
-    $img_size = $_FILES['profile_url']['size'];
-    $tmp_name = $_FILES['profile_url']['tmp_name'];
-    $error = $_FILES['profile_url']['error']; 
-
-
-    if ($error === 0) {
-        if ($img_size > 1000000) {
-        $em = "Sorry, your file is too big!.";
-        header ("Location: mechanicSignup.php?error=$em");
-        }
-        else{
-            $img_ex = pathinfo($img_name, PATHINFO_EXTENSION); 
-            $img_ex_lc = strtolower($img_ex);
-                    
-            $allowed_exs = array("jpg", "jpeg", "png");
-
-            if (in_array($img_ex_lc, $allowed_exs)) {
-                $new_img_name = uniqid("IMG-", true).'.'.$img_ex_lc;
-                $img_upload_path = '../uploads/'.$new_img_name;
-                move_uploaded_file($tmp_name, $img_upload_path);
-            }else {
-                $em = "You can't upload files of this type";
-                header ("Location: mechanicSignup.php?error=$em");
-            }
-        }
-    }else{
-        $em = "unknown error occurred!";
-        header ("Location: mechanicSignup.php?error=$em");
-    }
-
+if(isset($_POST['register']) && isset($_FILES['mechCertificate']))
+{ 
     $file_name = $_FILES['mechValidID']['name'];
     $file_size = $_FILES['mechValidID']['size'];
     $tmp_filename = $_FILES['mechValidID']['tmp_name'];
@@ -144,7 +113,7 @@ if(isset($_POST['register']) && isset($_FILES['mechValidID']) && isset($_FILES['
                 {
                 echo "<script type='text/javascript'>document.location='../login.php';</script>";
                 }else{
-                                $sql="INSERT INTO mechanic(profile_url, mechFirstname, mechLastname, mechAddress, mechEmail, mechCnumber, mechValidID, Username, Password, role,latitude,longitude, mechCertificate)VALUES(:new_img_name, :mechFirstname, :mechLastname, :mechAddress, :mechEmail, :mechCnumber, :new_file_name, :Username, :hashedPwd, :role, :latitude,:longitude,:new_files_name )"; //specialization
+                                $sql="INSERT INTO mechanic(mechFirstname, mechLastname, mechAddress, mechEmail, mechCnumber, mechValidID, Username, Password, role,latitude,longitude, mechCertificate)VALUES(:mechFirstname, :mechLastname, :mechAddress, :mechEmail, :mechCnumber, :new_file_name, :Username, :hashedPwd, :role, :latitude,:longitude,:new_files_name )"; //specialization
                                 $query=$dbh->prepare($sql);
                                 $query->bindParam(':new_img_name',$new_img_name,PDO::PARAM_STR);
                                 $query->bindParam(':mechFirstname',$mechFirstname,PDO::PARAM_STR);

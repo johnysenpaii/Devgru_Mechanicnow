@@ -93,23 +93,31 @@ if(isset($_POST['edit']) && isset($_FILES['profile_url']))
             echo $e->getMessage();
         }
     }
- 
-//   $sql="UPDATE customer set custID=:id,custFirstname=:custFirstname,custLastname=:custLastname, custAddress=:custAddress, custEmail=:custEmail, custCnumber=:custCnumber, Username=:Username WHERE custID=:regeditid"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
-//   $query=$dbh->prepare($sql);
-//   $query->bindParam(':id',$id,PDO::PARAM_STR);
-//   $query->bindParam(':custFirstname',$custFirstname,PDO::PARAM_STR);
-//   $query->bindParam(':custLastname',$custLastname,PDO::PARAM_STR);
-//   $query->bindParam(':custAddress',$custAddress,PDO::PARAM_STR);
-//   $query->bindParam(':custEmail',$custEmail,PDO::PARAM_STR);
-//   $query->bindParam(':custCnumber',$custCnumber,PDO::PARAM_STR);
-//   //$query->bindParam(':vehicleType',$vehicleType,PDO::PARAM_STR);
-//   //$query->bindParam(':Specialization',$Specialization,PDO::PARAM_STR);
-//  // $query->bindParam(':mechValidID',$mechValidID,PDO::PARAM_STR);
-//   $query->bindParam(':Username',$Username,PDO::PARAM_STR);
-//   $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
-//   $query->execute(); 
-
-//   echo "<script type='text/javascript'>document.location='./voProfile.php';</script>";
+}
+if(isset($_POST['confirmPassword'])){
+    $CPassword = $_POST['CPassword'];
+    $NPassword = $_POST['NPassword'];
+    $confirmPassword = $_POST['confirmPassword'];
+    $hashedPassword = $_POST['hashedPassword'];
+    //check if password inputed is matched with the password inside the database
+    if(password_verify($CPassword, $hashedPassword) == 1){
+        //check if new password and old password match
+        if ( $NPassword != $confirmPassword){
+            echo "<script>alert('Current Password is incorrect')</script>";
+        }else{
+            $hashedPwd = password_hash($NPassword, PASSWORD_DEFAULT);
+            $sql="UPDATE customer set Password=:hashedPwd WHERE custID=:regeditid"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
+            $query=$dbh->prepare($sql);
+            $query->bindParam(':hashedPwd',$hashedPwd,PDO::PARAM_STR);
+            $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
+            $query->execute(); 
+            echo "<script>alert('Password changed successfully')</script>";
+            echo "<script type='text/javascript'>document.location='./voProfile.php';</script>";
+        }
+    }else{
+        echo "<script>alert('Current Password is incorrect')</script>";
+    }
+    
 }
 ?>
 <!DOCTYPE html>
@@ -145,67 +153,53 @@ if(isset($_POST['edit']) && isset($_FILES['profile_url']))
               foreach ($results as $result) 
               {
             ?>
-        <div class="row text-dark mt-4 justify-content-evenly">
-            <div class=" card col-sm-12 col-md-5 col-lg-6 with-image bg-white rounded-3 pb-2 p-3 mr-sm-0 mr-md-1 mb-5 mb-md-0 mb-lg-0 shadow-lg text-center">
-                <div class="cont-image text-center">
+            <div class="row text-light m-0 user-infoPanel user-infoPanel-vo">
                 <?php
-                        $sql = "SELECT * FROM customer where custID = $regeditid";
-                        $res = mysqli_query($conn, $sql);
-                        if (mysqli_num_rows ($res) > 0) {
-                        while ($images = mysqli_fetch_assoc ($res)){ 
-                            if($regeditid == $regeditid ){
+                    $sql = "SELECT * FROM customer where custID = $regeditid";
+                    $res = mysqli_query($conn, $sql);
+                    if (mysqli_num_rows ($res) > 0) {
+                    while ($images = mysqli_fetch_assoc ($res)){ 
+                        if($regeditid == $regeditid ){
                     ?>
-                   <img src="../uploads/<?=$images['profile_url']?>" onerror="this.src='../img/mech.jpg';" class="imagenajud pimage rounded-circle px-5" style="min-width: 20%; max-width: 250px;" alt="">
+                    <div class="profimage profimage-vo" style="width: 200px; height: 200px; padding: 2em;">
+                        <img src="../uploads/<?=$images['profile_url']?>" onerror="this.src='../img/mech.jpg';" class="mainimage pimage" style=" max-width: 100%; border-radius: 50%; object-fit: cover;" alt="">
+                    </div>
                     <?php }} }?>
-                </div>
-                <input type="hidden" name="id" value="<?php echo htmlentities($result->custID);?>" required="required">
-                <div class="row pt-4 text-center">
-                    <div class="col-12"><h4><?php echo htmlentities($result->custFirstname." ".$result->custLastname);?></h4></div>
                     
-                </div>
-                <p class="pt-3" name="custEmail"><?php echo htmlentities($result->custEmail);?></p>
-                <p name="custCnumber"><?php echo htmlentities($result->custCnumber);?></p>
-                <p name="custAddress"><?php echo htmlentities($result->custAddress);?></p>
-                <p name="vehicleType"><?php echo htmlentities($result->vehicleType);?></p>
-                <div class="d-grid p-3 pt-5">
-                    <button class="btn btn-primary rounded-pill shadow" type="button" class="btn btn-warning px-3" data-bs-toggle="modal" data-bs-target="#edit-modal">Edit Profile</button>
-                </div>
             </div>
-            <div class="col-sm-12 col-md-7 col-lg-6 bg-white p-4 ml-sm-0 ml-md-1 mt-sm-1 mt-md-0 shadow-lg rounded-3">
-            <div class="row pt-3">
-                    <h5 class="pt-2">Personal information:</h5>
-                    <!-- value="<?php echo htmlentities($result->Specialization);?>" -->
-                    <p name="custCnumber"><?php echo htmlentities($result->custCnumber);?></p>
-                <p name="custAddress"><?php echo htmlentities($result->custAddress);?></p>
-                <p name="vehicleType"><?php echo htmlentities($result->vehicleType);?></p>
-                    <div class="row pt-5">
-                        
+                    <div class="info-div row">
+                        <div class="columns1 col-6">
+                            <input type="hidden" name="id" value="<?php echo htmlentities($result->custID);?>" required="required">
+                            <h5><?php echo htmlentities($result->custFirstname." ".$result->custLastname);?></h5>
+                            <div class="col-12">
+                                <p hidden><i>No Ratings Yet</i></p>
+                                <p name="vehicleType"><?php echo htmlentities($result->vehicleType);?> Owner</p>
+                                <!-- <i class="fa-solid fa-star "></i><i class="fa-solid fa-star "></i><i class="fa-solid fa-star "></i><i class="fa-solid fa-star "></i><i class="fa-regular fa-star "></i> -->
+                            </div>
+                            
+                        </div> 
+                        <div class="columns2 col-6">
+                            <div class="text-start">
+                                <p name="custEmail"><?php echo htmlentities($result->custEmail);?></p>
+                                <p name="custCnumber"><?php echo htmlentities($result->custCnumber);?></p>
+                                <p name="custAddress"><?php echo htmlentities($result->custAddress);?></p>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="row pt-3">
-                    <h5 class="pt-2">Tell me about your self:</h5>
-                    <!-- value="<?php echo htmlentities($result->Specialization);?>" -->
-                    <p style="text-indent:5%;" name="Specialization">I am gamer</p>
-                    <div class="row pt-5">
-                        
+                    <div class=" p-2 mx-5 text-center py-3 pt-4">
+                        <button class="btn btn-primary rounded-pill shadow px-5" type="button" class="btn btn-warning px-3" data-bs-toggle="modal" data-bs-target="#exampleModalTogglel">Edit Profile</button>
                     </div>
-                </div>
-            </div>
-        </div>
-        <?php }}?>
-        <!-- Vertically centered modal -->
-        <div class="modal fade" id="edit-modal" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
+        <div class="modal fade" id="exampleModalTogglel" tabindex="-1" aria-labelledby="exampleModalToggleLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content text-dark">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modal-title">Edit Profile</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body form">
+                <div class="modal-body form pt-0">
                     <form method="POST" enctype="multipart/form-data">
                         <div class="row line-segment seg">
-                            <div class="col-sm-3 with-image">
-                            <div class="col-sm-3 with-image">
+                            <div class="profimage profimage-vo"  style="width: 200px; height: 200px; padding: 2em;">
                                     <?php
                                         $sql = "SELECT * FROM customer where custID = $regeditid";
                                         $res = mysqli_query($conn, $sql);
@@ -213,10 +207,10 @@ if(isset($_POST['edit']) && isset($_FILES['profile_url']))
                                         while ($images = mysqli_fetch_assoc ($res)){ 
                                             if($regeditid == $regeditid ){
                                     ?>
-                                    <img src="../uploads/<?=$images['profile_url']?>" onerror="this.src='../img/mech.jpg';" class="imagenajud pimage rounded-circle px-5" style="min-width: 20%; max-width: 250px;" alt="">
+                                    <img src="../uploads/<?=$images['profile_url']?>" onerror="this.src='../img/mech.jpg';" class=" " style=" max-width: 100%; border-radius: 50%; object-fit: cover;" alt="">
                                     <?php }} }?>
                                 </div>                        
-                            <div class="col-sm-12 d-flex align-items-center pt-3">
+                            <div class="col-12 d-flex align-items-center pt-3">
                                 <div class="row g-2">
                                     <div class="col-sm-12 col-md-6">
                                     <input type="file" name="profile_url" class="form-control">
@@ -244,6 +238,9 @@ if(isset($_POST['edit']) && isset($_FILES['profile_url']))
                                     <label>Account Information</label>
                                     <div class="col-md-12">
                                         <input class="form-control" type="text" name="Username" value="<?php echo htmlentities($result->Username);?>" placeholder="Username" aria-label="default input example">
+                                    </div>
+                                    <div class="my-2">
+                                        <button class="btn btn-primary rounded-pill shadow" type="button" class="btn btn-warning px-3" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal" aria-label="Close">Edit Password</button>
                                     </div>
                                 </div>    
                             </div>
@@ -294,7 +291,47 @@ if(isset($_POST['edit']) && isset($_FILES['profile_url']))
                 </div>
             </div>
         </div>
-        </div>
+        <?php }}?>
+        <!-- </div> -->
+            <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content text-dark">
+                    <form method="POST">
+                    <?php //select transaction
+                        $regeditid=$_SESSION["mechID"];
+                        $sql="SELECT * from customer WHERE custID=:regeditid";
+                        $query=$dbh->prepare($sql);
+                        $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
+                        $query->execute();
+                        $results=$query->fetchALL(PDO::FETCH_OBJ);
+
+                        if($query->rowCount()>0){
+                            foreach ($results as $result){
+                    ?>
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalToggleLabel2">Change Password</h5>
+                        <button type="button" class="btn-close shadow-none border-none" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="col-md-12">
+                            <input class="form-control shadow-none my-2" type="Password" name="CPassword" placeholder="Enter Current Password" aria-label="default input example">
+                        </div>
+                        <input class="form-control" type="text" name="hashedPassword" value="<?php echo htmlentities($result->Password);?>" placeholder="Username" aria-label="default input example" hidden>
+                        <div class="col-md-12">
+                            <input class="form-control shadow-none my-2" type="Password" name="NPassword" placeholder="Enter New Password" aria-label="default input example">
+                        </div>
+                        <div class="col-md-12">
+                            <input class="form-control shadow-none my-2" type="Password" name="confirmPassword" placeholder="Confirm Password" aria-label="default input example">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary shadow" name="changePassword">Save Changes</button>
+                    </div>
+                    <?php }}?>
+                    </form>
+                </div>
+            </div>
+        </form>
     </section>
     <div class="row d-block d-lg-none"><?php include('voBottom-nav.php');?></div>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

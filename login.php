@@ -134,7 +134,7 @@ if(isset($_POST['Login']))
            echo "<script type='text/javascript'>document.location='./Admin/adminSide.php';</script>";
             }
             else{
-                $error="<div class='alert alert-danger text-center fw-bold' role='alert'>Username and password mismatch!</div>";
+                $error="<div class='alert alert-danger text-center fw-bold' role='alert'>User Not Found!</div>";
                 header("refresh:1;url=http://localhost/Devgru_Mechanicnow/login.php"); 
                 session_destroy(); 
             }
