@@ -276,7 +276,6 @@ if(isset($_POST["readAll"])){
                             <a class="nav-link fa-solid fa-caret-down" href="#" id="navbarDropdownMenuLink"
                                 role="button" data-bs-toggle="dropdown" aria-expanded="false"></a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
-                                <li><a class="dropdown-item fa-thin fa-gear" href="#"> Settings</a></li>
                                 <li><button class="dropdown-item fa-thin fa-right-from-bracket" name="logout">Logout</button></li>
                         </li>
                     </ul>

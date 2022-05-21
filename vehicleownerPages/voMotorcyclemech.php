@@ -68,18 +68,18 @@ $v2 = doubleval($_SESSION["longitude"]);
 
     <section id="mechContent" class="mech-content container-fluid">
     
-    <div class="row py-3 px-sm-0 px-md-3 text-center table-responsive justify-content-center pb-5">
-            <div class="col-lg-8 bg-white py-4 rounded-3 shadow-lg">
-                <h4 class="text-dark pb-4">Available Motorcycle Mechanics</h4>
+    <div class="row py-3 px-sm-0 px-md-3 text-center justify-content-center pb-5">
+            <div class="col-lg-8 py-4 rounded-3">
+                <h4 class="text-dark text-start pb-4">Available Motorcycle Mechanics</h4>
                     <form method="GET">
                         <div class="row m-0 m-md-3 col-12 searchlogo align-items-center">
                             <div class="input-group-sm col-10">
                                 <input class="form-control rounded-pill shadow-none" autocomplete="off" name="searchs" type="text" placeholder="  Filter Search">
                             </div>
                             <button class="fa-solid fa-magnifying-glass s-button col-1 px-0" name="sea" type="submit"></button>
-                            <!-- <i class="fa-solid fa-filter fa-2x filter col-1" data-bs-toggle="modal" data-bs-target="#Filter-modal"></i> -->
                         </div>
                     </form>
+                <div class="overflow-auto">
                 <table class="table table-borderless table-curved pt-1 px-sm-0 px-md-4">
                     <thead>
                     </thead>
@@ -100,11 +100,22 @@ $v2 = doubleval($_SESSION["longitude"]);
                         $cnt=1;       
                         if( $query->rowCount()>0){   
                             foreach($results as $result){?> 
-                            <tr class="d-flex align-items-center justify-content-around mt-2 shadow">
-                                <td class="t-content"><?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?></td>
-                                <td class="t-content"><?php echo htmlentities($result->Specialization);?></td>
-                                <td class="t-content">k.m <?php echo number_format($result->distance,1);?> </td>
-                                <td class="t-content"><a class="btn btn-warning px-3 shadow-none" href="voCarmechRequest.php?regeditid=<?php echo htmlentities($result->mechID)?>">Details</a></td>
+                            <tr class="mt-2 ">
+                                <td class="t-content  text-start p-3 px-4"><?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?></td>
+                                 <td class="t-content text-start p-3">
+                                    <?php
+                                    $spec = explode(",", $result->Specialization);
+                                    foreach($spec as $specialize){
+                                        ?>
+                                            <span class="badge badge-design row m-0 px-0">
+                                                <p class="px-1 text-align-center"><?php echo $specialize; ?></p>
+                                            </span>
+                                        <?php
+                                    }
+                                ?>
+                                </td>
+                                <td class="t-content p-3">k.m <?php echo number_format($result->distance,1);?> </td>
+                                <td class="t-content px-3"><a class="btn btn-warning px-3 shadow-none" href="voCarmechRequest.php?regeditid=<?php echo htmlentities($result->mechID)?>">Details</a></td>
                             </tr>
                             <?php $cnt=$cnt+1;}}     
                                 else{?>    
@@ -173,6 +184,7 @@ $v2 = doubleval($_SESSION["longitude"]);
                     ?>
                     </tbody>
                 </table>
+                </div>
             </div>
         </div>
         <!-- Filter Search -->

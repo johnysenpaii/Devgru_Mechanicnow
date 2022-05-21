@@ -49,7 +49,7 @@ if(isset($_POST['send'])){
                 $query12->bindParam(':time',$time,PDO::PARAM_STR);
                 $query12->execute();
                  $msg='Request success!!';
-                header("Location:voActivityLog.php?/requestForm=$msg");
+                header("Location:voDashboard.php?/requestForm=$msg");
             }else{
                 $msgFailed = 'Request Failed!!';
                 header("Location:voCarMechRequest.php?/requestForm=$msgFailed");
@@ -58,6 +58,12 @@ if(isset($_POST['send'])){
             echo $e->getMessage();
         }
     }
+    
+    $sql0 = "INSERT INTO notification(custID, mechID, status) VALUES(:custID, :mechID, 'Unaccepted')";
+    $query0 = $dbh->prepare($sql0);
+    $query0->bindParam(':custID',$custID,PDO::PARAM_STR);
+    $query0->bindParam(':mechID',$mechID,PDO::PARAM_STR);
+    $query0->execute();
 }
 
 ?>
@@ -123,7 +129,7 @@ if(isset($_POST['send'])){
                                             </span>
                                         <?php
                                     }
-                                ?>
+                                    ?>
                                 </div>
                             </div>
                         </div>
