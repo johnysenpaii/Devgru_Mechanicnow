@@ -86,7 +86,7 @@ include('../config.php');
                     
                     ?>
                     Requests 
-                    <?php }?>
+                    <?php {}?>
                 </div>
                 <div class="overflow-auto">
                 <table class="table table-borderless table-curved table-responsive pt-1 px-sm-0 px-md-0">
