@@ -1,13 +1,33 @@
 <?php
 session_start();
 include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
+$mechID1=$_SESSION['mechID'];
+
+
+
+
+if(isset($_POST['logout'])) {
+    $regeditid = $_SESSION['mechID'];
+    $sql="UPDATE mechanic set stats='Not active' WHERE mechID=:regeditid"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
+    $query=$dbh->prepare($sql);
+    $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
+    $query->execute(); 
+    session_destroy();
+    unset($_SESSION['mechID']);
+    header('location:http://localhost/Devgru_Mechanicnow/login.php');
+} 
+
 if(isset($_POST['Accept']))
 {
+    $regeditid12 = $_SESSION['mechID'];
     $regeditid=intval($_GET['regeditid']);
     $sql="UPDATE request set status='Accepted' where resID=:regeditid";
     $query=$dbh->prepare($sql); 
     $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR); 
     $query->execute();
+// <<<<<<< Updated upstream
+//     echo"<script>location.replace('mechActivityLog.php');</script>";
+// ======= 
 
     $custID = $_POST['custID'];
     $mechID = $_POST['mechID'];
@@ -34,28 +54,29 @@ if(isset($_POST['Accept']))
     echo"<script type='text/javascript'>alert('Accepted Successfully!');</script>";
     echo"<script>location.replace('./mechDashboard.php');</script>";
 
-   
+    $sql13="UPDATE mechanic set status='busy' where mechID=:regeditid12";
+    $query13=$dbh->prepare($sql13); 
+    $query13->bindParam(':regeditid12',$regeditid12,PDO::PARAM_STR); 
+    $query13->execute();
 
 }
 if(isset($_POST['Decline']))
-{
+{   
+    $custID12= $_POST['custID'];
+    $mechID12 = $_POST['mechID'];
+    $sql0 = "INSERT INTO vonotification(custID, mechID, status) VALUES(:custID12, :mechID12,'Decline')";
+    $query0 = $dbh->prepare($sql0);
+    $query0->bindParam(':custID12',$custID12,PDO::PARAM_STR);
+    $query0->bindParam(':mechID12',$mechID12,PDO::PARAM_STR);
+    $query0->execute();
+
     $regeditid=intval($_GET['regeditid']);
     $sql="UPDATE request set status='Decline' where resID=:regeditid";
     $query=$dbh->prepare($sql); 
     $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR); 
     $query->execute();
-
-    $custID = $_POST['custID'];
-    $mechID = $_POST['mechID'];
-
-
-    $sql0 = "INSERT INTO vonotification(custID, mechID, status) VALUES(:custID, :mechID, 'Decline')";
-    $query0 = $dbh->prepare($sql0);
-    $query0->bindParam(':custID',$custID,PDO::PARAM_STR);
-    $query0->bindParam(':mechID',$mechID,PDO::PARAM_STR);
-    $query0->execute();
 }
-$mechID1=$_SESSION['mechID'];
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -63,86 +84,16 @@ $mechID1=$_SESSION['mechID'];
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Stick+No+Bills:wght@600&display=swap" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/810a80b0a3.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/fontawesome.min.css" integrity="sha384-jLKHWM3JRmfMU0A5x5AkjWkw/EYfGUAGagvnfryNV3F9VqM98XiIH7VBGVoxVSc7" crossorigin="anonymous">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link rel="stylesheet" href="../css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&family=Stick+No+Bills:wght@600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
     <title>Mechanic Now</title>
-    <link rel="shortcut icon" type="x-icon" href="../img/mechanicnowlogo.svg">
 </head>
-<body id="contbody" style="background-color: #f8f8f8">
-    <?php include('./mechHeader.php');?>
+<body>
 
-    <section class="mechRequest" class="container-fluid">
-         <div class="emptyrequest" hidden>
-            <div class="emptydiv"><img src="../img/empty.png" alt=""></div>
-            <h6>There is no mechanic nearby..</h6>
-        </div>
-        <form method="POST">
-            <?php
-                $regeditid=intval($_GET['regeditid']);
-                $sql="SELECT * from request WHERE resID=:regeditid and status='Unaccepted'";
-                $query=$dbh->prepare($sql);
-                $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
-                $query->execute();
-                $results=$query->fetchALL(PDO::FETCH_OBJ);
-
-                if($query->rowCount()>0)
-                {
-                foreach ($results as $result) 
-                {
-            ?>
-            <div class="row py-3 px-sm-0 px-md-3 text-center table-responsive justify-content-center pb-5">
-                <div class="col-md-8 bg-white p-4 rounded-3 shadow-lg">
-                    <div class="row text-dark">
-                        <h3 class="pb-4">Request Details</h3>
-                        <div class="col-sm-12 col-md-6 pb-5 justify-content-center">
-                            <div class="with-image"><img src="../img/avatar.jpg.jpg" class="rounded-circle imagenajud float-end" alt=""></div>
-                            <div class="row py-0 pt-0" >
-                                <iframe src="https://maps.google.com/maps?q=<?php echo htmlentities($result->latitude);?>,<?php echo htmlentities($result->longitude);?>&<?php echo htmlentities($_SESSION['latitude']);?>,<?php echo htmlentities($_SESSION['longitude']);?>&output=embed" frameborder="0" width="700" height="400">
-                                </iframe>
-                            </div>                       
-                        </div>
-                        <div class="col-sm-12 col-md-6 text-start">
-                                <h5 class="text-start">Vehicle Owner Information</h6>
-                                <p><?php echo htmlentities($result->vOwnerName);?></p>
-                                <input type="text" name="custName" value="<?php echo htmlentities($result->vOwnerName);?>" hidden> 
-                                <input type="text" name="mechName" value="<?php echo htmlentities($result->mechName);?>" hidden> 
-                                <h5 class="text-start mt-2">Request Information</h5>
-                                <input disabled class="border-0 bg-white py-2" type="text" id="need" value="<?php echo htmlentities($result->serviceNeeded);?>">
-                              
-                                <div id="needs" style="display: none;">
-                                    <p><i>Date:</i> <?php echo htmlentities($result->date);?></p>
-                                    <p><i>Time:</i> <?php echo htmlentities($result->time) < 12 ? 'AM' : 'PM';?> <?php echo htmlentities($result->time);?></p>
-                                </div>
-                                <p class="pb-2"><i>Vehicle Problem:</i> <?php echo htmlentities($result->mechRepair);?></p>
-                                <h5>Noted Message</h5>
-                                <p><?php echo htmlentities($result->specMessage);?></p>
-                               
-                                <input type="text" name="mechID" value="<?php echo htmlentities($result->mechID);?>" hidden>
-                                <input type="text" name="custID" value="<?php echo htmlentities($result->custID);?>" hidden>
-                                <div class="py-2">
-                                    <label for="">Leave a message</label>
-                                    <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="Leave a message before accepting. . ." rows="3" name="specMessage" value="specMessage" required></textarea>
-                                </div>
-                                <input type="hidden" name="role" value="receiver">
-                        </div>
-                    </div>
-                    <div class="row pt-3">
-                        <div class="col-md-6 d-grid pb-2"><button class="btn btn-primary rounded-pill" name="Accept" value="Accept">Accept</button></div>
-                        <div class="col-md-6 d-grid pb-2"> <button class="btn btn-secondary rounded-pill boton" type="submit" name="Decline">Decline</button></div>
-                    </div>
-                </div>
-            </div>
-            <?php }}?>
-        </form>
-    </section>
     
-    <!-- <div class="master-container">
+    <div class="master-container">
         <section>
         <form method= "POST">
         <?php
@@ -157,6 +108,26 @@ $mechID1=$_SESSION['mechID'];
               {
               foreach ($results as $result) 
               {
+                $date = date("Y-m-d");
+                echo $date;
+                if($result->date == $date ){
+                
+                    $custID12= $_POST['custID'];
+                    $mechID12 = $_POST['mechID'];
+                    $sql41= "INSERT INTO vonotification(custID, mechID, status) VALUES(:custID12, :mechID12, 'Home service')";
+                    $query41= $dbh->prepare($sql41);
+                    $query41->bindParam(':custID12',$custID12,PDO::PARAM_STR);
+                    $query41->bindParam(':mechID12',$mechID12,PDO::PARAM_STR);
+                    $query41->execute();
+                
+                    $sql41= "INSERT INTO notification(custID, mechID, status) VALUES(:custID12, :mechID12, 'Home service')";
+                    $query41= $dbh->prepare($sql41);
+                    $query41->bindParam(':custID12',$custID12,PDO::PARAM_STR);
+                    $query41->bindParam(':mechID12',$mechID12,PDO::PARAM_STR);
+                    $query41->execute();
+                
+                
+                }
         ?>
         <div class="container">
                 <div class="request-table">
@@ -165,16 +136,25 @@ $mechID1=$_SESSION['mechID'];
                             <td class= "data-card">
                                 <div class="td-card">
                                     <h3><?php echo htmlentities($result->vOwnerName);?></h3>
+                                    <input type="text" name="custID" value="<?php echo htmlentities($result->custID);?>">
+                                    <input type="text" name="mechID" value="<?php echo htmlentities($result->mechID);?>">
+                                    <input type="text" name="date1" value="<?php echo htmlentities($result->date);?>">
+                                    <input type="text" name="timess" value="<?php echo htmlentities($result->timess);?>">
                                     <p><strong>Service Type: </strong> <?php echo htmlentities($result->serviceType);?></p>
-                                    <p><strong>Service Needed: </strong> <?php echo htmlentities($result->serviceNeeded);?></p>
+
+                                    <!-- <p id="service"><strong>Service Needed: </strong><?php echo htmlentities($result->serviceNeeded);?></p> -->
+                                    <input id="service" type="text" value="<?php echo htmlentities($result->serviceNeeded);?>">
                                     <p><strong>Vehicle Problem:</strong> <?php echo htmlentities($result->mechRepair);?></p>
                                     <p><strong>Note:</strong> <?php echo htmlentities($result->specMessage);?></p>
-                                    <p><strong>Address:</strong> <?php echo htmlentities($result->custAddress);?></p>
+                                    <!-- <p><strong>Address:</strong> <?php echo htmlentities($result->custAddress);?></p> -->
                                     <textarea placeholder="Specify here..." name="specMessage" value="specMessage" style="padding: 30px; font-size: 12px; font-family: var(--ff-primary);"></textarea>
                                     <div class="card-btn">
-                                        <button type="submit" class="accept" name="Accept">Accept</button>
-                                        <button class="decline">Decline</button>
+                                        <button type="submit" id="emer" class="accept" name="Accept">Accept</button>
+                                        <button type="submit" id="home"  class="accept" name="AcceptHomeservice">Accept121</button>
+
+                                        <button  type="submit" class="decline" name="Decline">Decline</button>
                                     </div>
+
                                 </div>
                             </td>
                         </tr>
@@ -185,14 +165,15 @@ $mechID1=$_SESSION['mechID'];
             </form>
         </section>
        
-    </div> -->
-    <script>
-        var t = document.getElementById("need").value;
-        if(t == "Home Service")
-        {
-            document.getElementById("needs").style.display = "block";
+    </div>
+
+    <script src="js/main.js">
+        var service = document.getElementById('service').value;
+        if(service == "Home Service"){
+             document.getElementById('emer').style.display="none";
+            document.getElementById('home').style.display="block";
         }
+
     </script>
-    <script src="js/main.js"></script>
 </body>
 </html>

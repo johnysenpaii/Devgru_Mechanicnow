@@ -3,6 +3,16 @@ session_start();
 include('../config.php');
 $mechID1=$_SESSION['mechID']; 
 
+      if(isset($_POST["logout"])) {
+        $mechID=$_SESSION['mechID'];
+        $sql12344="UPDATE mechanic set stats='Not active' WHERE mechID=:mechID"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
+        $query12344=$dbh->prepare($sql12344);
+        $query12344->bindParam(':mechID', $mechID, PDO::PARAM_STR);
+        $query12344->execute();
+        session_destroy(); 
+        unset($_SESSION['mechID']);
+        header("Location:http://localhost/Devgru_Mechanicnow/login.php");
+    }
 if(isset($_POST['UpdateMe']))
 {
     $tb = $_POST['output'];  
@@ -57,12 +67,11 @@ if(isset($_POST["verify"])){
   $query41->bindParam(':mechID',$mechID,PDO::PARAM_STR);
   $query41->execute();
 
-
-
+  $sql13="UPDATE mechanic set status='approve' where mechID=:mechID1";
+  $query13=$dbh->prepare($sql13); 
+  $query13->bindParam(':mechID1',$mechID1,PDO::PARAM_STR); 
+  $query13->execute();
 }
-
-
-
 ?>
 <!DOCTYPE html>
 <html lang="en">

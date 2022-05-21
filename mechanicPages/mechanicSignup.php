@@ -1,6 +1,7 @@
 <?php
 session_start();
 include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
+$success='';
 if(isset($_POST['register']) && isset($_FILES['mechValidID']) && isset($_FILES['profile_url']) && isset($_FILES['mechCertificate']))
 {
     $img_name = $_FILES['profile_url']['name'];
@@ -160,7 +161,14 @@ if(isset($_POST['register']) && isset($_FILES['mechValidID']) && isset($_FILES['
                                 $query->bindParam(':new_files_name',$new_files_name,PDO::PARAM_STR);
                                 $query->execute();
                                 session_regenerate_id();
-                                echo "<script type='text/javascript'>document.location='../login.php';</script>";
+                               $success ="<div class='d-flex justify-content-center my-3 '>
+<div class='col-lg-12 d-flex justify-content-center alert alert-warning alert-dismissible fade show fw-bold' style='font-size: 13px;' role='alert'>
+   Welcome! You successfully registered, you can login right now and Please wait until the Admin approved your account.
+</div>
+</div>";
+
+
+          header("refresh:5;url=http://localhost/Devgru_Mechanicnow/login.php");
                             
                 
                     }
@@ -198,8 +206,9 @@ if(isset($_POST['register']) && isset($_FILES['mechValidID']) && isset($_FILES['
                     <i class="fa-solid fa-screwdriver-wrench"></i>
                 </div>
                 <form method="POST" action="./mechanicSignup.php" enctype="multipart/form-data">
-                  
+                  <?php echo $success;?>
                     <div class="err-txt" hidden>This is an error message</div>
+
                     <label>Personal details</label>
                     <div class="my-2">
                         <label>Upload profile</label>

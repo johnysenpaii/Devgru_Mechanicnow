@@ -6,15 +6,15 @@ if(isset($_POST['Login']))
 {
  
     
-    $regeditid1 = $_SESSION['custID'];
-    $latitude = $_POST['latitude'];
-    $longitude = $_POST['longitude'];
-    $sql="UPDATE customer set latitude=:latitude,longitude=:longitude WHERE custID=:regeditid1"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
-    $query=$dbh->prepare($sql);
-    $query->bindParam(':latitude',$latitude,PDO::PARAM_STR);
-    $query->bindParam(':longitude',$longitude,PDO::PARAM_STR);
-    $query->bindParam(':regeditid1',$regeditid1,PDO::PARAM_STR);
-    $query->execute(); 
+    // $regeditid1 = $_SESSION['custID'];
+    // $latitude = $_POST['latitude'];
+    // $longitude = $_POST['longitude'];
+    // $sql="UPDATE customer set latitude=:latitude,longitude=:longitude WHERE custID=:regeditid1"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
+    // $query=$dbh->prepare($sql);
+    // $query->bindParam(':latitude',$latitude,PDO::PARAM_STR);
+    // $query->bindParam(':longitude',$longitude,PDO::PARAM_STR);
+    // $query->bindParam(':regeditid1',$regeditid1,PDO::PARAM_STR);
+    // $query->execute(); 
     $Username=$_POST['Username'];
     
     //$valid = password_verify($input, $Password); //1 or 0
@@ -45,14 +45,25 @@ if(isset($_POST['Login']))
             $_SESSION['custAddress']=$custAddress;
             $_SESSION['Username']=$attemptedUsername;
             $_SESSION['Password']=$hashedPwd;
-            header("Location:./vehicleownerPages/voDashboard.php?/Customeridentafication=$custID"); 
+            $error="<div class='alert alert-warning text-center fw-bold' role='alert'>Welcome!</div>";
+            header("refresh:2;url=http://localhost/Devgru_Mechanicnow/vehicleownerPages/voDashboard.php?/Customeridentafication=$custID"); 
             // echo "<script type='text/javascript'>document.location='./vehicleownerPages/voDashboard.php';</script>";
-        }else{    
-            $msg='Username and password mismatch!';
-            header("Location:./login.php?/error=$msg"); 
-            $error="<div class='alert alert-danger text-center fw-bold' role='alert'>Username and password mismatch!</div>";
-            session_destroy();
+        }else{   
+                $error1="Username and password mismatch!";
+                $error="<div class='alert alert-danger text-center fw-bold' role='alert'>Username and password mismatch!</div>";
+                header("refresh:1;url=http://localhost/Devgru_Mechanicnow/login.php?/error=$error1"); 
+                session_destroy(); 
         }
+        $latitude = $_POST['latitude'];
+        $longitude = $_POST['longitude'];
+        $sql="UPDATE customer set latitude=:latitude,longitude=:longitude WHERE custID=:custID"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
+        $query=$dbh->prepare($sql);
+        $query->bindParam(':latitude',$latitude,PDO::PARAM_STR);
+        $query->bindParam(':longitude',$longitude,PDO::PARAM_STR);
+        $query->bindParam(':custID',$custID,PDO::PARAM_STR);
+        $query->execute(); 
+
+
     }else{
       
         //echo '<script>alert("User not found!")</script>';
@@ -88,22 +99,21 @@ if(isset($_POST['Login']))
                 $_SESSION['stats']=$stats;
                 // echo "<script type='text/javascript'>document.location='./mechanicPages/mechDashboard.php';</script>";
                 // header("Location:voBikemech.php?/lat=$l1&long=$l2"); 
-        $regeditid = $_SESSION['mechID'];
         $latitude = $_POST['latitude'];
         $longitude = $_POST['longitude'];
-        $sql="UPDATE mechanic set stats ='Active',latitude=:latitude,longitude=:longitude WHERE mechID=:regeditid"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
+        $sql="UPDATE mechanic set stats ='Active',latitude=:latitude,longitude=:longitude WHERE mechID=:mechID"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
         $query=$dbh->prepare($sql);
         $query->bindParam(':latitude',$latitude,PDO::PARAM_STR);
         $query->bindParam(':longitude',$longitude,PDO::PARAM_STR);
-        $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
+        $query->bindParam(':mechID',$mechID,PDO::PARAM_STR);
         $query->execute(); 
-        header("Location:./mechanicPages/mechDashboard.php?/Mechanicidentafication=$mechID&MechanicStatus=$stats"); 
+        $error="<div class='alert alert-warning text-center fw-bold' role='alert'>Welcome!</div>";
+        header("refresh:2;url=http://localhost/Devgru_Mechanicnow/mechanicPages/mechDashboard.php?/Mechanicidentafication=$mechID&MechanicStatus=$stats"); 
             }else{ 
+                $error1="Username and password mismatch!";
                 $error="<div class='alert alert-danger text-center fw-bold' role='alert'>Username and password mismatch!</div>";
-                $msg='Username and password mismatch!';
-                header("Location:./login.php?/error=$error"); 
-                session_destroy();
-               
+                header("refresh:1;url=http://localhost/Devgru_Mechanicnow/login.php?/error=$error1"); 
+                session_destroy();           
             }
 
         }else{
@@ -124,18 +134,13 @@ if(isset($_POST['Login']))
            echo "<script type='text/javascript'>document.location='./Admin/adminSide.php';</script>";
             }
             else{
-                $msg='Username and password mismatch!';
-                header("Location:./login.php?/error= $msg"); 
+                $error="<div class='alert alert-danger text-center fw-bold' role='alert'>Username and password mismatch!</div>";
+                header("refresh:1;url=http://localhost/Devgru_Mechanicnow/login.php"); 
                 session_destroy(); 
             }
         }
        
     }
-
-  
-  
-
-
 } 
 ?>
 <!DOCTYPE html>
@@ -170,8 +175,8 @@ if(isset($_POST['Login']))
                     <img src="img/navlogo.png" alt="">
                 </div>
                 <form method="POST">
-                    <input  type="text" id="latitude" name="latitude" value="">
-                    <input  type="text" id="longitude" name="longitude" value="">
+                    <input  type="hidden" id="latitude" name="latitude" value="">
+                    <input  type="hidden" id="longitude" name="longitude" value="">
 
                     <p>
                        <?php echo $error; ?>

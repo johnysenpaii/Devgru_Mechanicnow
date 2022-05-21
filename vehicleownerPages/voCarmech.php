@@ -96,11 +96,11 @@ include('../config.php');
                     $sql="SELECT *,
                     (3959 * acos(cos(radians($v1)) *cos(radians(latitude))* cos(radians(longitude)-radians($v2))+sin(radians($v1))
                     *sin(radians(latitude)))) as distance  from  mechanic WHERE 
-                    vehicleType like '%Car Mechanic%' and status='approve' and statActiveNotActive = 'Active' having distance < 3 order by distance limit 0, 20 ";
+                    vehicleType like '%Car Mechanic%' and status='approve' and stats = 'Active' having distance < 3 order by distance limit 0, 20 ";
                     
                     $sqlsearch="SELECT *,(3959 * acos(cos(radians($v1)) *cos(radians(latitude))* cos(radians(longitude)-radians($v2))+sin(radians($v1))
                     *sin(radians(latitude)))) as distance  from  mechanic WHERE 
-                    vehicleType like '%Car Mechanic%' and status='approve' and statActiveNotActive = 'Active' and Specialization like '%{$searchcont}%' having distance < 3 order by distance limit 0, 20 ";
+                    vehicleType like '%Car Mechanic%' and status='approve' and stats = 'Active' and Specialization like '%{$searchcont}%' having distance < 3 order by distance limit 0, 20 ";
                     if(isset($_GET['sea'])){
                         $query=$dbh->prepare($sqlsearch);
                         $query->execute();
@@ -133,7 +133,7 @@ include('../config.php');
                         $sqlfilt ="SELECT *,
                         (3959 * acos(cos(radians($v1)) *cos(radians(latitude))* cos(radians(longitude)-radians($v2))+sin(radians($v1))
                         *sin(radians(latitude)))) as distance  from  mechanic WHERE 
-                        vehicleType like '%Car Mechanic%' and status='approve' and statActiveNotActive = 'Active' and Specialization like '%{$divide[0]}%' having distance < 3 order by distance limit 0, 20 ";
+                        vehicleType like '%Car Mechanic%' and status='approve' and stats = 'Active' and Specialization like '%{$divide[0]}%' having distance < 3 order by distance limit 0, 20 ";
                         $query=$dbh->prepare($sqlfilt);
                         $query->execute();
                         $results=$query->fetchALL(PDO::FETCH_OBJ);

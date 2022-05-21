@@ -28,6 +28,17 @@ if(isset($_POST["unreadComplete"])) {
 
 }
 
+if(isset($_POST["logout"])) {
+    $mechID=$_SESSION['mechID'];
+    $sql12344="UPDATE mechanic set stats='Not active' WHERE mechID=:mechID"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
+    $query12344=$dbh->prepare($sql12344);
+    $query12344->bindParam(':mechID', $mechID, PDO::PARAM_STR);
+    $query12344->execute();
+    header("refresh:1;url=http://localhost/Devgru_Mechanicnow/login.php");
+
+}
+
+
 
 ?>
 </style>
@@ -236,9 +247,9 @@ if(isset($_POST["unreadComplete"])) {
                                 role="button" data-bs-toggle="dropdown" aria-expanded="false"></a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
                                 <li><a class="dropdown-item fa-thin fa-gear" href="#"> Settings</a></li>
-                                <li><a class="dropdown-item fa-thin fa-right-from-bracket"
-                                        onclick="myconfirm()">
-                                        Logout</a></li>
+                                <li><button class="dropdown-item" name="logout" ><i class="fa-thin fa-right-from-bracket"></i> Logout</button></li>
+                                        
+                                        
                         </li>
                     </ul>
                 </div>

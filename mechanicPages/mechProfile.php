@@ -1,6 +1,22 @@
 <?php
 session_start();
 include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
+if(empty($_SESSION['mechID'])){
+    header("Location:http://localhost/Devgru_Mechanicnow/login.php");
+    session_destroy(); 
+    unset($_SESSION['mechID']);
+      }
+      if(isset($_POST["logout"])) {
+        $mechID=$_SESSION['mechID'];
+        $sql12344="UPDATE mechanic set stats='Not active' WHERE mechID=:mechID"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
+        $query12344=$dbh->prepare($sql12344);
+        $query12344->bindParam(':mechID', $mechID, PDO::PARAM_STR);
+        $query12344->execute();
+        session_destroy(); 
+        unset($_SESSION['mechID']);
+        header("Location:http://localhost/Devgru_Mechanicnow/login.php");
+    }
+
 $regeditid=$_SESSION["mechID"];
 if(isset($_POST['total1'])){
     $total1=floatval($_POST['total1']);

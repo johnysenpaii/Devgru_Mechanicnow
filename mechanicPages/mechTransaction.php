@@ -1,16 +1,21 @@
 <?php
 session_start();
 include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
-if(isset($_POST['logout'])) {
-    $regeditid = $_SESSION['mechID'];
-    $sql="UPDATE mechanic set stats='Not active' WHERE mechID=:regeditid"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
-    $query=$dbh->prepare($sql);
-    $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
-    $query->execute(); 
-    session_destroy();
+if(empty($_SESSION['mechID'])){
+    header("Location:http://localhost/Devgru_Mechanicnow/login.php");
+    session_destroy(); 
     unset($_SESSION['mechID']);
-    header('location:http://localhost/Devgru_Mechanicnow/login.php');
-} 
+      }
+      if(isset($_POST["logout"])) {
+        $mechID=$_SESSION['mechID'];
+        $sql12344="UPDATE mechanic set stats='Not active' WHERE mechID=:mechID"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
+        $query12344=$dbh->prepare($sql12344);
+        $query12344->bindParam(':mechID', $mechID, PDO::PARAM_STR);
+        $query12344->execute();
+        session_destroy(); 
+        unset($_SESSION['mechID']);
+        header("Location:http://localhost/Devgru_Mechanicnow/login.php");
+    }
 $mechID1=$_SESSION['mechID']; 
 ?>
 <!DOCTYPE html>
