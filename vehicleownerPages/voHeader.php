@@ -12,7 +12,6 @@ if(isset($_POST["unreadAccept"])){
     $query=$dbh->prepare($sql1);
     $query->bindParam(':notifID',$notifID,PDO::PARAM_STR);
     $query->execute();
-  
 }
 if(isset($_POST["unreadDecline"])){
     $notifID = $_POST['notifID'];
@@ -20,8 +19,6 @@ if(isset($_POST["unreadDecline"])){
     $query=$dbh->prepare($sql1);
     $query->bindParam(':notifID',$notifID,PDO::PARAM_STR);
     $query->execute();
-
- 
 }
 if(isset($_POST["unreadProgress"])){
     $notification='fsljfklsafpowefsdlfms.,f';
@@ -30,7 +27,6 @@ if(isset($_POST["unreadProgress"])){
     $query=$dbh->prepare($sql1);
     $query->bindParam(':notifID',$notifID,PDO::PARAM_STR);
     $query->execute();
-
 }
 if(isset($_POST["unreadVerify"])){
     $notifID = $_POST['notifID'];
@@ -38,6 +34,11 @@ if(isset($_POST["unreadVerify"])){
     $query=$dbh->prepare($sql1);
     $query->bindParam(':notifID',$notifID,PDO::PARAM_STR);
     $query->execute();
+}
+if(isset($_POST["logout"])) { 
+    unset($_SESSION['custID']);
+    session_destroy();
+    header("Location:http://localhost/Devgru_Mechanicnow/login.php");
 }
 
 ?>
@@ -113,7 +114,7 @@ if(isset($_POST["unreadVerify"])){
                                 <button type="submit" id="mark" class="rounded alert-primary border-0 fw-bold py-1" name="readAll">Mark all as read</button>
                             </li>
 
-<?php };
+                            <?php };
                             
                             $cnt=1;
                         if($query->rowCount()>0){
@@ -125,27 +126,26 @@ if(isset($_POST["unreadVerify"])){
                             <li>  
                                 <button onclick="unreadAccept()" type="submit" name="unreadAccept" class="alert-success notif-content row text-center border-0 w-100 mx-0">
                                 <p class="text-end fw-light" style="font-size: smaller;"><?php echo htmlentities($result->timess)?></p>
-                                <div class="col-md-2 p-1 text-end" style="font-size: 30px;">
+                                <div class="col-md-2 p-1 text-end" style="font-size: 20px;">
                                     <i class="fa-solid fa-circle-check"></i>
                                 </div>
-                                <div class="col-md-10 py-3 text-start fw-bold">
+                                <div class="col-md-10 py-1 text-start fw-bold">
                                         Your request is <?php echo htmlentities($result->status);?>
                                         <input type="hidden" name="notifID" value="<?php echo  htmlentities($result->notifID);?>">
                                 </div>
-                                <a class="text-center fw-bold" style="font-size: 12px;" href="voActivityLog.php"><i class="fa-solid fa-eye"> visit</i> </a>
+                                <a class="text-center fw-bold" style="font-size: 12px;" href="voActivityLog.php"><i class="fa-solid fa-eye"></i> visit </a>
                             </button>
 
                             </li>
                           
-                            
                             <?php } else{?>
                                 <li>   
                                 <button name="unreadAccept" class="alert-primary notif-content row text-center border-0 w-100 mx-0">
                                 <p class="text-end text-small fw-light" style="font-size: smaller;"><?php echo htmlentities($result->timess)?></p>
-                                <div class="col-md-2 p-1 text-end" style="font-size: 30px;">
+                                <div class="col-md-2 p-1 text-end" style="font-size: 20px;">
                                     <i class="fa-solid fa-circle-check"></i>
                                 </div>
-                                <div class="col-md-10 py-3 text-start fw-light">
+                                <div class="col-md-10 py-1 text-start fw-light">
                          
                                         Your request is <?php echo htmlentities($result->status);?>
                                 </div>
@@ -159,10 +159,10 @@ if(isset($_POST["unreadVerify"])){
                             <li>  
                                 <button   type="submit" name="unreadDecline" class="alert-warning notif-content row text-center border-0 w-100 mx-0">
                                 <p class="text-end text-small fw-light" style="font-size: smaller;"><?php echo htmlentities($result->timess)?></p>
-                                <div class="col-md-2 py-4 p-1 text-end" style="font-size: 30px;">
+                                <div class="col-md-2 py-1 p-1 text-end" style="font-size: 20px;">
                                     <i class="fa-solid fa-circle-check"></i>
                                 </div>
-                                <div class="col-md-10 py-3 text-start fw-bold">
+                                <div class="col-md-10 py-1 text-start fw-bold">
                                     Sorry, your request is decline by the Mechanic. Please find another Mechanic.
                                     <input type="hidden" name="notifID" value="<?php echo  htmlentities($result->notifID);?>">
                                 </div>
@@ -174,10 +174,10 @@ if(isset($_POST["unreadVerify"])){
                                <li>  
                                 <button  class="alert-warning notif-content row text-center border-0 w-100 mx-0">
                                 <p class="text-end text-small fw-light" style="font-size: smaller;"><?php echo htmlentities($result->timess)?></p>
-                                <div class="col-md-2 p-1 py-4 text-end" style="font-size: 30px;">
+                                <div class="col-md-2 p-1 py-1 text-end" style="font-size: 20px;">
                                     <i class="fa-solid fa-face-sad-cry"></i>
                                 </div>
-                                <div class="col-md-10 py-3 text-start fw-light">
+                                <div class="col-md-10 py-1 text-start fw-light">
                                     Sorry, your request is decline by the Mechanic. Please find another Mechanic.
                                 </div>
                                 <a class="text-center" href="voActivityLog.php"><i class="fa-solid fa-eye"></i> visit</a>
@@ -190,7 +190,7 @@ if(isset($_POST["unreadVerify"])){
                            <li>  
                                 <button   type="submit" name="unreadProgress" class="alert-info notif-content row text-center border-0 w-100 mx-0">
                                 <p class="text-end text-small fw-light" style="font-size: smaller;"><?php echo htmlentities($result->timess)?></p>
-                                <div class="col-md-2 pl-2 text-end fw-bold" style="font-size: 30px;">
+                                <div class="col-md-2 pl-2 text-end fw-bold" style="font-size: 20px;">
                                 <?php echo htmlentities($result->progressbarStatus);?>%
                                 </div>
                                 <div class="col-md-10 text-start fw-bold">
@@ -206,7 +206,7 @@ if(isset($_POST["unreadVerify"])){
                                 <li>  
                                 <button  class="alert-primary notif-content row text-center border-0 w-100 mx-0">
                                 <p class="text-end text-small fw-light" style="font-size: smaller;"><?php echo htmlentities($result->timess)?></p>
-                                <div class="col-md-2 pl-2 text-end fw-light" style="font-size: 30px;">
+                                <div class="col-md-2 pl-2 text-end fw-light" style="font-size: 20px;">
                                 <?php echo htmlentities($result->progressbarStatus);?>%
                                 </div>
                                 <div class="col-md-10 text-start fw-light">
@@ -217,12 +217,12 @@ if(isset($_POST["unreadVerify"])){
 
                             </li>
                             
-                            <?php }}else if($result->progressbarStatus=='100' || $result->status == 'verify'){
+                            <?php }}else if($result->progressbarStatus=='100' && $result->status == 'verify'){
                                if($result->notifStatus == 'Unread'){?>
                                 <li>  
                                 <button   type="submit" name="unreadVerify" class="alert-warning notif-content row text-center border-0 w-100 mx-0">
                                 <p class="text-end text-small fw-light" style="font-size: smaller;"><?php echo htmlentities($result->timess)?></p>
-                                <div class="col-md-2 pl-2 text-end fw-bold" style="font-size: 30px;">
+                                <div class="col-md-2 pl-2 text-end fw-bold" style="font-size: 20px;">
                                 <i class="fa-solid fa-envelope-circle-check"></i>
                                 </div>
                                 <div class="col-md-10 text-start fw-bold">
@@ -237,7 +237,7 @@ if(isset($_POST["unreadVerify"])){
                             <li>  
                                 <button  class="alert-primary notif-content row text-center border-0 w-100 mx-0">
                                 <p class="text-end text-small fw-light" style="font-size: smaller;"><?php echo htmlentities($result->timess)?></p>
-                                <div class="col-md-2 pl-2 text-end fw-light" style="font-size: 30px;">
+                                <div class="col-md-2 pl-2 text-end fw-light" style="font-size: 20px;">
                                 <i class="fa-solid fa-envelope-circle-check"></i>
                                 </div>
                                 <div class="col-md-10 text-start fw-light">
@@ -248,7 +248,44 @@ if(isset($_POST["unreadVerify"])){
 
                             </li>
 
-                    <?php }}}}} ?>
+                    <?php }}
+                    else if($result->status == 'Home service'){
+                        if($result->notifStatus == 'Unread'){
+                        ?>
+                        <li>  
+                                <button   type="submit" name="unreadVerify" class="alert-warning notif-content row text-center border-0 w-100 mx-0">
+                                <p class="text-end text-small fw-light" style="font-size: smaller;"><?php echo htmlentities($result->timess)?></p>
+                                <div class="col-md-2 pl-2 text-end fw-bold" style="font-size: 20px;">
+                                <i class="fa-solid fa-envelope-circle-check"></i>
+                                </div>
+                                <div class="col-md-10 text-start fw-bold">
+                                Your Mechanic sent a "Request complete" message. Please check your vehicle before accepting.
+                                <input type="hidden" name="notifID" value="<?php echo  htmlentities($result->notifID);?>">
+                                </div>
+                                <a class="text-center" href="voActivityLog.php"><i class="fa-solid fa-eye"></i> visit</a>
+                            </button>
+
+                            </li>
+                        <?php
+                        }else{
+                        ?>
+                            <li>  
+                                <button  class="alert-primary notif-content row text-center border-0 w-100 mx-0">
+                                <p class="text-end text-small fw-light" style="font-size: smaller;"><?php echo htmlentities($result->timess)?></p>
+                                <div class="col-md-2 pl-2 text-end fw-light" style="font-size: 20px;">
+                                <i class="fa-solid fa-envelope-circle-check"></i>
+                                </div>
+                                <div class="col-md-10 text-start fw-light">
+                                Your Mechanic sent a "Request complete" message. Please check your vehicle before accepting.
+                                </div>
+                                <a class="text-center" href="voActivityLog.php"><i class="fa-solid fa-eye"></i> visit</a>
+                            </button>
+
+                            </li>
+                        <?php
+                        }        
+                    }
+                    }}} ?>
                         </ul>
                     </li>
                     <li class="nav-item">
@@ -259,8 +296,8 @@ if(isset($_POST["unreadVerify"])){
                             data-bs-toggle="dropdown" aria-expanded="false"></a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
                             <li><a class="dropdown-item fa-thin fa-gear" href="#"> Settings</a></li>
-                            <li><a class="dropdown-item fa-thin fa-right-from-bracket" href="#" onclick="myconfirm()">
-                                    Logout</a></li>
+                            <li><button type="submit" class="dropdown-item" name="logout"><i class="fa-solid fa-arrow-right-from-bracket"></i> 
+                                    Logout</button></li>
                         </ul>
                     </li>
                 </ul>
@@ -269,16 +306,6 @@ if(isset($_POST["unreadVerify"])){
     </nav>
     </form>
 </section>
-<script>
-function myconfirm() {
-    let text = "Are sure you want to leave?.";
-    if (confirm(text) == true) {
-        location.replace('../login.php');
-    } else {
-        location.reload();
-    }
-}
-</script>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
     integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
 </script>

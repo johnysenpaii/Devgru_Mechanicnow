@@ -67,7 +67,62 @@ if(empty($_SESSION['mechID'])){
     <?php include('mechHeader.php');?>
     <?php include('./mechTopnav.php');?>
 
-    <section id="activityLog">
+    <section id="activityLog" class="container">
+        <form action="" method="POST">
+            <div class="row py-3 px-sm-0 px-md-3 justify-content-center pb-5">
+                <div class="col-lg-8  py-4">
+                    <?php
+                        $sql="SELECT * from request WHERE mechID and status='Accepted' || status='verify' order by resID DESC";
+                        $query=$dbh->prepare($sql);
+                        $query->execute();
+                        $results=$query->fetchALL(PDO::FETCH_OBJ);
+                        $cnt=1;
+                        if($query->rowCount()>0){
+                            foreach ($results as $result){                           
+                                if($result->mechID == $mechID1 && $result->status == 'Accepted'){
+                    ?>
+                    <div class="card text-dark mb-2">
+                        <div class="card-body">
+                            <input type="text" hidden name="resID" value="<?php echo htmlentities($result->resID);?>">
+                            <small class="card-text float-end pt-0" style="color: green;"><?php echo htmlentities($result->status);?></small>
+                            <h6 class="card-title"><?php echo htmlentities($result->mechName);?></h6>
+                            <small class="card-text t-6"><?php echo htmlentities($result->mechRepair);?></small>
+                            <div class='alert alert-primary text-start py-0 pb-1 mb-0 fw-bold'>
+                                <h6 class="pt-2"><small>Note:</small></h6>
+                                <small class="card-text"><?php echo htmlentities($result->specMessage);?></small>
+                            </div>
+                            <a class="btn btn-primary rounded-pill py-0 mt-2 shadow border-0" href="manageRequest.php?regeditid=<?php echo htmlentities($result->resID)?>"><small>Monitor Service</small></a>
+                        </div>
+                    </div>
+                    <?php } else if($result-> status =="verify"){?>
+                        <div class="card text-dark mb-2">
+                        <div class="card-body">
+                            <input type="text" hidden name="resID" value="<?php echo htmlentities($result->resID);?>">
+                            <small class="card-text float-end pt-0" style="color: green;"><?php echo htmlentities($result->status);?></small>
+                            <h6 class="card-title"><?php echo htmlentities($result->vOwnerName);?></h6>
+                            <small class="card-text t-6"><?php echo htmlentities($result->mechRepair);?></small>
+                            <div class='alert alert-primary text-start py-0 pb-1 mb-0 fw-bold'>
+                                <h6 class="pt-2"><small>Note:</small></h6>
+                                <small class="card-text"><?php echo htmlentities($result->specMessage);?></small>
+                            </div>
+                            <a href="manageRequest.php?regeditid=<?php echo htmlentities($result->resID)?>" id="btnn" class="btn btn-primary rounded-pill py-0 mt-2 shadow border-0"><small>Pending</small></a>
+                        </div>
+                    </div>
+                    
+                   <?php }}} else { ?>
+                   
+                    <div class="emptyrequest mt-5 pt-5">
+                        <div class="emptydiv"><img src="../img/empty.png" alt=""></div>
+                        <h6>No available activities. . .</h6>
+                    </div>
+                    <?php
+                        }$cnt=$cnt+1;
+                    ?>
+                </div>
+            </div>
+        </form>
+    </section>
+    <!-- <section id="activityLog">
         <form action="" method="POST">
         
         <div class="row py-3 px-sm-0 px-md-3 table-responsive justify-content-center pb-5">
@@ -84,9 +139,6 @@ if(empty($_SESSION['mechID'])){
                             if($result->mechID == $mechID1 && $result->status == 'Accepted'){
                 ?>
                 <div class="card text-dark mb-2">
-                    <!-- <div class="card-header">
-                        
-                    </div> -->
                     <div class="card-body">
                         <input type="text" hidden name="resID" value="<?php echo htmlentities($result->resID);?>">
                         <input type="hidden" name="status" id="status" value="<?php echo htmlentities($result->status);?>">
@@ -94,10 +146,7 @@ if(empty($_SESSION['mechID'])){
                         <p class="card-text"><?php echo htmlentities($result->mechRepair);?></p>
                         <h6 class="pt-2">Note:</h6>
                         <p class="card-text"><?php echo htmlentities($result->specMessage);?></p>
-
-                        <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
                         <a href="manageRequest.php?regeditid=<?php echo htmlentities($result->resID)?>" id="btnn" class="btn btn-primary">Manage Request</a>
-                        <!-- <button class="btn btn-primary btn-lg" type="submit" id="verify" value="verify">Manage Request</button> -->
                     </div>
                   
                 </div>
@@ -112,9 +161,7 @@ if(empty($_SESSION['mechID'])){
                         <h6 class="pt-2">Note:</h6>
                         <p class="card-text"><?php echo htmlentities($result->specMessage);?></p>
 
-                        <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
                         <a href="manageRequest.php?regeditid=<?php echo htmlentities($result->resID)?>" id="btnn" class="btn btn-primary">Pending</a>
-                        <!-- <button class="btn btn-primary btn-lg" type="submit" id="verify" value="verify">Manage Request</button> -->
                     </div>
                     </div>
             
@@ -130,7 +177,7 @@ if(empty($_SESSION['mechID'])){
             </div>
         </div>
         </form>
-    </section>
+    </section> -->
     <script>
         function verify(){
             t = document.getElementById("status").value;

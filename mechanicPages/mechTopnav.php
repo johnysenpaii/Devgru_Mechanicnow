@@ -1,8 +1,9 @@
  <section id="nav-top" class="d-none d-md-block top-navigation container-fluid">
         <div class="row">
             <div class="d-flex justify-content-center pt-3">
-                <a href="mechActivityLog.php" class="position-relative py-1 px-5 mx-1 bg-white text-dark rounded-pill btn">
-                <span id="hidess123" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                <a href="mechDashboard.php" class="py-1 px-5 mx-1 bg-white text-dark rounded-pill btn position-relative shadow-sm">Home</a>
+                <a href="mechActivityLog.php" class="position-relative py-1 px-5 mx-1 bg-white text-dark rounded-pill btn shadow-sm">
+                <span id="hidess123" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 10px;">
                     <?php 
                         $mechID1=$_SESSION['mechID'];
 						$sql3 ="SELECT * from request where mechID=$mechID1 and status='Accepted'";
@@ -19,8 +20,8 @@
                     <span class="visually-hidden">unread messages</span>
                 </span>    
                 Activity Log</a>
-                <a href="mechTransaction.php" class="py-1 px-5 mx-1 bg-white text-dark rounded-pill btn position-relative">
-                <span id="hide10" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                <a href="mechTransaction.php" class="py-1 px-5 mx-1 bg-white text-dark rounded-pill btn position-relative shadow-sm">
+                <span id="hide10" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 10px;">
                     <?php 
                         $mechID1=$_SESSION['mechID'];
 						$sql01 ="SELECT * from request where mechID=$mechID1 and status='Complete' ";

@@ -229,7 +229,44 @@ if(isset($_POST["readAll"])){
                             </li>
                            
                         
-                         <?php }}}}} ?>
+                         <?php }}
+                         else if($result->status == 'Home service'){
+                        if($result->notifStatus == 'Unread'){
+                        ?>
+                        <li>  
+                                <button   type="submit" name="unreadVerify" class="alert-warning notif-content row text-center border-0 w-100 mx-0">
+                                <p class="text-end text-small fw-light" style="font-size: smaller;"><?php echo htmlentities($result->timess)?></p>
+                                <div class="col-md-2 pl-2 text-end fw-bold" style="font-size: 20px;">
+                                <i class="fa-solid fa-envelope-circle-check"></i>
+                                </div>
+                                <div class="col-md-10 text-start fw-bold">
+                                You sent a "Request complete" message. Please check your vehicle before accepting.
+                                <input type="hidden" name="notifID" value="<?php echo  htmlentities($result->notifID);?>">
+                                </div>
+                                <a class="text-center" href="voActivityLog.php"><i class="fa-solid fa-eye"></i> visit</a>
+                            </button>
+
+                            </li>
+                        <?php
+                        }else{
+                        ?>
+                            <li>  
+                                <button  class="alert-primary notif-content row text-center border-0 w-100 mx-0">
+                                <p class="text-end text-small fw-light" style="font-size: smaller;"><?php echo htmlentities($result->timess)?></p>
+                                <div class="col-md-2 pl-2 text-end fw-light" style="font-size: 20px;">
+                                <i class="fa-solid fa-envelope-circle-check"></i>
+                                </div>
+                                <div class="col-md-10 text-start fw-light">
+                                You sent a "Request complete" message. Please check your vehicle before accepting.
+                                </div>
+                                <a class="text-center" href="voActivityLog.php"><i class="fa-solid fa-eye"></i> visit</a>
+                            </button>
+
+                            </li>
+                        <?php
+                        }        
+                    }
+                        }}} ?>
                             </ul>
                         </li>
                         <li class="nav-item">

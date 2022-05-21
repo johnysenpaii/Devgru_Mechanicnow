@@ -25,13 +25,13 @@ if(isset($_POST['comment'])){
     $query123->execute();
 
 }
-if(empty($_SESSION['custID'])){
+if(empty($_SESSION['mechID'])){
     header("Location:http://localhost/Devgru_Mechanicnow/login.php");
     session_destroy(); 
-    unset($_SESSION['custID']);
+    unset($_SESSION['mechID']);
       }
       if(isset($_POST["logout"])) { 
-        unset($_SESSION['custID']);
+        unset($_SESSION['mechID']);
         session_destroy();
         header("Location:http://localhost/Devgru_Mechanicnow/login.php");
     
@@ -109,7 +109,7 @@ if(empty($_SESSION['custID'])){
 </head>
 
 <body id="contbody" style="background-color: #f8f8f8" onload="rating()">
-    <?php include('voHeader.php');?>
+    <?php include('mechHeader.php');?>
     <section id="activityLog">
         <form action="" method="POST">
             <div class="row py-3 px-sm-0 px-md-3 table-responsive justify-content-center pb-5">
@@ -188,11 +188,6 @@ if(empty($_SESSION['custID'])){
                             <p class="card-title py-1 px-0 fw-bold " style="font-size: small;">Your details</p>
                             <p class=" fw-bold" style="font-size: 13px;"><i class="fa-solid fa-user"></i> Name:  <?php echo htmlentities($result->vOwnerName);?></p>
                         </div>
-                        <label class="card-title px-3 fw-bold " style="font-size: small;" for="iframe"><i class="fa-solid fa-map-location"></i> Your Location:</label>
-                        <iframe class="px-3 pb-2"
-                            src="https://maps.google.com/maps?q=<?php echo htmlentities($_SESSION['latitude']);?>,<?php echo htmlentities($_SESSION['longitude']);?>&output=embed"
-                            frameborder="0" width="auto" height="auto">
-                        </iframe>
                     </div>
                     </div>
                     <div class="col-md-6">
@@ -223,11 +218,7 @@ if(empty($_SESSION['custID'])){
                             <li class="list-group-item border-0"><i class="fa-solid fa-at"></i> Email: <?php echo htmlentities($result0->mechEmail);?></li>
                             </ul>
                         </div>
-                        <label class="card-title px-3 fw-bold " style="font-size: small;" for="iframe"><i class="fa-solid fa-map-location"></i> Mechanic current location:</label>
-                        <iframe class="px-3 pb-2"
-                            src="https://maps.google.com/maps?q=<?php echo htmlentities($result0->latitude);?>,<?php echo htmlentities($result0->longitude);?>&output=embed"
-                            frameborder="0" width="auto" height="auto">
-                        </iframe>
+                       
                     </div>
                     </div>
                 </div>

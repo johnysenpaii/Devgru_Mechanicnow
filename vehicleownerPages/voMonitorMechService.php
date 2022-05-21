@@ -33,11 +33,18 @@ if(isset($_POST["confirm"]) || isset($_POST['comment'])){
     $query->bindParam(':specMessage',$specMessage,PDO::PARAM_STR);
     $query->bindParam(':value',$value,PDO::PARAM_STR);
     $query->execute();
-
-
+}
+if(empty($_SESSION['custID'])){
+    header("Location:http://localhost/Devgru_Mechanicnow/login.php");
+    session_destroy(); 
+    unset($_SESSION['custID']);
+      }
+      if(isset($_POST["logout"])) { 
+        unset($_SESSION['custID']);
+        session_destroy();
+        header("Location:http://localhost/Devgru_Mechanicnow/login.php");
     
-   }
-
+    }
    
 ?>
 <!DOCTYPE html>
@@ -152,7 +159,7 @@ if(isset($_POST["confirm"]) || isset($_POST['comment'])){
                         <?php 
                             $mechID = $result->mechID;
                             $custID1;
-                            $sql4="SELECT * from progressremarks where mechID=:mechID AND custID=:custID1";
+                            $sql4="SELECT * from progressremarks where mechID=:mechID AND custID=:custID1 order by remarkID DESC limit 1";
                             $query5 = $dbh->prepare($sql4);
                             $query5->bindParam(':mechID',$mechID,PDO::PARAM_STR);
                             $query5->bindParam(':custID1',$custID1,PDO::PARAM_STR);
@@ -260,7 +267,6 @@ if(isset($_POST["confirm"]) || isset($_POST['comment'])){
     let speed = 20;
 
     let progress = setInterval(() => {
-        progressValue++;
         valueContainer.textContent = `${progressValue}%`;
         progressBar.style.background = `conic-gradient(
             #9132da ${progressValue * 3.6}deg, 
@@ -269,6 +275,7 @@ if(isset($_POST["confirm"]) || isset($_POST['comment'])){
         if (progressValue == dynamicValue) {
             clearInterval(progress);
         }
+        progressValue++;
     }, speed);
     </script>                           
     

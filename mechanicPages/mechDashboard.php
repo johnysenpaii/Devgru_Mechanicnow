@@ -34,6 +34,46 @@ if(empty($_SESSION['mechID'])){
     <link rel="stylesheet" href="../css/style.css">
     <title>Mechanic Now</title>
     <link rel="shortcut icon" type="x-icon" href="../img/mechanicnowlogo.svg">
+    <style>
+        section .bot-nav{
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            height: 55px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.2);
+            background-color: #fff;
+            display: flex;
+            overflow-x: auto;
+        }
+        .bot-nav .nav-links{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 1;
+            min-width: 50px;
+            overflow: hidden;
+            white-space: nowrap;
+            color: #302D32;
+            font-size: 6px;
+            color: var(--clr-primary-800);
+            text-decoration: none;
+            -webkit-tap-highlight-color: transparent;
+            transition: background-color 0.1s ease-in-out;
+        }
+        .nav-links i{
+            padding-bottom: 5px;
+            font-size: 16px;
+        }
+        .nav-links:hover{
+            color: #9132DA;
+        }
+        @media only screen and (min-width: 764px) {
+            .botsec{
+                display: none;
+            }
+        }
+    </style>
 </head>
 
 <body id="contbody" style="background-color: #f8f8f8" onload="GetAddress()">
@@ -41,15 +81,15 @@ if(empty($_SESSION['mechID'])){
     <?php include('./mechTopnav.php');?>
     <section id="mechContent" class="mech-content container-fluid">
         <div class="row py-3 px-sm-0 px-md-3 text-center table-responsive justify-content-center pb-5">
-            <div class="col-lg-8 bg-white py-4 rounded-3 shadow-lg">
+            <div class="col-lg-8 py-4 rounded-3">
                 <h4 class="text-dark pb-4">Available Request</h4>
                 <div class="row d-flex justify-content-end align-items-center px-sm-0 px-md-4">
-                    <div class="col-9 col-md-6 searchlogo">
+                    <!-- <div class="col-9 col-md-6 searchlogo">
                         <input class="form-control rounded-pill" type="text" placeholder="Filter Search">
-                    </div>
-                    <div class="col-3 col-md-1 searchlogo justify-content-center align-items-center">
+                    </div> -->
+                    <!-- <div class="col-3 col-md-1 searchlogo justify-content-center align-items-center">
                         <i class="fa-solid fa-filter fa-2x" data-bs-toggle="modal" data-bs-target="#Filter-modal"></i>
-                    </div>
+                    </div> -->
                 </div>
                 <table class="table table-borderless table-curved pt-1 px-sm-0 px-md-4">
                     <thead>
@@ -90,52 +130,6 @@ if(empty($_SESSION['mechID'])){
                 </table>
             </div>
         </div>
-      
-        <!-- <div class="row container-fluid py-5 text-center table-responsive justify-content-center">
-            <div class="col-lg-8">
-                <h4 class="text-dark">Request Available</h4>
-                <?php
-                    $sql="SELECT * from request WHERE mechID=$mechID1 and status='Unaccepted'";
-                    $query=$dbh->prepare($sql);
-                    $query->execute();
-                    $results=$query->fetchALL(PDO::FETCH_OBJ);
-
-                    if($query->rowCount()>0)
-                    {
-                    foreach ($results as $result)
-                    {
-                        if($mechID1==$mechID1)
-                        {
-                ?>
-                <table class="table table-borderless table-curved pt-2">
-                    <thead>
-                    </thead>
-                    <tbody>
-                        <div class="td-card">
-                            <h3><?php echo htmlentities($result->vOwnerName);?></h3>
-                            <input type="text" hidden name="custID2"
-                                value="<?php echo htmlentities($result->custID);?>">
-                            <p><strong>Service Type: </strong> <?php echo htmlentities($result->serviceType);?></p>
-                            <p><strong>Service Needed: </strong> <?php echo htmlentities($result->serviceNeeded);?></p>
-                            <p><strong>Vehicle Problem:</strong> <?php echo htmlentities($result->mechRepair);?></p>
-                            <p><strong>Note:</strong> <?php echo htmlentities($result->specMessage);?></p>
-                           
-      
-                            <iframe
-                                src="https://maps.google.com/maps   ?q=<?php echo htmlentities($result->latitude);?>,<?php echo htmlentities($result->longitude);?>&output=embed"
-                                fr  ameborder="0" width="700" height="400"></iframe>
-                            <d  iv class="card-btn">
-                                <button type="submit" class="btn btn-primary btn-lg" name="submit" class="accept"><a
-                                        href="mechRequestDetails.php?regeditid=<?php echo htmlentities($result->resID)?>">Details</a></button>
-                                <button class="btn btn-primary btn-lg">Decline</button>
-                            </d>
-                        </div>
-                    </tbody>
-                </table>
-                <hr class="text-light">
-                <?php }}}?>
-            </div>
-        </div> -->
         <!-- Vertically centered modal -->
         <div class="modal fade" id="detail-modal" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg">

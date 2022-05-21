@@ -423,7 +423,7 @@ form .name-details .field:last-child {
 .btn-warning:focus {
 	background-color: var(--clr-primary-800);
 	border-color: var(--clr-primary-800);
-	border-radius: 20px;
+	border-radius: 5px;
 	box-shadow: none;
 }
 .badge-design {
@@ -833,4 +833,46 @@ form .name-details .field:last-child {
 	font-weight: 600;
 	text-align: start;
 	color: var(--clr-primary-800);
+}
+.overflow-auto::-webkit-scrollbar {
+	width: 0px;
+}
+.details-p {
+	font-size: 12px;
+}
+.details-p {
+	font-size: 10px;
+}
+@media screen and (min-width: 768px) {
+	.details-p {
+		font-size: 12px;
+	}
+}
+.scroll-users::-webkit-scrollbar {
+	width: 0px;
+}
+.scroll-area {
+	height: 90vh;
+	overflow-y: auto;
+}
+.scroll-area::-webkit-scrollbar {
+	width: 0px;
+}
+.selection {
+	border: 0px;
+	border-radius: 5px;
+}
+.selection-2 {
+	float: right;
+}
+.selection-2 button {
+	border: 0;
+	background-color: var(--clr-primary-500);
+	padding-inline: 1em;
+	border-radius: 16px;
+	color: white;
+}
+.selection:hover {
+	border: 1px;
+	border-color: #9132da;
 }

@@ -175,7 +175,7 @@ if(empty($_SESSION['mechID'])){
                                 $query09->execute();
 
                             }
-                        }
+                    }
             ?>
             <div class="container-fluid p-0">
                 <div class="row m-0 p-0">
@@ -184,6 +184,7 @@ if(empty($_SESSION['mechID'])){
                         <div class="row align-items-center">
                             <div class="col-3 mx-3 with-image" style="width: 100px; padding: 5px;">
                              <?php
+                                $date1 = date("Y-m-d");
                                 $cID = $result->custID;
                                 $sql= "SELECT * FROM customer where custID = $cID";
                                 $query=$dbh->prepare($sql);
@@ -218,7 +219,7 @@ if(empty($_SESSION['mechID'])){
                                 </div>
                                 <div id="needs" style="display: none;">
                                     <p class="px-4">Date: <?php echo htmlentities($result->date);?></p>
-                                    <p class="px-4">Time: <?php echo htmlentities($result->timess);?> <?php echo htmlentities($result->time) < 12 ? 'AM' : 'PM';?></p>
+                                    <p class="px-4">Time: <?php echo htmlentities($result->timess);?> <?php echo htmlentities($result->timess) < 12 ? 'AM' : 'PM';?></p>
                                 </div>
                                 <div class="py-2">
                                     <span class="sub-title">Vehicle owner problem.</span></br>
@@ -302,6 +303,9 @@ if(empty($_SESSION['mechID'])){
         else if(t == "Emergency Service"){
             document.getElementById("Home").style.display = "none";
         }
+      
+
+
     </script>
     <script src="js/main.js"></script>
 </body>

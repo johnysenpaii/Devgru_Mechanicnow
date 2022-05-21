@@ -4,6 +4,17 @@ include('../config.php');
     $custAddress1=$_SESSION['custAddress'];
     $v1 = doubleval($_SESSION["latitude"]);
     $v2 = doubleval($_SESSION["longitude"]);
+if(empty($_SESSION['custID'])){
+    header("Location:http://localhost/Devgru_Mechanicnow/login.php");
+    session_destroy(); 
+    unset($_SESSION['custID']);
+      }
+      if(isset($_POST["logout"])) { 
+        unset($_SESSION['custID']);
+        session_destroy();
+        header("Location:http://localhost/Devgru_Mechanicnow/login.php");
+    
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -75,19 +86,12 @@ include('../config.php');
                     <form method="GET">
                         <div class="row m-0 m-md-3 col-12 searchlogo align-items-center">
                             <div class="input-group-sm col-10">
-                                <input class="form-control rounded-pill shadow-none" autocomplete="off" name="searchs" type="text" placeholder="  Filter Search">
+                                <input class="form-control rounded-pill shadow-none" autocomplete="off" name="searchs" type="text" placeholder="Search Services">
                             </div>
                             <button class="fa-solid fa-magnifying-glass s-button col-1 px-0" name="sea" type="submit"></button>
-                            <!-- <i class="fa-solid fa-filter fa-2x filter col-1" data-bs-toggle="modal" data-bs-target="#Filter-modal"></i> -->
                         </div>
                     </form>
-                <div class="countRecords">
-                    <?php
-                    
-                    ?>
-                    Requests 
-                    <?php }?>
-                </div>
+               
                 <div class="overflow-auto">
                 <table class="table table-borderless table-curved table-responsive pt-1 px-sm-0 px-md-0">
                     <thead>
@@ -98,7 +102,8 @@ include('../config.php');
                     $sql="SELECT mechID,mechFirstname,mechLastname,Specialization,average,
                     (3959 * acos(cos(radians($v1)) *cos(radians(latitude))* cos(radians(longitude)-radians($v2))+sin(radians($v1))
                     *sin(radians(latitude)))) as distance  from  mechanic WHERE 
-                    vehicleType like '%Car Mechanic%' and status='approve' having distance < 3 order by distance limit 0, 20 ";
+                    vehicleType like '%Car Mechanic%' and stats='Active' and status='approve' having distance < 3 order by distance limit 0, 20 ";
+                    
                     $sqlsearch="SELECT mechID, mechFirstname, mechLastname, Specialization, average, (3959 * acos(cos(radians($v1)) *cos(radians(latitude))* cos(radians(longitude)-radians($v2))+sin(radians($v1))
                     *sin(radians(latitude)))) as distance  from  mechanic WHERE 
                     vehicleType like '%Car Mechanic%' and status='approve' and stats='Active' and Specialization like '%{$searchcont}%' having distance < 3 order by distance limit 0, 20 ";
@@ -110,10 +115,21 @@ include('../config.php');
                         if( $query->rowCount()>0){   
                             foreach($results as $result){?> 
                             <tr class="mt-2 ">
-                                <td class="t-content"><?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?></td>
-                                <td class="t-content"><?php echo htmlentities($result->Specialization);?></td>
-                                <td class="t-content">k.m <?php echo number_format($result->distance,1);?> </td>
-                                <td class="t-content"><a class="btn btn-warning px-3 shadow-none" href="voCarmechRequest.php?regeditid=<?php echo htmlentities($result->mechID)?>">Details</a></td>
+                                <td class="t-content  text-start p-3 px-4"><?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?></td>
+                                 <td class="t-content text-start p-3">
+                                    <?php
+                                    $spec = explode(",", $result->Specialization);
+                                    foreach($spec as $specialize){
+                                        ?>
+                                            <span class="badge badge-design row m-0 px-0">
+                                                <p class="px-1 text-align-center"><?php echo $specialize; ?></p>
+                                            </span>
+                                        <?php
+                                    }
+                                ?>
+                                </td>
+                                <td class="t-content p-3">k.m <?php echo number_format($result->distance,1);?> </td>
+                                <td class="t-content px-3"><a class="btn btn-warning px-3 shadow-none" href="voCarmechRequest.php?regeditid=<?php echo htmlentities($result->mechID)?>">Details</a></td>
                             </tr>
                             <?php $cnt=$cnt+1;}}     
                                 else{?>    
@@ -142,10 +158,21 @@ include('../config.php');
                         if( $query->rowCount()>0){   
                             foreach($results as $result){?> 
                             <tr class=" mt-2 ">
-                                <td class="t-content"><?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?></td>
-                                <td class="t-content"><?php echo htmlentities($result->Specialization);?></td>
-                                <td class="t-content">k.m <?php echo number_format($result->distance,1);?> </td>
-                                <td class="t-content"><a class="btn btn-warning px-3 shadow-none" href="voCarmechRequest.php?regeditid=<?php echo htmlentities($result->mechID)?>">Details</a></td>
+                                <td class="t-content  text-start p-3 px-4"><?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?></td>
+                                <td class="t-content text-start p-3">
+                                    <?php
+                                    $spec = explode(",", $result->Specialization);
+                                    foreach($spec as $specialize){
+                                        ?>
+                                            <span class="badge badge-design row m-0 px-0">
+                                                <p class="px-1 text-align-center"><?php echo $specialize; ?></p>
+                                            </span>
+                                        <?php
+                                    }
+                                ?>
+                                </td>
+                                <td class="t-content p-3">k.m <?php echo number_format($result->distance,1);?> </td>
+                                <td class="t-content px-3"><a class="btn btn-warning px-3 shadow-none" href="voCarmechRequest.php?regeditid=<?php echo htmlentities($result->mechID)?>">Details</a></td>
                             </tr>
                             <?php $cnt=$cnt+1;}}     
                                 else{?>    

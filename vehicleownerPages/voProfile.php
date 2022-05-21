@@ -119,6 +119,17 @@ if(isset($_POST['confirmPassword'])){
     }
     
 }
+if(empty($_SESSION['custID'])){
+    header("Location:http://localhost/Devgru_Mechanicnow/login.php");
+    session_destroy(); 
+    unset($_SESSION['custID']);
+      }
+      if(isset($_POST["logout"])) { 
+        unset($_SESSION['custID']);
+        session_destroy();
+        header("Location:http://localhost/Devgru_Mechanicnow/login.php");
+    
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">

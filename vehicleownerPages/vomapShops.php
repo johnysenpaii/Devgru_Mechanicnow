@@ -2,6 +2,17 @@
 session_start();
 include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
 $custID1=$_SESSION['custID'];
+if(empty($_SESSION['custID'])){
+    header("Location:http://localhost/Devgru_Mechanicnow/login.php");
+    session_destroy(); 
+    unset($_SESSION['custID']);
+      }
+      if(isset($_POST["logout"])) { 
+        unset($_SESSION['custID']);
+        session_destroy();
+        header("Location:http://localhost/Devgru_Mechanicnow/login.php");
+    
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -22,6 +33,46 @@ $custID1=$_SESSION['custID'];
     <link rel="stylesheet" href="../css/style.css">
     <title>Mechanic Now</title>
     <link rel="shortcut icon" type="x-icon" href="../img/mechanicnowlogo.svg">
+    <style>
+        section .bot-nav{
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            height: 55px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.2);
+            background-color: #fff;
+            display: flex;
+            overflow-x: auto;
+        }
+        .bot-nav .nav-links{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 1;
+            min-width: 50px;
+            overflow: hidden;
+            white-space: nowrap;
+            color: #302D32;
+            font-size: 6px;
+            color: var(--clr-primary-800);
+            text-decoration: none;
+            -webkit-tap-highlight-color: transparent;
+            transition: background-color 0.1s ease-in-out;
+        }
+        .nav-links i{
+            padding-bottom: 5px;
+            font-size: 16px;
+        }
+        .nav-links:hover{
+            color: #9132DA;
+        }
+        @media only screen and (min-width: 764px) {
+            .botsec{
+                display: none;
+            }
+        }
+    </style>
 </head>
 
 <body id="contbody" style="background-color: #f8f8f8">
@@ -41,7 +92,7 @@ $custID1=$_SESSION['custID'];
             </div>
         </div>
     </section>
-    <div class="row d-block d-lg-none"><?php include('voBottom-nav.php');?></div>
+    <<?php include('voBottom-nav.php');?>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
     </script>

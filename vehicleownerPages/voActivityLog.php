@@ -9,7 +9,17 @@ if(isset($_POST["confirm"])){
      $query->bindParam(':resID',$resID,PDO::PARAM_STR);
      $query->execute(); 
    }
-   
+if(empty($_SESSION['custID'])){
+    header("Location:http://localhost/Devgru_Mechanicnow/login.php");
+    session_destroy(); 
+    unset($_SESSION['custID']);
+      }
+      if(isset($_POST["logout"])) { 
+        unset($_SESSION['custID']);
+        session_destroy();
+        header("Location:http://localhost/Devgru_Mechanicnow/login.php");
+    
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -100,7 +110,7 @@ if(isset($_POST["confirm"])){
                                 <h6 class="pt-2"><small>Note:</small></h6>
                                 <small class="card-text"><?php echo htmlentities($result->specMessage);?></small>
                             </div>
-                            <a class="btn btn-primary rounded-pill py-0 mt-1 shadow border-0" href="./voMonitorMechService.php?regeditid=<?php echo htmlentities($result->resID);?>"><small>Monitor Service</small></a>
+                            <a class="btn btn-primary rounded-pill py-0 mt-2 shadow border-0" href="./voMonitorMechService.php?regeditid=<?php echo htmlentities($result->resID);?>"><small>Monitor Service</small></a>
                         </div>
                     </div>
                     <?php } else if($result-> status =="verify"){?>
@@ -114,7 +124,7 @@ if(isset($_POST["confirm"])){
                                 <h6 class="pt-2"><small>Note:</small></h6>
                                 <small class="card-text"><?php echo htmlentities($result->specMessage);?></small>
                             </div>
-                            <a class="btn btn-primary rounded-pill py-0 mt-1 shadow border-0" href="./voMonitorMechService.php?regeditid=<?php echo htmlentities($result->resID);?>"><small>Monitor Service</small></a>
+                            <a class="btn btn-primary rounded-pill py-0 mt-2 shadow border-0" href="./voMonitorMechService.php?regeditid=<?php echo htmlentities($result->resID);?>"><small>Monitor Service</small></a>
                         </div>
                     </div>
                     

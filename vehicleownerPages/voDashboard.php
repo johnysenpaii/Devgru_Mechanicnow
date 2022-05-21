@@ -1,7 +1,7 @@
 <?php
 session_start();
 include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
-$custID1=$_SESSION['custID']; 
+$custID1=$_SESSION['custID'];
 
 if(isset($_POST['car'])){
         $l1=$_SESSION["latitude"];
@@ -18,29 +18,30 @@ elseif(isset($_POST['bicycle'])){
     $l2=$_SESSION["longitude"];
     header("Location:voBikemech.php?/lat=$l1&long=$l2"); 
 }
-
-// if(isset($_POST['update'])){
-//      $sql="UPDATE customer set latitude=:latitude,longitude=:longitude WHERE custID=:custID"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
-//             $query2=$dbh->prepare($sql);
-//             $query2->bindParam(':latitude',$latitude,PDO::PARAM_STR);
-//             $query2->bindParam(':longitude',$longitude,PDO::PARAM_STR);
-//             $query2->bindParam(':custID',$custID,PDO::PARAM_STR);
-//             $query2->execute(); 
-// }
 if(isset($_POST['update'])){
-        $resID = $_POST['resID'];
-        $sql = "UPDATE request set status='cancelled' WHERE resID=:resID";
-        $query=$dbh->prepare($sql);
-        $query->bindParam(':resID',$resID,PDO::PARAM_STR);
-        $query->execute();
+    $resID = $_POST['resID'];
+    $mechID=$_POST['mechID'];  
+    $sql = "UPDATE request set status='cancelled' WHERE resID=:resID";
+    $query=$dbh->prepare($sql);
+    $query->bindParam(':resID',$resID,PDO::PARAM_STR);
+    $query->execute();
  
-       $sql7 = "INSERT INTO notification(custID, mechID , status) VALUES(:custID, :mechID,'cancelled')";
+    $sql7 = "INSERT INTO notification(custID, mechID , status) VALUES(:custID1, :mechID,'cancelled')";
     $query7 = $dbh->prepare($sql7);
-    $query7->bindParam(':custID',$custID,PDO::PARAM_STR);
+    $query7->bindParam(':custID1',$custID1,PDO::PARAM_STR);
     $query7->bindParam(':mechID',$mechID,PDO::PARAM_STR);
     $query7->execute();
-
-
+}
+if(empty($_SESSION['custID'])){
+    header("Location:http://localhost/Devgru_Mechanicnow/login.php");
+    session_destroy(); 
+    unset($_SESSION['custID']);
+      }
+      if(isset($_POST["logout"])) { 
+        unset($_SESSION['custID']);
+        session_destroy();
+        header("Location:http://localhost/Devgru_Mechanicnow/login.php");
+    
     }
 ?>
 <!DOCTYPE html>
@@ -189,6 +190,7 @@ if(isset($_POST['update'])){
                             <div class="d-grid">
                                 <button class="btn btn-primary shadow" type="button" data-bs-toggle="modal" data-bs-target="#detailsmodal">Details</button>
                             </div>
+                            <hr/>
                         </div>
                         <!-- modal -->
                         <div class="modal fade" id="detailsmodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -201,10 +203,22 @@ if(isset($_POST['update'])){
                                     </div>
                                     <div class="modal-body">
                                         <input type="hidden" name="resID" value="<?php echo htmlentities($result->resID);?>" >
-                                        <h5><?php echo htmlentities($result->serviceNeeded);?> Request</h5>
-                                        <p><?php echo htmlentities($result->mechName);?></p>
-                                        <p><?php echo htmlentities($result->mechRepair);?></p>
-                                        <p><?php echo htmlentities($result->timedate);?></p>
+                                        <input type="hidden" name="mechID" value="<?php echo htmlentities($result->mechID);?>" >
+                                        <h6><?php echo htmlentities($result->serviceNeeded);?> Request</h6>
+                                        <div class="p-2">
+                                            <p class="pt-3 pb-1"><?php echo htmlentities($result->mechName);?></p>
+                                            <?php
+                                                $spec = explode(",", $result->mechRepair);
+                                                foreach($spec as $specialize){
+                                                    ?>
+                                                        <span class="badge badge-design row m-0 px-0">
+                                                            <p class="px-1 text-align-center"><?php echo $specialize; ?></p>
+                                                        </span>
+                                                    <?php
+                                                }
+                                            ?>
+                                            <p class="pt-2"><?php echo htmlentities($result->timedate);?></p>
+                                        </div>
 
                                     </div>
                                     <div class="modal-footer">

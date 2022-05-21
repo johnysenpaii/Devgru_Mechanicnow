@@ -56,8 +56,6 @@ if(isset($_POST['UpdateMe']))
     $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR); 
     $query->execute();
 
-    echo "<script type='text/javascript'>confirm('Are you sure you want to update progress bar ?');</script>";
-  
 }
 
 if(isset($_POST["verify"])){
@@ -144,9 +142,8 @@ if(isset($_POST["verify"])){
                             <?php $cuID = $result->custID; ?>
                             <input disabled class="border-0 bg-title py-2" type="text" id="need" value="<?php echo htmlentities($result->serviceNeeded);?>">
                             <div id="needs" style="display: none;">
-                                <p><i>Date:</i> <?php echo htmlentities($result->date);?></p>
-                                <p><i>Time:</i> <?php echo htmlentities($result->time) < 12 ? 'AM' : 'PM';?>
-                                <?php echo htmlentities($result->time);?></p>
+                                <p>Date: <?php echo htmlentities($result->date);?></p>
+                                <p>Time: <?php echo htmlentities($result->timess);?> <?php echo htmlentities($result->timess) < 12 ? 'AM' : 'PM';?></p>
                             </div>
                             <div class="col-10">
                                 <div class="alert alert-primary text-start py-0 pb-1 mb-0 note-alert note-vehicle shadow-sm">
@@ -184,43 +181,14 @@ if(isset($_POST["verify"])){
                                                 $divProgLength = count($divProgress);
                                                 $separator = ",";//the separator
                                                 ?>
-                                                <input type="text" id="currentProg" value="<?php echo $currentProg?>">
+                                                <input type="hidden" id="currentProg" value="<?php echo $currentProg?>">
                                                 <?php
-                                                // $ff = $_POST["remarks[]"];
-                                                // $dd = explode(",", $ff);
                                                 if (empty($currentProg)){
-                                                    echo "this is empty";
+                                                    echo " ";
                                                 }else{
-                                                    echo $currentProg;
+                                                    $currentProg;
                                                     $finalInput = $currentProg;
                                                 }
-                                                // // elseif($divProgress == 1){
-                                                // //     echo "nanay sulod";
-                                                // //     $separator = ",";
-                                                // //     $okaynani = $currentProg." ".$separator;
-                                                // // }
-                                                // // $res->remarkID;
-                                                // // $currentProg = $res->remarks;//the current remarks
-                                                // // if(empty($currentProg)){
-                                                // //     $latestProg ="";
-                                                // // }
-                                                // elseif($divProgLength == 1){
-                                                //     echo "isa ray sulod ani choy";
-                                                //     echo $currentProg;
-                                                //     echo $separator;
-                                                //     echo $latestProgress;
-                                                //     $lp = $currentProg." ".$separator;
-                                                //     $latestProg = $lp." ".$latestProgress;
-                                                //     $finalInput = $latestProg;
-                                                // }
-                                                // else{
-                                                //     echo "daghan sulod";
-                                                //     // echo explode(",", $currentProg);
-                                                //     echo $currentProg;
-                                                //     $latestProg = $currentProg." ".$separator." ".$latestProgress;//current ex. done tire + , = done tire,
-                                                //     $finalInput = $latestProg;
-                                                // }
-
                                                 foreach($divProgress as $div){
                                                 ?>
                                                 <ul class="">
@@ -232,14 +200,6 @@ if(isset($_POST["verify"])){
                                             </div>
                                         </div>
                                 <?php
-                                    // $diver = $res->remarks;
-                                    // $diver2 = $diver ?? null;
-                                    // $divProgressLength = count($divProgress);
-                                    // for ($i = 0; $i < $divProgressLength; $i++){
-                                    //     if($divProgressLength == 1){
-
-                                    //     }
-                                    // }
                                 }
                             }
                             ?>
@@ -287,8 +247,6 @@ if(isset($_POST["verify"])){
                                         foreach($results as $res){
                                     ?>
                                     <input type="hidden" name="remarkID" value="<?php echo htmlentities($res->remarkID)?>">
-                                    <!-- <input type="text" name="mechRepair" value="<?php echo htmlentities($res->mechRepair)?>">
-                                    <input type="text" name="serviceType1" value="<?php echo htmlentities($result->serviceType)?>"> -->
                                     <?php
                                     //mao ni ang gi checkan
                                     $divide = explode(",", $res->mechRepair);
@@ -323,41 +281,13 @@ if(isset($_POST["verify"])){
                                 <hr class="divider">
                                 <!-- for the inputs -->
                                 <div class="col-12">
-                                    <!-- <input type="text" value="<?php echo htmlentities($ing) ?>"> -->
-                                    <!-- i need to add the current and the latest update
-                                    in this section the textarea is where we have to input the latest update then 
-                                    ill create another input that sets the current progress with the separator 
-                                    then add it to a specific input that should be the final input to the database -->
-
-                                    <!-- this is the input of the latest input -->
                                     <textarea class="form-control shadow-none" placeholder="Enter Remarks..." rows="3" name="latestProg" id="lprog"></textarea>
                                     <?php
-                                    //instead of input ill do it inline php
-                                    // try{
-                                        // $finalInput = "";
-                                    //     if(isset($_POST["latestProg"])){
-                                    //     $latestProgress = $_POST["latestProg"] ?? null;
-                                    //     // if($finalInput == ""){
-                                            
-                                    //         //passing the latest progress and add the latest with separator
-                                    //         $finalInput = $latestProg." ".$latestProgress;
-                                    //     }else{
-                                    //         $finalInput;
-                                    //         // echo $finalInput;
-                                    //     }
-                                    // }catch(\Exception $e ){
-                                        
-                                    // }
                                     ?>
-                                    <!-- <input type="text" name="remarks[]" id="finput" value="<?php //echo $diver2 ?>"> -->
-                                    <input type="text" name="remarks[]" id="finput" value="<?php echo $currentProg ?>" required>
-                                    <!-- <input type="text" name="remarks" id="finput" value="<?php //echo $finalInput ?>"> -->
-                                    <!-- <?php
-                                    // echo $expINt = explode(",", $finalInput);
-                                    ?> -->
-                                    <a class="btn btn-primary rounded-pill text-center mt-2" onclick="fill()" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal">Update</a>
-                                    <!-- <button type="sumbit" class="my-2 btn btn-primary rounded-pill"  value="UpdateMe" name="UpdateMe" id="UpdateMe">Update me <i class="bi bi-arrow-counterclockwise"></i></button> -->
-                                    <!-- <button>Confirm Progress</button> -->
+                                    <input type="hidden" name="remarks[]" id="finput" value="<?php echo $currentProg ?>" required>
+                                    <div class="text-center">
+                                        <a class="btn btn-primary rounded-pill text-center mt-2 px-5" onclick="fill()" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal">Update</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -375,7 +305,7 @@ if(isset($_POST["verify"])){
                     Are you sure you want to update remarks?
                 </div>
                 <div class="modal-footer">
-                    <button type="sumbit" class="my-2 btn btn-primary rounded-pill" value="UpdateMe" name="UpdateMe" id="UpdateMe">Update me <i class="bi bi-arrow-counterclockwise"></i></button>
+                    <button type="sumbit" class="my-1 btn btn-primary rounded-pill" value="UpdateMe" name="UpdateMe" id="UpdateMe">Update Remarks<i class="bi bi-arrow-counterclockwise"></i></button>
   
                 </div>
                 </div>
@@ -448,11 +378,9 @@ if(isset($_POST["verify"])){
     var separator = "@";
     function fill(){
         if(currentProg.value.length ==0){
-            alert("EMPTY PANI AH");
             finp.value = lprog.value;
             lprog.value = null;
         }else{
-            alert("NANA NI SULOD");
             latestProg = currentProg.value + separator + lprog.value;
             finp.value = latestProg; 
         } 
