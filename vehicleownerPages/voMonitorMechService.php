@@ -130,8 +130,10 @@ if(empty($_SESSION['custID'])){
                     <p>Mechanic: <?php echo htmlentities($result->mechName);?></p>
                     <p>Service Request: <?php echo htmlentities($result->serviceNeeded);?></p>
                     <p>Vehicle Problem: <?php echo htmlentities($result->mechRepair);?></p>
-                    <p>Date: <?php echo htmlentities($result->date);?></p>
-                    <p>Time: <?php echo htmlentities($result->time) < 12 ? 'AM' : 'PM';?></p>
+                    <div id="needs" style="display: none;">
+                        <p>Date: <?php echo htmlentities($result->date);?></p>
+                        <p>Time: <?php echo htmlentities($result->timess);?> <?php echo htmlentities($result->timess) < 12 ? 'AM' : 'PM';?></p>
+                    </div>
                     <!-- <a class="btn btn-primary col-md-4 rounded" id="btnm" style="display: none;" data-bs-toggle="modal" href="#exampleModalToggle" role="button">End service</a> -->
                     <div class="prog-wap col-12 mt-4">
                     <h5 class="text-center">PROGRESS</h5>
@@ -277,6 +279,11 @@ if(empty($_SESSION['custID'])){
         }
         progressValue++;
     }, speed);
+
+    var t = document.getElementById("need").value;
+    if(t == "Home Service"){
+        document.getElementById("needs").style.display = "block";
+    }
     </script>                           
     
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
