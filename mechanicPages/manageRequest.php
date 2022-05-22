@@ -2,7 +2,7 @@
 session_start();
 include('../config.php');
 $mechID1=$_SESSION['mechID']; 
-
+$error=' ';
 if(empty($_SESSION['mechID'])){
     header("Location:http://localhost/Devgru_Mechanicnow/login.php");
     session_destroy(); 
@@ -28,7 +28,7 @@ if(isset($_POST['UpdateMe']))
     $remarks = $_POST["remarks"];
     $progressBar = $_POST["output"];
 
-    $sql414 = "INSERT INTO vonotification(custID, mechID, Status, progressbarStatus) VALUES(:custID, :mechID, 'verify', :tb)";
+    $sql414 = "INSERT INTO vonotification(custID, mechID, progressbarStatus) VALUES(:custID, :mechID, :tb)";
     $query414= $dbh->prepare($sql414);
     $query414->bindParam(':custID',$custID,PDO::PARAM_STR);
     $query414->bindParam(':mechID',$mechID,PDO::PARAM_STR);
@@ -56,6 +56,9 @@ if(isset($_POST['UpdateMe']))
     $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR); 
     $query->execute();
 
+    $error='<div class="col-12 col-md-10 bg-primary bg-shadowmd p-3 my-2 voinfo-div">
+    <h5 class="text-start text-light title-request">Successfully updated.</h6>
+</div>';
 }
 
 if(isset($_POST["verify"])){
@@ -64,9 +67,8 @@ if(isset($_POST["verify"])){
   $query=$dbh->prepare($sql1);
   $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR); 
   $query->execute(); 
-  echo '<script>alert("please wait vehicle onwer to approve")</script>';
-  echo "<script type='text/javascript'>document.location='mechActivityLog.php';</script>";
-  
+
+
   $mechID=$_SESSION['mechID']; 
   $custID=$_POST['custID'];
   $sql41 = "INSERT INTO vonotification(custID, mechID, status) VALUES(:custID, :mechID, 'verify')";
@@ -80,7 +82,10 @@ if(isset($_POST["verify"])){
     $query->bindParam(':mechID',$mechID,PDO::PARAM_STR); 
     $query->execute();
 
-
+    $error='<div class="col-12 col-md-10 bg-info bg-shadowmd p-3 my-2 voinfo-div">
+    <h5 class="text-start text-light title-request">Wait for the vehicle to confirm your complete request.</h6>
+</div>';
+    header("refresh:2;url=http://localhost/Devgru_Mechanicnow/mechanicPages/mechActivityLog.php");
 
 }
 
@@ -132,7 +137,8 @@ if(isset($_POST["verify"])){
             
                 <div class="row m-0 text-dark">
                     <div class="container text-dark col-12 col-md-6">
-                        <div class="col-12 col-md-10 bg-white bg-shadowmd p-3 mt-5 voinfo-div">
+                  <?php echo $error; ?>
+                        <div class="col-12 col-md-10 bg-white bg-shadowmd p-3 mt-3 voinfo-div">
                             <h5 class="text-start title-request">Vehicle Owner Information</h6>
                             <p class="pt-2"><?php echo htmlentities($result->vOwnerName);?><p>
                         </div>
@@ -343,7 +349,7 @@ if(isset($_POST["verify"])){
 
     let progressValue = 0;
     let progressEndValue = progressValue;
-    let speed = 20;
+    let speed = 10;
 
     let progress = setInterval(() => {
         valueContainer.textContent = `${progressValue}%`;

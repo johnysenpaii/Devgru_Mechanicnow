@@ -18,6 +18,12 @@ if(isset($_POST['Accept1']))
     $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR); 
     $query->execute();
 
+    $sql0 = "INSERT INTO vonotification(custID, mechID, status) VALUES(:custID, :mechID, 'Accepted')";
+    $query0 = $dbh->prepare($sql0);
+    $query0->bindParam(':custID',$custID,PDO::PARAM_STR);
+    $query0->bindParam(':mechID',$mechID,PDO::PARAM_STR);
+    $query0->execute();
+
     $sql3 = "INSERT INTO progressremarks(custID, mechID)VALUES(:custID, :mechID)";
     $query5 = $dbh->prepare($sql3);
     $query5->bindParam(':custID',$custID,PDO::PARAM_STR);
@@ -59,6 +65,12 @@ if(isset($_POST['Accept']))
     // $vehicleProblem = $_POST['vehicleProblem'];
 
     $sql4 = "INSERT INTO vonotification(custID, mechID, status) VALUES(:custID, :mechID, 'Accepted')";
+    $query4 = $dbh->prepare($sql4);
+    $query4->bindParam(':custID',$custID,PDO::PARAM_STR);
+    $query4->bindParam(':mechID',$mechID,PDO::PARAM_STR);
+    $query4->execute();
+    
+    $sql4 = "INSERT INTO notification(custID, mechID, status) VALUES(:custID, :mechID, 'Accepted')";
     $query4 = $dbh->prepare($sql4);
     $query4->bindParam(':custID',$custID,PDO::PARAM_STR);
     $query4->bindParam(':mechID',$mechID,PDO::PARAM_STR);
@@ -157,7 +169,7 @@ if(empty($_SESSION['mechID'])){
                 if($query->rowCount()>0){
                     foreach ($results as $result){
                         $date1 = date("Y-m-d");
-                        if(isset($result->date)){
+                      
                             if($result->date ==  $date1){
                                             
                                 $sql0 = "INSERT INTO vonotification(custID, mechID, status) VALUES($result->custID, $result->mechID, 'Home service')";
@@ -175,7 +187,7 @@ if(empty($_SESSION['mechID'])){
                                 $query09->execute();
 
                             }
-                        }
+                        
             ?>
             <div class="container-fluid p-0">
                 <div class="row m-0 p-0">
@@ -218,7 +230,7 @@ if(empty($_SESSION['mechID'])){
                                 </div>
                                 <div id="needs" style="display: none;">
                                     <p class="px-4">Date: <?php echo htmlentities($result->date);?></p>
-                                    <p class="px-4">Time: <?php echo htmlentities($result->timess);?> <?php echo htmlentities($result->time) < 12 ? 'AM' : 'PM';?></p>
+                                    <p class="px-4">timess: <?php echo htmlentities($result->timess);?> <?php echo htmlentities($result->timess) < 12 ? 'AM' : 'PM';?></p>
                                 </div>
                                 <div class="py-2">
                                     <span class="sub-title">Vehicle owner problem.</span></br>

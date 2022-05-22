@@ -17,6 +17,13 @@ if(empty($_SESSION['mechID'])){
         unset($_SESSION['mechID']);
         header("Location:http://localhost/Devgru_Mechanicnow/login.php");
     }
+    if(isset($_POST["readall"])){
+        $resID=$_POST['resID'];
+        $sql1245="UPDATE request set historyStatus='Read' WHERE custID=:mechID1"; 
+        $query1245=$dbh->prepare($sql1245);
+        $query1245->bindParam(':mechID1',$mechID1,PDO::PARAM_STR);
+        $query1245->execute();
+       }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -132,19 +139,19 @@ if(empty($_SESSION['mechID'])){
         
                 <div class="row py-3 px-sm-0 px-md-3 justify-content-center pb-5">
                     <div class="col-lg-7  py-2  ">
-                        <div class="selection-2">
+                    <br>    <div class="selection-2">
                             <select class="selection" name="filtServ">
                                 <option disabled selected>Filter by Services</option>
                                 <option value="Emergency">Emergency Services</option>
                                 <option value="Home">Home Services</option>
                             </select>
-                            <button name="sea" type="submit">Filter</button>
+                            <button name="sea" type="submit">Filter</button><br>
                         </div>
-                        <button class="my-1 p-1 rounded btn fw-bold mb-1 text-info border-0" id="tago" type="submit" name="readall" style="font-size: 13px;"><i class="fa-solid fa-square-check"></i> Mark all as read</button>
+                        <button class="my-1 p-1 rounded btn fw-bold mb-1 text-info border-0" id="tago" type="submit" name="readall" style="font-size: 13px;"><i class="fa-solid fa-square-check"></i> Mark all as read</button><br><br>
                         <?php 
                             $searchcont = $_GET['filtServ'] ?? null;
                             echo $searchcont;
-                            $sql3 ="SELECT  * from request where mechID = $mechID1 and status= 'Complete'";
+                            $sql3 ="SELECT  * from request where mechID = $mechID1 and status= 'Complete' and historyStatus='Unread'";
                             $query3 = $dbh -> prepare($sql3);
                             $query3->execute();
                             $results3=$query3->fetchAll(PDO::FETCH_OBJ);
@@ -199,7 +206,7 @@ if(empty($_SESSION['mechID'])){
                                     <div class="card-body py-0 text-center" onclick="hideone() ">
                                         <input type="text" hidden name="mechID" value="<?php echo htmlentities($result->mechID);?>">
                                         <input type="hidden" name="resID" value="<?php echo htmlentities($result->resID);?>">
-                                        <p class="fw-bold text-end text-warning rounded" style="font-size: 12px;">  <i class="fa-solid fa-eye-slash"></i>
+                                        <p class="fw-bold text-end text-warning rounded" style="font-size: 12px;">  <i class="fa-solid fa-eye"></i>
                                         <?php echo htmlentities($result->historyStatus);?></p>
                                         <h5 class="card-title fw-bold">Request: <?php echo htmlentities($result->serviceNeeded);?></h5>
                                         <div class="row text-center details-p">

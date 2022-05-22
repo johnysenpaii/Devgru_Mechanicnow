@@ -143,7 +143,7 @@ if(empty($_SESSION['custID'])){
                
                     <button class="my-3 p-1 rounded btn fw-bold mb-1 text-info border-0" id="tago" type="submit" name="readall" style="font-size: 13px;"><i class="fa-solid fa-square-check"></i> Mark all as read</button>
                     <?php 
-					$sql3 ="SELECT  * from request where custID = $custID1 and status= 'Complete'";
+					$sql3 ="SELECT  * from request where custID = $custID1 and status= 'Complete' and historyStatus='Unread'";
 				    $query3 = $dbh -> prepare($sql3);
 					$query3->execute();
 					$results3=$query3->fetchAll(PDO::FETCH_OBJ);
@@ -207,7 +207,7 @@ if(empty($_SESSION['custID'])){
                                 <div class="card-body py-0 text-center" onclick="hideone()">
                                     <input type="text" hidden name="mechID" value="<?php echo htmlentities($result->mechID);?>">
                                     <input type="hidden" name="resID" value="<?php echo htmlentities($result->resID);?>">
-                                    <p class="fw-bold text-end text-warning rounded" style="font-size: 12px;">  <i class="fa-solid fa-eye-slash"></i>
+                                    <p class="fw-bold text-end text-warning rounded" style="font-size: 12px;">  <i class="fa-solid fa-eye"></i>
                                     <?php echo htmlentities($result->historyStatus);?></p>
                                     <h5 class="card-title fw-bold">Request: <?php echo htmlentities($result->serviceNeeded);?></h5>
                                     <div class="row text-center details-p">

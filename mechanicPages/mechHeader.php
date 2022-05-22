@@ -108,7 +108,7 @@ if(isset($_POST["readAll"])){
                             </a>
 
                             <?php
-                        $sql101="SELECT *, DATE_FORMAT(timess, '%b/%d/%Y %H:%i %p') as timess from notification WHERE mechID = $mechID  order by notifID desc";
+                        $sql101="SELECT *, DATE_FORMAT(time, '%b/%d/%Y %H:%i %p') as time from notification WHERE mechID = $mechID  order by notifID desc";
                         $query101=$dbh->prepare($sql101);
                         $query101->execute();
                         $results=$query101->fetchALL(PDO::FETCH_OBJ);
@@ -131,7 +131,7 @@ if(isset($_POST["readAll"])){
                            
                                 <li>  
                                 <button  type="submit" name="unreadRequest" class="alert-success notif-content row text-center border-0 w-100 mx-0">
-                                <p class="text-end text-small fw-light" style="font-size: smaller;"><?php echo htmlentities($result->timess)?></p>
+                                <p class="text-end text-small fw-light" style="font-size: smaller;"><?php echo htmlentities($result->time)?></p>
                                 <div class="col-md-2 p-1 text-end" style="font-size: 30px;">
                                 <i class="fa-solid fa-face-smile-beam"></i>
                                 </div>
@@ -149,7 +149,7 @@ if(isset($_POST["readAll"])){
 
                                 <li>  
                                 <button  type="submit" name="unreadRequest" class="alert-primary notif-content row text-center border-0 w-100 mx-0">
-                                <p class="text-end text-small fw-light" style="font-size: smaller;"><?php echo htmlentities($result->timess)?></p>
+                                <p class="text-end text-small fw-light" style="font-size: smaller;"><?php echo htmlentities($result->time)?></p>
                                 <div class="col-md-2 p-1 text-end" style="font-size: 30px;">
                                 <i class="fa-solid fa-face-smile-beam"></i>
                                 </div>
@@ -166,7 +166,7 @@ if(isset($_POST["readAll"])){
                                     
                                     <li>  
                                 <button  type="submit" name="unreadComplete" class="alert-success notif-content row text-center border-0 w-100 mx-0">
-                                <p class="text-end text-small fw-light" style="font-size: smaller;"><?php echo htmlentities($result->timess)?></p>
+                                <p class="text-end text-small fw-light" style="font-size: smaller;"><?php echo htmlentities($result->time)?></p>
                                 <div class="col-md-2 p-1 py-3 text-end" style="font-size: 30px;">
                                 </i> <i class="fa-solid fa-face-smile-beam"></i>
                                 </div>
@@ -184,7 +184,7 @@ if(isset($_POST["readAll"])){
                                 <?php } else {?>
                                     <li>  
                                 <button  type="submit" name="" class="alert-primary notif-content row text-center border-0 w-100 mx-0">
-                                <p class="text-end text-small fw-light" style="font-size: smaller;"><?php echo htmlentities($result->timess)?></p>
+                                <p class="text-end text-small fw-light" style="font-size: smaller;"><?php echo htmlentities($result->time)?></p>
                                 <div class="col-md-2 p-1 py-3 text-end" style="font-size: 30px;">
                                 </i> <i class="fa-solid fa-face-smile-beam"></i>
                                 </div>
@@ -200,7 +200,7 @@ if(isset($_POST["readAll"])){
                             <?php }}else if($result->status == 'cancelled' ){ if($result->notifStatus == 'Unread'){ ?>
  <li>  
                                 <button  type="submit" name="cancel" class="alert-warning notif-content row text-center border-0 w-100 mx-0">
-                                <p class="text-end text-small fw-light" style="font-size: smaller;"><?php echo htmlentities($result->timess)?></p>
+                                <p class="text-end text-small fw-light" style="font-size: smaller;"><?php echo htmlentities($result->time)?></p>
                                 <div class="col-md-2 p-1 py-3 text-end" style="font-size: 30px;">
                                 </i> <i class="fa-solid fa-face-smile-beam"></i>
                                 </div>
@@ -215,7 +215,7 @@ if(isset($_POST["readAll"])){
                             <?php } else{?>
  <li>  
                                 <button  type="submit" name="" class="alert-primary notif-content row text-center border-0 w-100 mx-0">
-                                <p class="text-end text-small fw-light" style="font-size: smaller;"><?php echo htmlentities($result->timess)?></p>
+                                <p class="text-end text-small fw-light" style="font-size: smaller;"><?php echo htmlentities($result->time)?></p>
                                 <div class="col-md-2 p-1 py-3 text-end" style="font-size: 30px;">
                                 </i> <i class="fa-solid fa-face-smile-beam"></i>
                                 </div>
@@ -235,13 +235,13 @@ if(isset($_POST["readAll"])){
                         ?>
                         <li>  
                                 <button   type="submit" name="unreadVerify" class="alert-warning notif-content row text-center border-0 w-100 mx-0">
-                                <p class="text-end text-small fw-light" style="font-size: smaller;"><?php echo htmlentities($result->timess)?></p>
+                                <p class="text-end text-small fw-light" style="font-size: smaller;"><?php echo htmlentities($result->time)?></p>
                                 <div class="col-md-2 pl-2 text-end fw-bold" style="font-size: 20px;">
                                 <i class="fa-solid fa-envelope-circle-check"></i>
                                 </div>
                                 <div class="col-md-10 text-start fw-bold">
-                                You sent a "Request complete" message. Please check your vehicle before accepting.
-                                <input type="hidden" name="notifID" value="<?php echo  htmlentities($result->notifID);?>">
+                                Hey! you have a mechanic service today. Please message the vehicle owner.
+                                                                <input type="hidden" name="notifID" value="<?php echo  htmlentities($result->notifID);?>">
                                 </div>
                                 <a class="text-center" href="voActivityLog.php"><i class="fa-solid fa-eye"></i> visit</a>
                             </button>
@@ -252,13 +252,13 @@ if(isset($_POST["readAll"])){
                         ?>
                             <li>  
                                 <button  class="alert-primary notif-content row text-center border-0 w-100 mx-0">
-                                <p class="text-end text-small fw-light" style="font-size: smaller;"><?php echo htmlentities($result->timess)?></p>
+                                <p class="text-end text-small fw-light" style="font-size: smaller;"><?php echo htmlentities($result->time)?></p>
                                 <div class="col-md-2 pl-2 text-end fw-light" style="font-size: 20px;">
                                 <i class="fa-solid fa-envelope-circle-check"></i>
                                 </div>
                                 <div class="col-md-10 text-start fw-light">
-                                You sent a "Request complete" message. Please check your vehicle before accepting.
-                                </div>
+                                Hey! you have a mechanic service today. Please message the vehicle owner.
+                                                            </div>
                                 <a class="text-center" href="voActivityLog.php"><i class="fa-solid fa-eye"></i> visit</a>
                             </button>
 
