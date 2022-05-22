@@ -133,7 +133,6 @@ if(empty($_SESSION['mechID'])){
                 <div class="row py-3 px-sm-0 px-md-3 justify-content-center pb-5">
                     <div class="col-lg-7  py-2  ">
                         <div class="selection-2">
-                            <!-- <input type="text" name="filtServ"> -->
                             <select class="selection" name="filtServ">
                                 <option disabled selected>Filter by Services</option>
                                 <option value="Emergency">Emergency Services</option>
@@ -144,8 +143,8 @@ if(empty($_SESSION['mechID'])){
                         <button class="my-1 p-1 rounded btn fw-bold mb-1 text-info border-0" id="tago" type="submit" name="readall" style="font-size: 13px;"><i class="fa-solid fa-square-check"></i> Mark all as read</button>
                         <?php 
                             $searchcont = $_GET['filtServ'] ?? null;
-                            $sql3 ="SELECT  * from request where mechID = $mechID1 and status= 'Complete' and serviceNeeded like '%$searchcont%'";
-                            if(isset($_POST['sea'])){
+                            echo $searchcont;
+                            $sql3 ="SELECT  * from request where mechID = $mechID1 and status= 'Complete'";
                             $query3 = $dbh -> prepare($sql3);
                             $query3->execute();
                             $results3=$query3->fetchAll(PDO::FETCH_OBJ);
@@ -153,14 +152,14 @@ if(empty($_SESSION['mechID'])){
                             if($transac == 0){
                                 echo "<script> document.getElementById('tago').style.display = 'none';</script>";
                             }
-                            $sql="SELECT *, DATE_FORMAT(Sdate, '%a %M-%d-%Y at %H:%i %p') as timess, DATE_FORMAT(Edate, '%a %M-%d-%Y at %H:%i %p') as Endtime from request WHERE status='complete' order by resID DESC";
-                            
+                            $sql="SELECT *, DATE_FORMAT(Sdate, '%a %M-%d-%Y at %H:%i %p') as timess, DATE_FORMAT(Edate, '%a %M-%d-%Y at %H:%i %p') as Endtime from request WHERE status='complete' and serviceNeeded like '%{$searchcont}%' order by resID DESC";
+                            if(isset($_POST['sea'])){
                             $query=$dbh->prepare($sql);
                             $query->execute();
                             $results=$query->fetchALL(PDO::FETCH_OBJ);
                             if($query->rowCount()>0){
                                 foreach ($results as $result){
-                                    if($result->mechID == $mechID1 && $result->historyStatus== 'Unread'){
+                                    if($result->mechID == $mechID1 && $result->historyStatus== 'Unread' && $result->serviceNeeded == $searchcont){
                 
                         ?>
                         <div class="card text-dark mb-3 p-2" type="submit" name="hide">
@@ -190,14 +189,14 @@ if(empty($_SESSION['mechID'])){
                         </div>
                         <?php } else { ?>
                             <div class="card text-dark mb-3 p-2 " type="submit" name="hide">
-                            <div class="row g-1 text-align-center">
-                                <div class="col-md-2 bg-light border border-1 rounded text-center text-align-center fw-bold py-4">
+                            <div class="row g-1">
+                                <div class="col-md-1 bg-light border border-1 rounded text-center fw-bold py-3">
                                     <p style="font-size: 20px;"><?php echo number_format($result->ratePercentage,1);?></p>
-                                    <p class="fw-bold disabled text-muted" style="font-size: 13px;"><span
-                                            class="text-warning"><i class="fa-solid fa-star"></i></span> ratings</p>
+                                    <p class="fw-bold disabled text-muted" style="font-size: 13px;">
+                                    <span class="text-warning"><i class="fa-solid fa-star"></i></span> ratings</p>
                                 </div>
-                                <div class=" col-md-10 p-0 ">
-                                    <div class="card-body py-0 text-center" onclick="hideone()">
+                                <div class=" col-md-10 p-0 m-0">
+                                    <div class="card-body py-0 text-center" onclick="hideone() ">
                                         <input type="text" hidden name="mechID" value="<?php echo htmlentities($result->mechID);?>">
                                         <input type="hidden" name="resID" value="<?php echo htmlentities($result->resID);?>">
                                         <p class="fw-bold text-end text-warning rounded" style="font-size: 12px;">  <i class="fa-solid fa-eye-slash"></i>
@@ -261,14 +260,14 @@ if(empty($_SESSION['mechID'])){
                         </div>
                         <?php } else { ?>
                             <div class="card text-dark mb-3 p-2 " type="submit" name="hide">
-                            <div class="row g-1 text-align-center">
-                                <div class="col-md-2 bg-light border border-1 rounded text-center text-align-center fw-bold py-4">
+                            <div class="row g-1">
+                                <div class="col-md-1 bg-light border border-1 rounded text-center fw-bold py-3">
                                     <p style="font-size: 20px;"><?php echo number_format($result->ratePercentage,1);?></p>
-                                    <p class="fw-bold disabled text-muted" style="font-size: 13px;"><span
-                                            class="text-warning"><i class="fa-solid fa-star"></i></span> ratings</p>
+                                    <p class="fw-bold disabled text-muted" style="font-size: 13px;">
+                                    <span class="text-warning"><i class="fa-solid fa-star"></i></span> ratings</p>
                                 </div>
-                                <div class=" col-md-10 p-0 ">
-                                    <div class="card-body py-0 text-center" onclick="hideone()">
+                                <div class=" col-md-10 p-0 m-0">
+                                    <div class="card-body py-0 text-center" onclick="hideone() ">
                                         <input type="text" hidden name="mechID" value="<?php echo htmlentities($result->mechID);?>">
                                         <input type="hidden" name="resID" value="<?php echo htmlentities($result->resID);?>">
                                         <p class="fw-bold text-end text-warning rounded" style="font-size: 12px;">  <i class="fa-solid fa-eye-slash"></i>

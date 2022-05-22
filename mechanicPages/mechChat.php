@@ -41,65 +41,63 @@ if(empty($_SESSION['mechID'])){
         .chatBox::-webkit-scrollbar{
             width: 0px;
         }
-        .chatList::-webkit-scrollbar{
-            width: 0px;
-        }
     </style>
 </head>
 <body style="background: #f8f8f8">
     <?php include('mechHeader.php');?>
     <section class="chatsection">
         <div class="container-fluid">
-            <div class="row no-glutters" style=" height: 100% vh;">
+            <div class="row no-glutters">
                 <!-- chat list column -->
-                <div class="col-md-4 text-light mh-100 chatLists" style="background: #302D32; height: 100% vh;">
+                <div class="col-md-4 text-light p-0" style="background: #302D32;">
                     <div class="name py-3 text-center">
                         <h5>Chats</h5>
                     </div>
-                    <div class="row justify-content-center align-items-center pb-4 d-flex">
-                        <div class="col-12 input-group-sm px-4">
-                            <input class="form-control rounded-pill shadow-none" type="text" placeholder="Filter Search" aria-describedby="inputGroup-sizing-sm">
-                        </div>
-                    </div> 
-                        <?php
-                            $sql="SELECT * FROM `chat` GROUP BY `custID`";
-                            $query=$dbh->prepare($sql);
-                            $query->execute();
-                            $results=$query->fetchALL(PDO::FETCH_OBJ);
-                            $cnt=1;
-                            if( $query->rowCount()>0){
-                                foreach($results as $result){
-                        ?>
-                        <div class="col-12 chatList" style="height: 485px ;overflow-y: auto;">
-                            <form method="POST" class="">
-                                <div class="row px-2">
-                                    <button type="submit" name="submit" value="submit" id="idChat" class="btn btn-warning text-white shadow-none passBtn">
-                                        <div class="row py-2 px-2">
-                                            <div class="col-3 col-lg-2 text-start">
-                                                <img src="../img/avatar.jpg" alt="" style="height: 3em; width: 3em;" class="rounded-circle">
+                    
+                        <div class="scroll-users" style="height: 81vh ;overflow-y: auto;">
+                            <?php
+                                $sql="SELECT * FROM `chat` GROUP BY `custID`";
+                                $query=$dbh->prepare($sql);
+                                $query->execute();
+                                $results=$query->fetchALL(PDO::FETCH_OBJ);
+                                $cnt=1;
+                                if( $query->rowCount()>0){
+                                    foreach($results as $result){
+                            ?>
+                                <form method="POST" class="">
+                                    <div class="row px-2 m-0">
+                                        <button type="submit" name="submit" value="submit" class="btn btn-warning text-white shadow-none">
+                                            <div class="row py-2 px-2 align-items-center">
+                                                <div class="col-2 col-md-2">
+                                                    <?php
+                                                        $cID = $result->custID;
+                                                        $sql= "SELECT * FROM customer where custID = $cID";
+                                                        $query=$dbh->prepare($sql);
+                                                        $query->execute();
+                                                        $results=$query->fetchALL(PDO::FETCH_OBJ);
+                                                        if($query->rowCount()>0){
+                                                            foreach ($results as $result3){
+                                                    ?>
+                                                        <img src="../uploads/<?=$result3->profile_url ?>" onerror="this.src='../img/vo.jpg';" alt="" style="height: 3em;width: 3em;  border-radius: 50%; object-fit: cover;" class="rounded-circle">
+                                                    <?php }}?>
+                                                </div>
+                                                <input type="hidden" name="custID" value="<?php echo htmlentities($result->custID)?>">
+                                                <div class="col-9 col-lg-10 text-start">
+                                                    <h6><?php echo htmlentities($result->custName);?></h6>
+                                                    <p class="fs-6"><small style="font-size: 12px; color: rgb(236, 236, 236);">Active Now</small></p>
+                                                </div>
                                             </div>
-                                            <input type="hidden" name="custID" value="<?php echo htmlentities($result->custID)?>">
-                                            <div class="col-9 col-lg-10 text-start">
-                                                <h6><?php echo htmlentities($result->custID);?></h6>
-                                                <p class="fs-6"><small>This is test message</small></p>
-                                            </div>
-                                        </div>
-                                    </button>
-                                </div>
-                            </form>
+                                        </button>
+                                    </div>
+                                </form>
+                            <?php }}?>
                         </div>
-                    <?php }}?>
                 </div>
                 <!-- chat column -->
-                <div class="col-md-8 chatSec" style="background: #f8f8f8">
+                <div class="col-md-8" style="background: #f8f8f8">
                     <div class="col">
-                        <div class="row py-1 text-white align-items-center" style="background-color: #9132DA">
-                            <div class="col-4 col-sm-3 col-lg-2">
-                                <i class="fa-solid fa-arrow-left px-2"></i>
-                                <img src="../img/avatar.jpg" alt="" style="height: 3em;width: 3em;" class="rounded-circle">
-                            </div>
-                            <div class="col-8 col-lg-9 user-inf">
-                                <?php
+                        <div class="row bg-white py-1 text-dark align-items-center">
+                            <?php
                                     if(isset($_POST['submit'])){
                          
                                         $connection = mysqli_connect("localhost", "root", "");
@@ -110,6 +108,11 @@ if(empty($_SESSION['mechID'])){
                                         $query_run = mysqli_query($connection, $sql1);
                                         while($row = mysqli_fetch_array($query_run)){
                                     ?>
+                            <div class="col-md-2 col-2 text-end">
+                                <i class="fa-solid fa-arrow-left px-3" style="display: none"></i>
+                                <img src="../uploads/<?=$row['profile_url']?>" onerror="this.src='../img/mech.jpg';" alt="" style="height: 3em;width: 3em; border-radius: 50%; object-fit: cover;" >
+                            </div>
+                            <div class="col-9 col-md-8">
                                 <h5><?php echo $row['custFirstname']?> <?php echo $row['custLastname']?></h5>
                                 <?php 
                                     $id = $row['custID'];
@@ -119,65 +122,20 @@ if(empty($_SESSION['mechID'])){
                             </div>
                         </div>
                         <div class="row text-dark">
-                            <div class="col-sm-12 chatBox" style="height: 485px ;overflow-y: auto;">
-                                <!-- <?php
-                                 if(isset($_POST['submit'])){
-                         
-                                        $connection = mysqli_connect("localhost", "root", "");
-                                        $db = mysqli_select_db($connection, 'mechanicnowdb');
-                                        $custID = $_POST['custID'];
-                                        //echo $mechID;
-                                        $sql1="SELECT * from customer WHERE custID='$custID'";
-                                        $query_run = mysqli_query($connection, $sql1);
-                                        while($row = mysqli_fetch_array($query_run)){
-                                    ?>
-                                    
-                                    <input type="hidden" required name="cID" value="<?php echo $row['custID']?>">
-                                    
-                                    <?php
-                                    if(isset($row['custID'])){
-                                        $mechID = mysqli_real_escape_string($connection, $_SESSION['mechID']);
-                                        $custID = mysqli_real_escape_string($connection, $_POST['custID']);
-                                        
-
-                                        $sql3 = "SELECT * FROM chat WHERE (custID = {$custID} AND mechID = {$mechID}) OR (custID = {$mechID} AND mechID = {$custID}) ORDER BY messageID ASC";
-                                        $query3 = mysqli_query($connection, $sql3);
-                                        if(mysqli_num_rows($query3) > 0){
-                                            while($row = mysqli_fetch_assoc($query3)){
-                                                if($row['role'] === "receiver"){ //if match then hes the sender
-                                                ?>
-                                                    <div class=" text-dark m-3 justify-content-end text-end">
-                                                        <div class="d-inline-block text-wrap bg-white py-2 px-3 rounded-3 shadow text-start" style="max-width: 45em; word-wrap: break-word;"><?php echo $row['message'];?></div>
-
-                                                    </div>
-                                                <?php
-                                                }else{ //hes the receiver 
-                                                ?>
-                                                    <div class=" text-light m-3">
-                                                        <img src="../img/avatar.jpg" alt="" style="height: 1.5em;width: 1.5em;" class="rounded-circle">
-                                                        <p class=" d-inline-block py-2 px-3 rounded-3 text-wrap" style="background-color: #302D32; max-width: 45em; word-wrap: break-word;"><?php echo $row['message'];?></p>
-                                                    </div>
-                                                <?php
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                                }
-                                ?>       -->
+                            <div class="col-sm-12 chatBox" style="height: 73.7vh ;overflow-y: auto;">
+                                
                             </div>
                         </div>
                         <div class="row pt-2" style="background: #302D32">
                             <form class="typing-area">
                                 <div class="input-group pb-2 g-1">
-                                    <div class="col-11">
-                                    <!-- <input type="hidden" name="mechID" value="<?php echo $_SESSION['mechID']?>" required> -->
+                                    <div class="col-10 col-sm-11">
                                     <input type="hidden" required class="custID" name="cID" value="<?php echo $id ?>">
                                     <input type="hidden" required name="custName" value="<?php echo $custName ?>">
                                     <input type="text" name="message" placeholder="Type message here..." class="form-control rounded-pill shadow-none border-0 input-field1" required autocomplete="off">
                                     <input type="hidden" name="role" value="receiver">
                                     </div>
-                                    <button class="btn1 fa-solid fa-paper-plane col-1" type="submit" name="send" style="color: #F8F8F8; border: none; background-color: #302D32"></button>
+                                    <button class="btn1 fa-solid fa-paper-plane col-sm-1 col-2 pt-0" type="submit" name="send" style="color: #F8F8F8; border: none; background-color: #302D32"></button>
                                 </div>
                             </form>
                         </div>
@@ -185,7 +143,7 @@ if(empty($_SESSION['mechID'])){
                 </div>
             </div>
     </section>
-    <script type="text/javascript">
+    <!-- <script type="text/javascript">
 
         var mobile = (/iphone|ipod|android|blackberry|mini|windows\sce|palm/i.test(navigator.userAgent.toLowerCase()));  
         if (mobile) {
@@ -200,7 +158,7 @@ if(empty($_SESSION['mechID'])){
         else{
 
         }
-    </script>
+    </script> -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>

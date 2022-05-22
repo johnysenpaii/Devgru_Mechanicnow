@@ -114,9 +114,9 @@ if(empty($_SESSION['custID'])){
                         $cnt=1;       
                         if( $query->rowCount()>0){   
                             foreach($results as $result){?> 
-                            <tr class="mt-2 ">
-                                <td class="t-content  text-start p-3 px-4"><?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?></td>
-                                 <td class="t-content text-start p-3">
+                            <tr class=" mt-2 " data-aos="fade-left" data-aos-duration="500">
+                                <td class="t-content text-start p-3 px-4"><?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?></td>
+                                <td class="t-content text-start p-3">
                                     <?php
                                     $spec = explode(",", $result->Specialization);
                                     foreach($spec as $specialize){
@@ -128,8 +128,8 @@ if(empty($_SESSION['custID'])){
                                     }
                                 ?>
                                 </td>
-                                <td class="t-content p-3">k.m <?php echo number_format($result->distance,1);?> </td>
-                                <td class="t-content px-3"><a class="btn btn-warning px-3 shadow-none" href="voCarmechRequest.php?regeditid=<?php echo htmlentities($result->mechID)?>">Details</a></td>
+                                <td class="t-content p-3"><?php echo number_format($result->distance,1);?> KM</td>
+                                <td class="t-content px-3"><a class="btn btn-warning px-3" href="voCarmechRequest.php?regeditid=<?php echo htmlentities($result->mechID)?>">Details</a></td>
                             </tr>
                             <?php $cnt=$cnt+1;}}     
                                 else{?>    
@@ -157,8 +157,8 @@ if(empty($_SESSION['custID'])){
                         $cnt=1;       
                         if( $query->rowCount()>0){   
                             foreach($results as $result){?> 
-                            <tr class=" mt-2 ">
-                                <td class="t-content  text-start p-3 px-4"><?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?></td>
+                            <tr class=" mt-2 " data-aos="fade-left" data-aos-duration="500">
+                                <td class="t-content text-start p-3 px-4"><?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?></td>
                                 <td class="t-content text-start p-3">
                                     <?php
                                     $spec = explode(",", $result->Specialization);
@@ -171,8 +171,8 @@ if(empty($_SESSION['custID'])){
                                     }
                                 ?>
                                 </td>
-                                <td class="t-content p-3">k.m <?php echo number_format($result->distance,1);?> </td>
-                                <td class="t-content px-3"><a class="btn btn-warning px-3 shadow-none" href="voCarmechRequest.php?regeditid=<?php echo htmlentities($result->mechID)?>">Details</a></td>
+                                <td class="t-content p-3"><?php echo number_format($result->distance,1);?> KM</td>
+                                <td class="t-content px-3"><a class="btn btn-warning px-3" href="voCarmechRequest.php?regeditid=<?php echo htmlentities($result->mechID)?>">Details</a></td>
                             </tr>
                             <?php $cnt=$cnt+1;}}     
                                 else{?>    

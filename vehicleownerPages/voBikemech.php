@@ -18,6 +18,7 @@ $v2 = doubleval($_SESSION["longitude"]);
     <script src="https://kit.fontawesome.com/810a80b0a3.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/fontawesome.min.css" integrity="sha384-jLKHWM3JRmfMU0A5x5AkjWkw/EYfGUAGagvnfryNV3F9VqM98XiIH7VBGVoxVSc7" crossorigin="anonymous">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
     <link rel="stylesheet" href="../css/style.css">
     <title>Mechanic Now</title>
     <link rel="shortcut icon" type="x-icon" href="../img/mechanicnowlogo.svg">
@@ -68,9 +69,9 @@ $v2 = doubleval($_SESSION["longitude"]);
 
     <section id="mechContent" class="mech-content container-fluid">
         
-        <div class="row py-3 px-sm-0 px-md-3 text-center table-responsive justify-content-center pb-5">
-            <div class="col-lg-8 bg-white py-4 rounded-3 shadow-lg">
-                <h4 class="text-dark pb-4">Available Bicycle Mechanics</h4>
+        <div class="row py-3 px-sm-0 px-md-3 text-center justify-content-center pb-5">
+            <div class="col-lg-8 py-4 rounded-3">
+                <h4 class="text-dark text-start pb-4">Available Bicycle Mechanics</h4>
                 <form method="GET">
                         <div class="row m-0 m-md-3 col-12 searchlogo align-items-center">
                             <div class="input-group-sm col-10">
@@ -80,6 +81,7 @@ $v2 = doubleval($_SESSION["longitude"]);
                             <!-- <i class="fa-solid fa-filter fa-2x filter col-1" data-bs-toggle="modal" data-bs-target="#Filter-modal"></i> -->
                         </div>
                     </form>
+                <div class="overflow-auto">
                 <table class="table table-borderless table-curved pt-1 px-sm-0 px-md-4">
                     <thead>
                     </thead>
@@ -100,11 +102,22 @@ $v2 = doubleval($_SESSION["longitude"]);
                         $cnt=1;       
                         if( $query->rowCount()>0){   
                             foreach($results as $result){?> 
-                            <tr class="d-flex align-items-center justify-content-around mt-2 shadow">
-                                <td class="t-content"><?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?></td>
-                                <td class="t-content"><?php echo htmlentities($result->Specialization);?></td>
-                                <td class="t-content"><?php echo number_format($result->distance,1);?> KM</td>
-                                <td class="t-content"><a class="btn btn-warning px-3 shadow-none" href="voCarmechRequest.php?regeditid=<?php echo htmlentities($result->mechID)?>">Details</a></td>
+                            <tr class=" mt-2 " data-aos="fade-left" data-aos-duration="500">
+                                <td class="t-content text-start p-3 px-4"><?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?></td>
+                                <td class="t-content text-start p-3">
+                                    <?php
+                                    $spec = explode(",", $result->Specialization);
+                                    foreach($spec as $specialize){
+                                        ?>
+                                            <span class="badge badge-design row m-0 px-0">
+                                                <p class="px-1 text-align-center"><?php echo $specialize; ?></p>
+                                            </span>
+                                        <?php
+                                    }
+                                ?>
+                                </td>
+                                <td class="t-content p-3"><?php echo number_format($result->distance,1);?> KM</td>
+                                <td class="t-content px-3"><a class="btn btn-warning px-3" href="voCarmechRequest.php?regeditid=<?php echo htmlentities($result->mechID)?>">Details</a></td>
                             </tr>
                             <?php $cnt=$cnt+1;}}     
                                 else{?>    
@@ -131,11 +144,22 @@ $v2 = doubleval($_SESSION["longitude"]);
                         $cnt=1;       
                         if( $query->rowCount()>0){   
                             foreach($results as $result){?> 
-                            <tr class="d-flex align-items-center justify-content-around mt-2 shadow">
-                                <td class="t-content"><?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?></td>
-                                <td class="t-content"><?php echo htmlentities($result->Specialization);?></td>
-                                <td class="t-content"><?php echo number_format($result->distance,1);?> KM</td>
-                                <td class="t-content"><a class="btn btn-warning px-3 shadow-none" href="voCarmechRequest.php?regeditid=<?php echo htmlentities($result->mechID)?>">Details</a></td>
+                            <tr class=" mt-2 " data-aos="fade-left" data-aos-duration="500">
+                                <td class="t-content text-start p-3 px-4"><?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?></td>
+                                <td class="t-content text-start p-3">
+                                    <?php
+                                    $spec = explode(",", $result->Specialization);
+                                    foreach($spec as $specialize){
+                                        ?>
+                                            <span class="badge badge-design row m-0 px-0">
+                                                <p class="px-1 text-align-center"><?php echo $specialize; ?></p>
+                                            </span>
+                                        <?php
+                                    }
+                                ?>
+                                </td>
+                                <td class="t-content p-3"><?php echo number_format($result->distance,1);?> KM</td>
+                                <td class="t-content px-3"><a class="btn btn-warning px-3" href="voCarmechRequest.php?regeditid=<?php echo htmlentities($result->mechID)?>">Details</a></td>
                             </tr>
                             <?php $cnt=$cnt+1;}}     
                                 else{?>    
@@ -153,11 +177,22 @@ $v2 = doubleval($_SESSION["longitude"]);
                         if( $query->rowCount()>0){   
                             foreach($results as $result){                          
                             ?>  
-                            <tr class="d-flex align-items-center justify-content-around mt-2 shadow">
-                                <td class="t-content"><?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?></td>
-                                <td class="t-content"><?php echo htmlentities($result->Specialization);?></td>
-                                <td class="t-content"><?php echo number_format($result->distance,1);?> KM</td>
-                                <td class="t-content"><a class="btn btn-warning px-3 shadow-none" href="voCarmechRequest.php?regeditid=<?php echo htmlentities($result->mechID)?>">Details</a></td>
+                            <tr class=" mt-2 " data-aos="fade-left" data-aos-duration="500">
+                                <td class="t-content text-start p-3 px-4"><?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?></td>
+                                <td class="t-content text-start p-3">
+                                    <?php
+                                    $spec = explode(",", $result->Specialization);
+                                    foreach($spec as $specialize){
+                                        ?>
+                                            <span class="badge badge-design row m-0 px-0">
+                                                <p class="px-1 text-align-center"><?php echo $specialize; ?></p>
+                                            </span>
+                                        <?php
+                                    }
+                                ?>
+                                </td>
+                                <td class="t-content p-3"><?php echo number_format($result->distance,1);?> KM</td>
+                                <td class="t-content px-3"><a class="btn btn-warning px-3" href="voCarmechRequest.php?regeditid=<?php echo htmlentities($result->mechID)?>">Details</a></td>
                             </tr>
                             <?php $cnt=$cnt+1;}}     
                                 else {  ?> 
@@ -171,6 +206,7 @@ $v2 = doubleval($_SESSION["longitude"]);
                     ?>
                     </tbody>
                 </table>
+                </div>
             </div>
         </div>
         <!-- Filter Search -->
@@ -207,9 +243,17 @@ $v2 = doubleval($_SESSION["longitude"]);
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="../js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script src="../js/main.js"></script>
     <script>function preventBack(){window.history.forward();}
         setTimeout("preventBack()",0);
-        window.onunload = function(){ null };</script>
+        window.onunload = function(){ null };
+
+        AOS.init({
+            duration: 3000,
+            once: true,
+        });  
+    
+    </script>
 </body>
 </html>

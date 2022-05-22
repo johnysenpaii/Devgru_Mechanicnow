@@ -83,7 +83,7 @@ if(empty($_SESSION['custID'])){
                                         <input type="hidden" name="mechID" value="<?php echo htmlentities($result->mechID)?>">
                                         <div class="col-9 col-md-10 text-start">
                                             <h6><?php echo htmlentities($result->mechName);?></h6>
-                                            <p class="fs-6"><small style="font-size: 12px; color: rgb(236, 236, 236);">Active Now</small></p>
+                                            <p class="fs-6"><small style="font-size: 12px; color: rgb(236, 236, 236);"><?php echo htmlentities($result3->stats)?></small></p>
                                         </div>
                                     </div>
                                 </button>
@@ -108,11 +108,11 @@ if(empty($_SESSION['custID'])){
                                     $query_run = mysqli_query($connection, $sql1);
                                     while($row = mysqli_fetch_array($query_run)){
                             ?>
-                            <div class="col-md-2 text-end">
+                            <div class="col-md-2 col-2 text-end">
                                 <i class="fa-solid fa-arrow-left px-3" style="display: none"></i>
                                 <img src="../uploads/<?=$row['profile_url']?>" onerror="this.src='../img/mech.jpg';" alt="" style="height: 3em;width: 3em; border-radius: 50%; object-fit: cover;" >
                             </div>
-                            <div class="col-md-9">
+                            <div class="col-md-9 col-9">
                                 <h5><?php echo $row['mechFirstname']?> <?php echo $row['mechLastname']?></h5>
                                 <?php 
                                     $id = $row['mechID'];
@@ -122,20 +122,20 @@ if(empty($_SESSION['custID'])){
                             </div>
                         </div>
                         <div class="row text-dark">
-                            <div class="col-sm-12 chatBox" style="height: 485px ;overflow-y: auto;">
+                            <div class="col-sm-12 chatBox" style="height: 73.7vh ;overflow-y: auto;">
                                 
                             </div>
                         </div>
                         <div class="row pt-2" style="background: #302D32">
                             <form class="typing-area">
                                 <div class="input-group pb-2">
-                                    <div class="col-sm-11">
+                                    <div class="col-sm-11 col-10">
                                     <input type="hidden" required class="mechID" name="mID" value="<?php echo $id ?>">
                                     <input type="hidden" required name="mechName" value="<?php echo $mechName ?>">
                                     <input type="text" name="message" placeholder="Type message here..." class="form-control rounded-pill shadow-none border-0 input-field1" autocomplete="off" required>
                                     <input type="hidden" name="role" value="sender">
                                     </div>
-                                    <button class="btn1 fa-solid fa-paper-plane col-sm-1" type="submit" name="send" style="color: #F8F8F8; border: none; background-color: #302D32"></button>
+                                    <button class="btn1 fa-solid fa-paper-plane col-sm-1 col-2 pt-0" type="submit" name="send" style="color: #F8F8F8; border: none; background-color: #302D32"></button>
                                 </div>
                             </form>
                         </div>
