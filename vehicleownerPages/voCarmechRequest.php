@@ -66,7 +66,7 @@ if(isset($_POST['send'])){
     $query0->execute();
 }
 
-?>
+?>  
 <!DOCTYPE html>
 <html lang="en">
 

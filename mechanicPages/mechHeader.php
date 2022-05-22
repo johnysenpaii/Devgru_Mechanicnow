@@ -126,7 +126,6 @@ if(isset($_POST["readAll"])){
                                 if($result -> mechID == $mechID){                                   
                                      if($result->status == 'Unaccepted'){
                                         if($result->notifStatus == 'Unread'){
-
                                     ?>
                            
                                 <li>  
