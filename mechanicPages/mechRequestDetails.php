@@ -69,12 +69,6 @@ if(isset($_POST['Accept']))
     $query4->bindParam(':custID',$custID,PDO::PARAM_STR);
     $query4->bindParam(':mechID',$mechID,PDO::PARAM_STR);
     $query4->execute();
-    
-    $sql4 = "INSERT INTO notification(custID, mechID, status) VALUES(:custID, :mechID, 'Accepted')";
-    $query4 = $dbh->prepare($sql4);
-    $query4->bindParam(':custID',$custID,PDO::PARAM_STR);
-    $query4->bindParam(':mechID',$mechID,PDO::PARAM_STR);
-    $query4->execute();
 
     $sql3 = "INSERT INTO progressremarks(custID, mechID)VALUES(:custID, :mechID)";
     $query5 = $dbh->prepare($sql3);
@@ -168,8 +162,10 @@ if(empty($_SESSION['mechID'])){
 
                 if($query->rowCount()>0){
                     foreach ($results as $result){
-                        $date1 = date("Y-m-d");
-                      
+                   
+                      if(isset($result->date)){    
+                           $date1 = date("Y-m-d");
+
                             if($result->date ==  $date1){
                                             
                                 $sql0 = "INSERT INTO vonotification(custID, mechID, status) VALUES($result->custID, $result->mechID, 'Home service')";
@@ -187,6 +183,7 @@ if(empty($_SESSION['mechID'])){
                                 $query09->execute();
 
                             }
+                        }
                         
             ?>
             <div class="container-fluid p-0">
@@ -215,7 +212,7 @@ if(empty($_SESSION['mechID'])){
                                 <input readonly type="text" class="border-0 m-info" size="30" name="Specialization" value="<?php //echo htmlentities($result->Specialization);?>"> -->
                             </div>
                         </div>
-                        
+                             <input type="text" name="" value="<?php echo $date1;?>" > 
                         <input type="text" name="custName" value="<?php echo htmlentities($result->vOwnerName);?>" hidden> 
                         <input type="text" name="mechName" value="<?php echo htmlentities($result->mechName);?>" hidden>
                         <input id="address" name='latitude' value="<?php echo htmlentities($_SESSION["latitude"]); ?>" hidden>
@@ -230,7 +227,7 @@ if(empty($_SESSION['mechID'])){
                                 </div>
                                 <div id="needs" style="display: none;">
                                     <p class="px-4">Date: <?php echo htmlentities($result->date);?></p>
-                                    <p class="px-4">timess: <?php echo htmlentities($result->timess);?> <?php echo htmlentities($result->timess) < 12 ? 'AM' : 'PM';?></p>
+                                    <p class="px-4">Time: <?php echo htmlentities($result->timess);?> <?php echo htmlentities($result->timess) < 12 ? 'AM' : 'PM';?></p>
                                 </div>
                                 <div class="py-2">
                                     <span class="sub-title">Vehicle owner problem.</span></br>

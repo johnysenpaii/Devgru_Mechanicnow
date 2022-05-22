@@ -108,7 +108,7 @@ if(isset($_POST["logout"])) {
                                 <button type="submit" id="mark" class="rounded alert-primary border-0 fw-bold py-1" name="readAll">Mark all as read</button>
                             </li>
 
-                            <?php };
+                            <?php }
                             
                             $cnt=1;
                         if($query->rowCount()>0){
@@ -148,7 +148,7 @@ if(isset($_POST["logout"])) {
 
                             </li>
 
-                        <?php }} else if($result->status == 'Decline' ){ if($result->notifStatus == 'Unread'){?>
+                        <?php }} else if($result->status == 'Decline' ){ if($result->notifStatus === 'Unread'){?>
 
                             <li>  
                                 <button   type="submit" name="unreadDecline" class="alert-warning notif-content row text-center border-0 w-100 mx-0">
@@ -178,7 +178,8 @@ if(isset($_POST["logout"])) {
                             </button>
 
                             </li>
-                            <?php }}else if($result->progressbarStatus > '0' || $result->progressbarStatus <= '100'){
+                            <?php }} else if( $result->progressbarStatus == 100 ||$result->progressbarStatus == 90||$result->progressbarStatus == 80||$result->progressbarStatus == 70||$result->progressbarStatus == 60||$result->progressbarStatus == 50 ||$result->progressbarStatus == 40
+                             ||$result->progressbarStatus == 30||$result->progressbarStatus == 20||$result->progressbarStatus == 10){
                         if($result->notifStatus == 'Unread'){?>
                            <li>  
                                 <button   type="submit" name="unreadProgress" class="alert-info notif-content row text-center border-0 w-100 mx-0">
@@ -210,7 +211,8 @@ if(isset($_POST["logout"])) {
 
                             </li>
                             
-                            <?php }}else if($result->progressbarStatus=='100' && $result->status == 'verify'){
+                            <?php }} if( $result->status == 'verify'){
+                                
                                if($result->notifStatus == 'Unread'){?>
                                 <li>  
                                 <button   type="submit" name="unreadVerify" class="alert-warning notif-content row text-center border-0 w-100 mx-0">
@@ -241,7 +243,7 @@ if(isset($_POST["logout"])) {
 
                             </li>
 
-                    <?php }} else if($result->status == "Home service"){  
+                    <?php }}  if($result->status == "Home service" ){  
                             if($result->notifStatus == 'Unread'){ ?>
                         <li>  
                                 <button   type="submit" name="" class="alert-warning notif-content row text-center border-0 w-100 mx-0">
@@ -273,7 +275,7 @@ if(isset($_POST["logout"])) {
                             </button>
 
                             </li>
-                        <?php  }}}}}?> 
+                        <?php  }}}}} $cnt=$cnt+1;?> 
                         </ul>
                     </li>
                     <li class="nav-item">

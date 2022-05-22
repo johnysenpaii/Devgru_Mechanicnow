@@ -164,7 +164,7 @@ if(empty($_SESSION['custID'])){
 
                     <div class="card text-dark mb-3 p-2" type="submit" name="hide">
                         <div class="row g-1">
-                            <div class="col-md-1 bg-light border border-1 rounded text-center fw-bold py-3">
+                            <div class="col-md-2 bg-light border border-1 rounded text-center fw-bold py-3">
                                 <p style="font-size: 20px;"><?php echo number_format($result->ratePercentage,1);?></p>
                                 <p class="fw-bold disabled text-muted" style="font-size: 13px;">
                                 <span class="text-warning"><i class="fa-solid fa-star"></i></span> ratings</p>

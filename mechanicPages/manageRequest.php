@@ -71,6 +71,7 @@ if(isset($_POST["verify"])){
 
   $mechID=$_SESSION['mechID']; 
   $custID=$_POST['custID'];
+  $tb = $_POST['output']; 
   $sql41 = "INSERT INTO vonotification(custID, mechID, status) VALUES(:custID, :mechID, 'verify')";
   $query41= $dbh->prepare($sql41);
   $query41->bindParam(':custID',$custID,PDO::PARAM_STR);
@@ -147,7 +148,7 @@ if(isset($_POST["verify"])){
                             <input  name='custID' type="hidden" value="<?php echo htmlentities($result->custID);?>">
                             <?php $cuID = $result->custID; ?>
                             <input disabled class="border-0 bg-title py-2" type="text" id="need" value="<?php echo htmlentities($result->serviceNeeded);?>">
-                            <div id="needs" style="display: none;">
+                            <div id="needss">
                                 <p>Date: <?php echo htmlentities($result->date);?></p>
                                 <p>Time: <?php echo htmlentities($result->timess);?> <?php echo htmlentities($result->timess) < 12 ? 'AM' : 'PM';?></p>
                             </div>
@@ -339,8 +340,8 @@ if(isset($_POST["verify"])){
     }
 
     var t = document.getElementById("need").value;
-    if(t == "Home Service"){
-        document.getElementById("needs").style.display = "block";
+    if(t == "Emergency Service"){
+        document.getElementById("needss").style.display = "none";
     }
     //for circular progress bar
     let progressBar = document.getElementById("circular-progress");

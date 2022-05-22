@@ -113,9 +113,22 @@ if(isset($_POST['send'])){
                             <div class="col-3 mx-3 with-image" style="width: 100px; padding: 5px;">
                                 <img src="../uploads/<?=$result->profile_url ?>" onerror="this.src='../img/mech.jpg';" class="float-center imagenajud" alt="" style="max-width: 100%; height: 90px; border-radius: 50%; object-fit: cover;">
                             </div>
+
+               
                             <div class="mech-inforeq col-7">
                                 <h4><input readonly type="text" class="border-0 no-shadow shadow-none mt-2" name="mechName" value="<?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?>"></h4>
-                                <input type="hidden" id="starss" value="<?php echo htmlentities($result->average);?>">
+                               <?php $regeditid=intval($_GET['regeditid']);
+                                $sql43="SELECT *,AVG(ratePercentage) as total from ratingandfeedback WHERE mechID=:regeditid";
+                $query43=$dbh->prepare($sql43);
+                $query43->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
+                $query43->execute();
+                $results=$query43->fetchALL(PDO::FETCH_OBJ);
+
+                if($query43->rowCount()>0){
+                    foreach ($results as $result43) {?>
+                                
+                                <input type="hidden" id="starss" value="<?php echo $result43 -> total;?>">
+                                <?php }} ?>
                                 <span type="text" id="stars" onload="getStars()" name="total"></span><br>
                                 <input readonly type="text" class="border-0 m-info " size="20" name="vehicleType" value="<?php echo htmlentities($result->vehicleType);?>"><br>
                                 <input readonly type="hidden" class="border-0 m-info" size="30" name="Specialization" value="<?php echo htmlentities($result->Specialization);?>">
