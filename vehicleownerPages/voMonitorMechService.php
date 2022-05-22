@@ -4,11 +4,11 @@ include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
 $custID1=$_SESSION['custID'];
 if(isset($_POST["confirm"]) || isset($_POST['comment'])){
     $regeditid=intval($_GET['regeditid']);
-      $value=$_POST['value'];
-     $sql1="UPDATE request set status='Complete',ratePercentage=:value,Edate=CURRENT_TIMESTAMP() WHERE resID=:regeditid"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
+      $value00=$_POST['value'];
+     $sql1="UPDATE request set status='Complete',ratePercentage=:value00,Edate=CURRENT_TIMESTAMP() WHERE resID=:regeditid"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
      $query=$dbh->prepare($sql1);
      $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
-     $query->bindParam(':value',$value,PDO::PARAM_STR);
+     $query->bindParam(':value00',$value00,PDO::PARAM_STR);
      $query->execute(); 
      echo "<script type='text/javascript'>document.location='voActivityLog.php';</script>";
      
@@ -24,14 +24,14 @@ if(isset($_POST["confirm"]) || isset($_POST['comment'])){
    if(isset($_POST["comment"])){
     $custID=$_SESSION['custID'];
     $mechID=$_POST['mechID'];
-    $value=$_POST['value'];
+    $value00=$_POST['value'];
     $specMessage=$_POST['specMessage'];
-    $sql="INSERT INTO ratingandfeedback(custID,mechID,feedback,ratePercentage)VALUES(:custID, :mechID, :specMessage,:value)";
+    $sql="INSERT INTO ratingandfeedback(custID,mechID,feedback,ratePercentage)VALUES(:custID, :mechID, :specMessage,:value00)";
     $query=$dbh->prepare($sql);
     $query->bindParam(':custID',$custID,PDO::PARAM_STR);
     $query->bindParam(':mechID',$mechID,PDO::PARAM_STR);
     $query->bindParam(':specMessage',$specMessage,PDO::PARAM_STR);
-    $query->bindParam(':value',$value,PDO::PARAM_STR);
+    $query->bindParam(':value00',$value00,PDO::PARAM_STR);
     $query->execute();
 }
 if(empty($_SESSION['custID'])){
@@ -131,7 +131,7 @@ if(empty($_SESSION['custID'])){
                     <p>Service Request: <?php echo htmlentities($result->serviceNeeded);?></p>
                     <p>Vehicle Problem: <?php echo htmlentities($result->mechRepair);?></p>
                     <p>Date: <?php echo htmlentities($result->date);?></p>
-                    <p>Time: <?php echo htmlentities($result->time) < 12 ? 'AM' : 'PM';?></p>
+                    <p>Time: <?php echo htmlentities($result->timess);?> <?php echo htmlentities($result->timess) < 12 ? 'AM' : 'PM';?></p>
                     <!-- <a class="btn btn-primary col-md-4 rounded" id="btnm" style="display: none;" data-bs-toggle="modal" href="#exampleModalToggle" role="button">End service</a> -->
                     <div class="prog-wap col-12 mt-4">
                     <h5 class="text-center">PROGRESS</h5>

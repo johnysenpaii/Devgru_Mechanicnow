@@ -4,24 +4,24 @@ include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
 if(isset($_POST['comment'])){
     $custid=$_SESSION['custID'];
     $mechid=$_POST['mechid'];
-    $value=$_POST['value'];
+    $value00=$_POST['value'];
     $specMessage=$_POST['specMessage'];
     $mechName=$_POST['mechName'];
     
-        $sql="INSERT INTO ratingandfeedback(custID,mechID,feedback,ratePercentage,mechName)VALUES(:custid, :mechid, :specMessage,:value,:mechName)";
+        $sql="INSERT INTO ratingandfeedback(custID,mechID,feedback,ratePercentage,mechName)VALUES(:custid, :mechid, :specMessage,:value00,:mechName)";
         $query=$dbh->prepare($sql);
         $query->bindParam(':custid',$custid,PDO::PARAM_STR);
         $query->bindParam(':mechid',$mechid,PDO::PARAM_STR);
         $query->bindParam(':specMessage',$specMessage,PDO::PARAM_STR);
-        $query->bindParam(':value',$value,PDO::PARAM_STR);
+        $query->bindParam(':value00',$value00,PDO::PARAM_STR);
         $query->bindParam(':mechName',$mechName,PDO::PARAM_STR);
         $query->execute();
 
     $regeditid=intval($_GET['regeditid']);
-    $sql123="UPDATE request set ratePercentage=:value WHERE resID=:regeditid"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
+    $sql123="UPDATE request set ratePercentage=:value00 WHERE resID=:regeditid"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
     $query123=$dbh->prepare($sql123);
     $query123->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
-    $query123->bindParam(':value',$value,PDO::PARAM_STR);
+    $query123->bindParam(':value00',$value00,PDO::PARAM_STR);
     $query123->execute();
 
 }
