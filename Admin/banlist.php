@@ -87,9 +87,9 @@ include('../config.php');
                     </div>
                 </nav>
             </aside>
-            <main class="col px-0 flex-grow-1">
-                <div class="container-fluid  py-3">
-                    <section class="container-fluid">
+            <main class="col-1 px-0 flex-grow-1">
+                <div class="container  py-3">
+                    <section class="my-container">
                         <div class="display-6 my-2">Banned Mechanic</div>
                         <hr class="text-dark m-2">
                         <form method="POST">
@@ -118,10 +118,10 @@ include('../config.php');
                                     <h5 class="card-header">Mechanics</h5>
                                     <div class="card-body p-0">
                                         <div class="table-responsive">
-                                            <table class="table" style="overflow-y: visible;">
+                                            <table class="table">
                                                 <thead class="bg-light">
                                                     <tr class="border-0">
-                                                        <th class="border-0 Phead">Image</th>
+                                                        <th class="border-0 Phead text-center">Image</th>
                                                         <th class="border-0 Phead">First Name</th>
                                                         <th class="border-0 Phead">Last Name</th>
                                                         <th class="border-0 Phead">Address</th>
@@ -130,6 +130,7 @@ include('../config.php');
                                                         <th class="border-0 Phead">Valid Papers</th>
                                                         <th class="border-0 Phead">Specialization</th>
                                                         <th class="border-0 Phead">Username</th>
+                                                        <th class="border-0 Phead">Ratings</th>
                                                         <th class="border-0 Phead">Action</th>
                                                     </tr>
                                                 </thead>
@@ -139,7 +140,7 @@ include('../config.php');
  											foreach($results as $result){
 											?>
                                                     <tr>
-                                                        <td>
+                                                        
                                                         <td><img src="../uploads/<?=$result->profile_url ?>"
                                                                 onerror="this.src='../img/mech.jpg';"
                                                                 class="imagenajud pimage rounded-circle px-5"
@@ -161,6 +162,7 @@ include('../config.php');
                                                         </td>
 
                                                         <td><?php echo htmlentities($result->Username);?></td>
+                                                        <td><?php echo htmlentities($result->average);?></td>
                                                         <td>
                                                             <a class="btn btn-secondary btn-lg"
                                                                 href="unbanmech.php?regeditid=<?php echo htmlentities($result->mechID)?>"

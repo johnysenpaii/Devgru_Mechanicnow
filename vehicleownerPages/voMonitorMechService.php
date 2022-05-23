@@ -25,13 +25,15 @@ if(isset($_POST["confirm"]) || isset($_POST['comment'])){
     $custID=$_SESSION['custID'];
     $mechID=$_POST['mechID'];
     $value00=$_POST['value'];
+    $mechName1 = $_POST['mechName1'];
     $specMessage=$_POST['specMessage'];
-    $sql="INSERT INTO ratingandfeedback(custID,mechID,feedback,ratePercentage)VALUES(:custID, :mechID, :specMessage,:value00)";
+    $sql="INSERT INTO ratingandfeedback(custID,mechID,feedback,ratePercentage, mechName)VALUES(:custID, :mechID, :specMessage,:value00, :mechName1)";
     $query=$dbh->prepare($sql);
     $query->bindParam(':custID',$custID,PDO::PARAM_STR);
     $query->bindParam(':mechID',$mechID,PDO::PARAM_STR);
     $query->bindParam(':specMessage',$specMessage,PDO::PARAM_STR);
     $query->bindParam(':value00',$value00,PDO::PARAM_STR);
+    $query->bindParam(':mechName1',$mechName1,PDO::PARAM_STR);
     $query->execute();
 }
 if(empty($_SESSION['custID'])){
@@ -148,6 +150,7 @@ if(empty($_SESSION['custID'])){
                             </div>
                             <a type="button" class="btn btn-primary rounded-pill button-progress" id="btnm" style="display: none;" data-bs-toggle="modal" href="#exampleModalToggle" role="button">Complete</a> 
                             <input  type="hidden" class="border-0"  value="<?php echo htmlentities($result->progressBar);?>" id="output">
+                            <input  type="hidden" class="border-0" name="mechName1" value="<?php echo htmlentities($result->mechName);?>">
                         </div>
                     </div>
                 </div>

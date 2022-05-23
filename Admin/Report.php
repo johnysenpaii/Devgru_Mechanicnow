@@ -113,10 +113,12 @@ include('../config.php');
                                         <table class="table">
                                             <thead>
                                                 <tr>
+                                                    <th scope="col">Reservation ID</th>
                                                     <th scope="col">Mechanic name</th>
                                                     <th scope="col">Vehicle owner</th>
                                                     <th scope="col">Service needed</th>
-                                                    <th scope="col">Type of service</th>
+                                                    <th scope="col">Start Date</th>
+                                                    <th scope="col">End Date</th>
                                                 </tr>
                                             </thead>
                                             <?php  
@@ -131,10 +133,12 @@ include('../config.php');
 
                                             <tbody>
                                                 <tr>
+                                                    <td class="text-center"><?php echo htmlentities($result->resID);?></td>
                                                     <td><?php echo htmlentities($result->mechName);?></td>
                                                     <td><?php echo htmlentities($result->vOwnerName);?></td>
                                                     <td><?php echo htmlentities($result->serviceNeeded);?></td>
-                                                    <td><?php echo htmlentities($result->serviceType);?></td>
+                                                    <td><?php echo htmlentities($result->Sdate);?></td>
+                                                    <td><?php echo htmlentities($result->Edate);?></td>
                                                 </tr>
                                             </tbody>
                                             <?php $cnt=$cnt+1;}}?>

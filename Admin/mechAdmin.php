@@ -127,6 +127,7 @@ include('../config.php');
                                                         <th class="border-0 Phead">Contact Number</th>          
                                                         <th class="border-0 Phead">Specialization</th>
                                                         <th class="border-0 Phead">Username</th>
+                                                        <th class="border-0 Phead">Ratings</th>
                                                         <th class="border-0 Phead">Action</th>
 
                                                     </tr>
@@ -139,12 +140,8 @@ include('../config.php');
                                                      {
                                                    ?>
                                                     <tr>
-
-                                                          <td>
-                                                              <img src="../uploads/<?=$result->profile_url ?>"
-                                                                onerror="this.src='../img/mech.jpg';"
-                                                                class="imagenajud pimage rounded-circle px-5"
-                                                                style="min-width: 25%; max-width: 140px;" alt=""> 
+                                                        <td>
+                                                              <img src="../uploads/<?=$result->profile_url ?>" onerror="this.src='../img/mech.jpg';" class="imagenajud pimage px-5" style="min-width: 25%; max-width: 140px; border-radius: 50%; object-fit: cover;" alt=""> 
                                                         </td>
                                                         <td><?php echo htmlentities($result->mechFirstname);?>
                                                         </td>
@@ -158,6 +155,7 @@ include('../config.php');
                                                         <td><?php echo htmlentities($result->Specialization);?>
                                                         </td>
                                                         <td><?php echo htmlentities($result->Username);?></td>
+                                                        <td><?php echo htmlentities($result->average);?></td>
                                                         <td>
                                                             <a class="btn btn-secondary btn-lg"
                                                                 href="mechban.php?regeditid=<?php echo htmlentities($result->mechID)?>"

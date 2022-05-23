@@ -139,10 +139,6 @@ include('../config.php');
                                                    ?>
                                                     <tr>
                                                         <td>
-<<<<<<< HEAD
-=======
-
->>>>>>> copyBranchTibay
                                                             <img src="<?=$result->profile_url ?>"
                                                                 onerror="this.src='../img/mech.jpg';"
                                                                 class="imagenajud pimage rounded-circle px-5"
@@ -195,7 +191,7 @@ include('../config.php');
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script>
     AOS.init({
-        duration: 3000,
+        duration: 1000,
         once: true,
     });
     </script>

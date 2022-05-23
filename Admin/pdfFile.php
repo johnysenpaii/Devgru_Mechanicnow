@@ -38,7 +38,7 @@ class myPDF extends FPDF{
 		function headertable(){
 
             $dbh1 = new PDO("mysql:host=".DB_HOST.";dbname=".DB_NAME,DB_USER, DB_PASS,array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
-			$stmt1=$dbh1->query("SELECT resID, mechName, vOwnerName,mechRepair, Sdate, Edate from request where status='Completed' order by resID asc");
+			$stmt1=$dbh1->query("SELECT resID, mechName, vOwnerName,mechRepair, Sdate, Edate from request where status='Completed' order by resID ASC");
 		    $data1=$stmt1->fetch(PDO::FETCH_OBJ);
 			$t= $stmt1->rowCount();        
 		    /////$stmt1=$dbh1->query('Select semestername from students');
