@@ -1,19 +1,28 @@
 <?php
 session_start();
-include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
+include('../config.php');
+    $custAddress1=$_SESSION['custAddress'];
+    $v1 = doubleval($_SESSION["latitude"]);
+    $v2 = doubleval($_SESSION["longitude"]);
+if(empty($_SESSION['custID'])){
+    header("Location:http://localhost/Devgru_Mechanicnow/login.php");
+    session_destroy(); 
+    unset($_SESSION['custID']);
+      }
+      if(isset($_POST["logout"])) { 
+        unset($_SESSION['custID']);
+        session_destroy();
+        header("Location:http://localhost/Devgru_Mechanicnow/login.php");
+    
+    }
 $custID1=$_SESSION['custID'];
 $latitude=$_SESSION['latitude'];
 $longitude=$_SESSION['longitude'];
 
 
 if(isset($_POST['send'])){  
-    $host="localhost";
-    $username="root"; 
-    $word="";
-    $db_name="mechanicnowdb"; 
-    $tbl_name="request"; 
-    $con=mysqli_connect("$host", "$username", "$word","$db_name")or die("cannot connect");//connection string  
-
+    $latitude=$_SESSION['latitude'];
+    $longitude=$_SESSION['longitude'];
     $mechName=$_POST['mechName'];
     $voName=$_POST['voName'];
     $Specialization=$_POST['Specialization'];
@@ -24,48 +33,57 @@ if(isset($_POST['send'])){
     $mechID=$_POST['mechID'];
     $date=$_POST['date'];
     $time=$_POST['time'];
+    $custID=$_SESSION['custID'];
+    
+
+    
     // $currentlocation=$_POST['currentlocation'];
-    $chk=""; 
-    $spec="";
-    $mechN="";
-    $vON="";
-    $mID="";
-    $Specl="";
-    $serv="";
-    $date1="";
-    $time1="";
+    if(isset($_POST["mechRepair"])){
+        $mechRepairInsert = implode(',', $_POST['mechRepair']);
+    }
+    if(empty($mechRepairInsert)){
+         echo "<script>alert('Please select vehicle problem')</script>";
+    }else{
+        try{
+            if(!isset($errorMsg)){
+                $sql12="INSERT INTO request(mechName, vOwnerName, specMessage, mechRepair, serviceType, serviceNeeded, mechID, custID, latitude, longitude, date, timess) 
+                values (:mechName, :voName , :specMessage, :mechRepairInsert, :Specialization, :service,:mechID ,:custID ,:latitude , :longitude, :date, :time)";
+                $query12=$dbh->prepare($sql12);
+                $query12->bindParam(':mechName',$mechName,PDO::PARAM_STR);
+                $query12->bindParam(':voName',$voName,PDO::PARAM_STR);
+                $query12->bindParam(':specMessage',$specMessage,PDO::PARAM_STR);
+                $query12->bindParam(':mechRepairInsert',$mechRepairInsert,PDO::PARAM_STR);
+                $query12->bindParam(':Specialization',$Specialization,PDO::PARAM_STR);
+                $query12->bindParam(':service',$service,PDO::PARAM_STR);
+                $query12->bindParam(':latitude',$latitude,PDO::PARAM_STR);
+                $query12->bindParam(':longitude',$longitude,PDO::PARAM_STR);
+                $query12->bindParam(':custID',$custID,PDO::PARAM_STR);
+                $query12->bindParam(':mechID',$mechID,PDO::PARAM_STR);
+                $query12->bindParam(':date',$date,PDO::PARAM_STR);
+                $query12->bindParam(':time',$time,PDO::PARAM_STR);
+                $query12->execute();
+                 $msg='Request success!!';
+                header("Location:voDashboard.php?/requestForm=$msg");
+            }else{
+                $msgFailed = 'Request Failed!!';
+                header("Location:voMotorcyclemechRequest.php?/requestForm=$msgFailed");
+            }
+        }catch(PDOException $e){
+            echo $e->getMessage();
+        }
+    }
+    
+    $sql0 = "INSERT INTO notification(custID, mechID, status) VALUES(:custID, :mechID, 'Unaccepted')";
+    $query0 = $dbh->prepare($sql0);
+    $query0->bindParam(':custID',$custID,PDO::PARAM_STR);
+    $query0->bindParam(':mechID',$mechID,PDO::PARAM_STR);
+    $query0->execute();
+}
 
-
-    // $currentL="";
-    foreach($mechRepair as $chk1){  
-        $chk .= $chk1.", ";
-    } 
-    $spec .= $specMessage;  
-    $mechN .= $mechName;
-    $vON .= $voName;
-    $mID .= $mechID;
-    $Specl .= $Specialization;
-    $serv .= $service;
-    $date1 .= $date;
-    $time1 .= $time;
-   
-    // $currentL.=$currentlocation;
-
-    $in_ch=mysqli_query($con,"INSERT INTO request(mechName, vOwnerName, specMessage, mechRepair, serviceType, serviceNeeded, mechID, custID, latitude, longitude, date, time) values ('$mechN', '$vON' , '$spec', '$chk', '$Specl', '$serv', '$mID', '$custID1', '$latitude', '$longitude', '$date1', '$time1')");//,'$latitude','$longitude','$currentL',
-    if($in_ch==1)  
-    {  
-        echo'<script>alert("Request Sent Successfully, Wait for Mechanic to Confirm!")</script>';  
-        echo"<script>location.replace('voDashboard.php');</script>";  
-    }  
-    else  
-    {  
-        echo'<script>alert("Failed to Send Request")</script>';  
-    }  
-} 
-
-?>
+?>  
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -76,15 +94,19 @@ if(isset($_POST['send'])){
     <link href="https://fonts.googleapis.com/css2?family=Stick+No+Bills:wght@600&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/810a80b0a3.js" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/fontawesome.min.css" integrity="sha384-jLKHWM3JRmfMU0A5x5AkjWkw/EYfGUAGagvnfryNV3F9VqM98XiIH7VBGVoxVSc7" crossorigin="anonymous">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/fontawesome.min.css"
+        integrity="sha384-jLKHWM3JRmfMU0A5x5AkjWkw/EYfGUAGagvnfryNV3F9VqM98XiIH7VBGVoxVSc7" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="../css/style.css">
     <title>Mechanic Now</title>
     <link rel="shortcut icon" type="x-icon" href="../img/mechanicnowlogo.svg">
 </head>
-<body id="contbody" style="background-color: #f8f8f8; margin-top: 10px;" onload="GetAddress();">
 
-    <section class="mechRequest" class="container-fluid">
+<body id="contbody" style="background-color: #f8f8f8;" onload="GetAddress();">
+
+    <section id="mechRequest">
         <form method="POST">
             <?php
                 $regeditid=intval($_GET['regeditid']);
@@ -94,209 +116,285 @@ if(isset($_POST['send'])){
                 $query->execute();
                 $results=$query->fetchALL(PDO::FETCH_OBJ);
 
-                if($query->rowCount()>0)
-                {
-                foreach ($results as $result) 
-                {
+                if($query->rowCount()>0){
+                    foreach ($results as $result) {
             ?>
-            <div class="row py-3 px-sm-0 px-md-3 text-center table-responsive justify-content-center pb-5">
-                <div class="col-md-8 bg-white p-4 rounded-3 shadow-lg">
-                    <div class="row text-dark">
-                        <h3 class="pb-4">Request Form</h3>
-                        <div class="col-sm-12 col-md-6 pb-5 justify-content-center">
-                            <h5 class="text-start"><center><strong>Mechanic Information</center></strong></h5>
-                            <div class="with-image"><img src="../img/vo.jpg" class="rounded-circle imagenajud float-center mt-2" alt=""></div>
-                            <div class="row py-2" >
-                                <input readonly type="text" class="border-0 text-center" name="mechName" value="<?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?>">
-                                <h6 class="border-0 text-center mt-2"><i>Mechanic Type</i></h6>
-                                <input readonly type="text" class="border-0 text-center" name="vehicleType" value="<?php echo htmlentities($result->vehicleType);?>">
-                                <h6 class="border-0 text-center"><i>Specialization</i></h6>
-                                <input readonly type="text" class="border-0 text-center" name="Specialization" value="<?php echo htmlentities($result->Specialization);?>">
-                                <input hidden type="text" name="voName" value="<?php echo htmlentities($_SESSION["custFirstname"]); ?> <?php echo htmlentities($_SESSION["custLastname"]); ?>">
-                                <input hidden type="text" name="mechID" value="<?php echo htmlentities($result->mechID);?>">
-                                <input id="address" name='latitude' value="<?php echo htmlentities($_SESSION["latitude"]); ?>" hidden> 
-                                <input id="address" name='longitude' value="<?php echo htmlentities($_SESSION["longitude"]); ?>" hidden> 
+            <div class="container-fluid p-0">
+                <div class="row m-0 p-0">
+                    <iframe class="col-12 col-md-8" src="https://maps.google.com/maps?q=<?php echo htmlentities($result->latitude);?>,<?php echo htmlentities($result->longitude);?>&<?php echo htmlentities($_SESSION['latitude']);?>,<?php echo htmlentities($_SESSION['longitude']);?>&output=embed" frameborder="0" style="height: 100vh;padding: 0px"></iframe>
+                    <div class="col-12 col-sm-4 m-0 info-panel shadow-lg p-3" style="background-color: #fff">
+                        <div class="row align-items-center">
+                            <div class="col-3 mx-3 with-image" style="width: 100px; padding: 5px;">
+                                <img src="../uploads/<?=$result->profile_url ?>" onerror="this.src='../img/mech.jpg';" class="float-center imagenajud" alt="" style="max-width: 100%; height: 90px; border-radius: 50%; object-fit: cover;">
+                            </div>
+
+               
+                            <div class="mech-inforeq col-7">
+                                <h4><input readonly type="text" class="border-0 no-shadow shadow-none mt-2" name="mechName" value="<?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?>"></h4>
+                               <?php $regeditid=intval($_GET['regeditid']);
+                                $sql43="SELECT *,AVG(ratePercentage) as total from ratingandfeedback WHERE mechID=:regeditid";
+                $query43=$dbh->prepare($sql43);
+                $query43->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
+                $query43->execute();
+                $results=$query43->fetchALL(PDO::FETCH_OBJ);
+
+                if($query43->rowCount()>0){
+                    foreach ($results as $result43) {?>
+                                
+                                <input type="hidden" id="starss" value="<?php echo $result43 -> total;?>">
+                                <?php }} ?>
+                                <span type="text" id="stars" onload="getStars()" name="total"></span><br>
+                                <input readonly type="text" class="border-0 m-info " size="20" name="vehicleType" value="<?php echo htmlentities($result->vehicleType);?>"><br>
+                                <input readonly type="hidden" class="border-0 m-info" size="30" name="Specialization" value="<?php echo htmlentities($result->Specialization);?>">
+                                <div class="spec-sec">
+                                <?php
+                                    $spec = explode(",", $result->Specialization);
+                                    foreach($spec as $specialize){
+                                        ?>
+                                            <span class="badge bg-success px-0" style="margin: 1px;">
+                                                <p class="px-1 " style="padding-inline: 2px;"><?php echo $specialize; ?></p>
+                                            </span>
+                                        <?php
+                                    }
+                                    ?>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-sm-12 col-md-6 mt-3 text-start">
-                            <p>If you want a long term service, select Home Service. Select Emergency service if you are on-road.</p>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" value="Home Service" name="service" id="exampleRadios1">
-                                <label class="form-check-label" for="exampleRadios1">
-                                    Home Service
-                                </label>
+                        
+                        <input hidden type="text" name="voName" value="<?php echo htmlentities($_SESSION["custFirstname"]); ?> <?php echo htmlentities($_SESSION["custLastname"]); ?>">
+                        <input hidden type="text" name="mechID" value="<?php echo htmlentities($result->mechID);?>">
+                        <input id="address" name='latitude' value="<?php echo htmlentities($_SESSION["latitude"]); ?>" hidden>
+                        <input id="address" name='longitude' value="<?php echo htmlentities($_SESSION["longitude"]); ?>" hidden>
+                        <input type="hidden" name="role" value="sender">
+                        <hr class="divider">
+                        <div class="request-form" style="color: #302D32">
+                            <div class="alert alert-primary text-start py-0 pb-1 mb-0 note-alert shadow-sm">
+                                <div class="row warning-rani">
+                                    <i class="fa-solid fa-circle-exclamation col-1 text-end px-0" style="color: #9132da"></i> 
+                                    <p class="col-10 col-sm-11 py-1">
+                                        If you want a long term service, select Home Service. Select Emergency service if you are
+                                        on-road.
+                                    </p>
+                                </div>
                             </div>
-                            <div id="textboxes" style="display: none">
-                                Date: <input name="date" type="date"/> 
-                                Time: <input name="time" type="time"/> 
+                            <div class="request-content text-start">
+                                <div class="form-check">
+                                    <input class="form-check-input mt-2" type="radio" value="Home Service" name="service"
+                                        id="exampleRadios1">
+                                    <label class="form-check-label mt-1" for="exampleRadios1">
+                                        Home Service
+                                    </label>
+                                </div>
+                                <div id="textboxes" style="display: none">
+                                    Date: <input onfocus="this.value=''" name="date" type="date" />
+                                    Time: <input onfocus="this.value=''" name="time" type="time" />
+                                </div>
+                                <div class="form-check pb-2">
+                                    <input class="form-check-input" type="radio" value="Emergency Service" name="service"
+                                        id="exampleRadios2">
+                                    <label class="form-check-label" for="exampleRadios2">
+                                        Emergency Service
+                                    </label>
+                                </div>
+                                <span class="sub-title">Please select and/or specify mechanical problem below.</span>
+                                <div class="repair-list" id="repairbox">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="flexCheckDefault"
+                                            name="mechRepair[]" value="Tire Repair">
+                                        <label class="form-check-label" for="flexCheckDefault">Tire Repair</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="flexCheckDefault"
+                                            name="mechRepair[]" value="Engine Overheat Repair">
+                                        <label class="form-check-label" for="flexCheckDefault">Engine Overheat Repair</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="flexCheckDefault"
+                                            name="mechRepair[]" value="Dead Battery Repair">
+                                        <label class="form-check-label" for="flexCheckDefault">Dead Battery Repair</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="flexCheckDefault"
+                                            name="mechRepair[]" value="Break Repair">
+                                        <label class="form-check-label" for="flexCheckDefault">Break Repair</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="flexCheckDefault"
+                                            name="mechRepair[]" value="Dead Light Repair">
+                                        <label class="form-check-label" for="flexCheckDefault">Dead Light Repair</label>
+                                    </div>
+                                    <div class="mt-2">
+                                        <label for="">Leave a Message</label>
+                                        <textarea class="form-control shadow-none" id="exampleFormControlTextarea1"
+                                            placeholder="Please specify..." rows="3" name="specMessage"
+                                            value="specMessage"></textarea>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="form-check pb-2">
-                                <input class="form-check-input" type="radio" value="Emergency Service" name="service" id="exampleRadios2">
-                                <label class="form-check-label" for="exampleRadios2">
-                                    Emergency Service
-                                </label>
-                            </div>
-                            <h6><i>Please select and/or specify mechanical problem below.</i></h6>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="flexCheckDefault" name="mechRepair[]" value="Tire Repair">
-                                <label class="form-check-label" for="flexCheckDefault">Tire Repair</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="flexCheckDefault"  name="mechRepair[]" value="Chain Loosening Repair">
-                                <label class="form-check-label" for="flexCheckDefault">Chain Loosening Repair</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="flexCheckDefault" name="mechRepair[]" value="Break Repair">
-                                <label class="form-check-label" for="flexCheckDefault">Break Repair</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="flexCheckDefault" name="mechRepair[]" value="Dead Light Repair">
-                                <label class="form-check-label" for="flexCheckDefault">Dead Light Repair</label>
-                            </div>
-                             <div class="mt-2">
-                                 <label for="">Leave a Message</label>
-                                <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="Please specify..." rows="3" name="specMessage" value="specMessage"></textarea>
-                            </div>
+                        </div>
+                        <div class="row request-buttons">
+                            <div class="col-md-6 d-grid "><a type="button" class="btn btn-primary rounded-pill shadow border-0" id="trap" onclick="trappings()">Request</a></div>
+                            <div class="col-md-6 d-grid "> <button class="btn btn-secondary rounded-pill shadow border-0" type="button"><a href="./voMotorcyclemech.php">Back</a></button></div>
                         </div>
                     </div>
-                    <div class="row pt-3">
-                        <div class="col-md-6 d-grid pb-2"><button class="btn btn-primary rounded-pill" name="send" value="send">Request</button></div>
-                        <div class="col-md-6 d-grid pb-2"> <button class="btn btn-secondary rounded-pill boton" type="button"><a href="./voMotorcyclemech.php">Back</a></button></div>
+                </div>
+            </div>
+            <!-- modal for confirmation -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content text-dark">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Confirmation</h5>
+                        <button type="button" class="btn-close border-0" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <?php
+                            $regeditid=intval($_GET['regeditid']);
+                            $sql="SELECT * from mechanic WHERE mechID=:regeditid";
+                            $query=$dbh->prepare($sql);
+                            $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
+                            $query->execute();
+                            $results=$query->fetchALL(PDO::FETCH_OBJ);
+
+                            if($query->rowCount()>0){
+                                foreach ($results as $result){
+                        ?>
+                        Are you sure to send a request to <?php echo htmlentities($result->mechFirstname." ".$result->mechLastname)?>?
+                        <?php }}?>
+                        <div class="pt-5">
+                            <button type="submit" class="btn btn-primary rounded-pill shadow" name="send" value="send">Submit Request</button>
+                            <button type="button" class="btn btn-secondary rounded-pill shadow" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
                     </div>
                 </div>
             </div>
             <?php }}?>
-            <input hidden type="text" id="latitude" name="latitude" value="<?php echo htmlentities($_SESSION["latitude"]); ?> ">
-            <input hidden type="text" id="longitude" name="longitude" value=" <?php echo htmlentities($_SESSION["longitude"]); ?>">
+            <input hidden type="text" id="latitude" name="latitude"
+                value="<?php echo htmlentities($_SESSION["latitude"]); ?> ">
+            <input hidden type="text" id="longitude" name="longitude"
+                value=" <?php echo htmlentities($_SESSION["longitude"]); ?>">
         </form>
-
     </section>
+   
 
-    <!-- <section id="mechContent" class="mech-content container-fluid">
-        <div class="emptyrequest" hidden>
-            <div class="emptydiv"><img src="../img/empty.png" alt=""></div>
-            <h6>There is no mechanic nearby..</h6>
-        </div>
-        <div class="row py-3 px-sm-0 px-md-3 text-center table-responsive justify-content-center pb-5">
-            <div class="col-lg-8 bg-white py-4 rounded-3 shadow-lg">
-                <h4 class="text-dark pb-4">Request Details</h4>
-            </div>
 
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+    </script>
+    <script src="../js/bootstrap.bundle.min.js"></script>
+        <script>
+    //trappings
+    function trappings(){
+        var service = document.getElementsByName("service");
+        var repairbox = document.getElementById("repairbox");
+        var chkbox = repairbox.getElementsByTagName("INPUT");
+        var trap = document.getElementById("trap");
+        var checked = 0;
+        var rd = 0;
+
+        for (var i = 0; i < chkbox.length; i++) {
+            if (chkbox[i].checked) {
+                checked++;
+            }
+        }
         
-        <section>
-        <form method="POST">
-        <?php
-              $regeditid=intval($_GET['regeditid']);
-              $sql="SELECT * from mechanic WHERE mechID=:regeditid";
-              $query=$dbh->prepare($sql);
-              $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
-              $query->execute();
-              $results=$query->fetchALL(PDO::FETCH_OBJ);
+        if (checked > 0) {
+            for (var i = 0, len = service.length; i < len; i++) {
+                if (service[i].checked) {
+                    rd++;
+                }
+            }
+            if(rd > 0){
+                // setAttribute(trap, {"data-bs-target":"#exampleModal", "data-bs-toggle":"modal"});
+                trap.setAttribute("data-bs-target", "#exampleModal"); 
+                trap.setAttribute("data-bs-toggle", "modal"); 
+                
+            }else{
+                alert("You must choose what service you want.");
+                return false;
+            }
+        } else {
+            alert("You must choose what mechanical problems you have.");
+            return false;
+        }
 
-              if($query->rowCount()>0)
-              {
-              foreach ($results as $result) 
-              {
-        ?>
-        <div class="container">
-            <h1>Request Information</h1>
-            <div class="mechanic-table" style="overflow-y:auto;">
-                <h3>Mechanic</h3>
-                <br>
-                <div class="avatar-img"><img src="img/avatar.png" alt=""></div>
-                <label>Name: </label>
-                <input class="textin" type="text" name="mechName"  value="<?php echo htmlentities($result->mechFirstname);?> <?php echo htmlentities($result->mechLastname);?>" readonly required>
-                <br>
-                <label>Specialization: </label>
-                <input class="textin" type="text" name="Specialization"  value="<?php echo htmlentities($result->Specialization);?>" readonly required>
-                <br>
-                <label>Address: </label>
-                <input class="textin" type="text" name="mechAddress"  value="<?php echo htmlentities($result->mechAddress);?>" readonly required>
-                <br>
-                <label>Rating:</label>
-                <input class="textin" type="text" name="" placeholder="Rating here"  value="" readonly required>
-                <p></p>
-                <input hidden type="text" name="vOwnerName" value="<?php echo htmlentities($_SESSION["custFirstname"]); ?> <?php echo htmlentities($_SESSION["custLastname"]); ?>">
-                <input hidden type="text" name="custAddress" value="<?php echo htmlentities($_SESSION["custAddress"]); ?>">
-                <input hidden type="text" name="mechID" value="<?php echo htmlentities($result->mechID);?>">
-            </div>
-            <div class="mechanic-table" style="overflow-y:auto;">
-                <h3>Mechanical Problem</h3>
-                <br>
-                <label>Home Service</label>
-                <input type="radio" value="Home Service" name="service">
-                <label>Emergency Service</label>
-                <input type="radio" value="Emergency Service" name="service">
-                <p></p>
-                <br>
-                <input type="checkbox" name="mechRepair[]" value="Tire Repair">
-                <label>Tire Repair</label>
-                <p></p>
-                <br>
-                <input type="checkbox" name="mechRepair[]" value="Engine Overheat Repair">
-                <label>Engine Overheat Repair</label>
-                <p></p>
-                <br>
-                <input type="checkbox" name="mechRepair[]" value="Dead Battery Repair">
-                <label>Dead Battery Repair</label>
-                <p></p>
-                <br>
-                <input type="checkbox" name="mechRepair[]" value="Break Repair">
-                <label>Break Repair</label>
-                <p></p>
-                <br>
-                <input type="checkbox" name="mechRepair[]" value="Dead Light Repair">
-                <label>Dead Light Repair</label>
-                <p></p>
-                <br>
-                <label style="margin-left: 20px">Others Specify</label>
-                <br>
-                <textarea placeholder="Specify here..." name="specMessage" value="specMessage" style="padding: 30px; font-size: 12px; font-family: var(--ff-primary);"></textarea>
-                <br>
-                <br>
-                <button name="send" value="send" style="color: rgb(156, 28, 150); border-radius: 8%; padding: 10px; font-size: 16px"> Send</button>
-                <button style="color: rgb(156, 28, 150); border-radius: 8%; padding: 10px; font-size: 16px; margin-left: 40px;"><a  href="voCarmech.php">Cancel</a></button>
-            </div>
-            </div>
-            <?php }}?>
-        </form>
-        </section> -->
+    }
+    // function setAttributes(el,var attrs){
+    //     for(var key in attrs){
+    //         trap.setAttribute(key, attrs[key]);
+    //     }
+    // }
+    
 
-        
-      
-    </section>
-    <div class="row d-block d-lg-none"><?php include('voBottom-nav.php');?></div>
-    <script>
-        
-        $(function() {
+    //another function
+    $(function() {
         $('input[name="service"]').on('click', function() {
             if ($(this).val() == 'Home Service') {
                 $('#textboxes').show();
-            }
-            else {
+            } else {
                 $('#textboxes').hide();
             }
-            });
         });
+    });
 
-        function totalIt() {
+    function totalIt() {
         var input = document.getElementsByName("mechAmount");
         var total = 0;
-            for (var i = 0; i < input.length; i++) {
-                if (input[i].checked) {
+        for (var i = 0; i < input.length; i++) {
+            if (input[i].checked) {
                 total += parseFloat(input[i].value);
-                }
             }
-            document.getElementsByName("Tamount")[0].value = "₱" + total.toFixed(2);
         }
-        function preventBack(){window.history.forward();}
-        setTimeout("preventBack()",0);
-        window.onunload = function(){ null };
-    </script>
+        document.getElementsByName("Tamount")[0].value = "₱" + total.toFixed(2);
+    }
+    $(function() {
+        $('input[name="service"]').on('click', function() {
+            if ($(this).val() == 'Home Service') {
+                $('#textboxes').show();
+            } else {
+                $('#textboxes').hide();
+            }
+        });
+    });
 
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <script src="../js/bootstrap.bundle.min.js"></script>
+    function preventBack() {
+        window.history.forward();
+    }
+    setTimeout("preventBack()", 0);
+    window.onunload = function() {
+        null
+    };
+
+    var starss = document.getElementById("starss").value
+    document.getElementById("stars").innerHTML = getStars(starss);
+
+    function getStars(starss) {
+
+        // Round to nearest half
+        starss = Math.round(starss * 2) / 2;
+        let output = [];
+
+        // Append all the filled whole stars
+        for (var i = starss; i >= 1; i--)
+            output.push('<i class="fa fa-star" aria-hidden="true" style="color: #9132DA;"></i>&nbsp;');
+
+        // If there is a half a star, append it
+        if (i == .5) output.push('<i class="fa fa-star-half-o" aria-hidden="true" style="color: #9132DA;"></i>&nbsp;');
+
+        // Fill the empty stars
+        for (let i = (5 - starss); i >= 1; i--)
+            output.push('<i class="fa fa-star-o" aria-hidden="true" style="color: #9132DA;"></i>&nbsp;');
+
+        return output.join('');
+    }
+    </script>
 </body>
+
 </html>

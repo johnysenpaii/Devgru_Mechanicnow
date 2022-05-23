@@ -2,9 +2,10 @@
 session_start();
 include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
 $custID1=$_SESSION['custID'];
-if(isset($_POST["confirm"]) || isset($_POST['comment'])){
+if(isset($_POST["confirm"])){
     $regeditid=intval($_GET['regeditid']);
       $value00=$_POST['value'];
+      $mechName = $_POST['mechName'];
      $sql1="UPDATE request set status='Complete',ratePercentage=:value00,Edate=CURRENT_TIMESTAMP() WHERE resID=:regeditid"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
      $query=$dbh->prepare($sql1);
      $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
@@ -22,19 +23,27 @@ if(isset($_POST["confirm"]) || isset($_POST['comment'])){
 
    }
    if(isset($_POST["comment"])){
+
     $custID=$_SESSION['custID'];
     $mechID=$_POST['mechID'];
     $value00=$_POST['value'];
-    $mechName1 = $_POST['mechName1'];
     $specMessage=$_POST['specMessage'];
-    $sql="INSERT INTO ratingandfeedback(custID,mechID,feedback,ratePercentage, mechName)VALUES(:custID, :mechID, :specMessage,:value00, :mechName1)";
+    $mechName = $_POST['mechName'];
+    $sql="INSERT INTO ratingandfeedback(custID,mechID,feedback,ratePercentage,mechName)VALUES(:custID, :mechID, :specMessage,:value00,:mechName)";
     $query=$dbh->prepare($sql);
     $query->bindParam(':custID',$custID,PDO::PARAM_STR);
     $query->bindParam(':mechID',$mechID,PDO::PARAM_STR);
     $query->bindParam(':specMessage',$specMessage,PDO::PARAM_STR);
     $query->bindParam(':value00',$value00,PDO::PARAM_STR);
-    $query->bindParam(':mechName1',$mechName1,PDO::PARAM_STR);
+    $query->bindParam(':mechName',$mechName,PDO::PARAM_STR);
     $query->execute();
+    $regeditid=intval($_GET['regeditid']);
+    $sql112="UPDATE request set status='Complete',ratePercentage=:value00,Edate=CURRENT_TIMESTAMP() WHERE resID=:regeditid"; //,Password=:Password ,Specialization=:Specialization,mechValidID=:mechValidID
+    $query112=$dbh->prepare($sql112);
+    $query112->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);
+    $query112->bindParam(':value00',$value00,PDO::PARAM_STR);
+    $query112->execute(); 
+
 }
 if(empty($_SESSION['custID'])){
     header("Location:http://localhost/Devgru_Mechanicnow/login.php");
@@ -128,12 +137,22 @@ if(empty($_SESSION['custID'])){
                 <div class="info-row col-12 col-md-6">
                     <input type="hidden" name="mechID" value="<?php echo htmlentities($result->mechID);?>">
                     <input type="hidden" name="status" id="status" value="<?php echo htmlentities($result->status);?>">
+                    <input type="hidden" name="mechName" id="" value="<?php echo htmlentities($result->mechName);?>">
+
                     <input type="hidden" value="<?php echo htmlentities($result->progressBar);?>">
                     <p>Mechanic: <?php echo htmlentities($result->mechName);?></p>
-                    <p>Service Request: <?php echo htmlentities($result->serviceNeeded);?></p>
-                    <p>Vehicle Problem: <?php echo htmlentities($result->mechRepair);?></p>
-                    <p>Date: <?php echo htmlentities($result->date);?></p>
-                    <p>Time: <?php echo htmlentities($result->timess);?> <?php echo htmlentities($result->timess) < 12 ? 'AM' : 'PM';?></p>
+                    <p>Vehicle Problem:</p> 
+                    <ul>
+                    <?php $divProgress = explode(",", $result->mechRepair);
+                                            foreach($divProgress as $t){?>
+                                        <li class="col-10 col-sm-11 py-1"><?php echo $t;?></li>
+                                        <?php  }?>
+                                    </ul>
+                    <input disabled class="border-0 bg-title py-2 bg-light" type="text" id="need" value="<?php echo htmlentities($result->serviceNeeded);?>">
+                            <div id="needss">
+                                <p>Date: <?php echo htmlentities($result->date);?></p>
+                                <p>Time: <?php echo htmlentities($result->timess);?> <?php echo htmlentities($result->timess) < 12 ? 'AM' : 'PM';?></p>
+                            </div>
                     <!-- <a class="btn btn-primary col-md-4 rounded" id="btnm" style="display: none;" data-bs-toggle="modal" href="#exampleModalToggle" role="button">End service</a> -->
                     <div class="prog-wap col-12 mt-4">
                     <h5 class="text-center">PROGRESS</h5>
@@ -150,7 +169,6 @@ if(empty($_SESSION['custID'])){
                             </div>
                             <a type="button" class="btn btn-primary rounded-pill button-progress" id="btnm" style="display: none;" data-bs-toggle="modal" href="#exampleModalToggle" role="button">Complete</a> 
                             <input  type="hidden" class="border-0"  value="<?php echo htmlentities($result->progressBar);?>" id="output">
-                            <input  type="hidden" class="border-0" name="mechName1" value="<?php echo htmlentities($result->mechName);?>">
                         </div>
                     </div>
                 </div>
@@ -207,7 +225,7 @@ if(empty($_SESSION['custID'])){
                     <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalToggleLabel2">Rate Mechanic</h5>
-                        <button type="submit" name="confirm" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="submit" class="btn-close" name="confirm"></button>
                     </div>
                     <div class="modal-body star">
                         
@@ -222,7 +240,7 @@ if(empty($_SESSION['custID'])){
                        <input type="hidden" name="value" id="value" value="">
                         <div class="mt-2">
                             <label for="">Leave a Feedback</label>
-                            <textarea class="form-control shadow-none" id="exampleFormControlTextarea1" rows="3" name="specMessage" value="specMessage"></textarea>
+                            <textarea  class="form-control shadow-none" id="exampleFormControlTextarea1" rows="3" name="specMessage" value="specMessage"></textarea>
                         </div>
                         <div class="btn-center">
                             <button class="btn btn-primary my-1 text-center" name="comment" type="sumbit">Submit</button>
@@ -280,6 +298,11 @@ if(empty($_SESSION['custID'])){
         }
         progressValue++;
     }, speed);
+
+    var t = document.getElementById("need").value;
+    if(t == "Emergency Service"){
+        document.getElementById("needss").style.display = "none";
+    }
     </script>                           
     
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

@@ -214,7 +214,7 @@ if(empty($_SESSION['mechID'])){
                             <p name="vehicleType"><?php echo htmlentities($result->vehicleType);?></p>
                              <?php
                                 $mechID=$_SESSION['mechID'];
-                                $sql="SELECT mechID,AVG(ratePercentage) as total from ratingandfeedback where mechID = '$mechID'";
+                                $sql="SELECT mechID,AVG(ratePercentage) as total from ratingandfeedback where mechID = $mechID";
                                 $query = $dbh->prepare($sql);
                                 $query->execute();
                                 $results=$query->fetchAll(PDO::FETCH_OBJ);
@@ -554,32 +554,6 @@ if(empty($_SESSION['mechID'])){
             output.push('<i class="fa fa-star-o" aria-hidden="true" style="color: #302d32;"></i>&nbsp;');
 
         return output.join('');
-    }
-
-    setInterval(saveData, 500);
-
-    function saveData() {
-        var id = $('#id1').val();
-        var star = $('#starss').val();
-        if (star != '') {
-            $.ajax({
-                url: 'mechProfile.php',
-                type: 'POST',
-                data: {
-                    mechID: id,
-                    average: starss,
-                },
-                success: function(response) {
-                    if (data != '') {
-                        $('#id1').val(data);
-                    }
-                    $('#autoSave').text("Post save as draft");
-                    setInterval(function() {
-                        $('#autoSave').text('');
-                    }, 500);
-                }
-            });
-        }
     }
     </script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>

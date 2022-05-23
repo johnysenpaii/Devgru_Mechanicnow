@@ -150,7 +150,7 @@ if(empty($_SESSION['mechID'])){
                                 <?php echo htmlentities($result->resID);?></p>
                                 <p class=" fw-bold" style="font-size: 13px;"><i class="fa-solid fa-car-burst"></i>
                                 Problem(s):
-                                <?php echo htmlentities($result->serviceType);?></p>
+                                <?php echo htmlentities($result->mechRepair);?></p>
                             <p class=" fw-bold" style="font-size: 13px;"><i class="fa-solid fa-circle-user"></i>
                                 Mehcanic name:
                                 <?php echo htmlentities($result->mechName);?></p>

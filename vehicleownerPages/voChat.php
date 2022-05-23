@@ -55,7 +55,8 @@ if(empty($_SESSION['custID'])){
                         <div class="scroll-users" style="height: 81vh ;overflow-y: auto;">
                             <!-- ari ang query  -->
                             <?php
-                                $sql="SELECT * FROM `chat` GROUP BY `mechID`";
+                                $cID = $_SESSION['custID'];
+                                $sql="SELECT * FROM chat where custID = $cID ";
                                 $query=$dbh->prepare($sql);
                                 $query->execute();
                                 $results=$query->fetchALL(PDO::FETCH_OBJ);

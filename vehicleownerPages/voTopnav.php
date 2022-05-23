@@ -26,7 +26,7 @@
                 <span id="hide1" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 10px;">
                     <?php 
                         $custID=$_SESSION['custID'];
-						$sql3 ="SELECT * from request where custID=$custID and status='Complete' ";
+						$sql3 ="SELECT * from request where custID=$custID and status='Complete' and historyStatus = 'Unread'";
 						$query4 = $dbh -> prepare($sql3);
 						$query4->execute();
 						$results4=$query4->fetchAll(PDO::FETCH_OBJ);

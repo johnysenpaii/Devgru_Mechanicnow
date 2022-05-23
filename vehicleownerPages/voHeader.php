@@ -87,23 +87,17 @@ if(isset($_POST["logout"])) {
                             </span> Notification
                         </a>
                         <?php
-                        $sql="SELECT *, DATE_FORMAT(timess, '%a %b/%d/%Y %H:%i %p') as timess from vonotification WHERE custID=$custID and status='Accepted' or status='verify' or status='Complete' or status='Unaccepted' or status='Decline' order by notifID desc";
+                        $sql="SELECT *, DATE_FORMAT(timess, '%a %b/%d/%Y %H:%i %p') as timess from vonotification WHERE custID=$custID order by notifID desc";
                         $query=$dbh->prepare($sql);
                         $query->execute();
                         $results=$query->fetchALL(PDO::FETCH_OBJ);
                         ?>
                         <ul class="dropdown-menu p-0 notif-class overflow-auto"
-                            style="font-size: small; width: 340px; max-height: 60vh; overflow-y: auto;"
+                            style="font-size: small; width: 340px;  max-height: 90vh; overflow-y: auto;"
                             aria-labelledby="navbarDropdownMenuLink">
                            
                             <?php 
-                             $custID=$_SESSION['custID'];
-                             $sql9011 ="SELECT * from vonotification where custID = $custID order by notifID";
-                             $query9011 = $dbh -> prepare($sql9011);
-                             $query9011->execute();
-                             $results9011=$query9011->fetchAll(PDO::FETCH_OBJ);
-                             $ban1234=$query9011->rowCount();
-                                  if($ban1234 == 0){ ?>
+                                  if($ban123 == 0){ ?>
                                      <li class="notif-content alert-primary row g-0 text-center sticky-top p-0">
                                 <button type="submit" id="mark" class="rounded alert-primary border-0 fw-bold py-1"> <i class="fa-solid fa-face-frown-open"></i> No notification yet!!</button>
                             </li>
@@ -114,7 +108,7 @@ if(isset($_POST["logout"])) {
                                 <button type="submit" id="mark" class="rounded alert-primary border-0 fw-bold py-1" name="readAll">Mark all as read</button>
                             </li>
 
-                            <?php };
+                            <?php }
                             
                             $cnt=1;
                         if($query->rowCount()>0){
@@ -154,7 +148,7 @@ if(isset($_POST["logout"])) {
 
                             </li>
 
-                        <?php }} else if($result->status == 'Decline' ){ if($result->notifStatus == 'Unread'){?>
+                        <?php }} else if($result->status == 'Decline' ){ if($result->notifStatus === 'Unread'){?>
 
                             <li>  
                                 <button   type="submit" name="unreadDecline" class="alert-warning notif-content row text-center border-0 w-100 mx-0">
@@ -184,8 +178,8 @@ if(isset($_POST["logout"])) {
                             </button>
 
                             </li>
-                            <?php }}else if($result->progressbarStatus=='10'||$result->progressbarStatus=='20'||$result->progressbarStatus=='30'||$result->progressbarStatus=='40'||$result->progressbarStatus=='50'||
-                    $result->progressbarStatus=='60'||$result->progressbarStatus=='70'||$result->progressbarStatus=='80'||$result->progressbarStatus=='90'){
+                            <?php }} else if( $result->progressbarStatus == 100 ||$result->progressbarStatus == 90||$result->progressbarStatus == 80||$result->progressbarStatus == 70||$result->progressbarStatus == 60||$result->progressbarStatus == 50 ||$result->progressbarStatus == 40
+                             ||$result->progressbarStatus == 30||$result->progressbarStatus == 20||$result->progressbarStatus == 10){
                         if($result->notifStatus == 'Unread'){?>
                            <li>  
                                 <button   type="submit" name="unreadProgress" class="alert-info notif-content row text-center border-0 w-100 mx-0">
@@ -194,7 +188,7 @@ if(isset($_POST["logout"])) {
                                 <?php echo htmlentities($result->progressbarStatus);?>%
                                 </div>
                                 <div class="col-md-10 text-start fw-bold">
-                                This is the current progess of your request updated by your the Mechanic.
+                                This is the current progess of your repair done by your Mechanic.
                                 <input type="hidden" name="notifID" value="<?php echo  htmlentities($result->notifID);?>">
                                 </div>
                                 <a class="text-center" href="voActivityLog.php"><i class="fa-solid fa-eye"></i> visit</a>
@@ -210,14 +204,15 @@ if(isset($_POST["logout"])) {
                                 <?php echo htmlentities($result->progressbarStatus);?>%
                                 </div>
                                 <div class="col-md-10 text-start fw-light">
-                                The current progess of your request updated by your the Mechanic.
+                                This is the current progess of your repair done by your Mechanic.
                                 </div>
                                 <a class="text-center" href="voActivityLog.php"><i class="fa-solid fa-eye"></i> visit </a>
                             </button>
 
                             </li>
                             
-                            <?php }}else if($result->progressbarStatus=='100' && $result->status == 'verify'){
+                            <?php }} if( $result->status == 'verify'){
+                                
                                if($result->notifStatus == 'Unread'){?>
                                 <li>  
                                 <button   type="submit" name="unreadVerify" class="alert-warning notif-content row text-center border-0 w-100 mx-0">
@@ -248,18 +243,16 @@ if(isset($_POST["logout"])) {
 
                             </li>
 
-                    <?php }}
-                    else if($result->status == 'Home service'){
-                        if($result->notifStatus == 'Unread'){
-                        ?>
+                    <?php }}  if($result->status == "Home service" ){  
+                            if($result->notifStatus == 'Unread'){ ?>
                         <li>  
-                                <button   type="submit" name="unreadVerify" class="alert-warning notif-content row text-center border-0 w-100 mx-0">
+                                <button   type="submit" name="" class="alert-warning notif-content row text-center border-0 w-100 mx-0">
                                 <p class="text-end text-small fw-light" style="font-size: smaller;"><?php echo htmlentities($result->timess)?></p>
                                 <div class="col-md-2 pl-2 text-end fw-bold" style="font-size: 20px;">
                                 <i class="fa-solid fa-envelope-circle-check"></i>
                                 </div>
                                 <div class="col-md-10 text-start fw-bold">
-                                Your Mechanic sent a "Request complete" message. Please check your vehicle before accepting.
+                               Hey! you have a vehicle repair today. Please message your mechanic
                                 <input type="hidden" name="notifID" value="<?php echo  htmlentities($result->notifID);?>">
                                 </div>
                                 <a class="text-center" href="voActivityLog.php"><i class="fa-solid fa-eye"></i> visit</a>
@@ -276,20 +269,38 @@ if(isset($_POST["logout"])) {
                                 <i class="fa-solid fa-envelope-circle-check"></i>
                                 </div>
                                 <div class="col-md-10 text-start fw-light">
-                                Your Mechanic sent a "Request complete" message. Please check your vehicle before accepting.
+                                Hey! you have a vehicle repair today. Please message your mechanic
                                 </div>
                                 <a class="text-center" href="voActivityLog.php"><i class="fa-solid fa-eye"></i> visit</a>
                             </button>
 
                             </li>
-                        <?php
-                        }        
-                    }
-                    }}} ?>
+                        <?php  }}}}} $cnt=$cnt+1;?> 
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="./voChat.php"><i class="fa-regular fa-comment"></i> Messages</a>
+                        <a class="nav-link position-relative" href="./voChat.php"><i class="fa-regular fa-comment"></i> Messages
+                        <span id="j" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+
+                        <?php 
+                                            
+                                            $custID=$_SESSION['custID'];
+											$sql9011 ="SELECT * from request where custID = $custID";
+											$query9011 = $dbh -> prepare($sql9011);
+											$query9011->execute();
+											$results9011=$query9011->fetchAll(PDO::FETCH_OBJ);
+											$ban12345=$query9011->rowCount();
+                                            if($ban12345 == 0){
+                                                echo '<script type="text/javascript">document.getElementById("j").style.display = "none";
+                                                </script>';
+
+                                            }
+										?>
+                                <?php echo htmlentities($ban12345);?>
+                    
+                        <span class="visually-hidden">unread messages</span>
+                    </span>
+                </a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link fa-solid fa-caret-down" href="#" id="navbarDropdownMenuLink" role="button"
