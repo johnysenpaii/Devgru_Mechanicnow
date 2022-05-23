@@ -24,7 +24,7 @@
                 <span id="hide10" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 10px;">
                     <?php 
                         $mechID1=$_SESSION['mechID'];
-						$sql01 ="SELECT * from request where mechID=$mechID1 and status='Complete' ";
+						$sql01 ="SELECT * from request where mechID=$mechID1 and status='Complete' and historyStatus = 'Unread' ";
 						$query04 = $dbh -> prepare($sql01);
 						$query04->execute();
 						$results4=$query04->fetchAll(PDO::FETCH_OBJ);

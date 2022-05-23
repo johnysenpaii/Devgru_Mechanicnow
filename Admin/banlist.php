@@ -15,6 +15,7 @@ include('../config.php');
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/css/bootstrap.min.css"
         integrity="sha384-DhY6onE6f3zzKbjUPRc2hOzGAdEf4/Dz+WJwBvEYL/lkkIsI3ihufq9hk9K4lVoK" crossorigin="anonymous">
+        <link rel="shortcut icon" type="x-icon" href="../img/mechanicnowlogo.svg">
     <!-- custom css -->
     <link rel="stylesheet" href="style2.css">
 </head>
@@ -55,9 +56,9 @@ include('../config.php');
                                     <li><a href="mechAdmin.php" class="dropdown-item pl-4 p-2"><i
                                                 class="bi bi-tools"></i> Mechanics</a></li>
                                     <li><a href="banlist.php" class="dropdown-item pl-4 p-2 active"><i
-                                                class="bi bi-exclamation-circle-fill"></i> Banned Mechanic</a></li>
+                                                class="bi bi-exclamation-circle-fill"></i> Blocked Mechanic</a></li>
                                                 <li><a href="userbanlist.php" class="dropdown-item pl-4 p-2"><i
-                                                class="bi bi-exclamation-circle-fill"></i> Banned Clients</a></li>
+                                                class="bi bi-exclamation-circle-fill"></i> Blocked Clients</a></li>
 
                                 </ul>
                             </li>
@@ -90,7 +91,7 @@ include('../config.php');
             <main class="col-1 px-0 flex-grow-1">
                 <div class="container  py-3">
                     <section class="my-container">
-                        <div class="display-6 my-2">Banned Mechanic</div>
+                        <div class="display-6 my-2">Blocked Mechanic</div>
                         <hr class="text-dark m-2">
                         <form method="POST">
                             <?php

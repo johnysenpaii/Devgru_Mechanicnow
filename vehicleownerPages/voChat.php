@@ -55,8 +55,8 @@ if(empty($_SESSION['custID'])){
                         <div class="scroll-users" style="height: 81vh ;overflow-y: auto;">
                             <!-- ari ang query  -->
                             <?php
-                                // $mechID = $_SESSION['mechID'];
-                                $sql="SELECT * FROM `chat` GROUP BY `mechID`";
+                                $custID = $_SESSION['custID'];
+                                $sql="SELECT * FROM `chat` where custID = $custID GROUP BY `mechID`";
                                 $query=$dbh->prepare($sql);
                                 $query->execute();
                                 $results=$query->fetchALL(PDO::FETCH_OBJ);
@@ -71,7 +71,7 @@ if(empty($_SESSION['custID'])){
                                         <div class="col-2 col-md-2">
                                             <?php
                                                 $mID = $result->mechID;
-                                                $sql= "SELECT * FROM mechanic where mechID = $mID";
+                                                $sql= "SELECT * FROM mechanic where mechID = $mID ";
                                                 $query=$dbh->prepare($sql);
                                                 $query->execute();
                                                 $results=$query->fetchALL(PDO::FETCH_OBJ);

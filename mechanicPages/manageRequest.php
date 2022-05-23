@@ -134,11 +134,33 @@ if(isset($_POST["verify"])){
 						$cnt=1;
 						if($query->rowCount()>0){
     						foreach($results as $result){
+                                date_default_timezone_set('Asia/Singapore');
+                                $date1 = date('Y-m-d');
+                                $time1 = date('H:i');
+                                 if($result->date == $date1 && $result->timess == $time1){
+                                                 
+                                     $sql0 = "INSERT INTO vonotification(custID, mechID, status) VALUES($result->custID, $result->mechID, 'Home service')";
+                                     $query0 = $dbh->prepare($sql0);
+                                     $query0->execute();
+     
+                                     $sql10 = "INSERT INTO notification(custID, mechID, status) VALUES($result->custID, $result->mechID, 'Home service')";
+                                     $query10 = $dbh->prepare($sql10);
+                                     $query10->execute();
+                                     
+                                     $mechid1 = $_SESSION['mechID'];
+                                     $sql09="UPDATE mechanic set status='busy' where mechID=:mechid1";
+                                     $query09=$dbh->prepare($sql09); 
+                                     $query09->bindParam(':mechid1',$mechid1,PDO::PARAM_STR); 
+                                     $query09->execute();
+     
+                                 }
 						?>
             
                 <div class="row m-0 text-dark">
                     <div class="container text-dark col-12 col-md-6">
-                  <?php echo $error; ?>
+                  <?php echo $error;
+                  
+                   ?>
                         <div class="col-12 col-md-10 bg-white bg-shadowmd p-3 mt-3 voinfo-div">
                             <h5 class="text-start title-request">Vehicle Owner Information</h6>
                             <p class="pt-2"><?php echo htmlentities($result->vOwnerName);?><p>

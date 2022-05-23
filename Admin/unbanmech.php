@@ -17,8 +17,8 @@ if(isset($_POST['ban'])){
         $mail->isSMTP();                                     
         $mail->Host = 'smtp.gmail.com';                      
         $mail->SMTPAuth = true;                             
-        $mail->Username = 'jepriel.t.ojt@gmail.com';     
-        $mail->Password = 'Jepoy1234@';             
+        $mail->Username = 'mechanicnow22@gmail.com';     
+        $mail->Password = 'Mechanic_Now22';             
         $mail->SMTPOptions = array(
             'ssl' => array(
             'verify_peer' => false,
@@ -30,11 +30,11 @@ if(isset($_POST['ban'])){
         $mail->Port = 465;                                   
  
         //Send Email
-        $mail->setFrom('jepriel.t.ojt@gmail.com');
+        $mail->setFrom('mechanicnow22@gmail.com');
  
         //Recipients
         $mail->addAddress($email);              
-        $mail->addReplyTo('jepriel.t.ojt@gmail.com');
+        $mail->addReplyTo('mechanicnow22@gmail.com');
  
         //Content
         $mail->isHTML(true);                                  
@@ -73,6 +73,7 @@ if(isset($_POST['ban'])){
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/css/bootstrap.min.css"
         integrity="sha384-DhY6onE6f3zzKbjUPRc2hOzGAdEf4/Dz+WJwBvEYL/lkkIsI3ihufq9hk9K4lVoK" crossorigin="anonymous">
+        <link rel="shortcut icon" type="x-icon" href="../img/mechanicnowlogo.svg">
     <!-- custom css -->
     <link rel="stylesheet" href="style2.css">
 </head>

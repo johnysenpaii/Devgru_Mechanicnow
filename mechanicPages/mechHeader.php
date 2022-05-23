@@ -201,7 +201,7 @@ if(isset($_POST["readAll"])){
                                 <button  type="submit" name="cancel" class="alert-warning notif-content row text-center border-0 w-100 mx-0">
                                 <p class="text-end text-small fw-light" style="font-size: smaller;"><?php echo htmlentities($result->timess)?></p>
                                 <div class="col-md-2 p-1 py-3 text-end" style="font-size: 30px;">
-                                </i> <i class="fa-solid fa-face-smile-beam"></i>
+                                <i class="fa-solid fa-face-frown"></i>
                                 </div>
                                 <div class="col-md-10 py-3 text-start fw-light">
                              The vehicle owner cancel the request.

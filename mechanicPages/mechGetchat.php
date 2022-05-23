@@ -26,7 +26,7 @@ include('C:\xampp\htdocs\Devgru_Mechanicnow\config.php');
                                 </div>';
                 }else{
                     $output .= '<div class=" text-light my-3 mx-1">
-                                <img src="../uploads/<?='. $rows['profile_url'].'?>" alt="" style="height: 1.5em;width: 1.5em;  border-radius: 50%; object-fit: cover;" class="rounded-circle">
+                                
                                 <div class=" d-inline-block py-2 px-3 rounded-3 text-wrap " style="background-color: #302D32; max-width: 45em; word-wrap: break-word;">
                                     <p>'. $row['message'] .'</p>
                                 </div>

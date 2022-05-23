@@ -145,28 +145,14 @@ if(empty($_SESSION['custID'])){
                                     <?php echo htmlentities($result->status);?></p>
 
                             </div>
-                            <p class="fw-bold" style="font-size: 14px;"><i class="fa-solid fa-id-badge"></i> Transaction
-                                id:
-                                <?php echo htmlentities($result->resID);?></p>
-                                <p class=" fw-bold" style="font-size: 13px;"><i class="fa-solid fa-car-burst"></i>
-                                Problem(s):
-                                <?php echo htmlentities($result->mechRepair);?></p>
-                            <p class=" fw-bold" style="font-size: 13px;"><i class="fa-solid fa-circle-user"></i>
-                                Mehcanic name:
-                                <?php echo htmlentities($result->mechName);?></p>
-                            <p class="card-text fw-bold text-dark rounded" style="font-size: 12px;"><i
-                                    class="fa-solid fa-calendar-days"></i> Service start:
-                                <?php echo htmlentities($result->timess);?>
-                            </p>
-                            <p class="card-text fw-bold text-dark  rounded" style="font-size: 12px;"><i
-                                    class="fa-solid fa-calendar-check"></i> Service end:
-                                <?php echo htmlentities($result->Endtime);?>
-                            </p>
-                            <input type="hidden" id="starss" name="total1"
-                                value="<?php echo number_format($result->ratePercentage,1);?>">
-
-                            <div class="row" >
-                                <div class="col-lg-2">
+                            <p class="fw-bold" style="font-size: 14px;"><i class="fa-solid fa-id-badge"></i> Transaction ID: <?php echo htmlentities($result->resID);?></p>
+                            <p class=" fw-bold" style="font-size: 13px;"><i class="fa-solid fa-car-burst"></i> Problem(s): <?php echo htmlentities($result->mechRepair);?></p>
+                            <p class=" fw-bold" style="font-size: 13px;"><i class="fa-solid fa-circle-user"></i> Mehcanic name: <?php echo htmlentities($result->mechName);?></p>
+                            <p class="card-text fw-bold text-dark rounded" style="font-size: 12px;"><i class="fa-solid fa-calendar-days"></i> Service start: <?php echo htmlentities($result->timess);?></p>
+                            <p class="card-text fw-bold text-dark  rounded" style="font-size: 12px;"><i class="fa-solid fa-calendar-check"></i> Service end: <?php echo htmlentities($result->Endtime);?></p>
+                            <input type="hidden" id="starss" name="total1" value="<?php echo number_format($result->ratePercentage,1);?>">
+                            <div class="row">
+                                <div class="col-3 col-3 p-2 mx-1">
                                     <p id="stars" class="card-text fw-bold text-dark  rounded" style="font-size: 12px;">
                                     <i class="fa-solid fa-star"></i> <?php echo number_format($result->ratePercentage,1);?>
                                     </p>
@@ -181,60 +167,8 @@ if(empty($_SESSION['custID'])){
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-6" >
-                        <div class="card my-3 text-dark">
-                        <div class="card-body">
-                            <p class="card-title py-1 px-0 fw-bold " style="font-size: small;">Your details</p>
-                            <p class=" fw-bold" style="font-size: 13px;"><i class="fa-solid fa-user"></i> Name:  <?php echo htmlentities($result->vOwnerName);?></p>
-                        </div>
-                        <label class="card-title px-3 fw-bold " style="font-size: small;" for="iframe"><i class="fa-solid fa-map-location"></i> Your Location:</label>
-                        <iframe class="px-3 pb-2"
-                            src="https://maps.google.com/maps?q=<?php echo htmlentities($_SESSION['latitude']);?>,<?php echo htmlentities($_SESSION['longitude']);?>&output=embed"
-                            frameborder="0" width="auto" height="auto">
-                        </iframe>
-                    </div>
-                    </div>
-                    <div class="col-md-6">
-                    <div class="card my-3 text-dark">
-                    <div class="card-body row">
                     <?php
-                   
-                    $sql0="SELECT * from mechanic WHERE mechID";
-                    $query0=$dbh->prepare($sql0);
-                    $query0->execute();
-                    $results=$query0->fetchALL(PDO::FETCH_OBJ);
-                    $cnt=1;
-                    if($query->rowCount()>0){
-                        foreach ($results as $result0){
-                            if($result->mechID == $result0->mechID){
-                        
-?>
-<div class="col-lg-8">
-<p class="card-title py-2 px-0 fw-bold " style="font-size: small;">Mechanic details</p>
-                            </div>
-                            
-                           
-                            
-                            <p class="card-text fw-bold " style="font-size: small;"><i class="fa-solid fa-user"></i> Name:  <?php echo htmlentities($result0->mechFirstname);?> <?php echo htmlentities($result0->mechLastname);?></p>
-                            <p class="card-text fw-bold " style="font-size: small;"><i class="fa-solid fa-star"></i> Average rating:  <?php echo number_format($result0->average,1);?></p>
-
-                            <ul class="list-group fw-bold px-2" style="font-size: small;"> Contacts:
-                            <li class="list-group-item border-0"><i class="fa-solid fa-at"></i> Email: <?php echo htmlentities($result0->mechEmail);?></li>
-                            </ul>
-                        </div>
-                        <label class="card-title px-3 fw-bold " style="font-size: small;" for="iframe"><i class="fa-solid fa-map-location"></i> Mechanic current location:</label>
-                        <iframe class="px-3 pb-2"
-                            src="https://maps.google.com/maps?q=<?php echo htmlentities($result0->latitude);?>,<?php echo htmlentities($result0->longitude);?>&output=embed"
-                            frameborder="0" width="auto" height="auto">
-                        </iframe>
-                    </div>
-                    </div>
-                </div>
-
-                    
-                    <?php
-                   $cnt=$cnt+1;} }}}}
+                   $cnt=$cnt+1;} }
                     ?>
                 </div>
             </div>
@@ -271,7 +205,9 @@ if(empty($_SESSION['custID'])){
                                 <textarea class="form-control shadow-none" id="exampleFormControlTextarea1" rows="3"
                                     name="specMessage" value="specMessage"></textarea>
                             </div>
-                            <button class="btn btn-primary my-1" name="comment" type="sumbit">Comment</button>
+                            <div class="text-center">
+                                <button class="btn btn-primary my-1" name="comment" type="sumbit">Submit</button>
+                            </div>
                         </div>
                         <!-- <div class="modal-footer">
                         <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-dismiss="modal">Back to first</button>

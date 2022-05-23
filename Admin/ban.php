@@ -18,7 +18,7 @@ if(isset($_POST['ban'])){
                     </div>
                     <h3 style='text-align: center;'>Welcome to Mechanic Now</h3>
                     <p>Hi,</p>
-                    <p>Were sorry to tell you that your account has been banned</p>
+                    <p>Were sorry to tell you that your account has been blocked.</p>
                     <p>Please contact mechanicnow@gmail.com for help.</p>
                 </div>
             </div>
@@ -34,8 +34,8 @@ if(isset($_POST['ban'])){
         $mail->isSMTP();                                     
         $mail->Host = 'smtp.gmail.com';                      
         $mail->SMTPAuth = true;                             
-        $mail->Username = 'jepriel.t.ojt@gmail.com';     
-        $mail->Password = 'Jepoy1234@';             
+        $mail->Username = 'mechanicnow22@gmail.com';     
+        $mail->Password = 'Mechanic_Now22';             
         $mail->SMTPOptions = array(
             'ssl' => array(
             'verify_peer' => false,
@@ -47,11 +47,11 @@ if(isset($_POST['ban'])){
         $mail->Port = 465;                                   
  
         //Send Email
-        $mail->setFrom('jepriel.t.ojt@gmail.com');
+        $mail->setFrom('mechanicnow22@gmail.com');
  
         //Recipients
         $mail->addAddress($email);              
-        $mail->addReplyTo('jepriel.t.ojt@gmail.com');
+        $mail->addReplyTo('mechanicnow22@gmail.com');
  
         //Content
         $mail->isHTML(true);                                  
@@ -91,6 +91,7 @@ if(isset($_POST['ban'])){
         integrity="sha384-DhY6onE6f3zzKbjUPRc2hOzGAdEf4/Dz+WJwBvEYL/lkkIsI3ihufq9hk9K4lVoK" crossorigin="anonymous">
     <!-- custom css -->
     <link rel="stylesheet" href="style2.css">
+    <link rel="shortcut icon" type="x-icon" href="../img/mechanicnowlogo.svg">
 </head>
 
 <body>
@@ -128,9 +129,9 @@ if(isset($_POST['ban'])){
                                                 class="bi bi-person-circle"></i> Clients</a></li>
                                     <li><a href="mechAdmin.php" class="dropdown-item pl-4 p-2"><i
                                                 class="bi bi-tools"></i> Mechanics</a></li>
-                                                <li><a href="banlist.php" class="dropdown-item pl-4 p-2"><i class="bi bi-exclamation-circle-fill"></i> Banned Mechanics</a></li>
+                                                <li><a href="banlist.php" class="dropdown-item pl-4 p-2"><i class="bi bi-exclamation-circle-fill"></i> Blocked Mechanics</a></li>
                                                 <li><a href="userbanlist.php" class="dropdown-item pl-4 p-2"><i
-                                                class="bi bi-exclamation-circle-fill"></i> Banned Clients</a></li>
+                                                class="bi bi-exclamation-circle-fill"></i> Blocked Clients</a></li>
 
                                 </ul>
                             </li>
@@ -217,7 +218,7 @@ if(isset($_POST['ban'])){
                                 </div>
                                 <div class="float-end">
                                     <button class="btn btn-warning btn-lg" type="submit" id="ban" name="ban"
-                                        value="approve"><i class="bi bi-exclamation-circle"></i> Banned</button>
+                                        value="approve"><i class="bi bi-exclamation-circle"></i> Blocked</button>
                                 </div>
                             </div>
                             <?php $cnt=$cnt+1; }}?>

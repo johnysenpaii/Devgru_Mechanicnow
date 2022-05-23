@@ -254,96 +254,18 @@ if(empty($_SESSION['mechID'])){
                             foreach($results as $res){
                 ?>
                 <div class="col-sm-12 col-md-4 col-lg-4 pt-3"><i>"<?php echo htmlentities($res->feedback); ?>"</i></div>
-                <!-- <div class="col-sm-12 col-md-4 pt-3"><i>"The best, honest, straight foward, flawless and you can rely on. Always makes time for the customer. We have been going to him for years even though we had to drive there an hour and back!"</i></div>
-                <div class="col-sm-12 col-md-4 pt-3"><i>"Quality friendly service! Took my work van over there last week with a turbo problem and nothing is to hard for them to fix. Thanks again"</i></div>  -->
-                    <?php }}?>
-            </div>
-            <!-- <div class="row text-dark pt-2 justify-content-evenly">
-                <div class="row note justify-content-center">
-
-                </div>
-                <div
-                    class="col-sm-12 col-md-5 col-lg-5 with-image bg-white rounded-3 pb-2 p-3 mr-sm-0 mr-md-1 mb-5 mb-md-0 mb-lg-0 shadow-lg text-center">
-                    <div class="cont-image text-center">
-                        <?php
-                        $sql = "SELECT * FROM mechanic where mechID = $regeditid";
-                        $res = mysqli_query($conn, $sql);
-                        if (mysqli_num_rows ($res) > 0) {
-                        while ($images = mysqli_fetch_assoc ($res)){ 
-                            if($regeditid == $regeditid ){
-
+                    <?php }
+                }else{
                     ?>
-                        <img src="../uploads/<?=$images['profile_url']?>" onerror="this.src='../img/mech.jpg';"
-                            class="imagenajud pimage rounded-circle px-5" style="min-width: 20%; max-width: 250px;"
-                            alt="">
-                        <?php }} }?>
-                    </div>
-                    <input type="hidden" name="id" value="<?php echo htmlentities($result->mechID);?>"
-                        required="required">
-                    <div class="row pt-4 text-center">
-                        <div class="col-12">
-                            <h4><?php echo htmlentities($result->mechFirstname." ".$result->mechLastname);?></h4>
-                        </div>
-                        <div class="col-12">
-                            <?php
-                         $mechID=$_SESSION['mechID'];
-						$sql="SELECT mechID,AVG(ratePercentage) as total from ratingandfeedback where mechID = '$mechID'";
-						$query = $dbh->prepare($sql);
-						$query->execute();
-						$results=$query->fetchAll(PDO::FETCH_OBJ);
-                        $cnt=1;       
-                        if( $query->rowCount()>0){   
-                            foreach($results as $result1){
-                            ?>
-                            <input type="hidden" id="starss" name="total1" value="<?php echo number_format($result1->total,1);?>">
-                                
-                            <span type="text" id="stars"
-                                name="total"><?php echo number_format($result1->total,1);?></span>
-                            <?php $cnt=$cnt+1;}}?>
-                            <p hidden><i>No Ratings Yet</i></p>
-                        </div>
-                    </div>
-                    <input type="hidden" name="id1" id="id1" value="<?php echo htmlentities($_SESSION['mechID']);?>">
-                    <p class="pt-3" name="mechEmail"><?php echo htmlentities($result->mechEmail);?></p>
-                    <p name="mechCnumber"><?php echo htmlentities($result->mechCnumber);?></p>
-                    <p name="mechAddress"><?php echo htmlentities($result->mechAddress);?></p>
-                    <p id="autoSave"></p>
-                    <div class="d-grid p-3 pt-5">
-                        <button class="btn btn-primary rounded-pill shadow" type="button" class="btn btn-warning px-3"
-                            data-bs-toggle="modal" data-bs-target="#edit-modal">Edit Profile</button>
-                    </div>
-                </div>
-                <div class="col-sm-12 col-md-7 col-lg-6 bg-white p-4 ml-sm-0 ml-md-1 mt-sm-1 mt-md-0 shadow-lg rounded-3">
-                    <div class="row">
-                        <p><i>"Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum, laboriosam aperiam
-                                atque perferendis adipisci molestiae praesentium quo blanditiis ab voluptatem, sint
-                                rerum earum. Cumque, facere?"</i></p>
-                    </div>
-                    <div class="row pt-3">
-                        <h5 class="pt-2">Specialization:</h5>
-
-                        <p style="text-indent:5%;" name="Specialization">
-                            <?php echo htmlentities($result->Specialization);?></p>
-                        <div class="row pt-5">
-                            <h6>Feedbacks:</h6>
-                            <div class="col-12">
-                                <p class="p-3 text-center" hidden>Theres no feedback yet.</p>
-                            </div>
-                            <?php $mechID=$_SESSION['mechID'];
-						$sql="SELECT * from ratingandfeedback where mechID = '$mechID'";
-						$query = $dbh->prepare($sql);
-						$query->execute();
-						$results=$query->fetchAll(PDO::FETCH_OBJ);
-                        $cnt=1;       
-                        if( $query->rowCount()>0){   
-                            foreach($results as $result6){ ?>
-                            <div class="col-sm-12 col-md-4 pt-3"><i><?php echo htmlentities($result6-> feedback)?></i>
-                            </div>
-                            <?php }}?>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
+                    <div class="emptyrequest mt-5 pt-5" >
+                                        <div class="emptydiv"><img src="../img/empty.png" alt=""></div>
+                                        <h6>No Feedbacks made yet. . .</h6>
+                                    </div>
+                <?php
+                }
+                ?>
+            </div>
+            
             <?php }}?>
            
             <!-- Vertically centered modal -->

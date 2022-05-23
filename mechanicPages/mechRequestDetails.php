@@ -162,29 +162,6 @@ if(empty($_SESSION['mechID'])){
 
                 if($query->rowCount()>0){
                     foreach ($results as $result){
-                   
-                      if(isset($result->date)){    
-                           $date1 = date("Y-m-d");
-
-                            if($result->date ==  $date1){
-                                            
-                                $sql0 = "INSERT INTO vonotification(custID, mechID, status) VALUES($result->custID, $result->mechID, 'Home service')";
-                                $query0 = $dbh->prepare($sql0);
-                                $query0->execute();
-
-                                $sql10 = "INSERT INTO notification(custID, mechID, status) VALUES($result->custID, $result->mechID, 'Home service')";
-                                $query10 = $dbh->prepare($sql10);
-                                $query10->execute();
-                                
-                                $mechid1 = $_SESSION['mechID'];
-                                $sql09="UPDATE mechanic set status='busy' where mechID=:mechid1";
-                                $query09=$dbh->prepare($sql09); 
-                                $query09->bindParam(':mechid1',$mechid1,PDO::PARAM_STR); 
-                                $query09->execute();
-
-                            }
-                        }
-                        
             ?>
             <div class="container-fluid p-0">
                 <div class="row m-0 p-0">
@@ -263,8 +240,9 @@ if(empty($_SESSION['mechID'])){
                         </div>
                         <div class="row request-buttons">
                             <div class="col-md-6 d-grid "><button id="emergency" type="submit" class="btn btn-primary rounded-pill shadow border-0" name="Accept" value="Accept">Accept</button></div>
+                            <div class="col-md-6 d-grid "><button class="btn btn-secondary rounded-pill shadow border-0" id="emergency1" type="submit" name="Decline">Decline</button></div>
                             <div class="col-md-6 d-grid "><button id="Home" type="submit" class="btn btn-primary rounded-pill shadow border-0" name="Accept1" value="Accept">Accept</button></div>
-                            <div class="col-md-6 d-grid "> <button class="btn btn-secondary rounded-pill shadow border-0" type="submit" name="Decline">Decline</button></div>
+                            <div class="col-md-6 d-grid "><button class="btn btn-secondary rounded-pill shadow border-0" id="Home1" type="submit" name="Decline">Decline</button></div>
                         </div>
                     </div>
                 </div>
@@ -313,8 +291,10 @@ if(empty($_SESSION['mechID'])){
         {
             document.getElementById("needs").style.display = "block";
             document.getElementById("emergency").style.display = "none";
+            document.getElementById("emergency1").style.display = "none";
         }
         else if(t == "Emergency Service"){
+            document.getElementById("Home1").style.display = "none";
             document.getElementById("Home").style.display = "none";
         }
     </script>

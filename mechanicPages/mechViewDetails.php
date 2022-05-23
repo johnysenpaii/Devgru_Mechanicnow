@@ -145,28 +145,15 @@ if(empty($_SESSION['mechID'])){
                                     <?php echo htmlentities($result->status);?></p>
 
                             </div>
-                            <p class="fw-bold" style="font-size: 14px;"><i class="fa-solid fa-id-badge"></i> Transaction
-                                id:
-                                <?php echo htmlentities($result->resID);?></p>
-                                <p class=" fw-bold" style="font-size: 13px;"><i class="fa-solid fa-car-burst"></i>
-                                Problem(s):
-                                <?php echo htmlentities($result->mechRepair);?></p>
-                            <p class=" fw-bold" style="font-size: 13px;"><i class="fa-solid fa-circle-user"></i>
-                                Mehcanic name:
-                                <?php echo htmlentities($result->mechName);?></p>
-                            <p class="card-text fw-bold text-dark rounded" style="font-size: 12px;"><i
-                                    class="fa-solid fa-calendar-days"></i> Service start:
-                                <?php echo htmlentities($result->timess);?>
-                            </p>
-                            <p class="card-text fw-bold text-dark  rounded" style="font-size: 12px;"><i
-                                    class="fa-solid fa-calendar-check"></i> Service end:
-                                <?php echo htmlentities($result->Endtime);?>
-                            </p>
-                            <input type="hidden" id="starss" name="total1"
-                                value="<?php echo number_format($result->ratePercentage,1);?>">
-
+                            <p class="fw-bold" style="font-size: 14px;"><i class="fa-solid fa-id-badge"></i> Transaction ID: <?php echo htmlentities($result->resID);?></p>
+                            <p class=" fw-bold" style="font-size: 13px;"><i class="fa-solid fa-car-burst"></i> Problem(s): <?php echo htmlentities($result->mechRepair);?></p>
+                            <p class=" fw-bold" style="font-size: 13px;"><i class="fa-solid fa-circle-user"></i> Mehcanic name: <?php echo htmlentities($result->mechName);?></p>
+                            <p class=" fw-bold" style="font-size: 13px;"><i class="fa-solid fa-circle-user"></i> Vehicle Owner:  <?php echo htmlentities($result->vOwnerName);?></p>
+                            <p class="card-text fw-bold text-dark rounded" style="font-size: 12px;"><i class="fa-solid fa-calendar-days"></i> Service start: <?php echo htmlentities($result->timess);?></p>
+                            <p class="card-text fw-bold text-dark  rounded" style="font-size: 12px;"><i class="fa-solid fa-calendar-check"></i> Service end: <?php echo htmlentities($result->Endtime);?></p>
+                            <input type="hidden" id="starss" name="total1" value="<?php echo number_format($result->ratePercentage,1);?>">
                             <div class="row" >
-                                <div class="col-3">
+                                <div class="col-3 p-2 mx-1">
                                     <p id="stars" class="card-text fw-bold text-dark  rounded" style="font-size: 12px;">
                                     <i class="fa-solid fa-star"></i> <?php echo number_format($result->ratePercentage,1);?>
                                     </p>
@@ -181,46 +168,9 @@ if(empty($_SESSION['mechID'])){
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-12" >
-                        <div class="card my-3 text-dark">
-                        <div class="card-body">
-                            <p class="card-title py-1 px-0 fw-bold " style="font-size: small;">Your details</p>
-                            <p class=" fw-bold" style="font-size: 13px;"><i class="fa-solid fa-user"></i> Name:  <?php echo htmlentities($result->vOwnerName);?></p>
-                        </div>
-                    </div>
-                    </div>
-                    <div class="col-md-6">
-                    <div class="card my-3 text-dark">
-                    <div class="card-body row">
-                    <?php
-                        $sql0="SELECT * from mechanic WHERE mechID";
-                        $query0=$dbh->prepare($sql0);
-                        $query0->execute();
-                        $results=$query0->fetchALL(PDO::FETCH_OBJ);
-                        $cnt=1;
-                        if($query->rowCount()>0){
-                            foreach ($results as $result0){
-                                if($result->mechID == $result0->mechID){
-                    ?>
-                    <div class="col-lg-8">
-                        <p class="card-title py-2 px-0 fw-bold " style="font-size: small;">Mechanic details</p>
-                    </div> 
-                            <p class="card-text fw-bold " style="font-size: small;"><i class="fa-solid fa-user"></i> Name:  <?php echo htmlentities($result0->mechFirstname);?> <?php echo htmlentities($result0->mechLastname);?></p>
-                            <p class="card-text fw-bold " style="font-size: small;"><i class="fa-solid fa-star"></i> Average rating:  <?php echo number_format($result0->average,1);?></p>
-
-                            <ul class="list-group fw-bold px-2" style="font-size: small;"> Contacts:
-                            <li class="list-group-item border-0"><i class="fa-solid fa-at"></i> Email: <?php echo htmlentities($result0->mechEmail);?></li>
-                            </ul>
-                        </div>
-                       
-                    </div>
-                    </div>
                 </div>
-
-                    
                     <?php
-                   $cnt=$cnt+1;} }}}}
+                   $cnt=$cnt+1;} }
                     ?>
                 </div>
             </div>
