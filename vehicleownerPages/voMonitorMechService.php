@@ -44,6 +44,7 @@ if(isset($_POST["confirm"])){
     $query112->bindParam(':value00',$value00,PDO::PARAM_STR);
     $query112->execute(); 
 
+    echo "<script type='text/javascript'>document.location='voTransaction.php';</script>";
 }
 if(empty($_SESSION['custID'])){
     header("Location:http://localhost/Devgru_Mechanicnow/login.php");

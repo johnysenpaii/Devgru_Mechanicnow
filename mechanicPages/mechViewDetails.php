@@ -166,7 +166,7 @@ if(empty($_SESSION['mechID'])){
                                 value="<?php echo number_format($result->ratePercentage,1);?>">
 
                             <div class="row" >
-                                <div class="col-lg-2">
+                                <div class="col-3">
                                     <p id="stars" class="card-text fw-bold text-dark  rounded" style="font-size: 12px;">
                                     <i class="fa-solid fa-star"></i> <?php echo number_format($result->ratePercentage,1);?>
                                     </p>
@@ -182,7 +182,7 @@ if(empty($_SESSION['mechID'])){
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-6" >
+                        <div class="col-md-12" >
                         <div class="card my-3 text-dark">
                         <div class="card-body">
                             <p class="card-title py-1 px-0 fw-bold " style="font-size: small;">Your details</p>
@@ -194,23 +194,18 @@ if(empty($_SESSION['mechID'])){
                     <div class="card my-3 text-dark">
                     <div class="card-body row">
                     <?php
-                   
-                    $sql0="SELECT * from mechanic WHERE mechID";
-                    $query0=$dbh->prepare($sql0);
-                    $query0->execute();
-                    $results=$query0->fetchALL(PDO::FETCH_OBJ);
-                    $cnt=1;
-                    if($query->rowCount()>0){
-                        foreach ($results as $result0){
-                            if($result->mechID == $result0->mechID){
-                        
-?>
-<div class="col-lg-8">
-<p class="card-title py-2 px-0 fw-bold " style="font-size: small;">Mechanic details</p>
-                            </div>
-                            
-                           
-                            
+                        $sql0="SELECT * from mechanic WHERE mechID";
+                        $query0=$dbh->prepare($sql0);
+                        $query0->execute();
+                        $results=$query0->fetchALL(PDO::FETCH_OBJ);
+                        $cnt=1;
+                        if($query->rowCount()>0){
+                            foreach ($results as $result0){
+                                if($result->mechID == $result0->mechID){
+                    ?>
+                    <div class="col-lg-8">
+                        <p class="card-title py-2 px-0 fw-bold " style="font-size: small;">Mechanic details</p>
+                    </div> 
                             <p class="card-text fw-bold " style="font-size: small;"><i class="fa-solid fa-user"></i> Name:  <?php echo htmlentities($result0->mechFirstname);?> <?php echo htmlentities($result0->mechLastname);?></p>
                             <p class="card-text fw-bold " style="font-size: small;"><i class="fa-solid fa-star"></i> Average rating:  <?php echo number_format($result0->average,1);?></p>
 
