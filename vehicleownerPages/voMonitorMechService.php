@@ -141,7 +141,13 @@ if(empty($_SESSION['custID'])){
 
                     <input type="hidden" value="<?php echo htmlentities($result->progressBar);?>">
                     <p>Mechanic: <?php echo htmlentities($result->mechName);?></p>
-                    <p>Vehicle Problem: <?php echo htmlentities($result->mechRepair);?></p>
+                    <p>Vehicle Problem:</p> 
+                    <ul>
+                    <?php $divProgress = explode(",", $result->mechRepair);
+                                            foreach($divProgress as $t){?>
+                                        <li class="col-10 col-sm-11 py-1"><?php echo $t;?></li>
+                                        <?php  }?>
+                                    </ul>
                     <input disabled class="border-0 bg-title py-2 bg-light" type="text" id="need" value="<?php echo htmlentities($result->serviceNeeded);?>">
                             <div id="needss">
                                 <p>Date: <?php echo htmlentities($result->date);?></p>

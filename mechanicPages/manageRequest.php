@@ -156,9 +156,12 @@ if(isset($_POST["verify"])){
                                 <div class="alert alert-primary text-start py-0 pb-1 mb-0 note-alert note-vehicle shadow-sm">
                                     <div class="row noted-vehicle">
                                         <p class="pt-1">Vehicle  Problem:</p>
-                                        <p class="col-10 col-sm-11 py-1">
-                                            <?php echo htmlentities($result->serviceType);?>
-                                        </p>
+                                       
+                                        <?php $divProgress = explode(",", $result->mechRepair);
+                                            foreach($divProgress as $t){?>
+                                        <p class="col-10 col-sm-11 py-1"><?php echo $t;?></p>
+                                        <?php  }?>
+                                   
                                     </div>
                                 </div>
                             </div>

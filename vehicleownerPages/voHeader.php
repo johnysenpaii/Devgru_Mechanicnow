@@ -285,7 +285,7 @@ if(isset($_POST["logout"])) {
                         <?php 
                                             
                                             $custID=$_SESSION['custID'];
-											$sql9011 ="SELECT * from chat where custID = $custID";
+											$sql9011 ="SELECT * from request where custID = $custID";
 											$query9011 = $dbh -> prepare($sql9011);
 											$query9011->execute();
 											$results9011=$query9011->fetchAll(PDO::FETCH_OBJ);

@@ -130,7 +130,7 @@ $v2 = doubleval($_SESSION["longitude"]);
                                 ?>
                                 </td>
                                 <td class="t-content p-3"><?php echo number_format($result->distance,1);?> KM</td>
-                                <td class="t-content px-3"><a class="btn btn-warning px-3" href="voCarmechRequest.php?regeditid=<?php echo htmlentities($result->mechID)?>">Details</a></td>
+                                <td class="t-content px-3"><a class="btn btn-warning px-3" href="voMotorcyclemechRequest.php?regeditid=<?php echo htmlentities($result->mechID)?>">Details</a></td>
                             </tr>
                             <?php $cnt=$cnt+1;}}     
                                 else{?>    
@@ -173,7 +173,7 @@ $v2 = doubleval($_SESSION["longitude"]);
                                 ?>
                                 </td>
                                 <td class="t-content p-3"><?php echo number_format($result->distance,1);?> KM</td>
-                                <td class="t-content px-3"><a class="btn btn-warning px-3" href="voCarmechRequest.php?regeditid=<?php echo htmlentities($result->mechID)?>">Details</a></td>
+                                <td class="t-content px-3"><a class="btn btn-warning px-3" href="voMotorcyclemechRequest.php?regeditid=<?php echo htmlentities($result->mechID)?>">Details</a></td>
                             </tr>
                             <?php $cnt=$cnt+1;}}     
                                 else{?>    
@@ -206,7 +206,7 @@ $v2 = doubleval($_SESSION["longitude"]);
                                 ?>
                                 </td>
                                 <td class="t-content p-3"><?php echo number_format($result->distance,1);?> KM</td>
-                                <td class="t-content px-3"><a class="btn btn-warning px-3" href="voCarmechRequest.php?regeditid=<?php echo htmlentities($result->mechID)?>">Details</a></td>
+                                <td class="t-content px-3"><a class="btn btn-warning px-3" href="voMotorcyclemechRequest.php?regeditid=<?php echo htmlentities($result->mechID)?>">Details</a></td>
                             </tr>
                             <?php  $cnt=$cnt+1; }}     
                                 else {     

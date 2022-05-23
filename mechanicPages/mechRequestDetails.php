@@ -231,7 +231,13 @@ if(empty($_SESSION['mechID'])){
                                 </div>
                                 <div class="py-2">
                                     <span class="sub-title">Vehicle owner problem.</span></br>
-                                    <div class="py-1"><?php echo htmlentities($result->mechRepair);?></div>
+                                    <ul></ul>
+                                    
+                                <?php $divProgress = explode(",", $result->mechRepair);
+                                foreach($divProgress as $t){?>
+                                 <li class="py-1"><?php echo $t;?></li>
+                               <?php  }?>
+                                </ul>
                                 </div>
                                 <div class="alert alert-primary text-start py-0 pb-1 mb-0 note-alert shadow-sm">
                                     <div class="row">
