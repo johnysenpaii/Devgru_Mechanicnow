@@ -151,14 +151,14 @@ if(empty($_SESSION['custID'])){
                     if($transac == 0){
                         echo "<script> document.getElementById('tago').style.display = 'none';</script>";
                     }
-
-                    $sql="SELECT *, DATE_FORMAT(Sdate, '%a %M-%d-%Y at %H:%i %p') as timess, DATE_FORMAT(Edate, '%a %M-%d-%Y at %H:%i %p') as Endtime from request WHERE status='complete' order by resID DESC";
+                    $custID1=$_SESSION['custID'];
+                    $sql="SELECT *, DATE_FORMAT(Sdate, '%a %M-%d-%Y at %H:%i %p') as timess, DATE_FORMAT(Edate, '%a %M-%d-%Y at %H:%i %p') as Endtime from request WHERE custID = $custID1 and status='complete' order by resID DESC";
                     $query=$dbh->prepare($sql);
                     $query->execute();
                     $results=$query->fetchALL(PDO::FETCH_OBJ);
                     if($query->rowCount()>0){
                         foreach ($results as $result){
-                            if($result->custID == $custID1 && $result->historyStatus== 'Unread'){
+                            if($result->historyStatus== 'Unread'){
                                 
                 ?>
 

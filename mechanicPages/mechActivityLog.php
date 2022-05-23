@@ -72,14 +72,15 @@ if(empty($_SESSION['mechID'])){
             <div class="row py-3 px-sm-0 px-md-3 justify-content-center pb-5">
                 <div class="col-lg-8  py-4">
                     <?php
-                        $sql="SELECT * from request WHERE mechID and status='Accepted' || status='verify' order by resID DESC";
+                    $mechID1=$_SESSION['mechID']; 
+                        $sql="SELECT * from request WHERE mechID = $mechID1 and status='Accepted' || status='verify' order by resID DESC";
                         $query=$dbh->prepare($sql);
                         $query->execute();
                         $results=$query->fetchALL(PDO::FETCH_OBJ);
                         $cnt=1;
                         if($query->rowCount()>0){
                             foreach ($results as $result){                           
-                                if($result->mechID == $mechID1 && $result->status == 'Accepted'){
+                                if( $result->status == 'Accepted'){
                     ?>
                     <div class="card text-dark mb-2">
                         <div class="card-body">

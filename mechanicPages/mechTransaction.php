@@ -159,14 +159,15 @@ if(empty($_SESSION['mechID'])){
                             if($transac == 0){
                                 echo "<script> document.getElementById('tago').style.display = 'none';</script>";
                             }
-                            $sql="SELECT *, DATE_FORMAT(Sdate, '%a %M-%d-%Y at %H:%i %p') as timess, DATE_FORMAT(Edate, '%a %M-%d-%Y at %H:%i %p') as Endtime from request WHERE status='complete' and serviceNeeded like '%{$searchcont}%' order by resID DESC";
+                            $mechID1=$_SESSION['mechID']; 
+                            $sql="SELECT *, DATE_FORMAT(Sdate, '%a %M-%d-%Y at %H:%i %p') as timess, DATE_FORMAT(Edate, '%a %M-%d-%Y at %H:%i %p') as Endtime from request WHERE mechID = $mechID1 and status='complete' and serviceNeeded like '%{$searchcont}%' order by resID DESC";
                             if(isset($_POST['sea'])){
                             $query=$dbh->prepare($sql);
                             $query->execute();
                             $results=$query->fetchALL(PDO::FETCH_OBJ);
                             if($query->rowCount()>0){
                                 foreach ($results as $result){
-                                    if($result->mechID == $mechID1 && $result->historyStatus== 'Unread' && $result->serviceNeeded == $searchcont){
+                                    if( $result->historyStatus== 'Unread' && $result->serviceNeeded == $searchcont){
                 
                         ?>
                         <div class="card text-dark mb-3 p-2" type="submit" name="hide">
@@ -231,13 +232,13 @@ if(empty($_SESSION['mechID'])){
                             if($transac == 0){
                                 echo "<script> document.getElementById('tago').style.display = 'none';</script>";
                             }
-                            $sql="SELECT *, DATE_FORMAT(Sdate, '%a %M-%d-%Y at %H:%i %p') as timess, DATE_FORMAT(Edate, '%a %M-%d-%Y at %H:%i %p') as Endtime from request WHERE status='complete' order by resID DESC";
+                            $sql="SELECT *, DATE_FORMAT(Sdate, '%a %M-%d-%Y at %H:%i %p') as timess, DATE_FORMAT(Edate, '%a %M-%d-%Y at %H:%i %p') as Endtime from request WHERE  mechID = $mechID1 and status='complete' order by resID DESC";
                             $query=$dbh->prepare($sql);
                             $query->execute();
                             $results=$query->fetchALL(PDO::FETCH_OBJ);
                             if($query->rowCount()>0){
                                 foreach ($results as $result){
-                                    if($result->mechID == $mechID1 && $result->historyStatus== 'Unread'){
+                                    if($result->historyStatus== 'Unread'){
                 
                         ?>
                         <div class="card text-dark mb-3 p-2" type="submit" name="hide">
