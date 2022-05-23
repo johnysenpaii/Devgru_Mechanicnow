@@ -212,7 +212,7 @@ if(empty($_SESSION['mechID'])){
                                 <input readonly type="text" class="border-0 m-info" size="30" name="Specialization" value="<?php //echo htmlentities($result->Specialization);?>"> -->
                             </div>
                         </div>
-                             <input type="text" name="" value="<?php echo $date1;?>" > 
+                             <input type="hidden" name="" value="<?php echo $date1;?>" > 
                         <input type="text" name="custName" value="<?php echo htmlentities($result->vOwnerName);?>" hidden> 
                         <input type="text" name="mechName" value="<?php echo htmlentities($result->mechName);?>" hidden>
                         <input id="address" name='latitude' value="<?php echo htmlentities($_SESSION["latitude"]); ?>" hidden>

@@ -93,7 +93,7 @@ if(isset($_POST["logout"])) {
                         $results=$query->fetchALL(PDO::FETCH_OBJ);
                         ?>
                         <ul class="dropdown-menu p-0 notif-class overflow-auto"
-                            style="font-size: small; width: 340px; max-height: 60vh; overflow-y: auto;"
+                            style="font-size: small; width: 340px;  max-height: 90vh; overflow-y: auto;"
                             aria-labelledby="navbarDropdownMenuLink">
                            
                             <?php 
@@ -279,7 +279,28 @@ if(isset($_POST["logout"])) {
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="./voChat.php"><i class="fa-regular fa-comment"></i> Messages</a>
+                        <a class="nav-link position-relative" href="./voChat.php"><i class="fa-regular fa-comment"></i> Messages
+                        <span id="j" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+
+                        <?php 
+                                            
+                                            $custID=$_SESSION['custID'];
+											$sql9011 ="SELECT * from chat where custID = $custID";
+											$query9011 = $dbh -> prepare($sql9011);
+											$query9011->execute();
+											$results9011=$query9011->fetchAll(PDO::FETCH_OBJ);
+											$ban12345=$query9011->rowCount();
+                                            if($ban12345 == 0){
+                                                echo '<script type="text/javascript">document.getElementById("j").style.display = "none";
+                                                </script>';
+
+                                            }
+										?>
+                                <?php echo htmlentities($ban12345);?>
+                    
+                        <span class="visually-hidden">unread messages</span>
+                    </span>
+                </a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link fa-solid fa-caret-down" href="#" id="navbarDropdownMenuLink" role="button"
