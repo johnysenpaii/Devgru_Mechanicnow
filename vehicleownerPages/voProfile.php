@@ -309,7 +309,7 @@ if(empty($_SESSION['custID'])){
                     <div class="modal-content text-dark">
                     <form method="POST">
                     <?php //select transaction
-                        $regeditid=$_SESSION["mechID"];
+                        $regeditid=$_SESSION["custID"];
                         $sql="SELECT * from customer WHERE custID=:regeditid";
                         $query=$dbh->prepare($sql);
                         $query->bindParam(':regeditid',$regeditid,PDO::PARAM_STR);

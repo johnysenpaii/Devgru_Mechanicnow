@@ -38,7 +38,7 @@ class myPDF extends FPDF{
 		function headertable(){
 
             $dbh1 = new PDO("mysql:host=".DB_HOST.";dbname=".DB_NAME,DB_USER, DB_PASS,array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
-			$stmt1=$dbh1->query("SELECT resID, mechName, vOwnerName,mechRepair, Sdate, Edate from request where status='Completed' order by resID ASC");
+			$stmt1=$dbh1->query("SELECT * from request where status='Completed' order by resID ASC");
 		    $data1=$stmt1->fetch(PDO::FETCH_OBJ);
 			$t= $stmt1->rowCount();        
 		    /////$stmt1=$dbh1->query('Select semestername from students');
@@ -59,10 +59,10 @@ class myPDF extends FPDF{
 				//$this->Ln(15);  
 			  	$this->SetFont('Arial','B',8);
 			  	$this->SetFillColor(230,230,0);
-			  	$this->Cell(45,10,'Transaction id',1,0,'C');
+			  	$this->Cell(45,10,'Reservation ID',1,0,'C');
 			  	$this->Cell(45,10,'Mechanic name',1,0,'C');
 				$this->Cell(45,10,'Vehicle owner name',1,0,'C');
-				$this->Cell(45,10,'Repair needed',1,0,'C');
+				$this->Cell(45,10,'Service needed',1,0,'C');
                 $this->Cell(45,10,'Date start',1,0,'C');
                 $this->Cell(45,10,'Date ended',1,0,'C');
 
@@ -84,7 +84,7 @@ function viewTable($dbh){
 
 
 
-$sql="SELECT resID, mechName, vOwnerName,mechRepair, Sdate, Edate from request where status='Completed' order by resID ASC";
+$sql="SELECT * from request where status='Completed' order by resID ASC";
 
 $query = $dbh->prepare($sql);
 $query->execute();
@@ -98,7 +98,7 @@ foreach($results as $result)
  				$this->Cell(45,10,$result->resID,1,0,'C'); 
  				$this->Cell(45,10,$result->mechName,1,0,'C'); 		
 				$this->Cell(45,10,$result->vOwnerName,1,0,'C');
-				$this->Cell(45,10,$result->mechRepair,1,0,'C');
+				$this->Cell(45,10,$result->serviceNeeded,1,0,'C');
                 $this->Cell(45,10,$result->Sdate,1,0,'C');
 				$this->Cell(45,10,$result->Edate,1,0,'C');
   			    $this->Ln();
