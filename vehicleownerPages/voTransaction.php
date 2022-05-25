@@ -215,7 +215,7 @@ if(empty($_SESSION['custID'])){
                                                         <p class="card-text fw-bold disabled text-muted"><i class="fa-solid fa-calendar-days"></i> End date: <?php echo htmlentities($result->Endtime);?></p>
                                                         <p class="card-text fw-bold disabled text-muted"><i class="fa-solid fa-toolbox"></i> Mechanic name: <?php echo htmlentities($result->mechName);?></p>
                                                     </div>
-                                                    <p class="card-text fw-bold disabled text-muted" style="font-size: 12px;"><button type="submit" name="read" class="btn fw-bold mb-1" style="font-size: 13px;"><a href="mechViewDetails.php?regeditid=<?php echo htmlentities($result->resID);?>" class="text-info"><i class="fa-solid fa-eye"></i> view more</a></button></p>
+                                                    <p class="card-text fw-bold disabled text-muted" style="font-size: 12px;"><button type="submit" name="read" class="btn fw-bold mb-1" style="font-size: 13px;"><a href="voViewDetails.php?regeditid=<?php echo htmlentities($result->resID);?>" class="text-info"><i class="fa-solid fa-eye"></i> view more</a></button></p>
                                                 </div>
                                             </div>
                                         </div>
@@ -261,7 +261,7 @@ if(empty($_SESSION['custID'])){
                                                             <p class="card-text fw-bold disabled text-muted"><i class="fa-solid fa-calendar-days"></i> End date: <?php echo htmlentities($result->Endtime);?></p>
                                                             <p class="card-text fw-bold disabled text-muted"><i class="fa-solid fa-toolbox"></i> Mechanic name: <?php echo htmlentities($result->mechName);?></p>
                                                         </div>
-                                                        <p class="card-text fw-bold disabled text-muted" style="font-size: 12px;"><button type="submit" name="read" class="btn fw-bold mb-1" style="font-size: 13px;"><a href="mechViewDetails.php?regeditid=<?php echo htmlentities($result->resID);?>" class="text-info"><i class="fa-solid fa-eye"></i> view more</a></button></p>
+                                                        <p class="card-text fw-bold disabled text-muted" style="font-size: 12px;"><button type="submit" name="read" class="btn fw-bold mb-1" style="font-size: 13px;"><a href="voViewDetails.php?regeditid=<?php echo htmlentities($result->resID);?>" class="text-info"><i class="fa-solid fa-eye"></i> view more</a></button></p>
                                                     </div>
                                                 </div>
                                             </div>

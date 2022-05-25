@@ -27,7 +27,7 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                     <a class="nav-link" href="#">How it works</a>
                     </li>
                     <li class="nav-item">
@@ -35,7 +35,7 @@
                     </li>
                     <li class="nav-item">
                     <a class="nav-link" href="#">About us</a>
-                    </li>
+                    </li> -->
                     <li class="nav-item">
                     <a class="nav-link" href="./login.php">Sign in</a>
                     </li>

@@ -66,9 +66,8 @@ include('../config.php');
                                     Feedbacks</a>
                                 <ul class="dropdown-menu w-100" aria-labelledby="navbarDropdown">
                                     <li><a href="feedbacks.php" class="dropdown-item pl-4 p-2"><i
-                                                class="bi bi-person-circle"></i> Clients</a></li>
-                                    <li><a href="mechfeedbacks.php" class="dropdown-item pl-4 p-2"><i
-                                                class="bi bi-tools"></i> Mechanics</a></li>
+                                                class="bi bi-person-circle"></i> Mechanic</a></li>
+                               
                                 </ul>
 
                             </li>

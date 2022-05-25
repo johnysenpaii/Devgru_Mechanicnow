@@ -28,7 +28,7 @@ include('../config.php');
                     id="sidebar">
                     <div class="text-start p-3">
                         <a href="#" class="navbar-brand mx-0 font-weight-bold  text-nowrap"><img
-                                src="img/mechanicnowlogo.svg" class="logo" alt="" width="60"> Mechanic now</a>
+                                src="img/mechanicnowlogo.svg" class="logo" alt="" width="50"> Mechanic now</a>
                     </div>
                     <button type="button" class="navbar-toggler border-0 order-1" data-toggle="collapse"
                         data-target="#nav" aria-controls="nav" aria-expanded="false" aria-label="Toggle navigation">

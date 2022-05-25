@@ -18,6 +18,7 @@ include('../config.php');
         <link rel="shortcut icon" type="x-icon" href="../img/mechanicnowlogo.svg">
     <!-- custom css -->
     <link rel="stylesheet" href="style2.css">
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 
 <body>
@@ -26,9 +27,9 @@ include('../config.php');
             <aside class="col-12 col-md-3 col-xl-2 p-0 bg-dark ">
                 <nav class="navbar navbar-expand-md navbar-dark bd-dark flex-md-column flex-row align-items-start py-2 text-start sticky-top "
                     id="sidebar">
-                    <div class="text-start p-3">
+                    <div class="text-start p-1">
                         <a href="#" class="navbar-brand mx-0 font-weight-bold  text-nowrap"><img
-                                src="img/mechanicnowlogo.svg" class="logo" alt="" width="60"> Mechanic now</a>
+                                src="../img/mechanicnowlogo.svg" class="logo" alt="" width="60"> Mechanic now</a>
                     </div>
                     <button type="button" class="navbar-toggler border-0 order-1" data-toggle="collapse"
                         data-target="#nav" aria-controls="nav" aria-expanded="false" aria-label="Toggle navigation">
@@ -86,45 +87,149 @@ include('../config.php');
                     </div>
                 </nav>
             </aside>
-            <main class="col px-0 flex-grow-1">
+            <main class="col-10 px-0 flex-grow-1 text-dark">
                 <div class="container py-3">
-                <section class="my-container">
-                        <div class="display-6 my-2">Feedbacks and Ratings</div>
+                    <section class="my-container">
+                        <div class="display-6 my-2">Mechanics</div>
                         <hr class="text-dark m-2">
                         <form method="POST">
                             <?php
                                             
-                                        
-											$sql = "SELECT * from ratingandfeedback";
+                                            $search_keyword = '';
+                                            if(!empty($_POST['search']['keyword'])) {
+                                                $search_keyword = $_POST['search']['keyword'];
+                                            }
+											$sql = "SELECT * from mechanic WHERE status='approve' and username LIKE :keyword order by mechID ";
 											$query=$dbh->prepare($sql);
+                                            $query->bindValue(':keyword', '%' . $search_keyword . '%', PDO::PARAM_STR);
 											$query->execute();
 											$results=$query->fetchALL(PDO::FETCH_OBJ);
-											$cnt=1;
-                                                 if($query->rowCount()>0)
-                                                     {
-                                                     foreach ($results as $result) 
-                                                     {?>
-                          
-                                                        <div class="col-lg-12 col-md-12 col-sm-12">
-                            <div class="card">
-                                <h5 class="card-header d-flex justify-content-between"> <?php echo htmlentities($result->mechName);?> <span class="fw-bold" style="font-size: 17px;"> <?php echo htmlentities($result->ratePercentage);?>.0 <i class="bi bi-star-fill"> </i>rating</span>  </h5>
-                                <div class="card-body">
-                                <p class="card-text" style="font-size: 15px; font-weight:bolder;">feedback:</p>
-                                    <p class="card-text"><?php echo htmlentities($result->feedback);?></p>
-
+											$cnt=1;?>
+                            <div class="col-lg-4 col-md-4">
+                                <div class="input-group my-3">
+                                    <span class="input-group-text" id="basic-addon1"><i class="bi bi-search"></i></span>
+                                    <input type="text" class="form-control" id="keyword" name="search[keyword]"
+                                        value="<?php echo $search_keyword; ?>" placeholder="Search"
+                                        aria-label="Username" aria-describedby="basic-addon1">
                                 </div>
                             </div>
-                        </div>
-
-                                                <?php }}?>
-                                            </table>
+                            <div class="col-xl-12 col-lg-12 col-md-6 col-sm-12 col-12" data-aos="fade-up"  data-aos-duration="500">
+                                <div class="card">
+                                    <h5 class="card-header">Mechanic List</h5>
+                                    <div class="card-body p-0">
+                                        <div class="table-responsive">
+                                            <div class="scroll-feedbacks sf-1">
+                                                <table class="table tb-1">
+                                                    <thead class="bg-light">
+                                                        <tr class="border-0" style="font-size: 12px">
+                                                            <th class="border-0 Phead">First Name</th>
+                                                            <th class="border-0 Phead">Last Name</th>
+                                                            <th class="border-0 Phead">Email</th>
+                                                            <th class="border-0 Phead">Contact Number</th>
+                                                            <th class="border-0 Phead">Username</th>
+                                                            <th class="border-0 Phead">Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <?php
+                                                         if($query->rowCount()>0){
+                                                         foreach ($results as $result) {
+                                                       ?>
+                                                        <tr style="font-size: 12px">
+                                                            <td><?php echo htmlentities($result->mechFirstname);?></td>
+                                                            <td><?php echo htmlentities($result->mechLastname);?></td>
+                                                            <td><?php echo htmlentities($result->mechEmail);?></td>
+                                                            <td><?php echo htmlentities($result->mechCnumber);?></td>
+                                                            <td><?php echo htmlentities($result->Username);?></td>
+                                                            <td><a class="btn btn-secondary" href="ratings-section.php?regeditid=<?php echo htmlentities($result->mechID)?>"
+                                                                    data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                                                    title="Take Action"><i class="bi bi-folder-check" style="font-size: 12px;"></i></a>
+                                                            </td>
+                                                            
+                                                        </tr>
+                                                    </tbody>
+                                                    <?php }}?>
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </form>
                     </section>
-        </div>
+                </div>
+                <!-- <div class="container py-3">
+                <section class="my-container">
+                        <div class="display-6 my-2">Feedbacks and Ratings</div>
+                        <hr class="text-dark m-2">
+                        <form method="GET">
+                            <div class="input-group-search">
+                                <input type="text" name="searchs" size="50" placeholder="Please search full name" class="search-input">
+                                <button type="submit" name="sea" class="s-btn">Search</button>
+                            </div>
+                        </form> -->
+
+                        <!-- <form method="POST">
+                            <div class="scroll-feedbacks">
+                                <?php
+                                    $searchcont = $_GET['searchs'] ?? null;
+                                    $sql2 = "SELECT * from ratingandfeedback where mechName like '%{$searchcont}%'";
+                                    if(isset($_GET['sea'])){
+                                    $query=$dbh->prepare($sql2);
+                                    $query->execute();
+                                    $results=$query->fetchALL(PDO::FETCH_OBJ);
+                                    $cnt=1;
+                                    if($query->rowCount()>0) {
+                                        foreach ($results as $result)
+                                {?>
+                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                        <div class="py-1">
+                                            <div class="card">
+                                                <h5 class="card-header d-flex justify-content-between"> <?php echo htmlentities($result->mechName);?> <span class="fw-bold" style="font-size: 17px;"> <?php echo htmlentities($result->ratePercentage);?>.0 <i class="bi bi-star-fill"> </i>rating</span>  </h5>
+                                                <div class="card-body">
+                                                <p class="card-text" style="font-size: 15px; font-weight:bolder;">feedback:</p>
+                                                    <p class="card-text"><?php echo htmlentities($result->feedback);?></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php }}else{?>
+                                    <div class="emptyrequest mt-1 pt-4" >
+                                            <div class="emptydiv"><img src="../img/empty.png" alt=""></div>
+                                            <h6>Theres no feedbacks or ratings related by <?php echo $_GET['searchs']?>.</h6>
+                                        </div>
+                                <?php }
+
+                                }else if(isset($_GET['searchs']) == ""){
+                                    $sql = "SELECT * from ratingandfeedback";
+                                    $query=$dbh->prepare($sql);
+                                    $query->execute();
+                                    $results=$query->fetchALL(PDO::FETCH_OBJ);
+                                    $cnt=1;
+                                    if($query->rowCount()>0) {
+                                        foreach ($results as $result){
+                                    ?>
+                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                        <div class="py-1">
+                                            <div class="card">
+                                                <h5 class="card-header d-flex justify-content-between"> <?php echo htmlentities($result->mechName);?> <span class="fw-bold" style="font-size: 17px;"> <?php echo htmlentities($result->ratePercentage);?>.0 <i class="bi bi-star-fill"> </i>rating</span>  </h5>
+                                                <div class="card-body">
+                                                <p class="card-text" style="font-size: 15px; font-weight:bolder;">feedback:</p>
+                                                    <p class="card-text"><?php echo htmlentities($result->feedback);?></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                     <?php }}}else{?>
+                                         <div class="emptyrequest mt-1 pt-4" >
+                                            <div class="emptydiv"><img src="../img/empty.png" alt=""></div>
+                                            <h6>No mechanic nearby. . .</h6>
+                                        </div>
+                                    <?php }?>
+                            </div>  
+                        </form> -->
+                    <!-- </section>
+                </div> -->
         </main>
     </div>
     </div>
