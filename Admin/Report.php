@@ -18,6 +18,7 @@ include('../config.php');
         <link rel="shortcut icon" type="x-icon" href="../img/mechanicnowlogo.svg">
     <!-- custom css -->
     <link rel="stylesheet" href="style2.css">
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 
 <body>
@@ -26,9 +27,9 @@ include('../config.php');
             <aside class="col-12 col-md-3 col-xl-2 p-0 bg-dark ">
                 <nav class="navbar navbar-expand-md navbar-dark bd-dark flex-md-column flex-row align-items-start py-2 text-start sticky-top "
                     id="sidebar">
-                    <div class="text-start p-3">
+                    <div class="text-start p-1">
                         <a href="#" class="navbar-brand mx-0 font-weight-bold  text-nowrap"><img
-                                src="img/mechanicnowlogo.svg" class="logo" alt="" width="50"> Mechanic now</a>
+                                src="../img/mechanicnowlogo.svg" class="logo" alt="" width="50"> Mechanic now</a>
                     </div>
                     <button type="button" class="navbar-toggler border-0 order-1" data-toggle="collapse"
                         data-target="#nav" aria-controls="nav" aria-expanded="false" aria-label="Toggle navigation">
@@ -86,14 +87,23 @@ include('../config.php');
                     </div>
                 </nav>
             </aside>
-            <main class="col px-0 flex-grow-1">
+            <main class="col px-0 flex-grow-1 text-dark">
                 <div class="container py-3">
                     <section class="my-container">
                         <div class="display-4 my-2">Reports</div>
                         <hr class="text-dark m-2">
+                        <div class="container-fluid row pt-3">
+                            <div class="h5 col-6 ctransac">Completed Transactions Table</div>
+                            <div class="s-group col-6" style="font-size: 13px;">
+                                <form method="post">
+                                    Start Date: <input type="date" name="dateFrom" >
+                                    End Date: <input type="date" name="dateTo" >
+                                    <input type='submit' name='but_search' class="datefilt" value='Filter' style="background-color: var(--clr-primary-500); border: 0;padding-inline: 1em;padding-block: .2em;border-radius: 5px;color: var(--clr-primary-300);">
+                                </form>
+                            </div>
+                        </div>
                         <div class="row g-3 d-flex justify-content-center ">
-                            <div class="col-lg-10 col-md-12 col-sm-12 " data-aos="zoom-in"
-                                data-aos-easing="ease-out-cubic" data-aos-duration="1000">
+                            <div class="col-lg-10 col-md-12 col-sm-12 " data-aos="zoom-in" data-aos-easing="ease-out-cubic" data-aos-duration="1000">
                                 <div class="card p-0 overflow-auto" style="height: 500px;">
                                     <ol class="list-group border-bottom-0">
                                         <li
@@ -105,7 +115,7 @@ include('../config.php');
 											$query3->execute();
 											$results3=$query3->fetchAll(PDO::FETCH_OBJ);
 											$totalComplete=$query3->rowCount();
-										?>
+										    ?>
                                             <a href="pdfFile.php" class="fw-bold"> <i class="bi bi-file-earmark-pdf-fill"></i>
                                                 <?php echo htmlentities($totalComplete);?></a>
                                         </li>
@@ -114,7 +124,7 @@ include('../config.php');
                                         <table class="table">
                                             <thead>
                                                 <tr>
-                                                    <th scope="col">Reservation ID</th>
+                                                    <th scope="col">Transaction ID</th>
                                                     <th scope="col">Mechanic name</th>
                                                     <th scope="col">Vehicle owner</th>
                                                     <th scope="col">Service needed</th>
@@ -123,13 +133,17 @@ include('../config.php');
                                                 </tr>
                                             </thead>
                                             <?php  
-                                            $sql="SELECT *from request where status='Complete' ";
+                                            $sql="SELECT * from request where status='Complete' ";
+                                            if(isset($_POST['dateFrom']) && isset($_POST['dateTo']) && isset($_POST['but_search'])){
+                                            $dateFrom = date('Y-m-d', strtotime($_POST['dateFrom']));
+                                            $dateTo = date('Y-m-d', strtotime($_POST['dateTo']));
                                             $query = $dbh->prepare($sql);
                                             $query->execute();
                                             $results=$query->fetchAll(PDO::FETCH_OBJ);
                                             $cnt=1;
                                             if($query->rowCount()>0){
                                                 foreach($results as $result){
+                                                    if(date('Y-m-d', strtotime($result->Sdate))>$dateFrom && date('Y-m-d', strtotime($result->Sdate)) < $dateTo){
                                             ?>
 
                                             <tbody>
@@ -142,13 +156,42 @@ include('../config.php');
                                                     <td><?php echo htmlentities($result->Edate);?></td>
                                                 </tr>
                                             </tbody>
-                                            <?php $cnt=$cnt+1;}}?>
+                                            <?php $cnt=$cnt+1;}}}}else{
+                                                $sql="SELECT * from request where status='Complete' ";
+                                                $query = $dbh->prepare($sql);
+                                                $query->execute();
+                                                $results=$query->fetchAll(PDO::FETCH_OBJ);
+                                                $cnt=1;
+                                                if($query->rowCount()>0){
+                                                    foreach($results as $result){
+                                                ?>
+                                                <tbody>
+                                                <tr>
+                                                    <td class="text-center"><?php echo htmlentities($result->resID);?></td>
+                                                    <td><?php echo htmlentities($result->mechName);?></td>
+                                                    <td><?php echo htmlentities($result->vOwnerName);?></td>
+                                                    <td><?php echo htmlentities($result->serviceNeeded);?></td>
+                                                    <td><?php echo htmlentities($result->Sdate);?></td>
+                                                    <td><?php echo htmlentities($result->Edate);?></td>
+                                                </tr>
+                                            </tbody>
+                                            <?php $cnt=$cnt+1;}}}?>
                                         </table>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-10 col-md-12 col-sm-12 " data-aos="zoom-in"
-                                data-aos-easing="ease-out-cubic" data-aos-duration="1000">
+
+                            <div class="container-fluid row pt-3">
+                                <div class="h5 col-6 ctransac">Declined or Cancelled Table</div>
+                                <div class="s-group col-6" style="font-size: 13px;">
+                                    <form method="post">
+                                        Start Date: <input type="date" name="dateFromC" >
+                                        End Date: <input type="date" name="dateToC" >
+                                        <input type='submit' name='but_search1' class="datefilt" value='Filter' style="background-color: var(--clr-primary-500); border: 0;padding-inline: 1em;padding-block: .2em;border-radius: 5px;color: var(--clr-primary-300);">
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="col-lg-10 col-md-12 col-sm-12 " data-aos="zoom-in" data-aos-easing="ease-out-cubic" data-aos-duration="1000">
                                 <div class="card p-0 overflow-auto" style="height: 500px;">
                                     <ol class="list-group border-bottom-0">
                                         <li
@@ -175,17 +218,21 @@ include('../config.php');
                                                     <th scope="col">Status</th>
                                                 </tr>
                                             </thead>
-                                            <?php  
-                                            $sql43="SELECT *from request where status";
+                                            <?php
+                                             $sql43="SELECT * from request where status='cancelled' ";
+                                            if(isset($_POST['dateFromC']) && isset($_POST['dateToC']) && isset($_POST['but_search1'])){
+                                            $dateFrom1 = date('Y-m-d', strtotime($_POST['dateFrom']));
+                                            $dateTo1 = date('Y-m-d', strtotime($_POST['dateToC']));
                                             $query43 = $dbh->prepare($sql43);
-                                            $query->execute();
+                                            $query43->execute();
                                             $results=$query43->fetchAll(PDO::FETCH_OBJ);
                                             $cnt=1;
                                             if($query43->rowCount()>0){
                                                 foreach($results as $result43){
-                                                    if($result43-> status="cancelled"){
+                                                    if(date('Y-m-d', strtotime($result->Sdate))>$dateFrom1 && date('Y-m-d', strtotime($result->Sdate)) < $dateTo1){
+                                                        if($result43-> status="cancelled"){
+                                            
                                             ?>
-
                                             <tbody>
                                                 <tr class="alert alert-danger">
                                                 
@@ -205,7 +252,30 @@ include('../config.php');
                                                 </tr>
                                             </tbody>
 
-                                        <?php }}} $cnt=$cnt+1;?>
+                                        <?php }}else{
+                                             if($result43-> status="cancelled"){
+                                            
+                                            ?>
+                                            <tbody>
+                                                <tr class="alert alert-danger">
+                                                
+                                                    <td><?php echo htmlentities($result43->vOwnerName);?></td>
+                                                    <td><?php echo htmlentities($result43->serviceNeeded);?></td>
+                                                    <td><?php echo htmlentities($result43->serviceType);?></td>
+                                                    <td><?php echo htmlentities($result43->status);?></td>
+                                                </tr>
+                                            </tbody>
+                                            <?php } else if($result43-> status="Decline"){?>
+                                                <tbody>
+                                                <tr class="alert alert-warning">
+                                                    <td><?php echo htmlentities($result43->mechName);?></td>
+                                                    <td><?php echo htmlentities($result43->serviceNeeded);?></td>
+                                                    <td><?php echo htmlentities($result43->serviceType);?></td>
+                                                    <td><?php echo htmlentities($result43->status);?></td>
+                                                </tr>
+                                            </tbody>
+                                            <?php
+                                        }}}}} $cnt=$cnt+1;?>
                                         </table>
                                     </div>
                                 </div>
@@ -259,7 +329,15 @@ include('../config.php');
                                                     <td><?php echo htmlentities($result1->mechLastname);?></td>
                                                     <td><?php echo htmlentities($result1->mechEmail);?></td>
                                                     <td><?php echo htmlentities($result1->mechCnumber);?></td>
-                                                    <td><?php echo htmlentities($result1->average);?></td>
+                                                    <?php $sql1="SELECT *from request where mechID = $result1->mechID";
+                                            $query = $dbh->prepare($sql1);
+                                            $query->execute();
+                                            $results=$query->fetchAll(PDO::FETCH_OBJ);
+                                            $cnt=1;
+                                            if($query->rowCount()>0){
+                                                foreach($results as $result12){?>
+                                                    <td><?php echo htmlentities($result12->ratePercentage);?></td>
+                                                <?php }} ?>
                                                 </tr>
                                             </tbody>
                                             <?php $cnt=$cnt+1;}}?>

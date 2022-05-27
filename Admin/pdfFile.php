@@ -4,13 +4,12 @@ include('../config.php');
 
 
 class myPDF extends FPDF{
-	
-
-		
+			
 		function header(){
 		    
 			$this->SetFont('Arial','B',8);
-			 $this->Cell(280,4,'RECENT TRANSACTIONS',0,0,'C');
+			$this->Image('../img/mnrevisedlogo864-nooutline.png',240,1,30);
+			$this->Cell(280,4,'COMPLETED TRANSACTIONS',0,0,'C');
 			$this->Ln();
 			$this->SetFont('Arial','I',8);
 			$this->Cell(213,4,' ',0,0,'C');
@@ -38,7 +37,7 @@ class myPDF extends FPDF{
 		function headertable(){
 
             $dbh1 = new PDO("mysql:host=".DB_HOST.";dbname=".DB_NAME,DB_USER, DB_PASS,array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
-			$stmt1=$dbh1->query("SELECT * from request where status='Completed' order by resID ASC");
+			$stmt1=$dbh1->query("SELECT * from request where status='Complete' order by resID ASC");
 		    $data1=$stmt1->fetch(PDO::FETCH_OBJ);
 			$t= $stmt1->rowCount();        
 		    /////$stmt1=$dbh1->query('Select semestername from students');
@@ -84,7 +83,7 @@ function viewTable($dbh){
 
 
 
-$sql="SELECT * from request where status='Completed' order by resID ASC";
+$sql="SELECT * from request where status='Complete' order by resID ASC";
 
 $query = $dbh->prepare($sql);
 $query->execute();

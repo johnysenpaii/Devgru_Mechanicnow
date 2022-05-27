@@ -108,9 +108,7 @@ include('../config.php');
                             <div class="col-lg-4 col-md-4">
                                 <div class="input-group my-3">
                                     <span class="input-group-text" id="basic-addon1"><i class="bi bi-search"></i></span>
-                                    <input type="text" class="form-control" id="keyword" name="search[keyword]"
-                                        value="<?php echo $search_keyword; ?>" placeholder="Search"
-                                        aria-label="Username" aria-describedby="basic-addon1">
+                                    <input type="text" class="form-control" id="keyword" name="search[keyword]" value="<?php echo $search_keyword; ?>" placeholder="Search"aria-label="Username" aria-describedby="basic-addon1">
                                 </div>
                             </div>
                             <div class="col-xl-12 col-lg-12 col-md-6 col-sm-12 col-12" data-aos="fade-up"  data-aos-duration="500">

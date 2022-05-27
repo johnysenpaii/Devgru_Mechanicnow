@@ -10,7 +10,8 @@ class myPDF extends FPDF{
 		function header(){
 		    
 			$this->SetFont('Arial','B',8);
-			 $this->Cell(280,4,'RECENT TRANSACTIONS',0,0,'C');
+			$this->Image('../img/mnrevisedlogo864-nooutline.png',240,1,30);
+			$this->Cell(280,4,'CANCELLED TRANSACTIONS',0,0,'C');
 			$this->Ln();
 			$this->SetFont('Arial','I',8);
 			$this->Cell(213,4,' ',0,0,'C');

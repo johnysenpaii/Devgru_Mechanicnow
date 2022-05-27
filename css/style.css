@@ -902,3 +902,10 @@ form .name-details .field:last-child {
 .scroll-feedbacks::-webkit-scrollbar {
 	width: 0px;
 }
+.datefilt {
+	background-color: var(--clr-primary-500);
+	border: 0;
+	padding-inline: 1em;
+	border-radius: 50%;
+	color: var(--clr-primary-300);
+}

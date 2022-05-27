@@ -10,7 +10,8 @@ class myPDF extends FPDF{
 		function header(){
 		    
 			$this->SetFont('Arial','B',8);
-			 $this->Cell(280,4,'Mehcanic registered with ratings',0,0,'C');
+			$this->Image('../img/mnrevisedlogo864-nooutline.png',240,1,30);
+			$this->Cell(280,4,'REGISTERED MECHANIC REPORT',0,0,'C');
 			$this->Ln();
 			$this->SetFont('Arial','I',8);
 			$this->Cell(213,4,' ',0,0,'C');
@@ -85,9 +86,8 @@ function viewTable($dbh){
 		//$regid  =intval($_GET['regid']);
 
 
-
+$cnt=1;
 $sql="SELECT * from mechanic where status='approve' order by mechID asc";
-
 $query = $dbh->prepare($sql);
 $query->execute();
 $results=$query->fetchAll(PDO::FETCH_OBJ);
@@ -102,16 +102,33 @@ foreach($results as $result)
 				$this->Cell(45,10,$result->mechLastname,1,0,'C');
 				$this->Cell(45,10,$result->mechEmail,1,0,'C');
                 $this->Cell(45,10,$result->mechCnumber,1,0,'C');
-				$this->Cell(45,10,$result->average,1,0,'C');
+				 $sql1="SELECT *from request where mechID = $result->mechID";
+                                            $query1 = $dbh->prepare($sql1);
+                                            $query1->execute();
+                                            $results=$query1->fetchAll(PDO::FETCH_OBJ);
+                                            $cnt=1;
+                                            if($query1->rowCount()>0){
+                                                foreach($results as $result12){
+													if(empty($result12->ratePercentage)){
+														$this->Cell(45,10,$result->average,1,0,'C');
+
+													}
+													else {
+														$this->Cell(45,10,$result12->ratePercentage,1,0,'C');
+													}
+													
+                                                 
+                                                 }} 
+			
   			    $this->Ln();
 		}	
 	
 
     }
 
- 
-}
-}
+}}
+
+
 $pdf=new myPDF();
 $pdf->AliasNbPages();
 $pdf->AddPage('L','A4',0);
